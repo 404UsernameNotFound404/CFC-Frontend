@@ -7,14 +7,19 @@ import SearchResults from './SearchResults';
 import CategorySearch from './CategorySearch';
 
 const Content = styled.div`
-    width: 30%;
+    width: 40%;
     height: 20em;
     margin: auto;
+    background-color: #a4c2f4;
+    border-radius: 0.5em;
+    display: flex;
+    justify-content: center;
 `;
 
 const Title = styled.h1`
-    margin: 0 0.25em;
-    font-size: 1.25em;
+    margin: auto;
+    height: fit-content;
+    font-size: 3em;
     text-align: center;
     color: black;
 `;

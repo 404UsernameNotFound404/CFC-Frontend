@@ -21,12 +21,10 @@ const LogoTitle = styled.h1`
     margin: 0;
     margin-top: auto;
     font-weight: bolder;
-    font-family: 'Cormorant Garamond', serif;
     /* color: white; */
 `;
 
 const LinkTitle = styled.h1`
-    font-family: 'Cormorant Garamond', serif;
     font-size: 1.25em;
     margin: 0 1em;
     margin-top: auto;
@@ -39,7 +37,6 @@ const LinkTitle = styled.h1`
 const SearchForActivist = styled.h1`
     margin: 0;
     margin-top: auto;
-    font-family: 'Cormorant Garamond', serif;
     cursor: pointer;
     font-size: 1.25em;
     color: #3c78d8;

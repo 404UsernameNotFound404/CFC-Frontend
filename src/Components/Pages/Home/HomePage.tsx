@@ -40,7 +40,7 @@ const PageQuote = styled.h1`
     text-align: center;
     font-size: 4em;
     /* color: white; */
-    font-family: 'Cormorant Garamond', serif;
+  
     height: fit-content;
     display: inline-block;
 `;
@@ -62,7 +62,7 @@ const LookForActvitsButton = styled.div`
     padding: 0.5em 2em;
     border-radius: 1em;
     margin: 0.5em auto;
-    transition: all 0.4s ease;
+    transition: all 0.4s ease 0s;
     &:hover {
         background-color: #3c78d8;
         color: white;

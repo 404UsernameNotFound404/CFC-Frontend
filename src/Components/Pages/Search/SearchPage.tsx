@@ -14,9 +14,8 @@ const PageContainer = styled.div`
 `;
 
 const TopPartPage = styled.div`
-    height: 85vh;
-    /* background-image: url(${PeopleTalking}); */
-    background-size: 100%;
+    padding-top: 15vh;
+    height: 30vh;
     width: 100%;
 `;
 
@@ -39,6 +38,32 @@ const SearchBarContainer = styled.div`
     justify-content: center;
 `;
 
+const SearchForWhatPage = styled.div `
+    width: 75em;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+`;
+
+const SearchForWhatContainer = styled.div`
+    margin-top: 4em;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+`;
+
+const SearchForWhatTitle = styled.h1 `
+    font-size: 4em;
+    position: absolute;
+    top: 10vh;
+`;
+
+const OR = styled.h1`
+    font-size: 3em;
+    margin: auto;
+`;
+
 
 function LinksContainer() {
     const [searchValue, setSearchValue] = useState('');
@@ -48,20 +73,28 @@ function LinksContainer() {
         setSearchValue(event.target.value);
     }
 
-    return (
-        <PageContainer>
-            <SearchForWhat Title = "Events" />
-            {/* <TopPartPage>
-                <TopPartContent>
-                    <SearchBarContainer>
-                        <SearchBar changeValue={updateSearchBar} value={searchValue} />
-                    </SearchBarContainer>
+    if(false) {
+        return (
+            <SearchForWhatPage>
+                <SearchForWhatTitle>What would you like to search for?</SearchForWhatTitle>
+                <SearchForWhatContainer>
+                    <SearchForWhat Title = "Events" />
+                    <OR>or</OR>
+                    <SearchForWhat Title = "Activists" />
+                </SearchForWhatContainer>
+            </SearchForWhatPage>
+        );
+    } else {
+        return (
+            <PageContainer>
+                <TopPartPage>
+                    <SearchBar changeValue={updateSearchBar} value={searchValue} />
                     <CategorySearch text={'asd'} />
-                </TopPartContent>
-            </TopPartPage>
-            <SearchResults WhatWasSearched={'asd'} /> */}
-        </PageContainer>
-    );
+                </TopPartPage>
+                <SearchResults WhatWasSearched={'asd'} />
+            </PageContainer>
+        );
+    }
 }
 
 export default LinksContainer;

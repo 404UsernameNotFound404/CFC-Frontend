@@ -11,15 +11,6 @@ const Container = styled.div`
     z-index: 100;
 `;
 
-const Logo = styled.img`
-    width: 10em;
-    height: 5em;
-`;
-
-const LeftPart = styled.div`
-    display: flex;
-`;
-
 const RightPart = styled.div`
     margin-left: auto;
     display: flex;
@@ -27,47 +18,54 @@ const RightPart = styled.div`
 
 const LogoTitle = styled.h1`
     font-size: 2em;
-    margin: auto 0;
+    margin: 0;
+    margin-top: auto;
     font-weight: bolder;
-    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    /* color: white; */
 `;
 
 const LinkTitle = styled.h1`
-    font-size: 1em;
-    margin: auto 1em;
-    color: white;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25em;
+    margin: 0 1em;
+    margin-top: auto;
     &:hover {
         text-decoration: underline;
     }
     cursor: pointer;
 `;
 
-const SearchForActivist = styled.div`
-    margin: auto 0;
+const SearchForActivist = styled.h1`
+    margin: 0;
+    margin-top: auto;
+    font-family: 'Cormorant Garamond', serif;
     cursor: pointer;
-    border: white 0.075em solid;
-    border-radius: 0.2em;
-    color: white;
-    padding: 0.2em 0.75em;
     font-size: 1.25em;
+    color: #3c78d8;
     &:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        text-decoration: underline;
     }
+`;
+
+const Content = styled.div`
+    width: 75em;
+    margin: auto;
+    height: 2.5em;
+    display: flex;
 `;
 
 function App() {
     return (
         <Container>
-            <LeftPart>
-                {/* <Logo src={LogoImg} /> */}
+            <Content>
                 <LogoTitle>Connecting For Change</LogoTitle>
-                <LinkTitle>Learn How To Beome A Activits</LinkTitle>
-                <LinkTitle>Blog</LinkTitle>
-            </LeftPart>
-            <RightPart>
-                <SearchForActivist>Search For A Activist</SearchForActivist>
-                <LinkTitle>Login</LinkTitle>
-            </RightPart>
+                <RightPart>
+                    <LinkTitle>Blog</LinkTitle>
+                    <SearchForActivist>Search For A Activist</SearchForActivist>
+                    <LinkTitle>Login</LinkTitle>
+                </RightPart>
+            </Content>
         </Container>
     );
 }

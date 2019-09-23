@@ -10,7 +10,7 @@ const PageContainer = styled.div`
 `;
 
 const TopPart = styled.div`
-    background-image: url(${NatureImage});
+    /* background-image: url(${NatureImage}); */
     background-size: 100%;
     background-repeat: no-repeat;
     height: 98vh;
@@ -29,7 +29,7 @@ const QuoteContainer = styled.div`
 
 const LookForActvitsButtonContainer = styled.div`
     position: absolute;
-    bottom: 2em;
+    bottom: 10em;
     height: fit-content;
     width: 100%;
 `;
@@ -39,7 +39,7 @@ const PageQuote = styled.h1`
     margin: auto;
     text-align: center;
     font-size: 4em;
-    color: white;
+    /* color: white; */
     font-family: 'Cormorant Garamond', serif;
     height: fit-content;
     display: inline-block;
@@ -54,17 +54,24 @@ const LinksContainer = styled.div`
 
 const LookForActvitsButton = styled.div`
     cursor: pointer;
-    background-color: #3c78d8;
-    color: white;
+    border: black thin solid;
+    color: black;
     font-size: 2em;
     width: fit-content;
     height: fit-content;
-    padding: 0.5em 4em;
+    padding: 0.5em 2em;
     border-radius: 1em;
     margin: 0.5em auto;
+    transition: all 0.4s ease;
     &:hover {
-        background-color: #0d5edf;
+        background-color: #3c78d8;
+        color: white;
+        border-color: transparent;
     }
+`;
+
+const BlueHighlight = styled.span`
+    color: #3c78d8;
 `;
 
 function HomePage() {
@@ -72,7 +79,7 @@ function HomePage() {
         <PageContainer>
             <TopPart>
                 <QuoteContainer>
-                    <PageQuote>"Without activists where would we be. activists where would we be."</PageQuote>
+                    <PageQuote>"Without <BlueHighlight>activists</BlueHighlight> where would we be. activists where would we be."</PageQuote>
                 </QuoteContainer>
                 <LookForActvitsButtonContainer>
                     <LookForActvitsButton>Find Actvists</LookForActvitsButton>

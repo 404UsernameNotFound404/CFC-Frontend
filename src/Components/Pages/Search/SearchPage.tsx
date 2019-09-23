@@ -5,14 +5,17 @@ import SearchBar from './SearchBar';
 import PeopleTalking from '../../../img/Protest.jpg';
 import SearchResults from './SearchResults';
 import CategorySearch from './CategorySearch';
+import SearchForWhat from './SearchForWhat';
 
 const PageContainer = styled.div`
-    /* margin-top: 5em; */
+    padding-top: 2.5em;
+    width: 75em;
+    margin: auto;
 `;
 
 const TopPartPage = styled.div`
     height: 85vh;
-    background-image: url(${PeopleTalking});
+    /* background-image: url(${PeopleTalking}); */
     background-size: 100%;
     width: 100%;
 `;
@@ -47,17 +50,16 @@ function LinksContainer() {
 
     return (
         <PageContainer>
-            <TopPartPage>
-                <BlackOverlay>
-                    <TopPartContent>
-                        <SearchBarContainer>
-                            <SearchBar changeValue={updateSearchBar} value={searchValue} />
-                        </SearchBarContainer>
-                        <CategorySearch text={'asd'} />
-                    </TopPartContent>
-                </BlackOverlay>
+            <SearchForWhat Title = "Events" />
+            {/* <TopPartPage>
+                <TopPartContent>
+                    <SearchBarContainer>
+                        <SearchBar changeValue={updateSearchBar} value={searchValue} />
+                    </SearchBarContainer>
+                    <CategorySearch text={'asd'} />
+                </TopPartContent>
             </TopPartPage>
-            <SearchResults WhatWasSearched={'asd'} />
+            <SearchResults WhatWasSearched={'asd'} /> */}
         </PageContainer>
     );
 }

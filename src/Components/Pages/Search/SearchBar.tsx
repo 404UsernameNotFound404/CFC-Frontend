@@ -17,7 +17,7 @@ const SearchBarInput = styled.input`
     width: 83%;
     height: 4rem;
     margin: 0;
-    border-radius: 1em 0 0 1em;
+    border-radius: 0.5rem 0 0 0.5rem;
     /*Give idea that it's on focus for accesability*/
     &:focus {
         outline: none;
@@ -32,7 +32,7 @@ const SearchBarSearcButton = styled.div`
     border-top: black thin solid;
     border-bottom: black thin solid;
     border-right: black thin solid;
-    border-radius: 0 1em 1em 0;
+    border-radius: 0 0.5rem 0.5rem 0;
     display: flex;
     justify-content: center;
     font-size: 0.75em;

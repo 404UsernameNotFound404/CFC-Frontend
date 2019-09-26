@@ -12,7 +12,7 @@ const Container = styled.div<ContainerStyleProps>`
     /* flex: 1; */
     cursor: pointer;
     background-color: ${p => p.active ? p.highLightColor : p.normalColor};
-    border-radius: 0.5em;
+    border-radius: 0.2em;
     width: ${p => p.width};
     padding: 0.25em 0;
     margin: 1em auto;

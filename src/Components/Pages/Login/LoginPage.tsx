@@ -74,7 +74,7 @@ function Activst(props: Props) {
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
                 <LoginForm />
-                <BasicButton activateButton = {() => {}} width = {"15%"} text = {'Login'} active = {false} id = {20} />
+                <BasicButton activateButton = {() => {}} width = {"40%"} text = {'Login'} active = {false} id = {20} />
             </Content>
         </Page>
     );

@@ -13,7 +13,7 @@ function App() {
   return (
     <div>
       <Router>
-        <NavBar />
+        {/* <NavBar /> */}
         <Route path = '/home' component = {Home} />
         <Route path = '/search' component = {Search} />
         <Route path = '/login' component = {Login} />

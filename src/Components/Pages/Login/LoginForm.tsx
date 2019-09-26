@@ -6,11 +6,13 @@ const Content = styled.div`
     width: 50%;
     margin: 3em auto;
     height: fit-content;
-    padding: 0 1%;
+    padding: 0 2%;
     padding-top: 1.5%;
     padding-bottom: 0%;
-    -webkit-box-shadow: 5px 5px 15px 5px rgba(176, 176, 176, 0.81);
-    box-shadow: 5px 5px 15px 5px rgba(176, 176, 176, 0.81);
+    /* -webkit-box-shadow: 5px 5px 15px 5px rgba(176, 176, 176, 0.81);
+    box-shadow: 5px 5px 15px 5px rgba(176, 176, 176, 0.81); */
+    border: lightgray thin solid;
+    border-radius: 1em;
 `;
 
 const LoginTitle = styled.h1`
@@ -47,10 +49,10 @@ function Activst(props: Props) {
     return (
         <Content>
             <LoginTitle>Email</LoginTitle>
-            <LoginInput />
+            <LoginInput placeholder = "Email" />
             <BreakLine />
             <LoginTitle>Password</LoginTitle>
-            <LoginInput type = 'password' />
+            <LoginInput placeholder = "********" type = 'password' />
         </Content>
     );
 }

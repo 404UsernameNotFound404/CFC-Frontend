@@ -1,50 +1,39 @@
 import React from 'react';
 import styled from 'styled-components';
+import MagnifyingGlassImg from '../../../img/magnifyingGlass.svg';
 
 const SearchBarContainer = styled.div`
-    width: 90% !important;
-    width: fit-content;
+    width: 75% !important;
+    /* width: fit-content; */
     height: 4.5rem;
     margin: auto;
     margin-top: 2em;
     display: flex;
+    border: black 0.2em solid;
+    border-radius: 1em;
 `;
 
 const SearchBarInput = styled.input`
-    border: solid black thin;
+    border: none;
+    background-color: transparent;
     font-size: 2em;
-    padding: 0.25rem 1%;
-    width: 83%;
-    height: 4rem;
-    margin: 0;
-    border-radius: 0.5rem 0 0 0.5rem;
     /*Give idea that it's on focus for accesability*/
     &:focus {
         outline: none;
     }
 `;
 
-const SearchBarSearcButton = styled.div`
-    cursor: pointer;
-    height: 100%;
-    width: 15%;
-    background-color: white;
-    border-top: black thin solid;
-    border-bottom: black thin solid;
-    border-right: black thin solid;
-    border-radius: 0 0.5rem 0.5rem 0;
-    display: flex;
-    justify-content: center;
-    font-size: 0.75em;
-    &:hover {
-        background-color: rgb(230,230,230);
+const MagnifyingGlass = styled.img`
+    margin: auto 1em;
+    height: 2em;
+    width: 2em;
+    color: grey;
+    -webkit-filter: invert(0.1); /* Safari 6.0 - 9.0 */
+    filter: invert(0.1);
+    :hover {
+        -webkit-filter: invert(0.25); /* Safari 6.0 - 9.0 */
+        filter: invert(0.25);
     }
-`;
-
-const SearchBarSearcButtonText = styled.h1`
-    margin: auto;
-    width: fit-content;
-    height: fit-content;
 `;
 
 type Props = {
@@ -55,8 +44,8 @@ type Props = {
 function SearchBar(props: Props) {
     return (
         <SearchBarContainer>
-            <SearchBarInput onChange={props.changeValue} placeholder="Search For Activist" value={props.value} />
-            <SearchBarSearcButton><SearchBarSearcButtonText>Search</SearchBarSearcButtonText></SearchBarSearcButton>
+            <MagnifyingGlass src = {MagnifyingGlassImg} />
+            <SearchBarInput onChange={props.changeValue} placeholder="Search For An Activist" value={props.value} />
         </SearchBarContainer>
     );
 }

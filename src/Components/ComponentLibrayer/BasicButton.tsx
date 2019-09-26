@@ -4,7 +4,8 @@ import styled from 'styled-components';
 type ContainerStyleProps = {
     highLightColor: string,
     normalColor: string,
-    active: boolean
+    active: boolean,
+    width: string
 }
 
 const Container = styled.div<ContainerStyleProps>`
@@ -12,7 +13,7 @@ const Container = styled.div<ContainerStyleProps>`
     cursor: pointer;
     background-color: ${p => p.active ? p.highLightColor : p.normalColor};
     border-radius: 0.5em;
-    width: 22.5%;
+    width: ${p => p.width};
     padding: 0.25em 0;
     margin: 1em auto;
     text-align: center;
@@ -26,17 +27,18 @@ const Container = styled.div<ContainerStyleProps>`
 
 type Props = {
     text: string,
-    normalColor: string,
-    highLightColor: string,
     active: boolean,
     id: number,
-    activateButton: Function
+    activateButton: Function,
+    width: string
 }
 
-function CategoryButton(props: Props) {
+function BasicButton(props: Props) {
+    const normalColor = '#a4c2f4';
+    const highLightColor = '#3c78d8';
     return (
-        <Container active={props.active} normalColor={props.normalColor} highLightColor={props.highLightColor} onClick={() => { props.activateButton(props.id) }}>{props.text}</Container>
+        <Container width = {props.width} active={props.active} normalColor={normalColor} highLightColor={highLightColor} onClick={() => { props.activateButton(props.id) }}>{props.text}</Container>
     );
 }
 
-export default CategoryButton;
+export default BasicButton;

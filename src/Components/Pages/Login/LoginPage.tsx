@@ -1,0 +1,83 @@
+import React, { useState }from 'react';
+import styled from 'styled-components';
+import LoginForm from './LoginForm';
+import BasicButton from '../../ComponentLibrayer/BasicButton';
+import ProtestPhoto from '../../../img/protestCrowd.jpg';
+
+const Page = styled.div`
+    padding-top: 2.5rem;
+    width: 75em;
+    height: 75vh;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+`;
+
+const SubTitle = styled.h1`
+    margin: 0.2em;
+    font-size: 3em;
+    text-align: center;
+`;
+
+const Logo = styled.h1`
+    font-size: 2em;
+    margin: 0;
+    text-align: center;
+    font-weight: bolder;
+`;
+
+const Content = styled.div`
+    height: 60%;
+    width: 100%;
+    margin: auto 0;
+    margin-left: 40%;
+`;
+
+const BackgroundImage = styled.img `
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+`;
+
+const BackgroundImageOverlay = styled.div`
+    width: 100%;
+    height: 100%;
+    /* background-color: rgba(0,0,0,0.5); */
+    /* background-color: rgba(255,255,255,0.1); */
+    position: absolute;
+    top: 0;
+    left: 0;
+`;
+
+const BackgroundImageContainer = styled.div `
+    width: 33vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+`;
+
+type Props = {
+    name: string,
+    img: string,
+    para: string
+}
+
+function Activst(props: Props) {
+    return (
+        <Page>
+            <BackgroundImageContainer>
+                <BackgroundImageOverlay />
+                <BackgroundImage src = {ProtestPhoto} />
+            </BackgroundImageContainer>
+          
+            <Content>
+                <SubTitle>Ready to make a change?</SubTitle>
+                <LoginForm />
+                <BasicButton activateButton = {() => {}} width = {"15%"} text = {'Login'} active = {false} id = {20} />
+            </Content>
+        </Page>
+    );
+}
+
+export default Activst;

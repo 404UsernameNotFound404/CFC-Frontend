@@ -15,7 +15,7 @@ const PageContainer = styled.div`
 
 const TopPartPage = styled.div`
     padding-top: 15vh;
-    height: 30vh;
+    padding-bottom: 7.5vh;
     width: 100%;
 `;
 
@@ -64,6 +64,12 @@ const OR = styled.h1`
     margin: auto;
 `;
 
+const SearchBoxTitle = styled.h1 `
+    font-size: 4em;
+    margin: 0;
+    text-align: center;
+`;
+
 
 function LinksContainer() {
     const [searchValue, setSearchValue] = useState('');
@@ -88,6 +94,7 @@ function LinksContainer() {
         return (
             <PageContainer>
                 <TopPartPage>
+                    <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
                     <SearchBar changeValue={updateSearchBar} value={searchValue} />
                     <CategorySearch text={'asd'} />
                 </TopPartPage>

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState }from 'react';
 import styled from 'styled-components';
+import BasicButton from '../../ComponentLibrayer/BasicButton';
 
 const Container = styled.div`
     border: black 0.2rem solid;
@@ -55,11 +56,17 @@ const SeeMoreButton = styled.div`
     padding: 0.25em 1em;
     margin: 1em auto;
     text-align: center;
-    color: navy;
+    color: black;
     font-size: 1.5em;
+    background-color: #3c78d8;
     &:hover {
         background-color: rgba(0, 43, 128, 0.2);
     }
+`;
+
+const ButtonContainer = styled.div`
+    width: 200%;
+    margin:auto;
 `;
 
 type Props = {
@@ -69,6 +76,13 @@ type Props = {
 }
 
 function Activst(props: Props) {
+    const [buttonState, setButtonState] = useState(false);
+
+    const buttonClicked = () => {
+        if(buttonState) setButtonState(false)
+        else setButtonState(true)
+    }
+
     return (
         <Container>
             <PortraitOfActivist src={props.img} />
@@ -79,7 +93,7 @@ function Activst(props: Props) {
                 I am Daxton Rhead, I am a poopy pants. I need more text
                 so I am writing more, this is probably goood.
             </ElevatorPitch>
-            <SeeMoreButton>See More</SeeMoreButton>
+            <BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} />
         </Container>
     );
 }

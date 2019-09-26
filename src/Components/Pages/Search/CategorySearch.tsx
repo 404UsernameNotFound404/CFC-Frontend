@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import CategoryButton from './CategoryButton';
+import BasicButton from '../../ComponentLibrayer/BasicButton';
 
 const Container = styled.div`
     width: 90%;
@@ -39,7 +39,7 @@ function CategorySearch(props: Props) {
 
     return (
         <Container>
-            {categoryButtons.map((ele) => <CategoryButton activateButton={activateButton} text={ele.text} normalColor={ele.normalColor} highLightColor={ele.highLightColor} active={ele.active} id={ele.id} />)}
+            {categoryButtons.map((ele) => <BasicButton width = {"22.5%"} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} />)}
         </Container>
     );
 }

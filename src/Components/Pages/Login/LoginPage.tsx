@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
@@ -33,7 +33,7 @@ const Content = styled.div`
     margin-left: 40%;
 `;
 
-const BackgroundImage = styled.img `
+const BackgroundImage = styled.img`
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -49,13 +49,29 @@ const BackgroundImageOverlay = styled.div`
     left: 0;
 `;
 
-const BackgroundImageContainer = styled.div `
+const BackgroundImageContainer = styled.div`
     width: 33vw;
     height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
 `;
+
+const RegisterAndForgotUsername = styled.div`
+    display: flex;
+    width: 100%;
+    justify-content: center;
+`;
+
+const ForgotRegisterText = styled.p`
+    margin: 0 0.5em;
+    font-size: 1em;
+    color: grey;
+    cursor: pointer;
+    :hover {
+        text-decoration: underline;
+    }
+`
 
 type Props = {
     name: string,
@@ -64,17 +80,25 @@ type Props = {
 }
 
 function Activst(props: Props) {
+    const [register, setRegister] = useState(true);
+
+    const registerClick = () => {
+        setRegister(true)
+    }
     return (
         <Page>
             <BackgroundImageContainer>
                 <BackgroundImageOverlay />
-                <BackgroundImage src = {ProtestPhoto} />
+                <BackgroundImage src={ProtestPhoto} />
             </BackgroundImageContainer>
-          
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
-                <LoginForm />
-                <BasicButton activateButton = {() => {}} width = {"40%"} text = {'Login'} active = {false} id = {20} />
+                <LoginForm register = {register}/>
+                <BasicButton activateButton={() => { }} width={"40%"} text={'Login'} active={false} id={20} />
+                <RegisterAndForgotUsername>
+                    <ForgotRegisterText>Forgot Password?</ForgotRegisterText>
+                    <ForgotRegisterText onClick={registerClick}>Create An Acount</ForgotRegisterText>
+                </RegisterAndForgotUsername>
             </Content>
         </Page>
     );

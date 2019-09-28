@@ -1,6 +1,6 @@
 import React, { useState }from 'react';
 import styled from 'styled-components';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
+import SelectCauses from './SelectCauses';
 
 const Content = styled.div`
     width: 40%;
@@ -9,9 +9,6 @@ const Content = styled.div`
     padding: 0 2%;
     padding-top: 1.5%;
     padding-bottom: 0%;
-    /* -webkit-box-shadow: 5px 5px 15px 5px rgba(176, 176, 176, 0.81);
-    box-shadow: 5px 5px 15px 5px rgba(176, 176, 176, 0.81); */
-    /* border: lightgray thin solid; */
     border-radius: 1em;
 `;
 
@@ -44,19 +41,33 @@ const BreakLine = styled.div`
 `;
 
 type Props = {
-    
+    register: boolean
 }
 
 function Activst(props: Props) {
-    return (
-        <Content>
-            {/* <LoginTitle>Email</LoginTitle> */}
-            <LoginInput placeholder = "Email Address" />
-            <BreakLine />
-            {/* <LoginTitle>Password</LoginTitle> */}
-            <LoginInput placeholder = "********" type = 'password' />
-        </Content>
-    );
+    if(!props.register) {
+        return (
+            <Content>
+                {/* <LoginTitle>Email</LoginTitle> */}
+                <LoginInput placeholder = "Email Address" />
+                <BreakLine />
+                {/* <LoginTitle>Password</LoginTitle> */}
+                <LoginInput placeholder = "Password" type = 'password' />
+            </Content>
+        );
+    } else {
+        return (
+            <Content>
+                {/* <LoginTitle>Email</LoginTitle> */}
+                <LoginInput placeholder = "Email Address" />
+                <BreakLine />
+                <LoginInput placeholder = "Password" type = 'password' />
+                <BreakLine />
+                <LoginInput placeholder = "Re-Enter Password" type = 'password' />
+                <SelectCauses dropDownItems = {["Envorment", "LGBTQ", "Racial Justice"]} />
+            </Content>
+        );
+    }
 }
 
 export default Activst;

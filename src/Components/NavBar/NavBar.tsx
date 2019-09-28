@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import LogoImg from '../../img/placeholder.png';
+import {
+    BrowserRouter as Router,
+    Link
+  } from "react-router-dom";
 
 const Container = styled.div`
     top: 0;
@@ -24,22 +28,25 @@ const LogoTitle = styled.h1`
     /* color: white; */
 `;
 
-const LinkTitle = styled.h1`
+const LinkTitle = styled(Link)`
     font-size: 1.25em;
     margin: 0 1em;
     margin-top: auto;
+    text-decoration: none;
     &:hover {
         text-decoration: underline;
     }
     cursor: pointer;
+    color: black;
 `;
 
-const SearchForActivist = styled.h1`
+const SearchForActivist = styled(Link)`
     margin: 0;
     margin-top: auto;
     cursor: pointer;
     font-size: 1.25em;
     color: #3c78d8;
+    text-decoration: none;
     &:hover {
         text-decoration: underline;
     }
@@ -58,9 +65,9 @@ function App() {
             <Content>
                 <LogoTitle>Connecting For Change</LogoTitle>
                 <RightPart>
-                    <LinkTitle>Blog</LinkTitle>
-                    <SearchForActivist>Search For A Activist</SearchForActivist>
-                    <LinkTitle>Login</LinkTitle>
+                    <LinkTitle to = '/home'>Blog</LinkTitle>
+                    <SearchForActivist to = '/search'>Search For A Activist</SearchForActivist>
+                    <LinkTitle to = '/login'>Login</LinkTitle>
                 </RightPart>
             </Content>
         </Container>

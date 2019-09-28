@@ -13,10 +13,10 @@ function App() {
   return (
     <div>
       <Router>
-        {/* <NavBar /> */}
         <Route path = '/home' component = {Home} />
         <Route path = '/search' component = {Search} />
         <Route path = '/login' component = {Login} />
+        {true ? <NavBar /> : ''}
       </Router>
     </div>
   );

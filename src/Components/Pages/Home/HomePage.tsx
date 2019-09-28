@@ -29,7 +29,7 @@ const QuoteContainer = styled.div`
 
 const LookForActvitsButtonContainer = styled.div`
     position: absolute;
-    bottom: 10em;
+    bottom: 7.5em;
     height: fit-content;
     width: 100%;
 `;
@@ -61,7 +61,8 @@ const LookForActvitsButton = styled.div`
     height: fit-content;
     padding: 0.5em 2em;
     border-radius: 1em;
-    margin: 0.5em auto;
+    margin: 0em auto;
+    margin-top: 20em;
     transition: all 0.4s ease 0s;
     &:hover {
         background-color: #3c78d8;

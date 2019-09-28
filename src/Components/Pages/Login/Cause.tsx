@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 type ContentStyle = {
@@ -8,15 +8,28 @@ type ContentStyle = {
 }
 
 const Content = styled.div<ContentStyle>`
-    width: 100%;
+    width: 9.1em;
+    padding: 0.15em;
     height: 4em;
-    background-color: ${p => p.active ? p.backgroundColorAct : p.backgroundColor}
+    margin: 0.5em 0;
+    background-color: ${p => p.active ? p.backgroundColorAct : p.backgroundColor};
+    border-radius: 0.5em;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    :hover {
+        border: 0.15em black solid;
+        padding: 0;
+    }
 `;
 
 const Title = styled.h1`
     font-size: 1.5em;
     text-align: center;
     margin: auto;
+    color: white;
+    font-family: "Times New Roman", Times, serif;
 `;
 
 type Props = {
@@ -24,11 +37,18 @@ type Props = {
     active: boolean;
     backgroundColor: string;
     backgroundColorAct: string;
+    causeClicked: Function;
+    id: number;
 }
 
 function Cause(props: Props) {
+
+    const onClick = () => {
+        props.causeClicked(props.id);
+    }
+
     return (
-        <Content active = {props.active} backgroundColor = {props.backgroundColor} backgroundColorAct = {props.backgroundColorAct}>
+        <Content onClick = {onClick} active = {props.active} backgroundColor = {props.backgroundColor} backgroundColorAct = {props.backgroundColorAct}>
            <Title>{props.title}</Title>
         </Content>
     );

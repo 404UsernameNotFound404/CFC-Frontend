@@ -45,26 +45,40 @@ type Props = {
 }
 
 function Activst(props: Props) {
+    let [causeSelection, setCauseSelection] = useState([
+        {title: "Envorment", backgroundColor: "green", backgroundColorAct: "darkgreen", active: false, id: 0},
+        {title: "Racial Justice", backgroundColor: "#c586c0", backgroundColorAct: "darkblue", active: false, id: 1},
+        {title: "LGBTQ Rights", backgroundColor: "pink", backgroundColorAct: "darkblue", active: false, id: 2},
+        {title: "Feminsim", backgroundColor: "orange", backgroundColorAct: "darkorange", active: false, id: 3}
+    ]);
+
+    const causeClicked = (ind: number) => {
+        setCauseSelection(causeSelection.map(ele => {
+            if(ind == ele.id) {
+                if(ele.active) return {...ele, active: false}
+                else return {...ele, active: true}
+            }
+            return ele;
+        }));
+    }
+
     if(!props.register) {
         return (
             <Content>
-                {/* <LoginTitle>Email</LoginTitle> */}
                 <LoginInput placeholder = "Email Address" />
                 <BreakLine />
-                {/* <LoginTitle>Password</LoginTitle> */}
                 <LoginInput placeholder = "Password" type = 'password' />
             </Content>
         );
     } else {
         return (
             <Content>
-                {/* <LoginTitle>Email</LoginTitle> */}
                 <LoginInput placeholder = "Email Address" />
                 <BreakLine />
                 <LoginInput placeholder = "Password" type = 'password' />
                 <BreakLine />
                 <LoginInput placeholder = "Re-Enter Password" type = 'password' />
-                <SelectCauses dropDownItems = {["Envorment", "LGBTQ", "Racial Justice"]} />
+                <SelectCauses causeClicked = {causeClicked} dropDownItems = {causeSelection} />
             </Content>
         );
     }

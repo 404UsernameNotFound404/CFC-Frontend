@@ -5,43 +5,53 @@ import Cause from './Cause';
 const Content = styled.div`
     width: 100%;
     position: relative;
-`;
-
-const TitleBar = styled.div`
-    height: 2em;
-    border: black 0.2em solid;
-`;
-
-const TitleBarText = styled.h1`
-    margin: auto;
-    font-size: 1em;
-    text-align: center;
-`;
-
-const DropDownContainer = styled.select`
-    position: absolute;
-    top: 2.6em;
-    width: 100%;
-    outline: solid grey thin;
-`;
-
-const DropDownSelection = styled.option`
-    background-color: white;
+    display: flex;
+    justify-content: center;
 `;
 
 type Props = {
-    dropDownItems: string[];
+    causeClicked: Function;
+    dropDownItems: { title: string, backgroundColor: string, backgroundColorAct: string, active: boolean, id: number }[],
 }
 
 function SelectCauses(props: Props) {
-    return (
-        <Content>
-            {
-                props.dropDownItems.map((ele, i) => 
-                    <Cause title = {"Envorment"} active = {false} backgroundColor = {"black"} backgroundColorAct = {"green"} />
-                )
+    const sortCauses = () => {
+        let arrays: any = [];
+        let counter = props.dropDownItems.length - 1;
+        let arrayCounter = 0;
+        while (counter >= 0) {
+            if (counter === 0) {
+                arrays[arrayCounter] = [props.dropDownItems[counter]];
+                break;
+            } else {
+                arrays[arrayCounter] = [props.dropDownItems[counter], props.dropDownItems[counter - 1]]
+                counter -= 2;
+                arrayCounter++;
             }
-        </Content>
+        }
+        console.log(arrays);
+        return (
+            <Content>
+                {
+                    arrays.map((ele: any) => {
+                        return (
+                            <div>
+                                {console.log(ele)}
+                                {
+                                    ele.map((ele1: any, i: number) => <Cause key={i} causeClicked={props.causeClicked} title={ele1.title} active={ele1.active} backgroundColor={ele1.backgroundColor} backgroundColorAct={ele1.backgroundColorAct} id={ele1.id} />)
+                                }
+                            </div>
+                        )
+                    })
+                }
+            </Content>
+        )
+    }
+
+    return (
+        <>
+            {sortCauses()}
+        </>
     );
 }
 

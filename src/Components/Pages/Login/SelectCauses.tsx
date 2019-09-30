@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import Cause from './Cause';
 
 const Content = styled.div`
-    width: 100%;
+    width: 150%;
+    margin-left: -12.5%;
     position: relative;
     display: flex;
     justify-content: center;
@@ -36,7 +37,6 @@ function SelectCauses(props: Props) {
                     arrays.map((ele: any) => {
                         return (
                             <div>
-                                {console.log(ele)}
                                 {
                                     ele.map((ele1: any, i: number) => <Cause key={i} causeClicked={props.causeClicked} title={ele1.title} active={ele1.active} backgroundColor={ele1.backgroundColor} backgroundColorAct={ele1.backgroundColorAct} id={ele1.id} />)
                                 }

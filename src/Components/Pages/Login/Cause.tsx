@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import checkMark from '../../../img/checkmark.svg';
 
 type ContentStyle = {
     active: boolean,
@@ -8,28 +9,59 @@ type ContentStyle = {
 }
 
 const Content = styled.div<ContentStyle>`
-    width: 9.1em;
-    padding: 0.15em;
-    height: 4em;
+    width: 12em;
+    height: 2.5em;
     margin: 0.5em 0;
-    background-color: ${p => p.active ? p.backgroundColorAct : p.backgroundColor};
+    margin-right: 1em;
+    /* background-color: ${p => p.active ? p.backgroundColorAct : p.backgroundColor}; */
     border-radius: 0.5em;
-    display: flex;
-    justify-content: center;
     cursor: pointer;
-    border: none;
+    display: flex;
+    border: 0.15em ${p => p.active ? p.backgroundColorAct : p.backgroundColor} solid;
     :hover {
-        border: 0.15em black solid;
-        padding: 0;
+        border-color: black;
     }
 `;
 
-const Title = styled.h1`
-    font-size: 1.5em;
-    text-align: center;
-    margin: auto;
-    color: white;
+type TitleStyle = {
+    active: boolean;
+    backgroundColor: string;
+    backgroundColorAct: string;
+}
+
+const Title = styled.h1<TitleStyle>`
+    font-size: 1.25em;
+    text-align: left;
+    display: block;
+    margin: auto 0;
+    margin-right: 0.5em;
+    color: ${p => p.active ? p.backgroundColorAct : p.backgroundColor};
     font-family: "Times New Roman", Times, serif;
+`;
+
+type CheckBoxStyle = {
+    active: boolean;
+    backgroundColor: string;
+}
+
+const CheckBox = styled.div<CheckBoxStyle>`
+    border-radius: 0.25em;
+    border: thin solid black;
+    width: 1em;
+    height: 1em;
+    margin: auto 0;
+    margin-left: 0.5em;
+    margin-right: auto;  
+    display: flex;
+    justify-content: center;
+    background-color: ${p => p.active ? p.backgroundColor : 'transparent'}
+`;
+
+const CheckMark = styled.img`
+    width: 75%;
+    height: 75%;
+    margin: auto;
+    display: block;
 `;
 
 type Props = {
@@ -49,7 +81,10 @@ function Cause(props: Props) {
 
     return (
         <Content onClick = {onClick} active = {props.active} backgroundColor = {props.backgroundColor} backgroundColorAct = {props.backgroundColorAct}>
-           <Title>{props.title}</Title>
+            <CheckBox active = {props.active} backgroundColor = {props.backgroundColor}>
+                {props.active ? <CheckMark src = {checkMark} /> : ""}
+            </CheckBox>
+           <Title active = {props.active} backgroundColor = {props.backgroundColor} backgroundColorAct = {props.backgroundColorAct}>{props.title}</Title>
         </Content>
     );
 }

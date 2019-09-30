@@ -9,10 +9,9 @@ type ContentStyle = {
 }
 
 const Content = styled.div<ContentStyle>`
-    width: 12em;
+    width: 90%;
     height: 2.5em;
-    margin: 0.5em 0;
-    margin-right: 1em;
+    margin: 0.5em 10%;
     /* background-color: ${p => p.active ? p.backgroundColorAct : p.backgroundColor}; */
     border-radius: 0.5em;
     cursor: pointer;

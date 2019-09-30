@@ -80,10 +80,11 @@ type Props = {
 }
 
 function Activst(props: Props) {
-    const [register, setRegister] = useState(true);
+    const [register, setRegister] = useState(false);
 
     const registerClick = () => {
-        setRegister(true)
+        setRegister(true);
+        //set inputs to zero later
     }
     return (
         <Page>
@@ -94,9 +95,9 @@ function Activst(props: Props) {
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
                 <LoginForm register = {register}/>
-                <BasicButton activateButton={() => { }} width={"40%"} text={'Login'} active={false} id={20} />
+                <BasicButton activateButton={() => { }} width={"40%"} text={register ? "Register" : "Login"} active={false} id={20} />
                 <RegisterAndForgotUsername>
-                    <ForgotRegisterText>Forgot Password?</ForgotRegisterText>
+                    {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
                     <ForgotRegisterText onClick={registerClick}>Create An Acount</ForgotRegisterText>
                 </RegisterAndForgotUsername>
             </Content>

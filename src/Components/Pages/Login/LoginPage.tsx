@@ -27,7 +27,7 @@ const Logo = styled.h1`
 `;
 
 const Content = styled.div`
-    height: 60%;
+    height: fit-content;
     width: 100%;
     margin: auto 0;
     margin-left: 40%;
@@ -83,7 +83,8 @@ function Activst(props: Props) {
     const [register, setRegister] = useState(false);
 
     const registerClick = () => {
-        setRegister(true);
+        if(register) setRegister(false)
+        else setRegister(true);
         //set inputs to zero later
     }
     return (
@@ -98,7 +99,7 @@ function Activst(props: Props) {
                 <BasicButton activateButton={() => { }} width={"40%"} text={register ? "Register" : "Login"} active={false} id={20} />
                 <RegisterAndForgotUsername>
                     {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
-                    <ForgotRegisterText onClick={registerClick}>Create An Acount</ForgotRegisterText>
+                    <ForgotRegisterText onClick={registerClick}>{register ? 'Go To Login' : 'Create An Acount'}</ForgotRegisterText>
                 </RegisterAndForgotUsername>
             </Content>
         </Page>

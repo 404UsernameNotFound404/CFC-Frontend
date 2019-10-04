@@ -26,10 +26,12 @@ const LogoTitle = styled.h1`
     margin-top: auto;
     font-weight: bolder;
     /* color: white; */
+    font-family: 'Big Shoulders Display', cursive;
+    font-weight: lighter;
 `;
 
 const LinkTitle = styled(Link)`
-    font-size: 1.25em;
+    font-size: 1.5em;
     margin: 0 1em;
     margin-top: auto;
     text-decoration: none;
@@ -38,18 +40,20 @@ const LinkTitle = styled(Link)`
     }
     cursor: pointer;
     color: black;
+    font-weight: bold;
 `;
 
 const SearchForActivist = styled(Link)`
     margin: 0;
     margin-top: auto;
     cursor: pointer;
-    font-size: 1.25em;
+    font-size: 1.5em;
     color: #3c78d8;
     text-decoration: none;
     &:hover {
         text-decoration: underline;
     }
+    font-weight: bold;
 `;
 
 const Content = styled.div`

@@ -23,7 +23,7 @@ function App(props: any) {
         <Route path = '/home' component = {Home} />
         <Route path = '/search' component = {Search} />
         <Route path = '/login' component = {Login} />
-        {/* {true ? <NavBar /> : ''} */}
+        {true ? <NavBar /> : ''}
       </Router>
     </div>
   );

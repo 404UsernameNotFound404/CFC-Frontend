@@ -16,7 +16,7 @@ const Container = styled.div<ContainerStyleProps>`
     padding: 0.25em 0;
     margin: 1em auto;
     text-align: center;
-    color: ${p => p.active ? 'white' : 'black'};
+    color: black !important;
     font-size: 1.5em;
     &:hover {
         border-color: transparent;

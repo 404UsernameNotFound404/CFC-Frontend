@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import NatureImage from '../../../img/nature-image.jpg';
 import PeopleTalking from '../../img/people-talking.png';
 import LinkBox from './LinkContainer';
 import PlaceHolder from '../../../img/placeholder.png';
+import { connect } from 'react-redux';
 
 const PageContainer = styled.div`
    
@@ -75,7 +76,10 @@ const BlueHighlight = styled.span`
     color: #3c78d8;
 `;
 
-function HomePage() {
+function HomePage(props: any) {
+    useEffect(() => {
+        console.log(props);
+    })
     return (
         <PageContainer>
             <TopPart>
@@ -94,4 +98,10 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+const mapStateToProps = (state: any) => {
+    return {
+      user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(HomePage);

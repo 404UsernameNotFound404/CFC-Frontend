@@ -3,6 +3,13 @@ import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
 import ProtestPhoto from '../../../img/protestCrowd.jpg';
+import {
+    BrowserRouter as Router,
+    Route,
+    Redirect
+  } from "react-router-dom";
+import { connect } from 'react-redux';
+
 
 const Page = styled.div`
     padding-top: 2.5rem;
@@ -79,13 +86,29 @@ type Props = {
     para: string
 }
 
-function Activst(props: Props) {
+function LoginPage(props: Props) {
     const [register, setRegister] = useState(false);
+    const [reToHome, setReToHome] = useState(false);
 
     const registerClick = () => {
         if(register) setRegister(false)
         else setRegister(true);
         //set inputs to zero later
+    }
+
+    const Login = () => {
+        //send login request to server
+        if(true) {
+            setReToHome(true);
+        }
+    }
+
+    const Register = () => {
+        setRegister(false);
+    }
+
+    const RedirectToHome = () => {
+        return <Redirect to = '/home' />
     }
     return (
         <Page>
@@ -96,14 +119,28 @@ function Activst(props: Props) {
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
                 <LoginForm register = {register}/>
-                <BasicButton activateButton={() => { }} width={"40%"} text={register ? "Register" : "Login"} active={false} id={20} />
+                <BasicButton activateButton={register ? Register : Login} width={"40%"} text={register ? "Register" : "Login"} active={false} id={20} />
                 <RegisterAndForgotUsername>
                     {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
                     <ForgotRegisterText onClick={registerClick}>{register ? 'Go To Login' : 'Create An Acount'}</ForgotRegisterText>
                 </RegisterAndForgotUsername>
             </Content>
+            {reToHome ? RedirectToHome() : ''}
         </Page>
     );
 }
 
-export default Activst;
+const mapStateToProps = (state: any) => {
+    return {
+      posts: state.posts
+    }
+  }
+  
+  const mapDispatchToProps = (dispatchMethod: any) => {
+    return {
+        updateUserData: (user: any) => { dispatchMethod({type: 'ADD_USER_DATA', user: user})}
+    }
+  }
+   
+  export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+  

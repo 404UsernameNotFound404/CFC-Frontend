@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Protest from '../../../img/Protest.jpg';
 import SearchBar from './SearchBar';
-import PeopleTalking from '../../../img/Protest.jpg';
 import SearchResults from './SearchResults';
 import CategorySearch from './CategorySearch';
 import SearchForWhat from './SearchForWhat';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
+import rootReducer from '../../../Reducers/searchPageReducer';
 
 const PageContainer = styled.div`
     padding-top: 2.5em;
@@ -17,25 +19,6 @@ const TopPartPage = styled.div`
     padding-top: 15vh;
     padding-bottom: 7.5vh;
     width: 100%;
-`;
-
-const BlackOverlay = styled.div`
-    background-color: rgba(0,0,0,0.25);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-`;
-
-const TopPartContent = styled.div`
-    width: 100%;
-    height: fit-content;
-    margin: auto;
-`;
-const SearchBarContainer = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
 `;
 
 const SearchForWhatPage = styled.div `
@@ -74,6 +57,8 @@ const SearchBoxTitle = styled.h1 `
 function LinksContainer() {
     const [searchValue, setSearchValue] = useState('');
 
+    const store = createStore(rootReducer);
+
     const updateSearchBar = (event: any) => {
         console.log('update value');
         setSearchValue(event.target.value);
@@ -92,16 +77,23 @@ function LinksContainer() {
         );
     } else {
         return (
-            <PageContainer>
-                <TopPartPage>
-                    <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
-                    <SearchBar changeValue={updateSearchBar} value={searchValue} />
-                    <CategorySearch text={'asd'} />
-                </TopPartPage>
-                <SearchResults WhatWasSearched={'asd'} />
-            </PageContainer>
+            <Provider store = {store}>
+                <PageContainer>
+                    <TopPartPage>
+                        <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
+                        <SearchBar changeValue={updateSearchBar} value={searchValue} />
+                        <CategorySearch text={'asd'} />
+                    </TopPartPage>
+                    <SearchResults WhatWasSearched={'asd'} />
+                </PageContainer>
+            </Provider>
         );
     }
 }
 
-export default LinksContainer;
+const mapStateToProps = (state: any) => {
+    return {
+      searchBar: state.searchBar
+    }
+  }
+  export default connect(mapStateToProps)(LinksContainer);

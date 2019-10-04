@@ -14,14 +14,15 @@ const Container = styled.div<ContainerStyleProps>`
     background-color: ${p => p.active ? p.highLightColor : p.normalColor};
     border-radius: 0.2em;
     width: ${p => p.width};
-    padding: 0.25em 0;
+    padding: 0.35em 0;
     margin: 1em auto;
     text-align: center;
-    color: ${p => p.active ? 'white' : 'black'};
+    color: black;
     font-size: 1.5em;
     &:hover {
         border-color: transparent;
         color: white;
+        
     }
 `;
 

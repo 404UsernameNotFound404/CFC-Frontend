@@ -11,10 +11,11 @@ import {
 import { connect } from 'react-redux';
 
 function App(props: any) {
-  console.log(props);
+  
   useEffect(() => {
-     props.deletePost(0);
-  },[])
+     const fakeCallToServer = {userId: '23', token: 'asdd123123sadazxc', FName: 'Henry', LName: 'Morrris'}
+     props.updateUserData(fakeCallToServer);
+  },[]);
 
   return (
     <div>
@@ -36,7 +37,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatchMethod: any) => {
   return {
-    deletePost: (id: any) => { dispatchMethod({type: 'DELETE_POST', id: id})}
+    deletePost: (id: any) => { dispatchMethod({type: 'DELETE_POST', id: id})},
+    updateUserData: (user: any) => { dispatchMethod({type: 'ADD_USER_DATA', user: user})}
   }
 }
  

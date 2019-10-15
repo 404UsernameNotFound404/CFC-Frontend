@@ -1,6 +1,7 @@
 import React, { useState }from 'react';
 import styled from 'styled-components';
 import SelectCauses from './SelectCauses';
+import { connect } from 'react-redux';
 
 const Content = styled.div`
     width: 40%;
@@ -44,7 +45,7 @@ type Props = {
     register: boolean
 }
 
-function Activst(props: Props) {
+function LoginForm(props: Props) {
     let [causeSelection, setCauseSelection] = useState([
         {title: "Envorment", backgroundColor: "green", backgroundColorAct: "darkgreen", active: false, id: 0},
         {title: "Racial Justice", backgroundColor: "#c586c0", backgroundColorAct: "darkblue", active: false, id: 1},
@@ -84,4 +85,16 @@ function Activst(props: Props) {
     }
 }
 
-export default Activst;
+const mapStateToProps = (state: any) => {
+    return {
+      posts: state.posts
+    }
+  }
+  
+  const mapDispatchToProps = (dispatchMethod: any) => {
+    return {
+        updateUserData: (user: any) => { dispatchMethod({type: 'ADD_USER_DATA', user: user})}
+    }
+  }
+   
+  export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -9,6 +9,9 @@ import {
     Redirect
   } from "react-router-dom";
 import { connect } from 'react-redux';
+import { BASEURL } from '../../../Constants';
+
+const axios = require('axios');
 
 
 const Page = styled.div`
@@ -81,9 +84,8 @@ const ForgotRegisterText = styled.p`
 `
 
 type Props = {
-    name: string,
-    img: string,
-    para: string
+    user: {Username: string, Password: string}
+    login: Function;
 }
 
 function LoginPage(props: Props) {
@@ -96,11 +98,16 @@ function LoginPage(props: Props) {
         //set inputs to zero later
     }
 
-    const Login = () => {
+    const Login = async () => {
         //send login request to server
-        if(true) {
-            setReToHome(true);
-        }
+        try {
+            const res = await axios.post(`${BASEURL}/login`, JSON.stringify({Username: props.user.Username, Password: props.user.Password}));
+            if(res.data.AuthToken.length > 0) {
+              props.login();
+            }
+          } catch(err) {
+            alert(err);
+          }
     }
 
     const Register = () => {
@@ -132,13 +139,13 @@ function LoginPage(props: Props) {
 
 const mapStateToProps = (state: any) => {
     return {
-      posts: state.posts
+      user: state.user
     }
   }
   
   const mapDispatchToProps = (dispatchMethod: any) => {
     return {
-        updateUserData: (user: any) => { dispatchMethod({type: 'ADD_USER_DATA', user: user})}
+        login: (user: any) => { dispatchMethod({type: 'LOGIN'})}
     }
   }
    

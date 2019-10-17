@@ -5,6 +5,8 @@ import {
     BrowserRouter as Router,
     Link
   } from "react-router-dom";
+import Cookie from 'js-cookie';
+import { connect } from 'react-redux';
 
 const Container = styled.div`
     top: 0;
@@ -63,7 +65,15 @@ const Content = styled.div`
     display: flex;
 `;
 
-function App() {
+type NavBarProps = {
+    login: Function
+}
+
+function NavBar(props: NavBarProps) {
+    const logout = () => {
+        props.login({JWTToken: ""})
+    }
+
     return (
         <Container>
             <Content>
@@ -71,11 +81,24 @@ function App() {
                 <RightPart>
                     <LinkTitle to = '/home'>Blog</LinkTitle>
                     <SearchForActivist to = '/search'>Search For A Activist</SearchForActivist>
-                    <LinkTitle to = '/login'>Login</LinkTitle>
+                    <LinkTitle to = '/login'><span onClick = {logout}>Logout</span></LinkTitle>
                 </RightPart>
             </Content>
         </Container>
     );
 }
 
-export default App;
+
+const mapStateToProps = (state: any) => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps = (dispatchMethod: any) => {
+    return {
+        login: (loginInfo: any) => { dispatchMethod({type: 'LOGIN', loginInfo: loginInfo})}
+    }
+  }
+   
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

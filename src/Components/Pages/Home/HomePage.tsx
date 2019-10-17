@@ -77,9 +77,9 @@ const BlueHighlight = styled.span`
 `;
 
 function HomePage(props: any) {
-    useEffect(() => {
-        console.log(props);
-    })
+    // useEffect(() => {
+    //     console.log(props);
+    // })
     return (
         <PageContainer>
             <TopPart>

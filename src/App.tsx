@@ -16,23 +16,42 @@ const axios = require("axios");
 
 function App(props: any) {
   const [redirectToLogin, setRedirectToLogin] = useState(false);
+  const [first, setFirst] = useState(true);
   
   const RedirectToLogin = () => {
     if(redirectToLogin) return <Redirect to = '/login' />;
   }
 
+  // const RedirectToHome = () => {
+  //   if(props.loggedIn) return <Redirect to = '/home' />;
+  // }
+
   const checkToken = async () => {
     try {
       if (!!Cookie.get("authToken")) {
-        const res = await axios.post(`${BASEURL}/login`, JSON.stringify({Username: props.user.Username, Password: props.user.Password}));
-        if (res.data.Username.length > 0) {
-          props.updateUserData({Username: res.data.Username, AuthToken: Cookie.get("authToken")})
-          setRedirectToLogin(false);
+        const res = await axios.post(`${BASEURL}/checkToken`, JSON.stringify({JWTToken: Cookie.get("authToken")}));
+        if (res.data.Valid.length > 0) {
+          props.updateUserData({JWTToken: Cookie.get("authToken")})
+        } else {
+          setRedirectToLogin(true);
+          console.log("ahhhhhh")
+          throw "auth token wrong or expired"
         }
-        throw "auth token wrong or expired"
+      } else {
+        throw "no auth token"
       }
-      throw "no auth token"
     } catch (err) {
+      console.log("redirec to login")
+      console.error(err);
+      props.updateUserData({JWTToken: ""})
+      setRedirectToLogin(true);
+    }
+    setFirst(false);
+  }
+
+  const checkLoggedInStatus = () => {
+    if(!props.loggedIn) {
+      console.log("asdjkaskd")
       setRedirectToLogin(true);
     }
   }
@@ -41,14 +60,18 @@ function App(props: any) {
     checkToken();
   }, [])
 
+  useEffect(() => {
+    if(!first) checkLoggedInStatus();
+  });
+
   return (
     <div>
       <Router>
+        {RedirectToLogin()}
         <Route path = '/home' component = {Home} />
         <Route path = '/search' component = {Search} />
         <Route path = '/login' component = {Login} />
         {props.loggedIn ? <NavBar /> : ''}
-        {RedirectToLogin()}
       </Router>
     </div>
   );
@@ -63,7 +86,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatchMethod: any) => {
   return {
-    updateUserData: (user: any) => { dispatchMethod({type: 'ADD_USER_DATA', user: user})}
+    updateUserData: (loginInfo: any) => { dispatchMethod({type: 'LOGIN', loginInfo: loginInfo})}
   }
 }
  

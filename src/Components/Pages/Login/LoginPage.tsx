@@ -9,7 +9,7 @@ import {
     Redirect
   } from "react-router-dom";
 import { connect } from 'react-redux';
-import { BASEURL } from '../../../Constants';
+
 
 const axios = require('axios');
 
@@ -98,25 +98,10 @@ function LoginPage(props: Props) {
         //set inputs to zero later
     }
 
-    const Login = async () => {
-        //send login request to server
-        try {
-            const res = await axios.post(`${BASEURL}/login`, JSON.stringify({Username: props.user.Username, Password: props.user.Password}));
-            if(res.data.AuthToken.length > 0) {
-              props.login();
-            }
-          } catch(err) {
-            alert(err);
-          }
-    }
-
-    const Register = () => {
-        setRegister(false);
-    }
-
     const RedirectToHome = () => {
         return <Redirect to = '/home' />
     }
+
     return (
         <Page>
             <BackgroundImageContainer>
@@ -126,7 +111,6 @@ function LoginPage(props: Props) {
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
                 <LoginForm register = {register}/>
-                <BasicButton activateButton={register ? Register : Login} width={"40%"} text={register ? "Register" : "Login"} active={false} id={20} />
                 <RegisterAndForgotUsername>
                     {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
                     <ForgotRegisterText onClick={registerClick}>{register ? 'Go To Login' : 'Create An Acount'}</ForgotRegisterText>

@@ -17,6 +17,7 @@ const SearchBarInput = styled.input`
     border: none;
     background-color: transparent;
     font-size: 2em;
+    width: 100%;
     /*Give idea that it's on focus for accesability*/
     &:focus {
         outline: none;

@@ -2,6 +2,14 @@ import React, { useState }from 'react';
 import styled from 'styled-components';
 import SelectCauses from './SelectCauses';
 import { connect } from 'react-redux';
+import BasicButton from '../../ComponentLibrayer/BasicButton';
+import { BASEURL } from '../../../Constants'
+import {
+    BrowserRouter as Router,
+    Link,
+    Redirect
+  } from "react-router-dom";
+const axios = require('axios')
 
 const Content = styled.div`
     width: 40%;
@@ -43,6 +51,7 @@ const BreakLine = styled.div`
 
 type Props = {
     register: boolean
+    login: Function
 }
 
 function LoginForm(props: Props) {
@@ -52,6 +61,10 @@ function LoginForm(props: Props) {
         {title: "LGBTQ Rights", backgroundColor: "pink", backgroundColorAct: "darkblue", active: false, id: 2},
         {title: "Feminsim", backgroundColor: "orange", backgroundColorAct: "darkorange", active: false, id: 3}
     ]);
+    let [emailInput, setEmailInput] = useState("");
+    let [passwordInput, setPasswordInput] = useState("");
+    let [redirectToHome, setRedirectToHome] = useState(false);
+    let [authToken, setAuthToken] = useState("");
 
     const causeClicked = (ind: number) => {
         setCauseSelection(causeSelection.map(ele => {
@@ -63,12 +76,33 @@ function LoginForm(props: Props) {
         }));
     }
 
+    const login = async() => {
+        let res = await axios.post(`${BASEURL}/login`, {Email: emailInput, Password: passwordInput})
+        try {
+            console.log("working")
+            setAuthToken(res.data.AuthToken);
+            setRedirectToHome(true);
+        }
+        catch(err) {
+            console.log("auth failed")
+        }
+    }
+
+    const goToHome = () => {
+        if(redirectToHome) {
+            props.login({JWTToken: authToken});
+            return <Redirect to = '/home' />
+        }
+    }
+
     if(!props.register) {
         return (
             <Content>
-                <LoginInput placeholder = "Email Address" />
+                <LoginInput onChange = {(e) => {setEmailInput(e.target.value)}} value = {emailInput} placeholder = "Email Address" />
                 <BreakLine />
-                <LoginInput placeholder = "Password" type = 'password' />
+                <LoginInput onChange = {(e) => {setPasswordInput(e.target.value)}} value = {passwordInput} placeholder = "Password" type = 'password' />
+                <BasicButton activateButton={login} width={"40%"} text={"Login"} active={false} id={20} />
+                {goToHome()}
             </Content>
         );
     } else {
@@ -93,7 +127,7 @@ const mapStateToProps = (state: any) => {
   
   const mapDispatchToProps = (dispatchMethod: any) => {
     return {
-        updateUserData: (user: any) => { dispatchMethod({type: 'ADD_USER_DATA', user: user})}
+        login: (loginInfo: any) => { dispatchMethod({type: 'LOGIN', loginInfo: loginInfo})}
     }
   }
    

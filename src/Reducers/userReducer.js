@@ -1,3 +1,5 @@
+import Cookie from 'js-cookie'
+
 const initState = {
     user: {},
     loggedIn: false
@@ -10,7 +12,6 @@ user {
 }
 */
 const userReducer = (state = initState, action) => {
-    console.log('test' + action);
     switch(action.type) {
         case 'ADD_USER_DATA':
             return {
@@ -19,10 +20,21 @@ const userReducer = (state = initState, action) => {
             }
             break;
         case 'LOGIN':
-            return {
-                ...state,
-                loggedIn: true
-            }
+            const { JWTToken } = action.loginInfo;
+                Cookie.set("authToken", JWTToken)
+                if(JWTToken.length > 1) {
+                    return {
+                        ...state,
+                        user: {AuthToken: JWTToken},
+                        loggedIn: true
+                    }
+                } else {
+                    return {
+                        ...state,
+                        user: {AuthToken: JWTToken},
+                        loggedIn: false
+                    }
+                }
             break;
     }
     return state;

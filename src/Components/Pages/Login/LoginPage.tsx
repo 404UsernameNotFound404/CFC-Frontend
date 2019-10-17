@@ -15,9 +15,8 @@ const axios = require('axios');
 
 
 const Page = styled.div`
-    padding-top: 2.5rem;
     width: 75em;
-    height: 75vh;
+    height: 97.75vh;
     margin: auto;
     display: flex;
     justify-content: center;
@@ -61,10 +60,11 @@ const BackgroundImageOverlay = styled.div`
 
 const BackgroundImageContainer = styled.div`
     width: 33vw;
-    height: 100vh;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+    overflow: hidden;
 `;
 
 const RegisterAndForgotUsername = styled.div`
@@ -105,12 +105,12 @@ function LoginPage(props: Props) {
     return (
         <Page>
             <BackgroundImageContainer>
-                <BackgroundImageOverlay />
+                {/* <BackgroundImageOverlay /> */}
                 <BackgroundImage src={ProtestPhoto} />
             </BackgroundImageContainer>
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
-                <LoginForm register = {register}/>
+                <LoginForm setRegister = {setRegister} register = {register}/>
                 <RegisterAndForgotUsername>
                     {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
                     <ForgotRegisterText onClick={registerClick}>{register ? 'Go To Login' : 'Create An Acount'}</ForgotRegisterText>

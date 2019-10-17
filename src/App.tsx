@@ -41,8 +41,6 @@ function App(props: any) {
         throw "no auth token"
       }
     } catch (err) {
-      console.log("redirec to login")
-      console.error(err);
       props.updateUserData({JWTToken: ""})
       setRedirectToLogin(true);
     }

@@ -22,14 +22,18 @@ const RightPart = styled.div`
     display: flex;
 `;
 
-const LogoTitle = styled.h1`
+const LogoTitle = styled(Link)`
     font-size: 2em;
     margin: 0;
     margin-top: auto;
     font-weight: bolder;
-    /* color: white; */
     font-family: 'Big Shoulders Display', cursive;
     font-weight: lighter;
+    color: black;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const LinkTitle = styled(Link)`
@@ -77,7 +81,7 @@ function NavBar(props: NavBarProps) {
     return (
         <Container>
             <Content>
-                <LogoTitle>Connecting For Change</LogoTitle>
+                <LogoTitle to = '/home'>Connecting For Change</LogoTitle>
                 <RightPart>
                     <LinkTitle to = '/home'>Blog</LinkTitle>
                     <SearchForActivist to = '/search'>Search For A Activist</SearchForActivist>
@@ -87,7 +91,6 @@ function NavBar(props: NavBarProps) {
         </Container>
     );
 }
-
 
 const mapStateToProps = (state: any) => {
     return {
@@ -99,6 +102,6 @@ const mapDispatchToProps = (dispatchMethod: any) => {
     return {
         login: (loginInfo: any) => { dispatchMethod({type: 'LOGIN', loginInfo: loginInfo})}
     }
-  }
+}
    
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -3,7 +3,9 @@ import Home from './Components/Pages/Home/HomePage';
 import Search from './Components/Pages/Search/SearchPage';
 import NavBar from './Components/NavBar/NavBar';
 import Login from './Components/Pages/Login/LoginPage';
+import EditPage from './Components/Pages/Edit/EditPage'
 import { BASEURL } from './Constants';
+import UserPage from './Components/Pages/Page/UserPage';
 import {
   BrowserRouter as Router,
   Route,
@@ -11,6 +13,7 @@ import {
 } from "react-router-dom";
 import { connect } from 'react-redux';
 import Cookie from 'js-cookie'
+
 
 const axios = require("axios");
 
@@ -69,6 +72,7 @@ function App(props: any) {
         <Route path = '/home' component = {Home} />
         <Route path = '/search' component = {Search} />
         <Route path = '/login' component = {Login} />
+        <Route path = '/page' component = {UserPage} />
         {props.loggedIn ? <NavBar /> : ''}
       </Router>
     </div>

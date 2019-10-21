@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import LogoImg from '../../img/placeholder.png';
 import {
     BrowserRouter as Router,
-    Link
-  } from "react-router-dom";
+    Link,
+    Redirect
+} from "react-router-dom";
 import Cookie from 'js-cookie';
 import { connect } from 'react-redux';
 
@@ -37,8 +38,8 @@ const LogoTitle = styled(Link)`
 `;
 
 const LinkTitle = styled(Link)`
-    font-size: 1.5em;
-    margin: 0 1em;
+    font-size: 1.25em;
+    margin: 0 0.5em;
     margin-top: auto;
     text-decoration: none;
     &:hover {
@@ -49,17 +50,8 @@ const LinkTitle = styled(Link)`
     font-weight: bold;
 `;
 
-const SearchForActivist = styled(Link)`
-    margin: 0;
-    margin-top: auto;
-    cursor: pointer;
-    font-size: 1.5em;
+const BlueColor = styled.span`
     color: #3c78d8;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-    font-weight: bold;
 `;
 
 const Content = styled.div`
@@ -70,26 +62,41 @@ const Content = styled.div`
 `;
 
 type NavBarProps = {
-    login: Function
+    login: Function,
+    logedIn: boolean,
+    showNavBar: boolean
 }
 
 function NavBar(props: NavBarProps) {
-    const logout = () => {
-        props.login({JWTToken: ""})
+    const [redirectToLogin, setRedirectToLogin] = useState(false);
+    const logoutLogin = () => {
+        if(props.logedIn) {
+            props.login({ JWTToken: "" })
+        } else {
+            setRedirectToLogin(true);
+        }
     }
-
-    return (
-        <Container>
-            <Content>
-                <LogoTitle to = '/home'>Connecting For Change</LogoTitle>
-                <RightPart>
-                    <LinkTitle to = '/home'>Blog</LinkTitle>
-                    <SearchForActivist to = '/search'>Search For A Activist</SearchForActivist>
-                    <LinkTitle to = '/login'><span onClick = {logout}>Logout</span></LinkTitle>
-                </RightPart>
-            </Content>
-        </Container>
-    );
+    useEffect(() => {
+        setRedirectToLogin(false);
+    }, [props])
+    if (props.showNavBar) {
+        return (
+            <Container>
+                {redirectToLogin ? <Redirect to='/login' /> : ''}
+                <Content>
+                    <LogoTitle to='/home'>Connecting For Change</LogoTitle>
+                    <RightPart>
+                        {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
+                        <LinkTitle to='/home'>About Page</LinkTitle>
+                        <LinkTitle to='/search'><BlueColor>Search For A Activist</BlueColor></LinkTitle>
+                        <LinkTitle to='/login'><span onClick={logoutLogin}>{props.logedIn ? "logout" : "login"}</span></LinkTitle>
+                    </RightPart>
+                </Content>
+            </Container>
+        );
+    } else {
+        return <div></div>
+    }
 }
 
 const mapStateToProps = (state: any) => {
@@ -100,8 +107,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatchMethod: any) => {
     return {
-        login: (loginInfo: any) => { dispatchMethod({type: 'LOGIN', loginInfo: loginInfo})}
+        login: (loginInfo: any) => { dispatchMethod({ type: 'LOGIN', loginInfo: loginInfo }) }
     }
 }
-   
+
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

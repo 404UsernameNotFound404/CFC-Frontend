@@ -9,7 +9,9 @@ import UserPage from './Components/Pages/Page/UserPage';
 import {
   BrowserRouter as Router,
   Route,
-  Redirect
+  Redirect,
+  Switch,
+
 } from "react-router-dom";
 import { connect } from 'react-redux';
 import Cookie from 'js-cookie'
@@ -19,41 +21,34 @@ const axios = require("axios");
 
 function App(props: any) {
   const [redirectToLogin, setRedirectToLogin] = useState(false);
-  const [first, setFirst] = useState(true);
-  
+  const [showNavBar, setShowNavBar] = useState(true);
+
   const RedirectToLogin = () => {
-    if(redirectToLogin) return <Redirect to = '/login' />;
+    if (redirectToLogin) return <Redirect to='/login' />;
   }
 
-  // const RedirectToHome = () => {
-  //   if(props.loggedIn) return <Redirect to = '/home' />;
-  // }
+  const showNavBarFunct = () => {
+    setRedirectToLogin(false);
+    setShowNavBar(true);
+    return <></>
+  }
 
   const checkToken = async () => {
     try {
-      if (!!Cookie.get("authToken")) {
-        const res = await axios.post(`${BASEURL}/checkToken`, JSON.stringify({JWTToken: Cookie.get("authToken")}));
+      if (Cookie.get("authToken").length > 0) {
+        const res = await axios.post(`${BASEURL}/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
         if (res.data.Valid.length > 0) {
-          props.updateUserData({JWTToken: Cookie.get("authToken")})
+          props.updateUserData({ JWTToken: Cookie.get("authToken"), UserID: res.data.Valid })
         } else {
           setRedirectToLogin(true);
-          console.log("ahhhhhh")
           throw "auth token wrong or expired"
         }
       } else {
         throw "no auth token"
       }
     } catch (err) {
-      props.updateUserData({JWTToken: ""})
-      setRedirectToLogin(true);
-    }
-    setFirst(false);
-  }
-
-  const checkLoggedInStatus = () => {
-    if(!props.loggedIn) {
-      console.log("asdjkaskd")
-      setRedirectToLogin(true);
+      console.log(err)
+      props.updateUserData({ JWTToken: "", UserID: "" })
     }
   }
 
@@ -61,19 +56,28 @@ function App(props: any) {
     checkToken();
   }, [])
 
-  useEffect(() => {
-    if(!first) checkLoggedInStatus();
-  });
+  const onLoginPage = () => {
+    setShowNavBar(false);
+    return <Login />;
+  }
 
   return (
     <div>
       <Router>
+        {console.log(redirectToLogin)}
         {RedirectToLogin()}
-        <Route path = '/home' component = {Home} />
-        <Route path = '/search' component = {Search} />
-        <Route path = '/login' component = {Login} />
-        <Route path = '/page' component = {UserPage} />
-        {props.loggedIn ? <NavBar /> : ''}
+        <Route component={showNavBarFunct} />
+        <Switch>
+          <Route path='/home' component={Home} />
+          <Route path='/search' component={Search} />
+          <Route path='/login' component={onLoginPage} />
+          <Route path='/page' component={UserPage} />
+          <Redirect from = '/edit' to ={`/page?id=${props.user.UserID}`} />
+          <Route path='/about' component={Home} />
+          <Route path='/learn' component={Home} />
+          <Route component={Home} />
+        </Switch>
+        <NavBar showNavBar={showNavBar} logedIn={props.loggedIn} />
       </Router>
     </div>
   );
@@ -88,8 +92,8 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatchMethod: any) => {
   return {
-    updateUserData: (loginInfo: any) => { dispatchMethod({type: 'LOGIN', loginInfo: loginInfo})}
+    updateUserData: (loginInfo: any) => { dispatchMethod({ type: 'LOGIN', loginInfo: loginInfo }) }
   }
 }
- 
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);

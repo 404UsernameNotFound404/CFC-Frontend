@@ -12,7 +12,7 @@ user {
 }
 */
 const userReducer = (state = initState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case 'ADD_USER_DATA':
             return {
                 ...state,
@@ -20,21 +20,21 @@ const userReducer = (state = initState, action) => {
             }
             break;
         case 'LOGIN':
-            const { JWTToken } = action.loginInfo;
-                Cookie.set("authToken", JWTToken)
-                if(JWTToken.length > 1) {
-                    return {
-                        ...state,
-                        user: {AuthToken: JWTToken},
-                        loggedIn: true
-                    }
-                } else {
-                    return {
-                        ...state,
-                        user: {AuthToken: JWTToken},
-                        loggedIn: false
-                    }
+            const { JWTToken, UserID } = action.loginInfo;
+            Cookie.set("authToken", JWTToken)
+            if (JWTToken.length > 1) {
+                return {
+                    ...state,
+                    user: { AuthToken: JWTToken, UserID },
+                    loggedIn: true
                 }
+            } else {
+                return {
+                    ...state,
+                    user: { AuthToken: JWTToken },
+                    loggedIn: false
+                }
+            }
             break;
     }
     return state;

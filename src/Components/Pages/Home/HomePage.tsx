@@ -76,10 +76,7 @@ const BlueHighlight = styled.span`
     color: #3c78d8;
 `;
 
-function HomePage(props: any) {
-    // useEffect(() => {
-    //     console.log(props);
-    // })
+function HomePage() {
     return (
         <PageContainer>
             <TopPart>

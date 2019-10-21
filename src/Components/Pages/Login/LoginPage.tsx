@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
@@ -81,16 +81,31 @@ const ForgotRegisterText = styled.p`
     :hover {
         text-decoration: underline;
     }
-`
+`;
+
+const SkipAndGoToHome = styled.div`
+    background-color: forestgreen;
+    width: 14em;
+    padding: 0.5em 0;
+    margin: auto;
+    border-radius: 1em;
+    text-align: center;
+    color: white;
+    margin-top: 1em;
+    cursor: pointer;
+    &:hover {
+        color: black;
+    }
+`;
 
 type Props = {
-    user: {Username: string, Password: string}
     login: Function;
+    loggedIn: boolean
 }
 
 function LoginPage(props: Props) {
     const [register, setRegister] = useState(false);
-    const [reToHome, setReToHome] = useState(false);
+    const [reToHome, setReToHome] = useState(false); 
 
     const registerClick = () => {
         if(register) setRegister(false)
@@ -98,12 +113,9 @@ function LoginPage(props: Props) {
         //set inputs to zero later
     }
 
-    const RedirectToHome = () => {
-        return <Redirect to = '/home' />
-    }
-
     return (
         <Page>
+            {props.loggedIn ? <Redirect to = '/home' /> : ''}
             <BackgroundImageContainer>
                 {/* <BackgroundImageOverlay /> */}
                 <BackgroundImage src={ProtestPhoto} />
@@ -115,15 +127,16 @@ function LoginPage(props: Props) {
                     {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
                     <ForgotRegisterText onClick={registerClick}>{register ? 'Go To Login' : 'Create An Acount'}</ForgotRegisterText>
                 </RegisterAndForgotUsername>
+                <SkipAndGoToHome onClick = {() => {setReToHome(true)}}>Skip And Go To Home Page</SkipAndGoToHome>
             </Content>
-            {reToHome ? RedirectToHome() : ''}
+            {reToHome ? <Redirect to = '/home' /> : ''}
         </Page>
     );
 }
 
 const mapStateToProps = (state: any) => {
     return {
-      user: state.user
+      loggedIn: state.loggedIn
     }
   }
   

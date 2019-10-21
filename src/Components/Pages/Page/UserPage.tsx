@@ -126,7 +126,7 @@ function UserPage(props: Props) {
                     {editMode ? <ParaInput value = {paraInputTwo} /> : <Para>{paraText}</Para>}
                 </TextContent>
                 {editMode ? 
-                    <BasicButton activateButton = {updatePage} text = "edit" active = {editMode} width = {'5em'} id = {20} /> 
+                    <BasicButton activateButton = {updatePage} text = "Update" active = {!editMode} width = {'5em'} id = {20} /> 
                 : ''}
             </Content>
         </Page>

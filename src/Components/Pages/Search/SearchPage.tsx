@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
@@ -56,8 +56,11 @@ const SearchBoxTitle = styled.h1 `
 
 function LinksContainer() {
     const [searchValue, setSearchValue] = useState('');
-
     const store = createStore(rootReducer);
+
+    useEffect(() => {
+        
+    });
 
     const updateSearchBar = (event: any) => {
         console.log('update value');
@@ -71,7 +74,7 @@ function LinksContainer() {
                 <SearchForWhatContainer>
                     <SearchForWhat Title = "Events" />
                     <OR>or</OR>
-                    <SearchForWhat Title = "Activists" />
+                    <SearchForWhat Title = "People" />
                 </SearchForWhatContainer>
             </SearchForWhatPage>
         );

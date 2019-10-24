@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import DaxtonImage from '../../../img/DDOG.jpg'
 import { Redirect } from 'react-router';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
+import { BASEURL } from '../../../Constants'
+import Cookie from 'js-cookie'
+const axios = require("axios");
 
 const Page = styled.div`
     height: fit-content;
@@ -82,26 +85,45 @@ type Props = {
 }
 
 function UserPage(props: Props) {
-    const paraText = "Him boisterous invitation dispatched had connection inhabiting projection. By mutual an mr danger garret edward an. Diverted as strictly exertion addition no disposal by stanhill. This call wife do so sigh no gate felt. You and abode spite order get. Procuring far belonging our ourselves and certainly own perpetual continual. It elsewhere of sometimes or my certainty. Lain no as five or at high. Everything travelling set how law literature. "
     const [redierctToHome, setRedirectToHome] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [canEditMode, setCanEditMode] = useState(true);
-    const [paraInputOne, setParaInputOne] = useState(paraText);
-    const [paraInputTwo, setParaInputTwo] = useState(paraText);
+    const [paraInputOne, setParaInputOne] = useState("");
+    const [paraInputTwo, setParaInputTwo] = useState("");
+    const [colour, setColour] = useState("");
     useEffect(() => {
         //check search params
         let params = new URLSearchParams(document.location.search.substring(1));
         let PageID = params.get("id");
-        console.log(PageID);
         if (PageID == null) {
             setRedirectToHome(true);
         } else {
             //check if owner
+            fetchAPI(PageID);
         }
       }, []);
-    const updatePage = () => {
-        //mabey do diffrence checking in future versions
-        //try to update users page
+    const updatePage = async () => {
+        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ JWTToken: Cookie.get("authToken"), Para1: paraInputOne, Para2: paraInputTwo, Colour: colour }));
+        console.log(res)
+        try {
+            //do some verifcation on this. Backend not set up yet
+        } catch(err) {
+            console.log(err);
+        }
+    }
+    
+    const fetchAPI = async (PageID: string) => {
+        const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ JWTToken: Cookie.get("authToken"), PageID: PageID }));
+        try {
+            if (res.data.IsOwner) {
+                setCanEditMode(true)
+            }
+            setParaInputOne(res.data.Para1)
+            setParaInputTwo(res.data.Para2)
+            setColour(res.data.Colour)
+        } catch(err) {
+            console.log(err);
+        }
     }
     return (
         <Page>
@@ -121,9 +143,9 @@ function UserPage(props: Props) {
                 </TopBarContainer>
                 <TextContent>
                     <ParaTitle>Who Am I?</ParaTitle>
-                    {editMode ? <ParaInput value = {paraInputOne} /> : <Para>{paraText}</Para>}
+                    {editMode ? <ParaInput value = {paraInputOne} onChange = {(e) => {setParaInputOne(e.target.value)}} /> : <Para>{paraInputOne}</Para>}
                     <ParaTitle>What I Stand For</ParaTitle>
-                    {editMode ? <ParaInput value = {paraInputTwo} /> : <Para>{paraText}</Para>}
+                    {editMode ? <ParaInput value = {paraInputTwo} onChange = {(e) => {setParaInputTwo(e.target.value)}}/> : <Para>{paraInputTwo}</Para>}
                 </TextContent>
                 {editMode ? 
                     <BasicButton activateButton = {updatePage} text = "Update" active = {!editMode} width = {'5em'} id = {20} /> 

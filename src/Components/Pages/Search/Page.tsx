@@ -46,6 +46,7 @@ const ElevatorPitch = styled.h1`
     text-align: center;
     width: 95%;
     margin: 1em auto;
+    text-overflow: ellipsis;
 `;
 
 const SeeMoreButton = styled.div`
@@ -75,7 +76,7 @@ type Props = {
     para: string
 }
 
-function Activst(props: Props) {
+function Page(props: Props) {
     const [buttonState, setButtonState] = useState(false);
 
     const buttonClicked = () => {
@@ -90,12 +91,11 @@ function Activst(props: Props) {
             <Cause>Indegnous Stuff, Envorment Stuff</Cause>
             <WhereTheyAreBased>Ottawa, Ontario, Canada</WhereTheyAreBased>
             <ElevatorPitch>
-                I am Daxton Rhead, I am a poopy pants. I need more text
-                so I am writing more, this is probably goood.
+                {props.para}
             </ElevatorPitch>
             <BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} />
         </Container>
     );
 }
 
-export default Activst;
+export default Page;

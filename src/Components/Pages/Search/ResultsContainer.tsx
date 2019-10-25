@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Activst from './Page';
+import Page from './Page';
 import DefaultImage from '../../../img/default.jpg';
-import { BASEURL } from '../../../Constants'
-import Cookie from 'js-cookie'
+import { BASEURL } from '../../../Constants';
+import Cookie from 'js-cookie';
 const axios = require("axios");
 
 
@@ -33,7 +33,7 @@ function SearchBar(props: Props) {
     return (
         <Container>
             {
-                pages.map((ele, i) => <Activst name = {ele.Name} img = {DefaultImage} para = {ele.Para1} key = {i} />)
+                pages.map((ele, i) => <Page ID = {ele.PageID}name = {ele.Name} img = {DefaultImage} para = {ele.Para1} key = {i} />)
             }
         </Container>
     );

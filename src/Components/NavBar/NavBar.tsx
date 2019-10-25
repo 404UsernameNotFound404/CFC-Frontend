@@ -89,7 +89,7 @@ function NavBar(props: NavBarProps) {
                         {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
                         <LinkTitle to='/home'>About Page</LinkTitle>
                         {/* <LinkTitle to='/learn'>Learn About The Issues</LinkTitle> */}
-                        <LinkTitle to='/search'><BlueColor>Search For A Activist</BlueColor></LinkTitle>
+                        <LinkTitle to='/search'><BlueColor>Search For An Activist</BlueColor></LinkTitle>
                         <LinkTitle to='/login'><span onClick={logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
                     </RightPart>
                 </Content>

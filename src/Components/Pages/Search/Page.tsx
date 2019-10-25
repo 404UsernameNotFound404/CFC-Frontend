@@ -1,6 +1,7 @@
 import React, { useState }from 'react';
 import styled from 'styled-components';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     border: black 0.2rem solid;
@@ -75,7 +76,8 @@ const ButtonContainer = styled.div`
 type Props = {
     name: string,
     img: string,
-    para: string
+    para: string,
+    ID: string
 }
 
 function Page(props: Props) {
@@ -95,7 +97,7 @@ function Page(props: Props) {
             <ElevatorPitch>
                 {props.para.substring(0,80)}...
             </ElevatorPitch>
-            <BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} />
+            <Link to =  {`/page?id=${props.ID}`}><BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} /></Link>
         </Container>
     );
 }

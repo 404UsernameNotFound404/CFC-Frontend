@@ -5,6 +5,7 @@ import PeopleTalking from '../../img/people-talking.png';
 import LinkBox from './LinkContainer';
 import PlaceHolder from '../../../img/placeholder.png';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const PageContainer = styled.div`
    
@@ -33,6 +34,7 @@ const LookForActvitsButtonContainer = styled.div`
     bottom: 7.5em;
     height: fit-content;
     width: 100%;
+    display: flex;
 `;
 
 const PageQuote = styled.h1`
@@ -53,7 +55,7 @@ const LinksContainer = styled.div`
     justify-content: center;
 `;
 
-const LookForActvitsButton = styled.div`
+const LookForActvitsButton = styled(Link)`
     cursor: pointer;
     border: black thin solid;
     color: black;
@@ -65,6 +67,7 @@ const LookForActvitsButton = styled.div`
     margin: 0em auto;
     margin-top: 20em;
     transition: all 0.4s ease 0s;
+    text-decoration: none;
     &:hover {
         background-color: #3c78d8;
         color: white;
@@ -81,10 +84,10 @@ function HomePage() {
         <PageContainer>
             <TopPart>
                 <QuoteContainer>
-                    <PageQuote>"Without <BlueHighlight>activists</BlueHighlight> where would we be. activists where would we be."</PageQuote>
+                    <PageQuote>"Without <BlueHighlight>activists</BlueHighlight> where would we be. Activists where would we be."</PageQuote>
                 </QuoteContainer>
                 <LookForActvitsButtonContainer>
-                    <LookForActvitsButton>Find Actvists</LookForActvitsButton>
+                    <LookForActvitsButton to = '/search'>Find Activists</LookForActvitsButton>
                 </LookForActvitsButtonContainer>
             </TopPart>
             <LinksContainer>

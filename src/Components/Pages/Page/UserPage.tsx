@@ -115,6 +115,7 @@ function UserPage(props: Props) {
     
     const fetchAPI = async (PageID: string) => {
         const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ JWTToken: Cookie.get("authToken"), PageID: PageID }));
+        console.log(res)
         try {
             if (res.data.IsOwner) {
                 setCanEditMode(true)

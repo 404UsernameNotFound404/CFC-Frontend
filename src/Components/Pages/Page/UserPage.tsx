@@ -91,6 +91,7 @@ function UserPage(props: Props) {
     const [paraInputOne, setParaInputOne] = useState("");
     const [paraInputTwo, setParaInputTwo] = useState("");
     const [colour, setColour] = useState("");
+    const [name, setName] = useState("");
     useEffect(() => {
         //check search params
         let params = new URLSearchParams(document.location.search.substring(1));
@@ -103,7 +104,7 @@ function UserPage(props: Props) {
         }
       }, []);
     const updatePage = async () => {
-        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ JWTToken: Cookie.get("authToken"), Para1: paraInputOne, Para2: paraInputTwo, Colour: colour }));
+        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ JWTToken: Cookie.get("authToken"), Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name }));
         console.log(res)
         try {
             //do some verifcation on this. Backend not set up yet
@@ -121,9 +122,18 @@ function UserPage(props: Props) {
             setParaInputOne(res.data.Para1)
             setParaInputTwo(res.data.Para2)
             setColour(res.data.Colour)
+            setName(res.data.Name)
         } catch(err) {
             console.log(err);
         }
+    }
+
+    const convertCleanStringToReadable = () => {
+
+    }
+
+    const cleanString = () => {
+        
     }
     return (
         <Page>
@@ -132,7 +142,7 @@ function UserPage(props: Props) {
                 <TopBarContainer>
                     <ProfileImage src = {DaxtonImage} />
                     <TopBarTextContainer>
-                        <TopBarText>Henry Morris</TopBarText>
+                        <TopBarText>{name}</TopBarText>
                         <TopBarText>email@email.ca</TopBarText>
                         <TopBarText>613-132-4512</TopBarText>
                     </TopBarTextContainer>

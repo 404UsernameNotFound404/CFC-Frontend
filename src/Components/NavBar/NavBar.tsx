@@ -70,7 +70,7 @@ type NavBarProps = {
 function NavBar(props: NavBarProps) {
     const [redirectToLogin, setRedirectToLogin] = useState(false);
     const logoutLogin = () => {
-        if(props.logedIn) {
+        if (props.logedIn) {
             props.login({ JWTToken: "" })
         } else {
             setRedirectToLogin(true);
@@ -88,8 +88,9 @@ function NavBar(props: NavBarProps) {
                     <RightPart>
                         {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
                         <LinkTitle to='/home'>About Page</LinkTitle>
+                        {/* <LinkTitle to='/learn'>Learn About The Issues</LinkTitle> */}
                         <LinkTitle to='/search'><BlueColor>Search For A Activist</BlueColor></LinkTitle>
-                        <LinkTitle to='/login'><span onClick={logoutLogin}>{props.logedIn ? "logout" : "login"}</span></LinkTitle>
+                        <LinkTitle to='/login'><span onClick={logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
                     </RightPart>
                 </Content>
             </Container>

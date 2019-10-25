@@ -44,9 +44,11 @@ const WhereTheyAreBased = styled.h1`
 const ElevatorPitch = styled.h1`
     font-size: 1em;
     text-align: center;
-    width: 95%;
+    width: 90%;
     margin: 1em auto;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; */
 `;
 
 const SeeMoreButton = styled.div`
@@ -91,7 +93,7 @@ function Page(props: Props) {
             <Cause>Indegnous Stuff, Envorment Stuff</Cause>
             <WhereTheyAreBased>Ottawa, Ontario, Canada</WhereTheyAreBased>
             <ElevatorPitch>
-                {props.para}
+                {props.para.substring(0,80)}...
             </ElevatorPitch>
             <BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} />
         </Container>

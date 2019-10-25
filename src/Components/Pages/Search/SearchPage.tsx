@@ -84,8 +84,8 @@ function LinksContainer() {
                 <PageContainer>
                     <TopPartPage>
                         <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
-                        <SearchBar changeValue={updateSearchBar} value={searchValue} />
-                        <CategorySearch text={'asd'} />
+                        {/* <SearchBar changeValue={updateSearchBar} value={searchValue} />
+                        <CategorySearch text={'asd'} /> */}
                     </TopPartPage>
                     <SearchResults WhatWasSearched={'asd'} />
                 </PageContainer>

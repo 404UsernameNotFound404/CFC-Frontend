@@ -21,7 +21,7 @@ type Props = {
 function SearchBar(props: Props) {
     return (
         <Container>
-            <WhatIsSearch>Results of search</WhatIsSearch>
+            {/* <WhatIsSearch>Results of search</WhatIsSearch> */}
             <ResultsContainer text={'asd'} />
         </Container>
     );

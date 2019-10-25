@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Activst from './Page';
-import DefaultImage from '../../../img/defaultImg.png';
+import DefaultImage from '../../../img/default.jpg';
 import { BASEURL } from '../../../Constants'
 import Cookie from 'js-cookie'
 const axios = require("axios");
@@ -12,6 +12,7 @@ const Container = styled.div`
     width: fit-content;
     margin: auto;
     display: flex;
+    justify-content: center;
 `;
 
 type Props = {

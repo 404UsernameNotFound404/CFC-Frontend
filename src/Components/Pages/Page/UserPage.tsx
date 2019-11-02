@@ -56,15 +56,19 @@ const ParaInput = styled.textarea`
     resize: none;
     overflow: none;
     border: lightgrey solid thin;
-    /* background-color: grey; */
-    font-size: 1.5em;
+    font-size: 1.5rem;
     font-family: 'Cormorant Garamond', serif;
+    font-style: normal;
+    text-align: center;
 `;
 
 const Para = styled.p`
     width: 80%;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     margin: auto;
+    font-weight: lighter;
+    font-style: normal;
+    font-family: 'Cormorant Garamond', serif;
 `;
 
 const Content = styled.div`
@@ -76,6 +80,14 @@ const EditButtonContianer = styled.div`
     height: fit-content;
     margin: auto 0;
     margin-left: 3em;
+`;
+
+const MessageToUser = styled.h1`
+    font-size: 1em;
+    text-align: center;
+    width: 15em;
+    margin: 1rem;
+    margin-right: auto;
 `;
 
 type Props = {
@@ -92,6 +104,13 @@ function UserPage(props: Props) {
     const [paraInputTwo, setParaInputTwo] = useState("");
     const [colour, setColour] = useState("");
     const [name, setName] = useState("");
+    const [orginalPara1, setOrginalPara1] = useState("");
+    const [orginalPara2, setOrginalPara2] = useState("");
+    const [messageToUser, setMessageToUser] = useState("");
+    const [deleteChanges, setDeleteChanges] = useState(false);
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhone] = useState("");
+
     useEffect(() => {
         //check search params
         let params = new URLSearchParams(document.location.search.substring(1));
@@ -104,12 +123,20 @@ function UserPage(props: Props) {
         }
       }, []);
     const updatePage = async () => {
+        if (orginalPara1 == paraInputOne && orginalPara2 == paraInputTwo) {
+            setMessageToUser("successfully updated page")
+            setEditMode(false);
+            return
+        }
         const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ JWTToken: Cookie.get("authToken"), Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name }));
-        console.log(res)
         try {
-            //do some verifcation on this. Backend not set up yet
+            if (res.data.Error.length >= 0) {
+                setMessageToUser("could not update")
+                return
+            }
+            resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
         } catch(err) {
-            console.log(err);
+            resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
         }
     }
     
@@ -120,12 +147,47 @@ function UserPage(props: Props) {
             if (res.data.IsOwner) {
                 setCanEditMode(true)
             }
+            setOrginalPara1(res.data.Para1)
+            setOrginalPara2(res.data.Para2)
             setParaInputOne(res.data.Para1)
             setParaInputTwo(res.data.Para2)
             setColour(res.data.Colour)
             setName(res.data.Name)
+            setEmail(res.data.Email)
         } catch(err) {
             console.log(err);
+        }
+    }
+
+    const switchEditMode = () => {
+        if (editMode) {
+            if(deleteChanges) {
+                setDeleteChanges(false);
+                resetParagraphsOrginalsAndSendMessage(false, "");
+                return
+            }
+            if (orginalPara1 != paraInputOne || orginalPara2 != paraInputTwo) {
+                setDeleteChanges(true);
+                setMessageToUser("Un updated changes. Click again if you want to delete changes")
+                return
+            }
+            setMessageToUser("");
+            setEditMode(false);
+        } else {
+            setMessageToUser("");
+            setEditMode(true);
+        }
+    }
+
+    const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean,  message: string) => {
+        setMessageToUser(message);
+        setEditMode(false);
+        if (setOrginal) {
+            setOrginalPara1(paraInputOne);
+            setOrginalPara2(paraInputTwo);
+        } else {
+            setParaInputOne(orginalPara1);
+            setParaInputTwo(orginalPara2);
         }
     }
 
@@ -144,18 +206,21 @@ function UserPage(props: Props) {
                     <ProfileImage src = {DaxtonImage} />
                     <TopBarTextContainer>
                         <TopBarText>{name}</TopBarText>
-                        <TopBarText>email@email.ca</TopBarText>
-                        <TopBarText>613-132-4512</TopBarText>
+                        <TopBarText>{email}</TopBarText>
+                        <TopBarText>{phoneNumber}</TopBarText>
                     </TopBarTextContainer>
                     {canEditMode ? 
                     <EditButtonContianer>
-                        <BasicButton activateButton = {editMode ?  () => {setEditMode(false)} : () => {setEditMode(true)}} text = "edit" active = {editMode} width = {'5em'} id = {20} /> 
+                        <MessageToUser>{messageToUser}</MessageToUser>
+                        <BasicButton activateButton = {switchEditMode} text = "edit" active = {editMode} width = {'5em'} id = {20} /> 
                     </EditButtonContianer> : ''}
                 </TopBarContainer>
                 <TextContent>
                     <ParaTitle>Who Am I?</ParaTitle>
+                    {paraInputOne == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
                     {editMode ? <ParaInput value = {paraInputOne} onChange = {(e) => {setParaInputOne(e.target.value)}} /> : <Para>{paraInputOne}</Para>}
                     <ParaTitle>What I Stand For</ParaTitle>
+                    {paraInputTwo == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
                     {editMode ? <ParaInput value = {paraInputTwo} onChange = {(e) => {setParaInputTwo(e.target.value)}}/> : <Para>{paraInputTwo}</Para>}
                 </TextContent>
                 {editMode ? 

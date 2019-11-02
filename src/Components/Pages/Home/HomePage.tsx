@@ -79,12 +79,18 @@ const BlueHighlight = styled.span`
     color: #3c78d8;
 `;
 
+const QuoteAuthor = styled.span`
+    font-size: 0.75em;
+    color: grey;
+    font-weight: bolder;
+`;
+
 function HomePage() {
     return (
         <PageContainer>
             <TopPart>
                 <QuoteContainer>
-                    <PageQuote>"Without <BlueHighlight>activists</BlueHighlight> where would we be. Activists where would we be."</PageQuote>
+                    <PageQuote>"Never dought that a <BlueHighlight>small group</BlueHighlight> of thoughtful committed citszens can <BlueHighlight>change the world</BlueHighlight>"<br/><QuoteAuthor>Margaret Mead</QuoteAuthor></PageQuote>
                 </QuoteContainer>
                 <LookForActvitsButtonContainer>
                     <LookForActvitsButton to = '/search'>Find Activists</LookForActvitsButton>

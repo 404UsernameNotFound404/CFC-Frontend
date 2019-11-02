@@ -92,8 +92,6 @@ function Page(props: Props) {
         <Container>
             <PortraitOfActivist src={props.img} />
             <Name>{props.name}</Name>
-            <Cause>Indegnous Stuff, Envorment Stuff</Cause>
-            <WhereTheyAreBased>Ottawa, Ontario, Canada</WhereTheyAreBased>
             <ElevatorPitch>
                 {props.para.substring(0,80)}...
             </ElevatorPitch>

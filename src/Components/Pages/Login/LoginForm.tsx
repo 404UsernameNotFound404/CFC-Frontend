@@ -114,24 +114,27 @@ function LoginForm(props: Props) {
 
     const register = async () => {
         try {
+            //checking if the password and re-entred passwords match
             if (registerValues[1] != registerValues[2]) {
                 setMessage({ error: true, message: "Passwords do not match" })
                 funcSetRegisterValues("", 1);
                 funcSetRegisterValues("", 2);
                 return;
             }
+            //password minum requirement check(Must be at least eight characters and have 1 number and letter)
             if(!registerValues[1].match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
                 setMessage({ error: true, message: "Password must be 8 characters with atleast one number and letter" })
                 funcSetRegisterValues("", 1);
                 funcSetRegisterValues("", 2);
                 return;
             }
+            //email check
             if(!registerValues[0].match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
                 setMessage({ error: true, message: "Email is not properly formated" })
                 funcSetRegisterValues("", 0);
                 return;
             }
-            let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3] });
+            let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4]});
             if (res.data.Valid.length > 0) {
                 setMessage({ error: false, message: "Registered Sucssfully" })
                 props.setRegister(false);
@@ -176,6 +179,8 @@ function LoginForm(props: Props) {
                 <LoginInput value={registerValues[2]} onChange={(e) => { funcSetRegisterValues(e.target.value, 2) }} placeholder="Re-Enter Password" type='password' />
                 <BreakLine />
                 <LoginInput value={registerValues[3]} onChange={(e) => { funcSetRegisterValues(e.target.value, 3) }} placeholder="Phone Number" />
+                <BreakLine />
+                <LoginInput value={registerValues[4]} onChange={(e) => { funcSetRegisterValues(e.target.value, 4) }} placeholder="Name" />
                 <BasicButton activateButton={register} width={"45%"} text={"Register"} active={false} id={20} />
             </Content>
         );

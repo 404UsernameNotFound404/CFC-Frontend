@@ -3,9 +3,10 @@ import Home from './Components/Pages/Home/HomePage';
 import Search from './Components/Pages/Search/SearchPage';
 import NavBar from './Components/NavBar/NavBar';
 import Login from './Components/Pages/Login/LoginPage';
-import EditPage from './Components/Pages/Edit/EditPage'
+import AboutPage from './Components/Pages/About/AboutPage'
 import { BASEURL } from './Constants';
 import UserPage from './Components/Pages/Page/UserPage';
+import LearningPage from './Components/Pages/Learning/LearnPage'
 import {
   BrowserRouter as Router,
   Route,
@@ -73,8 +74,8 @@ function App(props: any) {
           <Route path='/login' component={onLoginPage} />
           <Route path='/page' component={UserPage} />
           <Redirect from = '/edit' to ={`/page?id=${props.user.UserID}`} />
-          <Route path='/about' component={Home} />
-          <Route path='/learn' component={Home} />
+          <Route path='/about' component={AboutPage} />
+          <Route path='/learn' component={LearningPage} />
           <Route component={Home} />
         </Switch>
         <NavBar showNavBar={showNavBar} logedIn={props.loggedIn} />

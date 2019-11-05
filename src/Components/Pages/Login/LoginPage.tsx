@@ -9,6 +9,7 @@ import {
     Redirect
   } from "react-router-dom";
 import { connect } from 'react-redux';
+import { useMediaQuery } from 'react-responsive'
 
 
 const axios = require('axios');
@@ -16,6 +17,10 @@ const axios = require('axios');
 
 const Page = styled.div`
     width: 75em;
+    @media (max-width: 768px) {
+        width: 95%;
+    }
+    
     height: 97.75vh;
     margin: auto;
     display: flex;
@@ -24,15 +29,8 @@ const Page = styled.div`
 
 const SubTitle = styled.h1`
     margin: 0.2em;
-    font-size: 3em;
-    text-align: center;
-`;
-
-const Logo = styled.h1`
     font-size: 2em;
-    margin: 0;
     text-align: center;
-    font-weight: bolder;
 `;
 
 const Content = styled.div`
@@ -40,6 +38,10 @@ const Content = styled.div`
     width: 100%;
     margin: auto 0;
     margin-left: 40%;
+    @media (max-width: 768px) {
+        margin: auto;
+    }
+    
 `;
 
 const BackgroundImage = styled.img`
@@ -106,6 +108,7 @@ type Props = {
 function LoginPage(props: Props) {
     const [register, setRegister] = useState(false);
     const [reToHome, setReToHome] = useState(false); 
+    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
 
     const registerClick = () => {
         if(register) setRegister(false)
@@ -116,10 +119,12 @@ function LoginPage(props: Props) {
     return (
         <Page>
             {props.loggedIn ? <Redirect to = '/home' /> : ''}
-            <BackgroundImageContainer>
-                {/* <BackgroundImageOverlay /> */}
-                <BackgroundImage src={ProtestPhoto} />
-            </BackgroundImageContainer>
+            { isPhone ?
+                <BackgroundImageContainer>
+                    <BackgroundImage src={ProtestPhoto} />
+                </BackgroundImageContainer>
+                : ""
+            }
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
                 <LoginForm setRegister = {setRegister} register = {register}/>

@@ -8,51 +8,41 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const PageContainer = styled.div`
-   
+   height: 100vh;
+   display: flex;
+   justify-content: center;
 `;
 
 const TopPart = styled.div`
-    /* background-image: url(${NatureImage}); */
     background-size: 100%;
     background-repeat: no-repeat;
-    height: 98vh;
+    height: fit-content;
     width: 100%;
-    overflow: hidden;
-    position: relative;
-`;
-
-const QuoteContainer = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
+    margin: auto;
 `;
 
 const LookForActvitsButtonContainer = styled.div`
-    position: absolute;
-    bottom: 7.5em;
+    @media (max-width: 768px) {
+        
+    }
     height: fit-content;
     width: 100%;
     display: flex;
 `;
 
 const PageQuote = styled.h1`
-    width: 95%;
-    margin: auto;
+    width: 100%;
+    margin: 0 auto;
     text-align: center;
     font-size: 4em;
+    @media (max-width: 768px) {
+        font-size: 2.75em;
+        margin-bottom: 0em;
+    }
     /* color: white; */
   
     height: fit-content;
     display: inline-block;
-`;
-
-const LinksContainer = styled.div`
-    width: 75em;
-    margin: auto;
-    display: flex;
-    justify-content: center;
 `;
 
 const LookForActvitsButton = styled(Link)`
@@ -65,7 +55,10 @@ const LookForActvitsButton = styled(Link)`
     padding: 0.5em 2em;
     border-radius: 1em;
     margin: 0em auto;
-    margin-top: 20em;
+    margin-top: 2em;
+    @media (max-width: 768px) { 
+        margin-top: 1em;
+    }
     transition: all 0.4s ease 0s;
     text-decoration: none;
     &:hover {
@@ -89,17 +82,11 @@ function HomePage() {
     return (
         <PageContainer>
             <TopPart>
-                <QuoteContainer>
-                    <PageQuote>"Never dought that a <BlueHighlight>small group</BlueHighlight> of thoughtful committed citszens can <BlueHighlight>change the world</BlueHighlight>"<br/><QuoteAuthor>Margaret Mead</QuoteAuthor></PageQuote>
-                </QuoteContainer>
+                <PageQuote>"Never doubt that a <BlueHighlight>small group</BlueHighlight> of thoughtful committed citizens can <BlueHighlight>change the world</BlueHighlight>"<br/><QuoteAuthor>Margaret Mead</QuoteAuthor></PageQuote>
                 <LookForActvitsButtonContainer>
                     <LookForActvitsButton to = '/search'>Find Activists</LookForActvitsButton>
                 </LookForActvitsButtonContainer>
             </TopPart>
-            <LinksContainer>
-                <LinkBox left={true} desc={'Learn about the issues'} backgroundImage={PlaceHolder} />
-                <LinkBox left={false} desc={'Blog'} backgroundImage={PlaceHolder} />
-            </LinksContainer>
         </PageContainer>
     );
 }

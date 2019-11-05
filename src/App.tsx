@@ -48,14 +48,13 @@ function App(props: any) {
         throw "no auth token"
       }
     } catch (err) {
-      console.log(err)
       props.updateUserData({ JWTToken: "", UserID: "" })
     }
   }
 
   useEffect(() => {
     checkToken();
-  }, [])
+  }, [props.loggedIn])
 
   const onLoginPage = () => {
     setShowNavBar(false);

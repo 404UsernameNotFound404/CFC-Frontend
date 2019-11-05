@@ -6,16 +6,27 @@ import EnvormentImage from '../../../img/envormentPhoto.jpg'
 const Page = styled.div`
     width: 75em;
     margin: 10em auto;
+    @media (max-width: 768px) {
+        width: 90%;
+        margin: 7em auto;
+    }
 `;
 
 const Title = styled.h1`
     font-size: 4em;
+    @media (max-width: 768px) {
+        font-size: 2em;
+        width: 90%;
+    }
 `;
 
 const IssuesContainer = styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    @media (max-width: 768px) {
+        display: inline;
+    }
 `;
 
 function LearnPage(props: any) {
@@ -27,7 +38,7 @@ function LearnPage(props: any) {
   ]
   return (
     <Page>
-        <Title>Title Title Can't think of title</Title>
+        <Title>Learn About The Issues</Title>
         <IssuesContainer>
             {
                 issues.map(ele => <Issue title = {ele.Title} subTitle = {ele.SubTitle} para = {ele.Para} imageURL = {EnvormentImage} />)

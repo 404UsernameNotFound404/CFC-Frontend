@@ -7,6 +7,9 @@ const Container = styled.div`
     height: fit-content;
     margin: auto;
     padding-bottom: 2em;
+    @media (max-width: 768px) { 
+        width: 100% !important;
+    }
 `;
 
 const WhatIsSearch = styled.h1`

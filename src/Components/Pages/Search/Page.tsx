@@ -9,6 +9,12 @@ const Container = styled.div`
     width: 30%;
     margin: 1.5%;
     border-radius: 1em;
+    @media (max-width: 768px) { 
+        border-width: 1%;
+        width: 98%;
+        margin: 1.5em 0;
+        padding: 0;
+    }
 `;
 
 const Name = styled.h1`
@@ -50,27 +56,6 @@ const ElevatorPitch = styled.h1`
     /* text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden; */
-`;
-
-const SeeMoreButton = styled.div`
-    cursor: pointer;
-    border: navy 0.1em solid;
-    border-radius: 0.5em;
-    width: 50%;
-    padding: 0.25em 1em;
-    margin: 1em auto;
-    text-align: center;
-    color: black;
-    font-size: 1.5em;
-    background-color: #3c78d8;
-    &:hover {
-        background-color: rgba(0, 43, 128, 0.2);
-    }
-`;
-
-const ButtonContainer = styled.div`
-    width: 200%;
-    margin:auto;
 `;
 
 type Props = {

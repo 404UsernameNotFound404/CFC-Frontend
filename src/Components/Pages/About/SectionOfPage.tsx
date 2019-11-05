@@ -26,6 +26,9 @@ const TextSection = styled.div`
     width: 75%;
     height: fit-content;
     margin: auto;
+    @media (max-width: 768px) { 
+        width: 100%;
+    }
 `;
 
 const Image = styled.img`
@@ -37,18 +40,19 @@ type Props = {
     title: string,
     para: string,
     imgSrc: string,
-    imgSide: boolean
+    imgSide: boolean,
+    mobile: boolean
 }
 
 function AbouPage(props: Props) {
         return (
             <Page>
-                {props.imgSide ? <Image src = {props.imgSrc} /> : ''}
+                {props.imgSide && props.mobile ? <Image src = {props.imgSrc} /> : ''}
                 <TextSection>
                     <SectionTitle>{props.title}</SectionTitle>
                     <Para dangerouslySetInnerHTML = {{ __html: props.para }} />
                 </TextSection>
-                {!props.imgSide ? <Image src = {props.imgSrc} /> : ''}
+                {!props.imgSide && props.mobile ? <Image src = {props.imgSrc} /> : ''}
             </Page>
         );
     }

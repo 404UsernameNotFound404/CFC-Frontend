@@ -13,6 +13,10 @@ const Container = styled.div`
     margin: auto;
     display: flex;
     justify-content: center;
+    @media (max-width: 768px) { 
+        width: 100% !important;
+        display: inline-block;
+    }
 `;
 
 type Props = {

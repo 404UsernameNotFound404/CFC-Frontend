@@ -13,18 +13,15 @@ const axios = require('axios')
 
 const Content = styled.div`
     width: 40%;
+    @media (max-width: 768px) {
+        width: 60%;
+    }
     margin: 3em auto;
     height: fit-content;
     padding: 0 2%;
     padding-top: 1.5%;
     padding-bottom: 0%;
     border-radius: 1em;
-`;
-
-const LoginTitle = styled.h1`
-    font-size: 0.75em;
-    color: grey;
-    margin: 0;
 `;
 
 const LoginInput = styled.input`
@@ -68,12 +65,6 @@ type Props = {
 }
 
 function LoginForm(props: Props) {
-    const [causeSelection, setCauseSelection] = useState([
-        { title: "Envorment", backgroundColor: "green", backgroundColorAct: "darkgreen", active: false, id: 0 },
-        { title: "Racial Justice", backgroundColor: "#c586c0", backgroundColorAct: "darkblue", active: false, id: 1 },
-        { title: "LGBTQ Rights", backgroundColor: "pink", backgroundColorAct: "darkblue", active: false, id: 2 },
-        { title: "Feminsim", backgroundColor: "orange", backgroundColorAct: "darkorange", active: false, id: 3 }
-    ]);
     const [registerValues, setRegisterValues] = useState(["", "", "", "", ""])
     const [emailInput, setEmailInput] = useState("");
     const [passwordInput, setPasswordInput] = useState("");
@@ -86,14 +77,15 @@ function LoginForm(props: Props) {
         try {
             let res = await axios.post(`${BASEURL}/login`, { Email: emailInput, Password: passwordInput })
             networkError = false;
-            console.log(res)
             if (res.data.AuthToken.length >= 0) {
                 setAuthToken(res.data.AuthToken);
+                // props.login({})
                 setRedirectToHome(true);
             }
             throw 'invalid login'
         }
         catch (err) {
+           console.log(err)
            if(networkError) {
                setMessage({ error: true, message: "Network Error Sorry For Inconveince" });
                setRedirectToHome(false);
@@ -164,7 +156,7 @@ function LoginForm(props: Props) {
                 <LoginInput onChange={(e) => { setEmailInput(e.target.value) }} value={emailInput} placeholder="Email Address" />
                 <BreakLine />
                 <LoginInput onChange={(e) => { setPasswordInput(e.target.value) }} value={passwordInput} placeholder="Password" type='password' />
-                <BasicButton activateButton={login} width={"40%"} text={"Login"} active={false} id={20} />
+                <BasicButton activateButton={login} width={"50%"} text={"Login"} active={false} id={20} />
                 {goToHome()}
             </Content>
         );

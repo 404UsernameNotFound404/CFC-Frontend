@@ -6,6 +6,9 @@ type ContentProps = {
 }
 const Content = styled.div<ContentProps>`
     width: 47.5%;
+    @media (max-width: 768px) { 
+        width: 100%;
+    }
     height: fit-content;
     margin: 1rem 0;
     margin-right: 2.5%;

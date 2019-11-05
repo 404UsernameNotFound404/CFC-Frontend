@@ -13,12 +13,18 @@ const PageContainer = styled.div`
     padding-top: 2.5em;
     width: 75em;
     margin: auto;
+    @media (max-width: 768px) { 
+        width: 90%;
+    }
 `;
 
 const TopPartPage = styled.div`
     padding-top: 15vh;
     padding-bottom: 7.5vh;
     width: 100%;
+    @media (max-width: 768px) { 
+        padding-top: 3em;
+    }
 `;
 
 const SearchForWhatPage = styled.div `

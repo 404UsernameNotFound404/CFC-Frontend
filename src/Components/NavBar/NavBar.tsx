@@ -6,15 +6,15 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import Cookie from 'js-cookie';
 import { connect } from 'react-redux';
+import { slide as Menu } from 'react-burger-menu'
+import { useMediaQuery } from 'react-responsive'
 
 const Container = styled.div`
     top: 0;
     position: fixed;
     width: 100%;
     display: flex;
-    padding: 0.5em 0.25em;
     z-index: 100;
 `;
 
@@ -67,8 +67,55 @@ type NavBarProps = {
     showNavBar: boolean
 }
 
+
+
 function NavBar(props: NavBarProps) {
+    var styles = {
+        bmBurgerButton: {
+          position: 'fixed',
+          width: '36px',
+          height: '30px',
+          left: '36px',
+          top: '36px'
+        },
+        bmBurgerBars: {
+          background: '#373a47'
+        },
+        bmBurgerBarsHover: {
+          background: '#a90000'
+        },
+        bmCrossButton: {
+          height: '24px',
+          width: '24px'
+        },
+        bmCross: {
+          background: '#bdc3c7'
+        },
+        bmMenuWrap: {
+          position: 'fixed',
+          height: '100%'
+        },
+        bmMenu: {
+          background: '#373a47',
+          padding: '2.5em 1.5em 0',
+          fontSize: '1.15em'
+        },
+        bmMorphShape: {
+          fill: '#373a47'
+        },
+        bmItemList: {
+          color: '#b8b7ad',
+          padding: '0.8em'
+        },
+        bmItem: {
+          display: 'inline-block'
+        },
+        bmOverlay: {
+          background: 'rgba(0, 0, 0, 0.3)'
+        }
+    }
     const [redirectToLogin, setRedirectToLogin] = useState(false);
+    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
     const logoutLogin = () => {
         if (props.logedIn) {
             props.login({ JWTToken: "" })
@@ -83,6 +130,7 @@ function NavBar(props: NavBarProps) {
         return (
             <Container>
                 {redirectToLogin ? <Redirect to='/login' /> : ''}
+                {isPhone ? 
                 <Content>
                     <LogoTitle to='/home'>Connecting For Change</LogoTitle>
                     <RightPart>
@@ -93,6 +141,16 @@ function NavBar(props: NavBarProps) {
                         <LinkTitle to='/login'><span onClick={logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
                     </RightPart>
                 </Content>
+                : 
+                <Menu styles = {styles}>
+                     <LinkTitle to='/home'>Home Page</LinkTitle>
+                    {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
+                    <LinkTitle to='/about'>About Page</LinkTitle>
+                    <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
+                    <LinkTitle to='/search'><BlueColor>Search For An Activist</BlueColor></LinkTitle>
+                    <LinkTitle to='/login'><span onClick={logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
+                </Menu>
+                }
             </Container>
         );
     } else {

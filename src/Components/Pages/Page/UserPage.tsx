@@ -22,6 +22,9 @@ const ProfileImage = styled.img`
     border-radius: 50%;
     display: block;
     border: #3c78d8 0.25em solid;
+    @media (max-width: 768px) { 
+        margin: auto;
+    }
 `;
 
 const TopBarContainer = styled.div`
@@ -29,11 +32,18 @@ const TopBarContainer = styled.div`
     justify-content: center;
     width: 100%;
     height: fit-content;
+    @media (max-width: 768px) {
+        display: inline-block;
+    }
 `;
 
 const TopBarTextContainer = styled.div`
     margin: auto 0;
     margin-left: 1em;
+    @media (max-width: 768px) { 
+        margin: 1em;
+        text-align: center;
+    }
 `;
 
 const TopBarText = styled.h1`
@@ -45,9 +55,7 @@ const TextContent = styled.div`
     text-align: center;
 `;
 
-const ParaTitle = styled.h1`
-
-`;
+const ParaTitle = styled.h1``;
 
 const ParaInput = styled.textarea`
     width: 80%;
@@ -80,6 +88,10 @@ const EditButtonContianer = styled.div`
     height: fit-content;
     margin: auto 0;
     margin-left: 3em;
+    @media (max-width: 768px) { 
+        width: 100%;
+        margin: 1em 0;
+    }
 `;
 
 const MessageToUser = styled.h1`

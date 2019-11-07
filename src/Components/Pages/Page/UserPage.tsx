@@ -111,7 +111,7 @@ type Props = {
 function UserPage(props: Props) {
     const [redierctToHome, setRedirectToHome] = useState(false);
     const [editMode, setEditMode] = useState(false);
-    const [canEditMode, setCanEditMode] = useState(true);
+    const [canEditMode, setCanEditMode] = useState(false);
     const [paraInputOne, setParaInputOne] = useState("");
     const [paraInputTwo, setParaInputTwo] = useState("");
     const [colour, setColour] = useState("");

@@ -1,44 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'
+import { useMediaQuery } from 'react-responsive'
 
-type ContentProps = {
-    imageURL: string
-}
-const Content = styled.div<ContentProps>`
-    width: 47.5%;
+const Content = styled.div`
+    width: 100%;
+    height: 25em;
     @media (max-width: 768px) { 
-        width: 100%;
+        height: fit-content;
     }
-    height: fit-content;
     margin: 1rem 0;
     margin-right: 2.5%;
-    background-image: url(${p => p.imageURL});
-    background-size: 100% 100%;
-    /* background-position: bottom; */
-    color: white;
+    display: flex;
+    justify-content: center;
 `;
 
 const Title = styled.h1`
-    font-size: 2em;
+    font-size: 5em;
+    @media (max-width: 768px) { 
+        font-size: 3em;
+    }
     margin: 0;
-    margin-bottom: 0.25em;
 `;
 
 const SubTitle = styled.h2`
-    font-size: 1.5em;
+    font-size: 2.5em;
+    @media (max-width: 768px) { 
+        font-size: 1.75em;
+    }
     margin: 0;
     margin-bottom: 0.25em;
 `;
 
 const Para = styled.p`
     margin: 0;
+    font-size: 1.5em;
+    color: black;
 `;
 
-const DarkOvelay = styled.div`
-    background-color: rgba(0,0,0,0.4);
-    width: 90%;
-    padding: 5%;
+type TextContainerStyle = {
+    Color: string
+}
+
+const TextContainer = styled.div<TextContainerStyle>`
+    width: 66.66%;
+    @media (max-width: 768px) { 
+        width: 100%;
+    }
+    margin: auto 0;
     height: fit-content;
+    color: ${p => p.Color};
+`;
+
+const ImageContainer = styled.div`
+    width: 33.33%;
+    margin: auto 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
+const IssueLogo = styled.img`
+    margin: auto 0;
+    max-height: 90%;
+    max-width: 100%;
+    display: block;
 `;
 
 type Props = {
@@ -49,14 +74,20 @@ type Props = {
 }
 
 function LearnPage(props: any) {
-  const {para, title, subTitle, imageURL} = props;
+  const {para, title, subTitle, imageURL, Color} = props;
+  const isPhone = useMediaQuery({ minDeviceWidth: 768 })
   return (
-    <Content imageURL = {imageURL}>
-        <DarkOvelay>
+    <Content>
+        <TextContainer Color = {Color}>
             <Title>{title}</Title>
             <SubTitle>{subTitle}</SubTitle>
             <Para>{para}</Para>
-        </DarkOvelay>
+        </TextContainer>
+        {isPhone ? 
+        <ImageContainer>
+            <IssueLogo src = {imageURL} />
+        </ImageContainer>
+        : ""}
     </Content>
   );
 }

@@ -114,6 +114,7 @@ function NavBar(props: NavBarProps) {
           background: 'rgba(0, 0, 0, 0.3)'
         }
     }
+    const [mobileOpen, setMobileOpen] = useState(false);
     const [redirectToLogin, setRedirectToLogin] = useState(false);
     const isPhone = useMediaQuery({ minDeviceWidth: 768 })
     const logoutLogin = () => {
@@ -126,6 +127,14 @@ function NavBar(props: NavBarProps) {
     useEffect(() => {
         setRedirectToLogin(false);
     }, [props])
+
+    const changeMobileMenuOpen = () => {
+        if (mobileOpen) {
+            setMobileOpen(false);
+        } else {
+            setMobileOpen(true);
+        }
+    }
     if (props.showNavBar) {
         return (
             <Container>
@@ -142,7 +151,7 @@ function NavBar(props: NavBarProps) {
                     </RightPart>
                 </Content>
                 : 
-                <Menu styles = {styles}>
+                <Menu styles = {styles} isOpen={mobileOpen} customOnKeyDown={changeMobileMenuOpen}>
                      <LinkTitle to='/home'>Home Page</LinkTitle>
                     {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
                     <LinkTitle to='/about'>About Page</LinkTitle>

@@ -4,6 +4,7 @@ import Page from './Page';
 import DefaultImage from '../../../img/default.jpg';
 import { BASEURL } from '../../../Constants';
 import Cookie from 'js-cookie';
+import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 const axios = require("axios");
 
 
@@ -19,28 +20,53 @@ const Container = styled.div`
     }
 `;
 
+const Error = styled.h4`
+    font-size: 1.5em;
+    color: red;
+`;
+
 type Props = {
     text: string
 }
 
 function SearchBar(props: Props) {
     const [pages, setPages] = useState([]);
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         fetchAPI();
     }, []);
 
     const fetchAPI = async () => {
-        const res = await axios.post(`${BASEURL}/getPages`);
-        console.log(res)
-        setPages(res.data)
-    }
-    return (
-        <Container>
-            {
-                pages.map((ele, i) => <Page ID = {ele.PageID}name = {ele.Name} img = {DefaultImage} para = {ele.Para1} key = {i} />)
+        let networkError = true;
+        try {
+            const res = await axios.post(`${BASEURL}/getPages`);
+            networkError = false;
+            setPages(res.data)
+            setLoading(false);
+        } catch (err) {
+            if (networkError) {
+                setError("Network error sorry for the inconvenience.")
+                return
             }
-        </Container>
-    );
+            setError("Error getting activists. Sorry about that the service will return soon.")
+        }
+
+    }
+    if (!loading) {
+        return (
+            <Container>
+                <Error>{error}</Error>
+                {
+                    pages.map((ele, i) => <Page ID={ele.PageID} name={ele.Name} img={DefaultImage} para={ele.Para1} key={i} />)
+                }
+            </Container>
+        );
+    } else {
+        return (
+            <LoadingPage />
+        )
+    }
 }
 
 export default SearchBar;

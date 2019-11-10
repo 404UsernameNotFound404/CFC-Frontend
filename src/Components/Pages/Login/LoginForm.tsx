@@ -75,7 +75,7 @@ function LoginForm(props: Props) {
     const login = async () => {
         let networkError = true;
         try {
-            let res = await axios.post(`${BASEURL}/login`, { Email: emailInput, Password: passwordInput })
+            let res = await axios.post(`${BASEURL}/login`, { Email: emailInput, Password: passwordInput });
             networkError = false;
             if (res.data.AuthToken.length >= 0) {
                 setAuthToken(res.data.AuthToken);

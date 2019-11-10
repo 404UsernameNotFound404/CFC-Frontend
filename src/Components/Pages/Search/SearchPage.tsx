@@ -8,6 +8,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import rootReducer from '../../../Reducers/searchPageReducer';
+import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 
 const PageContainer = styled.div`
     padding-top: 2.5em;
@@ -27,7 +28,7 @@ const TopPartPage = styled.div`
     }
 `;
 
-const SearchForWhatPage = styled.div `
+const SearchForWhatPage = styled.div`
     width: 75em;
     height: 100vh;
     margin: auto;
@@ -42,7 +43,7 @@ const SearchForWhatContainer = styled.div`
     justify-content: space-between;
 `;
 
-const SearchForWhatTitle = styled.h1 `
+const SearchForWhatTitle = styled.h1`
     font-size: 4em;
     position: absolute;
     top: 10vh;
@@ -53,7 +54,7 @@ const OR = styled.h1`
     margin: auto;
 `;
 
-const SearchBoxTitle = styled.h1 `
+const SearchBoxTitle = styled.h1`
     font-size: 4em;
     margin: 0;
     text-align: center;
@@ -62,10 +63,11 @@ const SearchBoxTitle = styled.h1 `
 
 function LinksContainer() {
     const [searchValue, setSearchValue] = useState('');
+    const [loading, setLoading] = useState(true)
     const store = createStore(rootReducer);
 
     useEffect(() => {
-        
+
     });
 
     const updateSearchBar = (event: any) => {
@@ -73,36 +75,33 @@ function LinksContainer() {
         setSearchValue(event.target.value);
     }
 
-    if(false) {
-        return (
-            <SearchForWhatPage>
-                <SearchForWhatTitle>What would you like to search for?</SearchForWhatTitle>
-                <SearchForWhatContainer>
-                    <SearchForWhat Title = "Events" />
-                    <OR>or</OR>
-                    <SearchForWhat Title = "People" />
-                </SearchForWhatContainer>
-            </SearchForWhatPage>
-        );
-    } else {
-        return (
-            <Provider store = {store}>
-                <PageContainer>
-                    <TopPartPage>
-                        <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
-                        {/* <SearchBar changeValue={updateSearchBar} value={searchValue} />
+    return (
+        <Provider store={store}>
+            <PageContainer>
+                <TopPartPage>
+                    <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
+                    {/* <SearchBar changeValue={updateSearchBar} value={searchValue} />
                         <CategorySearch text={'asd'} /> */}
-                    </TopPartPage>
-                    <SearchResults WhatWasSearched={'asd'} />
-                </PageContainer>
-            </Provider>
-        );
-    }
+                </TopPartPage>
+                <SearchResults WhatWasSearched={'asd'} />
+            </PageContainer>
+        </Provider>
+    );
 }
 
 const mapStateToProps = (state: any) => {
     return {
-      searchBar: state.searchBar
+        searchBar: state.searchBar
     }
-  }
-  export default connect(mapStateToProps)(LinksContainer);
+}
+export default connect(mapStateToProps)(LinksContainer);
+
+
+//   <SearchForWhatPage>
+//                 <SearchForWhatTitle>What would you like to search for?</SearchForWhatTitle>
+//                 <SearchForWhatContainer>
+//                     <SearchForWhat Title = "Events" />
+//                     <OR>or</OR>
+//                     <SearchForWhat Title = "People" />
+//                 </SearchForWhatContainer>
+//             </SearchForWhatPage>

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import DaxtonImage from '../../../img/DDOG.jpg'
+import DaxtonImage from '../../../img/default.jpg'
 import { Redirect } from 'react-router';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
 import { BASEURL } from '../../../Constants'
 import Cookie from 'js-cookie'
+import LoadingComp from '../../ComponentLibrayer/LoadingPage'
+
 const axios = require("axios");
 
 const Page = styled.div`
@@ -121,7 +123,7 @@ function UserPage(props: Props) {
     const [messageToUser, setMessageToUser] = useState("");
     const [deleteChanges, setDeleteChanges] = useState(false);
     const [email, setEmail] = useState("");
-    const [phoneNumber, setPhone] = useState("");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         //check search params
@@ -133,7 +135,7 @@ function UserPage(props: Props) {
             //check if owner
             fetchAPI(PageID);
         }
-      }, []);
+    }, []);
     const updatePage = async () => {
         if (orginalPara1 == paraInputOne && orginalPara2 == paraInputTwo) {
             setMessageToUser("successfully updated page")
@@ -147,11 +149,11 @@ function UserPage(props: Props) {
                 return
             }
             resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
-        } catch(err) {
+        } catch (err) {
             resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
         }
     }
-    
+
     const fetchAPI = async (PageID: string) => {
         const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ JWTToken: Cookie.get("authToken"), PageID: PageID }));
         console.log(res)
@@ -166,14 +168,15 @@ function UserPage(props: Props) {
             setColour(res.data.Colour)
             setName(res.data.Name)
             setEmail(res.data.Email)
-        } catch(err) {
+            setLoading(false);
+        } catch (err) {
             console.log(err);
         }
     }
 
     const switchEditMode = () => {
         if (editMode) {
-            if(deleteChanges) {
+            if (deleteChanges) {
                 setDeleteChanges(false);
                 resetParagraphsOrginalsAndSendMessage(false, "");
                 return
@@ -191,7 +194,7 @@ function UserPage(props: Props) {
         }
     }
 
-    const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean,  message: string) => {
+    const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean, message: string) => {
         setMessageToUser(message);
         setEditMode(false);
         if (setOrginal) {
@@ -202,45 +205,42 @@ function UserPage(props: Props) {
             setParaInputTwo(orginalPara2);
         }
     }
-
-    const convertCleanStringToReadable = () => {
-
+    if (!loading) {
+        return (
+            <Page>
+                {redierctToHome ? <Redirect to='/home' /> : ''}
+                <Content>
+                    <TopBarContainer>
+                        <ProfileImage src={DaxtonImage} />
+                        <TopBarTextContainer>
+                            <TopBarText>{name}</TopBarText>
+                            <TopBarText>{email}</TopBarText>
+                        </TopBarTextContainer>
+                        {canEditMode ?
+                            <EditButtonContianer>
+                                <MessageToUser>{messageToUser}</MessageToUser>
+                                <BasicButton activateButton={switchEditMode} text="edit" active={editMode} width={'5em'} id={20} />
+                            </EditButtonContianer> : ''}
+                    </TopBarContainer>
+                    <TextContent>
+                        <ParaTitle>Who Am I?</ParaTitle>
+                        {paraInputOne == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
+                        {editMode ? <ParaInput value={paraInputOne} onChange={(e) => { setParaInputOne(e.target.value) }} /> : <Para>{paraInputOne}</Para>}
+                        <ParaTitle>What I Stand For</ParaTitle>
+                        {paraInputTwo == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
+                        {editMode ? <ParaInput value={paraInputTwo} onChange={(e) => { setParaInputTwo(e.target.value) }} /> : <Para>{paraInputTwo}</Para>}
+                    </TextContent>
+                    {editMode ?
+                        <BasicButton activateButton={updatePage} text="Update" active={!editMode} width={'5em'} id={20} />
+                        : ''}
+                </Content>
+            </Page>
+        );
+    } else {
+        return (
+            <LoadingComp />
+        )
     }
-
-    const cleanString = () => {
-        
-    }
-    return (
-        <Page>
-            {redierctToHome ? <Redirect to = '/home' /> : ''}
-            <Content>
-                <TopBarContainer>
-                    <ProfileImage src = {DaxtonImage} />
-                    <TopBarTextContainer>
-                        <TopBarText>{name}</TopBarText>
-                        <TopBarText>{email}</TopBarText>
-                        <TopBarText>{phoneNumber}</TopBarText>
-                    </TopBarTextContainer>
-                    {canEditMode ? 
-                    <EditButtonContianer>
-                        <MessageToUser>{messageToUser}</MessageToUser>
-                        <BasicButton activateButton = {switchEditMode} text = "edit" active = {editMode} width = {'5em'} id = {20} /> 
-                    </EditButtonContianer> : ''}
-                </TopBarContainer>
-                <TextContent>
-                    <ParaTitle>Who Am I?</ParaTitle>
-                    {paraInputOne == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-                    {editMode ? <ParaInput value = {paraInputOne} onChange = {(e) => {setParaInputOne(e.target.value)}} /> : <Para>{paraInputOne}</Para>}
-                    <ParaTitle>What I Stand For</ParaTitle>
-                    {paraInputTwo == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-                    {editMode ? <ParaInput value = {paraInputTwo} onChange = {(e) => {setParaInputTwo(e.target.value)}}/> : <Para>{paraInputTwo}</Para>}
-                </TextContent>
-                {editMode ? 
-                    <BasicButton activateButton = {updatePage} text = "Update" active = {!editMode} width = {'5em'} id = {20} /> 
-                : ''}
-            </Content>
-        </Page>
-    );
 }
 
 export default UserPage;

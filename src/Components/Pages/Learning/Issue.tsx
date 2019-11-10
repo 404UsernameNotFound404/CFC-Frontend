@@ -66,15 +66,28 @@ const IssueLogo = styled.img`
     display: block;
 `;
 
+const Link = styled.a`
+    font-size: 1.5em;
+    margin: 0;
+    color: #3c78d8;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
+type LinkType = {name: string, link: string}
+
 type Props = {
     title: string,
     subTitle: string,
     para: string,
-    imageURL: string
+    imageURL: string,
+    linkArray: LinkType[]
 }
 
 function LearnPage(props: any) {
-  const {para, title, subTitle, imageURL, Color} = props;
+  const {para, title, subTitle, imageURL, Color, linkArray} = props;
   const isPhone = useMediaQuery({ minDeviceWidth: 768 })
   return (
     <Content>
@@ -82,6 +95,11 @@ function LearnPage(props: any) {
             <Title>{title}</Title>
             <SubTitle>{subTitle}</SubTitle>
             <Para>{para}</Para>
+            {
+                props.linkArray.map((ele: LinkType) => {
+                    return (<><Link target="_blank" href = {ele.link}>{ele.name}</Link><br /></>)
+                })
+            }
         </TextContainer>
         {isPhone ? 
         <ImageContainer>

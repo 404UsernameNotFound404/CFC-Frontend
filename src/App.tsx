@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Home from './Components/Pages/Home/HomePage';
 import Search from './Components/Pages/Search/SearchPage';
-import NavBar from './Components/NavBar/NavBar';
+import NavBar from './Components/NavBar/NavBarPage';
 import Login from './Components/Pages/Login/LoginPage';
 import AboutPage from './Components/Pages/About/AboutPage'
 import { BASEURL } from './Constants';

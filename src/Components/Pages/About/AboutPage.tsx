@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SectionOfPage from './SectionOfPage';
-import TitleImage from '../../../img/protestPhoto.jpg'
+import TitleImage from '../../../img/AboutPage/protestPhoto.jpg'
 import { useMediaQuery } from 'react-responsive'
 
 const Page = styled.div`

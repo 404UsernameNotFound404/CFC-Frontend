@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components'
 import Issue from './Issue'
-import EnvormentImage from '../../../img/tree.png'
-import FeminstPhoto from '../../../img/femPhoto.png'
-import RacialJustice from '../../../img/fist.png';
-import LGBTQ from '../../../img/rainbowFlag.png'
+import EnvormentImage from '../../../img/LearningPage/tree.png'
+import FeminstPhoto from '../../../img/LearningPage/femPhoto.png'
+import RacialJustice from '../../../img/LearningPage/fist.png';
+import LGBTQ from '../../../img/LearningPage/rainbowFlag.png'
 
 const Page = styled.div`
     width: 75em;

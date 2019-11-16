@@ -6,6 +6,7 @@ import BasicButton from '../../ComponentLibrayer/BasicButton';
 import { BASEURL } from '../../../Constants'
 import Cookie from 'js-cookie'
 import LoadingComp from '../../ComponentLibrayer/LoadingPage'
+import PageCategories from './PageCategories';
 
 const axios = require("axios");
 
@@ -30,9 +31,15 @@ const ProfileImage = styled.img`
 `;
 
 const TopBarContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+`;
+
+const TopBarTopSection = styled.div`
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: fit-content;
+    margin: auto;
     height: fit-content;
     @media (max-width: 768px) {
         display: inline-block;
@@ -124,6 +131,8 @@ function UserPage(props: Props) {
     const [deleteChanges, setDeleteChanges] = useState(false);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState([]);
+    const [allCategories, setAllCategories] = useState([]);
 
     useEffect(() => {
         //check search params
@@ -142,7 +151,17 @@ function UserPage(props: Props) {
             setEditMode(false);
             return
         }
-        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ JWTToken: Cookie.get("authToken"), Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name }));
+        let activeTags: any = []
+        allCategories.map(ele => {
+            if (!ele.disabled) {
+                try {
+                    activeTags.push(parseInt(ele.data[2]))
+                } catch(err) {
+                    console.log(err)
+                }
+            }
+        })
+        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ JWTToken: Cookie.get("authToken"), Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }));
         try {
             if (res.data.Error.length >= 0) {
                 setMessageToUser("could not update")
@@ -169,6 +188,9 @@ function UserPage(props: Props) {
             setName(res.data.Name)
             setEmail(res.data.Email)
             setLoading(false);
+            if (res.data.Categories != null) {
+                setCategories(res.data.Categories)
+            }
         } catch (err) {
             console.log(err);
         }
@@ -208,19 +230,23 @@ function UserPage(props: Props) {
     if (!loading) {
         return (
             <Page>
+                {/* Split into more components */}
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
                     <TopBarContainer>
-                        <ProfileImage src={DaxtonImage} />
-                        <TopBarTextContainer>
-                            <TopBarText>{name}</TopBarText>
-                            <TopBarText>{email}</TopBarText>
-                        </TopBarTextContainer>
-                        {canEditMode ?
-                            <EditButtonContianer>
-                                <MessageToUser>{messageToUser}</MessageToUser>
-                                <BasicButton activateButton={switchEditMode} text="edit" active={editMode} width={'5em'} id={20} />
-                            </EditButtonContianer> : ''}
+                        <TopBarTopSection>
+                            <ProfileImage src={DaxtonImage} />
+                            <TopBarTextContainer>
+                                <TopBarText>{name}</TopBarText>
+                                <TopBarText>{email}</TopBarText>
+                            </TopBarTextContainer>
+                            {canEditMode ?
+                                <EditButtonContianer>
+                                    <MessageToUser>{messageToUser}</MessageToUser>
+                                    <BasicButton activateButton={switchEditMode} text="edit" active={editMode} width={'5em'} id={20} />
+                                </EditButtonContianer> : ''}
+                        </TopBarTopSection>
+                        <PageCategories allCategories = {allCategories} setAllCategories = {setAllCategories} categories = {categories} editMode = {editMode} />
                     </TopBarContainer>
                     <TextContent>
                         <ParaTitle>Who Am I?</ParaTitle>

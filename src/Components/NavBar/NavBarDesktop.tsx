@@ -1,23 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import LogoImg from '../../img/placeholder.png';
 import {
     BrowserRouter as Router,
     Link,
     Redirect
 } from "react-router-dom";
-import { connect } from 'react-redux';
-import { slide as Menu } from 'react-burger-menu'
-import { useMediaQuery } from 'react-responsive'
-import MobileNavBar from './MobileNavBar'
-
-const Container = styled.div`
-    top: 0;
-    position: fixed;
-    width: 100%;
-    display: flex;
-    z-index: 100;
-`;
 
 const RightPart = styled.div`
     margin-left: auto;
@@ -40,8 +27,7 @@ const LogoTitle = styled(Link)`
 
 const LinkTitle = styled(Link)`
     font-size: 1.25em;
-    margin: 0 0.5em;
-    margin-top: auto;
+    margin: auto 0.5em;
     text-decoration: none;
     &:hover {
         text-decoration: underline;
@@ -60,6 +46,13 @@ const Content = styled.div`
     margin: auto;
     height: 2.5em;
     display: flex;
+    padding: 0.5em;
+`;
+
+const LightOverlay = styled.div`
+    width: 100%;
+    height: fit-content;
+    background-color: rgba(255,255,255,0.4);
 `;
 
 type NavBarDekstopProps = {
@@ -69,16 +62,18 @@ type NavBarDekstopProps = {
 
 function NavBarDesktop(props: NavBarDekstopProps) {
     return (
-        <Content>
-            <LogoTitle to='/home'>Connecting For Change</LogoTitle>
-            <RightPart>
-                {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
-                <LinkTitle to='/about'>About Page</LinkTitle>
-                <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-                <LinkTitle to='/search'><BlueColor>Search For An Activist</BlueColor></LinkTitle>
-                <LinkTitle to='/login'><span onClick={props.logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
-            </RightPart>
-        </Content>
+        <LightOverlay>
+            <Content>
+                <LogoTitle to='/home'>Connecting For Change</LogoTitle>
+                <RightPart>
+                    {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
+                    <LinkTitle to='/about'>About Page</LinkTitle>
+                    <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
+                    <LinkTitle to='/search'><BlueColor>Search For An Activist</BlueColor></LinkTitle>
+                    <LinkTitle to='/login'><span onClick={props.logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
+                </RightPart>
+            </Content>
+        </LightOverlay>
     );
 }
 

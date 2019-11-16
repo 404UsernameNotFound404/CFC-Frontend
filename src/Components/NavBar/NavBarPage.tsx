@@ -20,49 +20,6 @@ const Container = styled.div`
     z-index: 100;
 `;
 
-const RightPart = styled.div`
-    margin-left: auto;
-    display: flex;
-`;
-
-const LogoTitle = styled(Link)`
-    font-size: 2em;
-    margin: 0;
-    margin-top: auto;
-    font-weight: bolder;
-    font-family: 'Big Shoulders Display', cursive;
-    font-weight: lighter;
-    color: black;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-`;
-
-const LinkTitle = styled(Link)`
-    font-size: 1.25em;
-    margin: 0 0.5em;
-    margin-top: auto;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-    cursor: pointer;
-    color: black;
-    font-weight: bold;
-`;
-
-const BlueColor = styled.span`
-    color: #3c78d8;
-`;
-
-const Content = styled.div`
-    width: 75em;
-    margin: auto;
-    height: 2.5em;
-    display: flex;
-`;
-
 type NavBarProps = {
     login: Function,
     logedIn: boolean,

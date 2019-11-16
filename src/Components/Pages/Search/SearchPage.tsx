@@ -8,7 +8,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { connect } from 'react-redux';
 import rootReducer from '../../../Reducers/searchPageReducer';
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import { BASEURL } from '../../../Constants'
+import PageCategories from '../Page/PageCategories'
+const axios = require("axios");
 
 const PageContainer = styled.div`
     padding-top: 2.5em;
@@ -60,15 +62,27 @@ const SearchBoxTitle = styled.h1`
     text-align: center;
 `;
 
+const SearchBoxSubTitle = styled.h4`
+    font-size: 2em;
+    margin: 0;
+    text-align: center;
+`;
+
 
 function LinksContainer() {
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(true)
     const store = createStore(rootReducer);
+    const [allCategories, setAllCategories] = useState([])
 
     useEffect(() => {
+        fetchCatogries();
+    }, []);
 
-    });
+    const fetchCatogries = async () => {
+        const res = await axios.post(`${BASEURL}/getCategories`);
+        setAllCategories(res.data.Categories)
+    }
 
     const updateSearchBar = (event: any) => {
         console.log('update value');
@@ -80,8 +94,8 @@ function LinksContainer() {
             <PageContainer>
                 <TopPartPage>
                     <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
-                    {/* <SearchBar changeValue={updateSearchBar} value={searchValue} />
-                        <CategorySearch text={'asd'} /> */}
+                    <SearchBoxSubTitle>What category are you looking for?</SearchBoxSubTitle>
+                    <CategorySearch categories = {allCategories} />
                 </TopPartPage>
                 <SearchResults WhatWasSearched={'asd'} />
             </PageContainer>

@@ -41,10 +41,12 @@ function SearchBar(props: Props) {
         let networkError = true;
         try {
             const res = await axios.post(`${BASEURL}/getPages`);
+            console.log(res)
             networkError = false;
             setPages(res.data)
             setLoading(false);
         } catch (err) {
+            console.log(err)
             if (networkError) {
                 setError("Network error sorry for the inconvenience.")
                 return
@@ -53,7 +55,7 @@ function SearchBar(props: Props) {
         }
 
     }
-    if (!loading) {
+    if (!loading || error.length > 0) {
         return (
             <Container>
                 <Error>{error}</Error>

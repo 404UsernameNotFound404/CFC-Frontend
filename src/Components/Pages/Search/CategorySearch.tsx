@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
-import BasicButton from '../../ComponentLibrayer/BasicButton';
+import CategoryButton from './CategoryButton';
 
 const Container = styled.div`
     width: 90%;
@@ -13,21 +12,46 @@ const Container = styled.div`
 `;
 
 type Props = {
-    text: string,
+    categories: string[][]
 }
 
 type CategoryButtonArray = { text: string, normalColor: string, highLightColor: string, active: boolean, id: number }[];
 
 function CategorySearch(props: Props) {
-    type CategoryButtonArrayType = { text: string, normalColor: string, highLightColor: string, active: boolean, id: number }[];
-    const [categoryButtons, setCategoryButtons] = useState([
-        { text: 'Envorment Action', normalColor: '#a4c2f4', highLightColor: '#3c78d8', active: false, id: 0 },
-        { text: 'Racial Justice', normalColor: '#a4c2f4', highLightColor: '#3c78d8', active: false, id: 2 },
-        { text: 'LGBTQ', normalColor: '#a4c2f4', highLightColor: '#3c78d8', active: false, id: 3 },
-        { text: 'Feminsim', normalColor: '#a4c2f4', highLightColor: '#3c78d8', active: false, id: 4 }
-    ]);
+    const [categoryButtons, setCategoryButtons] = useState([]);
+    const [firstTimePick, setFirstTimePick] = useState(true);
+
+    useEffect(() => {
+        buildCategoryButtons();
+    }, [props.categories])
+
+    const buildCategoryButtons = () => {
+        setCategoryButtons(
+            props.categories.map((ele, i) => {
+                return {
+                    text: ele[0],
+                    colour: ele[1],
+                    active: true,
+                    id: ele[2]
+                }
+            })
+        );
+    }
 
     const activateButton = (id: number) => {
+        if (firstTimePick) {
+            setFirstTimePick(false);
+            let newArray: any = categoryButtons.map(ele => {
+                if (ele.id === id) {
+                    ele.active = true;
+                } else {
+                    ele.active = false;
+                }
+                return ele;
+            });
+            setCategoryButtons(newArray);
+            return
+        }
         let newArray: any = categoryButtons.map(ele => {
             if (ele.id === id) {
                 (ele.active) ? (ele.active = false) : (ele.active = true);
@@ -39,7 +63,8 @@ function CategorySearch(props: Props) {
 
     return (
         <Container>
-            {categoryButtons.map((ele) => <BasicButton width = {"22.5%"} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} />)}
+            {console.log(categoryButtons)}
+            {categoryButtons.map((ele, i) => <CategoryButton colour = {ele.colour} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} key = {i} />)}
         </Container>
     );
 }

@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Container = styled.div`
     border: black 0.2rem solid;
-    padding: 1em 0;
-    width: 30%;
+    width: 29%;
     margin: 1.5%;
     border-radius: 1em;
     @media (max-width: 768px) { 

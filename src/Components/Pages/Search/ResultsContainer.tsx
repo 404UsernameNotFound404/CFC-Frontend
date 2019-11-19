@@ -13,6 +13,7 @@ const Container = styled.div`
     width: fit-content;
     margin: auto;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     @media (max-width: 768px) { 
         width: 100% !important;
@@ -26,7 +27,8 @@ const Error = styled.h4`
 `;
 
 type Props = {
-    text: string
+    text: string,
+    categoriesToNotAllow: any
 }
 
 function SearchBar(props: Props) {
@@ -59,8 +61,23 @@ function SearchBar(props: Props) {
         return (
             <Container>
                 <Error>{error}</Error>
+                {console.log(props.categoriesToNotAllow)}
                 {
-                    pages.map((ele, i) => <Page ID={ele.PageID} name={ele.Name} img={DefaultImage} para={ele.Para1} key={i} />)
+                    pages.map((ele, i) => {
+                        let render = false;
+                       
+                        props.categoriesToNotAllow.map((notAllowEle: any) => {
+                            ele.Categories.map((catEle: any) => {
+                                console.log(`${catEle[2]}==${notAllowEle}`)
+                                if (catEle[2] == notAllowEle) {
+                                    render = true;
+                                }
+                            })
+                        })
+                        if (render || props.categoriesToNotAllow.length <= 0) {
+                            return <Page ID={ele.PageID} name={ele.Name} img={DefaultImage} para={ele.Para1} key={i} />
+                        }
+                })
                 }
             </Container>
         );

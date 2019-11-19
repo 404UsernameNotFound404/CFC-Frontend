@@ -73,7 +73,9 @@ function LinksContainer() {
     const [searchValue, setSearchValue] = useState('');
     const [loading, setLoading] = useState(true)
     const store = createStore(rootReducer);
-    const [allCategories, setAllCategories] = useState([])
+    const [allCategories, setAllCategories] = useState([]);
+    const [categoryButtons, setCategoryButtons] = useState([]);
+    const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
 
     useEffect(() => {
         fetchCatogries();
@@ -95,9 +97,9 @@ function LinksContainer() {
                 <TopPartPage>
                     <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
                     <SearchBoxSubTitle>What category are you looking for?</SearchBoxSubTitle>
-                    <CategorySearch categories = {allCategories} />
+                    <CategorySearch setCategoriesToNotAllow = {setCategoriesToNotAllow} categoriesToNotAllow = {categoriesToNotAllow} categoryButtons = {categoryButtons} setCategoryButtons = {setCategoryButtons} categories = {allCategories} />
                 </TopPartPage>
-                <SearchResults WhatWasSearched={'asd'} />
+                <SearchResults categoriesToNotAllow = {categoriesToNotAllow} WhatWasSearched={'asd'} />
             </PageContainer>
         </Provider>
     );

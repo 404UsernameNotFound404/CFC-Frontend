@@ -12,14 +12,17 @@ const Container = styled.div`
 `;
 
 type Props = {
-    categories: string[][]
+    categories: string[][],
+    categoryButtons: any,
+    setCategoryButtons: any,
+    categoriesToNotAllow: any,
+    setCategoriesToNotAllow: any
 }
 
-type CategoryButtonArray = { text: string, normalColor: string, highLightColor: string, active: boolean, id: number }[];
-
 function CategorySearch(props: Props) {
-    const [categoryButtons, setCategoryButtons] = useState([]);
+    const {categoryButtons, setCategoryButtons} = props;
     const [firstTimePick, setFirstTimePick] = useState(true);
+    const {categoriesToNotAllow, setCategoriesToNotAllow} = props;
 
     useEffect(() => {
         buildCategoryButtons();
@@ -41,20 +44,38 @@ function CategorySearch(props: Props) {
     const activateButton = (id: number) => {
         if (firstTimePick) {
             setFirstTimePick(false);
-            let newArray: any = categoryButtons.map(ele => {
+            let newArray: any = categoryButtons.map((ele: any) => {
                 if (ele.id === id) {
+                    let tempArray = categoriesToNotAllow;
+                    tempArray.push(id);
+                    setCategoriesToNotAllow(tempArray)
                     ele.active = true;
                 } else {
                     ele.active = false;
+                   
                 }
                 return ele;
             });
             setCategoryButtons(newArray);
             return
         }
-        let newArray: any = categoryButtons.map(ele => {
+        let newArray: any = categoryButtons.map((ele: any) => {
             if (ele.id === id) {
-                (ele.active) ? (ele.active = false) : (ele.active = true);
+                if (ele.active) {
+                    let temp = [];
+                    for(let x = 0;x < categoriesToNotAllow.length; x++) {
+                        if(categoriesToNotAllow[x] != id) {
+                            temp.push(categoriesToNotAllow[x])
+                        }
+                    }
+                    setCategoriesToNotAllow(temp);
+                    ele.active = false;
+                } else {
+                    let tempArray = categoriesToNotAllow;
+                    tempArray.push(id);
+                    setCategoriesToNotAllow(tempArray)
+                    ele.active = true;
+                }
             }
             return ele;
         });
@@ -63,8 +84,9 @@ function CategorySearch(props: Props) {
 
     return (
         <Container>
-            {console.log(categoryButtons)}
-            {categoryButtons.map((ele, i) => <CategoryButton colour = {ele.colour} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} key = {i} />)}
+            {categoryButtons.map((ele: any, i: any) => {
+                return <CategoryButton colour = {ele.colour} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} key = {i} />
+            })}
         </Container>
     );
 }

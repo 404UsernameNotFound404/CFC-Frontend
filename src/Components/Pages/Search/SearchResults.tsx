@@ -19,13 +19,14 @@ const WhatIsSearch = styled.h1`
 
 type Props = {
     WhatWasSearched: string,
+    categoriesToNotAllow: any
 }
 
 function SearchBar(props: Props) {
     return (
         <Container>
             {/* <WhatIsSearch>Results of search</WhatIsSearch> */}
-            <ResultsContainer text={'asd'} />
+            <ResultsContainer categoriesToNotAllow = {props.categoriesToNotAllow} text={'asd'} />
         </Container>
     );
 }

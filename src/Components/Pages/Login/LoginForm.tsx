@@ -126,13 +126,19 @@ function LoginForm(props: Props) {
                 funcSetRegisterValues("", 0);
                 return;
             }
+            //name check
+            if (registerValues[4].length < 3) {
+                setMessage({ error: true, message: "Name must be more then two characters" })
+                funcSetRegisterValues("", 4);
+                return;
+            }
             let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4]});
-            if (res.data.Valid.length > 0) {
+            if (res.data.Valid != undefined) {
                 setMessage({ error: false, message: "Registered Sucssfully" })
                 props.setRegister(false);
                 return
             }
-            setMessage({ error: true, message: "Error creating account" })
+            setMessage({ error: true, message: res.data.Error })
         }
         catch (err) {
             setMessage({ error: true, message: "Error creating account" })

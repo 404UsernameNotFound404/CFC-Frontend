@@ -7,6 +7,8 @@ import { BASEURL } from '../../../Constants'
 import Cookie from 'js-cookie'
 import LoadingComp from '../../ComponentLibrayer/LoadingPage'
 import PageCategories from './PageCategories';
+import ProfileTopPart from './ProfileTopPart';
+
 
 const axios = require("axios");
 
@@ -16,48 +18,6 @@ const Page = styled.div`
     margin-bottom: 2em;
     display: flex;
     justify-content: center;
-`;
-
-const ProfileImage = styled.img`
-    margin: 0;
-    width: 10em;
-    height: 10em;
-    border-radius: 50%;
-    display: block;
-    border: #3c78d8 0.25em solid;
-    @media (max-width: 768px) { 
-        margin: auto;
-    }
-`;
-
-const TopBarContainer = styled.div`
-    width: fit-content;
-    margin: auto;
-`;
-
-const TopBarTopSection = styled.div`
-    display: flex;
-    justify-content: center;
-    width: fit-content;
-    margin: auto;
-    height: fit-content;
-    @media (max-width: 768px) {
-        display: inline-block;
-    }
-`;
-
-const TopBarTextContainer = styled.div`
-    margin: auto 0;
-    margin-left: 1em;
-    @media (max-width: 768px) { 
-        margin: 1em;
-        text-align: center;
-    }
-`;
-
-const TopBarText = styled.h1`
-    font-size: 1.75em;
-    font-family: "Times New Roman", Times, serif !important;
 `;
 
 const TextContent = styled.div`
@@ -93,24 +53,6 @@ const Content = styled.div`
     width: 100%;
 `;
 
-const EditButtonContianer = styled.div`
-    height: fit-content;
-    margin: auto 0;
-    margin-left: 3em;
-    @media (max-width: 768px) { 
-        width: 100%;
-        margin: 1em 0;
-    }
-`;
-
-const MessageToUser = styled.h1`
-    font-size: 1em;
-    text-align: center;
-    width: 15em;
-    margin: 1rem;
-    margin-right: auto;
-`;
-
 type Props = {
     desc: string,
     backgroundImage: any,
@@ -135,28 +77,31 @@ function UserPage(props: Props) {
     const [allCategories, setAllCategories] = useState([]);
 
     useEffect(() => {
-        //check search params
-        let params = new URLSearchParams(document.location.search.substring(1));
-        let PageID = params.get("id");
-        if (PageID == null) {
-            setRedirectToHome(true);
-        } else {
-            //check if owner
-            fetchAPI(PageID);
-        }
+        fetchAPI()
     }, []);
+
     const updatePage = async () => {
-        if (orginalPara1 == paraInputOne && orginalPara2 == paraInputTwo) {
-            setMessageToUser("successfully updated page")
-            setEditMode(false);
-            return
-        }
         let activeTags: any = []
         allCategories.map(ele => {
             if (!ele.disabled) {
                 try {
+                    activeTags.push(ele)
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        })
+        if (orginalPara1 == paraInputOne && orginalPara2 == paraInputTwo && (compareArrays(activeTags, categories) || allCategories.length == 0)) {
+            setMessageToUser("successfully updated page")
+            setEditMode(false);
+            return
+        }
+        activeTags = []
+        allCategories.map(ele => {
+            if (!ele.disabled) {
+                try {
                     activeTags.push(parseInt(ele.data[2]))
-                } catch(err) {
+                } catch (err) {
                     console.log(err)
                 }
             }
@@ -164,35 +109,54 @@ function UserPage(props: Props) {
         const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ JWTToken: Cookie.get("authToken"), Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }));
         try {
             if (res.data.Error.length >= 0) {
-                setMessageToUser("could not update")
+                setMessageToUser(res.data.Error)
                 return
             }
             resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
+            fetchAPI()
         } catch (err) {
             resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
+            fetchAPI()
         }
     }
 
-    const fetchAPI = async (PageID: string) => {
-        const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ JWTToken: Cookie.get("authToken"), PageID: PageID }));
-        console.log(res)
-        try {
-            if (res.data.IsOwner) {
-                setCanEditMode(true)
+    const compareArrays = (array1: any, array2: any) => {
+        if (array1.length === array2.length) {
+            return !array1.find((ele: any) => {
+                return array2.find((ele2: any) => {
+                    return ele2 != ele
+                })
+            })
+        }
+        return false
+    }
+
+    const fetchAPI = async () => {
+        //check search params
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let PageID = params.get("id");
+        if (PageID == null) {
+            setRedirectToHome(true);
+        } else {
+            const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ JWTToken: Cookie.get("authToken"), PageID: PageID }));
+            try {
+                if (res.data.IsOwner) {
+                    setCanEditMode(true)
+                }
+                setOrginalPara1(res.data.Para1)
+                setOrginalPara2(res.data.Para2)
+                setParaInputOne(res.data.Para1)
+                setParaInputTwo(res.data.Para2)
+                setColour(res.data.Colour)
+                setName(res.data.Name)
+                setEmail(res.data.Email)
+                setLoading(false);
+                if (res.data.Categories != null) {
+                    setCategories(res.data.Categories)
+                }
+            } catch (err) {
+                console.log(err);
             }
-            setOrginalPara1(res.data.Para1)
-            setOrginalPara2(res.data.Para2)
-            setParaInputOne(res.data.Para1)
-            setParaInputTwo(res.data.Para2)
-            setColour(res.data.Colour)
-            setName(res.data.Name)
-            setEmail(res.data.Email)
-            setLoading(false);
-            if (res.data.Categories != null) {
-                setCategories(res.data.Categories)
-            }
-        } catch (err) {
-            console.log(err);
         }
     }
 
@@ -222,6 +186,9 @@ function UserPage(props: Props) {
         if (setOrginal) {
             setOrginalPara1(paraInputOne);
             setOrginalPara2(paraInputTwo);
+            setAllCategories(allCategories.map(ele => {
+                return {...ele, disabled: true}
+            }))
         } else {
             setParaInputOne(orginalPara1);
             setParaInputTwo(orginalPara2);
@@ -233,21 +200,7 @@ function UserPage(props: Props) {
                 {/* Split into more components */}
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <TopBarContainer>
-                        <TopBarTopSection>
-                            <ProfileImage src={DaxtonImage} />
-                            <TopBarTextContainer>
-                                <TopBarText>{name}</TopBarText>
-                                <TopBarText>{email}</TopBarText>
-                            </TopBarTextContainer>
-                            {canEditMode ?
-                                <EditButtonContianer>
-                                    <MessageToUser>{messageToUser}</MessageToUser>
-                                    <BasicButton activateButton={switchEditMode} text="edit" active={editMode} width={'5em'} id={20} />
-                                </EditButtonContianer> : ''}
-                        </TopBarTopSection>
-                        <PageCategories allCategories = {allCategories} setAllCategories = {setAllCategories} categories = {categories} editMode = {editMode} />
-                    </TopBarContainer>
+                    <ProfileTopPart setAllCategories = {setAllCategories} profilePhoto = {DaxtonImage} name = {name} email = {email} canEditMode = {canEditMode} editMode = {editMode} updateFunction = {updatePage} messageToUser = {messageToUser} switchEditMode = {switchEditMode} allCategories = {allCategories} categories = {categories} />
                     <TextContent>
                         <ParaTitle>Who Am I?</ParaTitle>
                         {paraInputOne == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
@@ -256,9 +209,6 @@ function UserPage(props: Props) {
                         {paraInputTwo == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
                         {editMode ? <ParaInput value={paraInputTwo} onChange={(e) => { setParaInputTwo(e.target.value) }} /> : <Para>{paraInputTwo}</Para>}
                     </TextContent>
-                    {editMode ?
-                        <BasicButton activateButton={updatePage} text="Update" active={!editMode} width={'5em'} id={20} />
-                        : ''}
                 </Content>
             </Page>
         );

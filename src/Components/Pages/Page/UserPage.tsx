@@ -9,7 +9,6 @@ import LoadingComp from '../../ComponentLibrayer/LoadingPage'
 import PageCategories from './PageCategories';
 import ProfileTopPart from './ProfileTopPart';
 
-
 const axios = require("axios");
 
 const Page = styled.div`
@@ -75,6 +74,7 @@ function UserPage(props: Props) {
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
+    const [allCategoriyApiData, setAllCategoriyApiData] = useState([])
 
     useEffect(() => {
         fetchAPI()
@@ -161,6 +161,12 @@ function UserPage(props: Props) {
     }
 
     const switchEditMode = () => {
+        //add loading symbol for this call
+        if (allCategories.length <= 0) {
+            getAllCategories();
+        } else {
+            updateAllCategories(allCategoriyApiData);
+        }
         if (editMode) {
             if (deleteChanges) {
                 setDeleteChanges(false);
@@ -176,8 +182,29 @@ function UserPage(props: Props) {
             setEditMode(false);
         } else {
             setMessageToUser("");
+            if (allCategories.length < 0) {
+                getAllCategories();
+            }
             setEditMode(true);
         }
+    }
+
+    const getAllCategories = async () => {
+        const res = await axios.post(`${BASEURL}/getCategories`);
+        updateAllCategories(res.data.Categories)
+        setAllCategoriyApiData(res.data.Categories)
+        setEditMode(true);
+    }
+
+    const updateAllCategories = async (allCategories: any) => {
+        console.log(allCategories)
+        setAllCategories(allCategories.map((ele: string[]) => {
+            let dis = !categories.find((catEle: any) => {
+                return catEle[2] === ele[2]
+            })
+            console.log(ele)
+            return { data: ele, disabled: dis }
+        }));
     }
 
     const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean, message: string) => {
@@ -187,20 +214,21 @@ function UserPage(props: Props) {
             setOrginalPara1(paraInputOne);
             setOrginalPara2(paraInputTwo);
             setAllCategories(allCategories.map(ele => {
-                return {...ele, disabled: true}
+                return { ...ele, disabled: true }
             }))
         } else {
             setParaInputOne(orginalPara1);
             setParaInputTwo(orginalPara2);
         }
     }
+
     if (!loading) {
         return (
             <Page>
                 {/* Split into more components */}
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <ProfileTopPart setAllCategories = {setAllCategories} profilePhoto = {DaxtonImage} name = {name} email = {email} canEditMode = {canEditMode} editMode = {editMode} updateFunction = {updatePage} messageToUser = {messageToUser} switchEditMode = {switchEditMode} allCategories = {allCategories} categories = {categories} />
+                    <ProfileTopPart setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
                     <TextContent>
                         <ParaTitle>Who Am I?</ParaTitle>
                         {paraInputOne == undefined && !editMode ? "Click the edit button to fill me in!" : ""}

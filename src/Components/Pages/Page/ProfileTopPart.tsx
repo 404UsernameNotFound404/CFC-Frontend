@@ -59,7 +59,7 @@ const EditButtonContianer = styled.div`
 const MessageToUser = styled.h1`
     font-size: 1em;
     text-align: left;
-    width: 25em;
+    width: 30em;
     margin: 0;
     position: absolute;
     top: -0.5em;

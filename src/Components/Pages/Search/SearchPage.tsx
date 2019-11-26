@@ -4,10 +4,6 @@ import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import CategorySearch from './CategorySearch';
 import SearchForWhat from './SearchForWhat';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { connect } from 'react-redux';
-import rootReducer from '../../../Reducers/searchPageReducer';
 import { BASEURL } from '../../../Constants'
 import PageCategories from '../Page/PageCategories'
 const axios = require("axios");
@@ -70,47 +66,54 @@ const SearchBoxSubTitle = styled.h4`
 
 
 function LinksContainer() {
-    const [searchValue, setSearchValue] = useState('');
-    const [loading, setLoading] = useState(true)
-    const store = createStore(rootReducer);
     const [allCategories, setAllCategories] = useState([]);
     const [categoryButtons, setCategoryButtons] = useState([]);
     const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
+    const thingsToSearch = ["activists", "events", "organizations"]
 
     useEffect(() => {
-        fetchCatogries();
+        findWhatToSearchFor();
+        fetchCatagories();
     }, []);
 
-    const fetchCatogries = async () => {
+    const findWhatToSearchFor = () => {
+        let DocLocation = document.location as unknown;
+        let params = (new URL(DocLocation as string)).searchParams;
+        let search = params.get("search");
+        console.log(search)
+        console.log(!!thingsToSearch.find(ele => ele == search))
+        if (search == null || !thingsToSearch.find(ele => ele == search)) {
+            //bring up choice of what to search for
+        } else {
+            switch (search) {
+                case "activists":
+                    break;
+                case "events":
+                    break;
+                case "organizations":
+                    break;
+            }
+        }
+    }
+
+    const fetchCatagories = async () => {
         const res = await axios.post(`${BASEURL}/getCategories`);
         setAllCategories(res.data.Categories)
     }
 
-    const updateSearchBar = (event: any) => {
-        console.log('update value');
-        setSearchValue(event.target.value);
-    }
-
     return (
-        <Provider store={store}>
-            <PageContainer>
-                <TopPartPage>
-                    <SearchBoxTitle>Who are you looking for?</SearchBoxTitle>
-                    <SearchBoxSubTitle>What category are you looking for?</SearchBoxSubTitle>
-                    <CategorySearch setCategoriesToNotAllow = {setCategoriesToNotAllow} categoriesToNotAllow = {categoriesToNotAllow} categoryButtons = {categoryButtons} setCategoryButtons = {setCategoryButtons} categories = {allCategories} />
-                </TopPartPage>
-                <SearchResults categoriesToNotAllow = {categoriesToNotAllow} WhatWasSearched={'asd'} />
-            </PageContainer>
-        </Provider>
+        <PageContainer>
+            <TopPartPage>
+                <SearchBoxTitle>What are you looking for?</SearchBoxTitle>
+                <SearchBoxSubTitle>What category are you looking for?</SearchBoxSubTitle>
+                <CategorySearch setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
+            </TopPartPage>
+            <SearchResults categoriesToNotAllow={categoriesToNotAllow} WhatWasSearched={'asd'} />
+        </PageContainer>
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        searchBar: state.searchBar
-    }
-}
-export default connect(mapStateToProps)(LinksContainer);
+export default LinksContainer;
 
 
 //   <SearchForWhatPage>

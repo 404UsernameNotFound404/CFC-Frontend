@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import SelectCauses from './SelectCauses';
-import { connect } from 'react-redux';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
 import { BASEURL } from '../../../Constants'
 import {
@@ -9,6 +8,9 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
+import { AppContext } from '../../../Context/AppContext';
+import Cookie from 'js-cookie'
+
 const axios = require('axios')
 
 const Content = styled.div`
@@ -61,7 +63,6 @@ const Message = styled.h1<Message>`
 type Props = {
     register: boolean
     setRegister: Function
-    login: Function
 }
 
 function LoginForm(props: Props) {
@@ -71,6 +72,7 @@ function LoginForm(props: Props) {
     const [redirectToHome, setRedirectToHome] = useState(false);
     const [authToken, setAuthToken] = useState("");
     const [message, setMessage] = useState({ error: false, message: "" })
+    const c = useContext(AppContext);
 
     const login = async () => {
         let networkError = true;
@@ -78,8 +80,8 @@ function LoginForm(props: Props) {
             let res = await axios.post(`${BASEURL}/login`, { Email: emailInput, Password: passwordInput });
             networkError = false;
             if (res.data.AuthToken.length >= 0) {
+                console.log(res.data)
                 setAuthToken(res.data.AuthToken);
-                // props.login({})
                 setRedirectToHome(true);
             }
             throw 'invalid login'
@@ -98,8 +100,10 @@ function LoginForm(props: Props) {
 
     const goToHome = () => {
         if (redirectToHome) {
-            console.log("this should not run if invalid")
-            props.login({ JWTToken: authToken });
+            console.log(authToken)
+            c.setUserToken(authToken)
+            Cookie.set("authToken", authToken)
+            c.setLoggedIn(true)
             return <Redirect to='/home' />
         }
     }
@@ -185,16 +189,4 @@ function LoginForm(props: Props) {
     }
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        posts: state.posts
-    }
-}
-
-const mapDispatchToProps = (dispatchMethod: any) => {
-    return {
-        login: (loginInfo: any) => { dispatchMethod({ type: 'LOGIN', loginInfo: loginInfo }) }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginForm;

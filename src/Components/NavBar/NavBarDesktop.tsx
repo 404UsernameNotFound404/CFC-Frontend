@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import {
     BrowserRouter as Router,
     Link,
     Redirect
 } from "react-router-dom";
+import DropDown from './DropDownMenu';
+import { AppContext } from '../../Context/AppContext';
 
 const RightPart = styled.div`
     margin-left: auto;
@@ -37,14 +39,10 @@ const LinkTitle = styled(Link)`
     font-weight: bold;
 `;
 
-const BlueColor = styled.span`
-    color: #3c78d8;
-`;
-
 const Content = styled.div`
     width: 75em;
     margin: auto;
-    height: 2.5em;
+    height: 2.5rem;
     display: flex;
     padding: 0.5em;
 `;
@@ -52,25 +50,25 @@ const Content = styled.div`
 const LightOverlay = styled.div`
     width: 100%;
     height: fit-content;
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0.8);
 `;
 
 type NavBarDekstopProps = {
     logoutLogin: any
-    logedIn: boolean
 }
 
 function NavBarDesktop(props: NavBarDekstopProps) {
+    const c = useContext(AppContext)
     return (
         <LightOverlay>
             <Content>
                 <LogoTitle to='/home'>Connecting For Change</LogoTitle>
                 <RightPart>
-                    {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
+                    {c.loggedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
                     <LinkTitle to='/about'>About Page</LinkTitle>
                     <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-                    <LinkTitle to='/search'><BlueColor>Search For An Activist</BlueColor></LinkTitle>
-                    <LinkTitle to='/login'><span onClick={props.logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
+                    <DropDown options = {[{name: "Activists", link: "/search?search=activists"}, {name: "Events", link: "/search?search=events"}, {name: "Organizations", link: "/search?search=organizations"}]} title = {"Search"} />
+                    <LinkTitle to='/login'><span onClick={props.logoutLogin}>{c.loggedIn ? "Logout" : "Login"}</span></LinkTitle>
                 </RightPart>
             </Content>
         </LightOverlay>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
@@ -8,8 +8,8 @@ import {
     Route,
     Redirect
   } from "react-router-dom";
-import { connect } from 'react-redux';
 import { useMediaQuery } from 'react-responsive'
+import {AppContext} from '../../../Context/AppContext';
 
 
 const axios = require('axios');
@@ -100,12 +100,9 @@ const SkipAndGoToHome = styled.div`
     }
 `;
 
-type Props = {
-    login: Function;
-    loggedIn: boolean
-}
+function LoginPage() {
+    const c = useContext(AppContext);
 
-function LoginPage(props: Props) {
     const [register, setRegister] = useState(false);
     const [reToHome, setReToHome] = useState(false); 
     const isPhone = useMediaQuery({ minDeviceWidth: 768 })
@@ -118,7 +115,7 @@ function LoginPage(props: Props) {
 
     return (
         <Page>
-            {props.loggedIn ? <Redirect to = '/home' /> : ''}
+            {c.loggedIn ? <Redirect to = '/home' /> : ''}
             { isPhone ?
                 <BackgroundImageContainer>
                     <BackgroundImage src={ProtestPhoto} />
@@ -138,18 +135,6 @@ function LoginPage(props: Props) {
         </Page>
     );
 }
-
-const mapStateToProps = (state: any) => {
-    return {
-      loggedIn: state.loggedIn
-    }
-  }
-  
-  const mapDispatchToProps = (dispatchMethod: any) => {
-    return {
-        login: (user: any) => { dispatchMethod({type: 'LOGIN'})}
-    }
-  }
    
-  export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+  export default LoginPage;
   

@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import {
     BrowserRouter as Router,
     Link
 } from "react-router-dom";
 import { slide as Menu } from 'react-burger-menu'
+import { AppContext } from '../../Context/AppContext';
 
-const LinkTitle = styled(Link)`
+type LinkTitleProps = {
+    color: string,
+    marginRight: string
+}
+
+const LinkTitle = styled(Link)<LinkTitleProps>`
     font-size: 1.25em;
     margin: 0 0.5em;
     margin-top: auto;
+    margin-left: ${p => p.marginRight};
     text-decoration: none;
     &:hover {
         text-decoration: underline;
     }
     cursor: pointer;
-    color: black;
+    color: ${p => p.color};
+    width: 100%;
     font-weight: bold;
-`;
-
-const BlueColor = styled.span`
-    color: #3c78d8;
-    
 `;
 
 type NavBarPropsMobile = {
     logoutLogin: any
-    logedIn: boolean
 }
 
 function NavBarMobile(props: NavBarPropsMobile) {
@@ -83,15 +85,19 @@ function NavBarMobile(props: NavBarPropsMobile) {
             setMobileOpen(true);
         }
     }
+    const c = useContext(AppContext)
     
     return (
         <Menu styles={styles} isOpen={mobileOpen} customOnKeyDown={changeMobileMenuOpen}>
-            <LinkTitle to='/home'>Home Page</LinkTitle>
-            {props.logedIn ? <LinkTitle to='/edit'>Profile Page</LinkTitle> : ""}
-            <LinkTitle to='/about'>About Page</LinkTitle>
-            <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-            <LinkTitle to='/search'><BlueColor>Search For An Activist</BlueColor></LinkTitle>
-            <LinkTitle to='/login'><span onClick={props.logoutLogin}>{props.logedIn ? "Logout" : "Login"}</span></LinkTitle>
+            <LinkTitle marginRight = {"0"} color = {"black"} to='/home'>Home Page</LinkTitle>
+            {c.loggedIn ? <LinkTitle marginRight = {"0"} color = {"black"} to='/edit'>Profile Page</LinkTitle> : ""}
+            <LinkTitle marginRight = {"0"} color = {"black"} to='/about'>About Page</LinkTitle>
+            <LinkTitle marginRight = {"0"} color = {"black"} to='/learn'>Learn About The Issues</LinkTitle>
+            <LinkTitle marginRight = {"0"} color = {"#3c78d8"} to='/search'>Search</LinkTitle>
+            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=activists'>Activist</LinkTitle>
+            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=event'>Event</LinkTitle>
+            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=organization'>Organization</LinkTitle>
+            <LinkTitle marginRight = {"0"} color = {"black"} to='/login'><span onClick={props.logoutLogin}>{c.loggedIn ? "Logout" : "Login"}</span></LinkTitle>
         </Menu>
     );
 }

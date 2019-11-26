@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import LogoImg from '../../img/placeholder.png';
 import {
     BrowserRouter as Router,
-    Link,
     Redirect
 } from "react-router-dom";
-import { connect } from 'react-redux';
-import { slide as Menu } from 'react-burger-menu'
 import { useMediaQuery } from 'react-responsive'
 import MobileNavBar from './MobileNavBar'
 import DesktopNavBar from './NavBarDesktop'
+import { AppContext } from '../../Context/AppContext';
 
 const Container = styled.div`
     top: 0;
@@ -21,8 +18,6 @@ const Container = styled.div`
 `;
 
 type NavBarProps = {
-    login: Function,
-    logedIn: boolean,
     showNavBar: boolean
 }
 
@@ -31,14 +26,15 @@ type NavBarProps = {
 function NavBar(props: NavBarProps) {
     const [redirectToLogin, setRedirectToLogin] = useState(false);
     const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+    const c = useContext(AppContext)
    
     useEffect(() => {
         setRedirectToLogin(false);
     }, [props])
 
     const logoutLogin = () => {
-        if (props.logedIn) {
-            props.login({ JWTToken: "" })
+        if (c.loggedIn) {
+            c.setUserToken("")
         } else {
             setRedirectToLogin(true);
         }
@@ -49,9 +45,9 @@ function NavBar(props: NavBarProps) {
             <Container>
                 {redirectToLogin ? <Redirect to='/login' /> : ''}
                 {isPhone ? 
-                <DesktopNavBar logedIn = {props.logedIn} logoutLogin = {logoutLogin} />
+                <DesktopNavBar logoutLogin = {logoutLogin} />
                 : 
-                <MobileNavBar logedIn = {props.logedIn} logoutLogin = {logoutLogin} />
+                <MobileNavBar logoutLogin = {logoutLogin} />
                 }
             </Container>
         );
@@ -60,16 +56,4 @@ function NavBar(props: NavBarProps) {
     }
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-        user: state.user
-    }
-}
-
-const mapDispatchToProps = (dispatchMethod: any) => {
-    return {
-        login: (loginInfo: any) => { dispatchMethod({ type: 'LOGIN', loginInfo: loginInfo }) }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default NavBar;

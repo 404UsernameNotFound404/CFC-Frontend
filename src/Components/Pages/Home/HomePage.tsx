@@ -4,16 +4,17 @@ import NatureImage from '../../../img/nature-image.jpg';
 import PeopleTalking from '../../img/people-talking.png';
 import LinkBox from './LinkContainer';
 import PlaceHolder from '../../../img/placeholder.png';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ActvistOfWeek  from './ActvistOfWeek'
+import Events from './Events'
 
 const PageContainer = styled.div`
-   height: 100vh;
-   display: flex;
-   justify-content: center;
+    width: 75em;
+    margin: auto;
 `;
 
 const TopPart = styled.div`
+    padding-top: 8em;
     background-size: 100%;
     background-repeat: no-repeat;
     height: fit-content;
@@ -30,19 +31,21 @@ const LookForActvitsButtonContainer = styled.div`
     display: flex;
 `;
 
-const PageQuote = styled.h1`
+const PageTitle = styled.h1`
     width: 100%;
-    margin: 0 auto;
+    margin: 0 0;
     text-align: center;
-    font-size: 4em;
+    font-size: 6em;
     @media (max-width: 768px) {
         font-size: 2.75em;
         margin-bottom: 0em;
     }
-    /* color: white; */
-  
-    height: fit-content;
-    display: inline-block;
+`;
+
+const PagePara = styled.h4`
+    margin: 0;
+    text-align: center;
+    font-size: 3em;
 `;
 
 const LookForActvitsButton = styled(Link)`
@@ -55,7 +58,7 @@ const LookForActvitsButton = styled(Link)`
     padding: 0.5em 2em;
     border-radius: 1em;
     margin: 0em auto;
-    margin-top: 2em;
+    margin-top: 1em;
     @media (max-width: 768px) { 
         margin-top: 1em;
     }
@@ -78,23 +81,27 @@ const QuoteAuthor = styled.span`
     font-weight: bolder;
 `;
 
+const ActvistsAndEventsContainer = styled.div`
+    display: flex;
+    margin-bottom: 2em;
+`;
+
 function HomePage() {
     return (
         <PageContainer>
             <TopPart>
-                <PageQuote>"Never doubt that a <BlueHighlight>small group</BlueHighlight> of thoughtful committed citizens can <BlueHighlight>change the world</BlueHighlight>"<br/><QuoteAuthor>Margaret Mead</QuoteAuthor></PageQuote>
+                <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
+                <PagePara>This is about working for a just world, together.</PagePara>
                 <LookForActvitsButtonContainer>
                     <LookForActvitsButton to = '/search'>Find Activists</LookForActvitsButton>
                 </LookForActvitsButtonContainer>
             </TopPart>
+            <ActvistsAndEventsContainer>
+                <ActvistOfWeek />
+                <Events />
+            </ActvistsAndEventsContainer>
         </PageContainer>
     );
 }
 
-const mapStateToProps = (state: any) => {
-    return {
-      user: state.user
-    }
-}
-
-export default connect(mapStateToProps)(HomePage);
+export default HomePage;

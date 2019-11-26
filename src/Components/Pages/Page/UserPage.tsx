@@ -96,6 +96,9 @@ function UserPage(props: Props) {
             setEditMode(false);
             return
         }
+        if (paraInputOne.length < 100 || paraInputTwo.length < 100) {
+            setMessageToUser("Paragraphs need to be at least 100 characters")
+        }
         activeTags = []
         allCategories.map(ele => {
             if (!ele.disabled) {

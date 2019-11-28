@@ -1,2 +1,2 @@
-// export const BASEURL = "http://ec2-100-24-59-63.compute-1.amazonaws.com:3000";
-export const BASEURL = "http://localhost:3000"
+// export const BASEURL = "https://connecting-for-change.appspot.com";
+export const BASEURL = "http://localhost:8000"

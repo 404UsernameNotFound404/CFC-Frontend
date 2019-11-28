@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import SearchBar from './SearchBar';
-import SearchResults from './SearchResults';
+import SearchActivists from './SearchResults/SearchActvists';
 import CategorySearch from './CategorySearch';
-import SearchForWhat from './SearchForWhat';
-import { BASEURL } from '../../../Constants'
-import PageCategories from '../Page/PageCategories'
+import { BASEURL } from '../../../Constants';
+import SearchEvents from './SearchResults/SearchEvents';
+import SearchOrganizations from './SearchResults/SearchOrganizations';
 const axios = require("axios");
 
 const PageContainer = styled.div`
@@ -26,32 +25,6 @@ const TopPartPage = styled.div`
     }
 `;
 
-const SearchForWhatPage = styled.div`
-    width: 75em;
-    height: 100vh;
-    margin: auto;
-    display: flex;
-    justify-content: center;
-`;
-
-const SearchForWhatContainer = styled.div`
-    margin-top: 4em;
-    width: 75%;
-    display: flex;
-    justify-content: space-between;
-`;
-
-const SearchForWhatTitle = styled.h1`
-    font-size: 4em;
-    position: absolute;
-    top: 10vh;
-`;
-
-const OR = styled.h1`
-    font-size: 3em;
-    margin: auto;
-`;
-
 const SearchBoxTitle = styled.h1`
     font-size: 4em;
     margin: 0;
@@ -69,31 +42,35 @@ function LinksContainer() {
     const [allCategories, setAllCategories] = useState([]);
     const [categoryButtons, setCategoryButtons] = useState([]);
     const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
-    const thingsToSearch = ["activists", "events", "organizations"]
+    const [whatYourSearching, setWhatYourSearching] = useState(null);
+    const thingsToSearch = ["Activists", "Events", "Organizations", null]
+
 
     useEffect(() => {
-        findWhatToSearchFor();
         fetchCatagories();
     }, []);
 
+    useEffect(() => {
+        if (checkIfSearchParamsChanges() != whatYourSearching) {
+            findWhatToSearchFor();
+        }
+    });
+
     const findWhatToSearchFor = () => {
+        console.log("find what to search")
+        let search = checkIfSearchParamsChanges()
+        setWhatYourSearching(null)
+        thingsToSearch.map((ele, i) => {
+            if (ele == search) {
+                setWhatYourSearching(ele)
+            }
+        })
+    }
+
+    const checkIfSearchParamsChanges = () => {
         let DocLocation = document.location as unknown;
         let params = (new URL(DocLocation as string)).searchParams;
-        let search = params.get("search");
-        console.log(search)
-        console.log(!!thingsToSearch.find(ele => ele == search))
-        if (search == null || !thingsToSearch.find(ele => ele == search)) {
-            //bring up choice of what to search for
-        } else {
-            switch (search) {
-                case "activists":
-                    break;
-                case "events":
-                    break;
-                case "organizations":
-                    break;
-            }
-        }
+        return params.get("search");
     }
 
     const fetchCatagories = async () => {
@@ -108,7 +85,7 @@ function LinksContainer() {
                 <SearchBoxSubTitle>What category are you looking for?</SearchBoxSubTitle>
                 <CategorySearch setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
             </TopPartPage>
-            <SearchResults categoriesToNotAllow={categoriesToNotAllow} WhatWasSearched={'asd'} />
+            <SearchActivists choice={whatYourSearching} categoriesToNotAllow={categoriesToNotAllow} />
         </PageContainer>
     );
 }

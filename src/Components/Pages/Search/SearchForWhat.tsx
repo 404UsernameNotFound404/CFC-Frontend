@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Protest from '../../../img/Protest.jpg';
-import SearchBar from './SearchBar';
-import PeopleTalking from '../../../img/Protest.jpg';
-import SearchResults from './SearchResults';
-import CategorySearch from './CategorySearch';
 
 const Content = styled.div`
     width: 40%;

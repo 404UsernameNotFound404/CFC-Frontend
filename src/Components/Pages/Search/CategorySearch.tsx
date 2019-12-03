@@ -29,13 +29,14 @@ function CategorySearch(props: Props) {
     }, [props.categories])
 
     const buildCategoryButtons = () => {
+        console.log(props.categories)
         setCategoryButtons(
-            props.categories.map((ele, i) => {
+            props.categories.map((ele: any, i) => {
                 return {
-                    text: ele[0],
-                    colour: ele[1],
+                    text: ele.Name,
+                    colour: ele.Colour,
                     active: true,
-                    id: ele[2]
+                    id: ele.ID
                 }
             })
         );

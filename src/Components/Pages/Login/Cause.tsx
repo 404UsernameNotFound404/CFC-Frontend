@@ -53,7 +53,7 @@ const CheckBox = styled.div<CheckBoxStyle>`
     margin-right: auto;  
     display: flex;
     justify-content: center;
-    background-color: ${p => p.active ? p.backgroundColor : 'transparent'}
+    background-color: ${p => p.active ? p.backgroundColor : 'transparent'};
 `;
 
 const CheckMark = styled.img`

@@ -2,6 +2,7 @@ import React, { useState }from 'react';
 import styled from 'styled-components';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
 import { Link } from 'react-router-dom';
+import PageCategories from '../Page/PageCategories';
 
 const Container = styled.div`
     border: black 0.2rem solid;
@@ -61,7 +62,8 @@ type Props = {
     name: string,
     img: string,
     para: string,
-    ID: string
+    ID: string,
+    Categories: {Name: string, ID: string, Colour: string}[]
 }
 
 function Page(props: Props) {
@@ -80,6 +82,9 @@ function Page(props: Props) {
                 {props.para.substring(0,80)}...
             </ElevatorPitch>
             <Link to =  {`/page?id=${props.ID}`}><BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} /></Link>
+            <div style = {{marginLeft: "1em"}}>
+                <PageCategories editMode = {false} categories = {props.Categories} allCategories = {[]} setAllCategories = {[]} width = {"100%"} />
+            </div>
         </Container>
     );
 }

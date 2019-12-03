@@ -10,6 +10,7 @@ import {
   } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive'
 import {AppContext} from '../../../Context/AppContext';
+import PickWhatToCreate from './PickWhatToCreate';
 
 
 const axios = require('axios');
@@ -25,6 +26,8 @@ const Page = styled.div`
     margin: auto;
     display: flex;
     justify-content: center;
+    height: fit-content;
+    
 `;
 
 const SubTitle = styled.h1`
@@ -41,13 +44,14 @@ const Content = styled.div`
     @media (max-width: 768px) {
         margin: auto;
     }
-    
+    padding-bottom: 2em;
 `;
 
 const BackgroundImage = styled.img`
     object-fit: cover;
     width: 100%;
     height: 100%;
+    background-color: black;
 `;
 
 const BackgroundImageOverlay = styled.div`
@@ -103,13 +107,12 @@ const SkipAndGoToHome = styled.div`
 function LoginPage() {
     const c = useContext(AppContext);
 
-    const [register, setRegister] = useState(false);
+    const [register, setRegister] = useState(1);
     const [reToHome, setReToHome] = useState(false); 
     const isPhone = useMediaQuery({ minDeviceWidth: 768 })
 
-    const registerClick = () => {
-        if(register) setRegister(false)
-        else setRegister(true);
+    const registerClick = (whatToSwitch: number) => {
+        setRegister(whatToSwitch)
         //set inputs to zero later
     }
 
@@ -127,7 +130,11 @@ function LoginPage() {
                 <LoginForm setRegister = {setRegister} register = {register}/>
                 <RegisterAndForgotUsername>
                     {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
-                    <ForgotRegisterText onClick={registerClick}>{register ? 'Go To Login' : 'Create An Acount'}</ForgotRegisterText>
+                    {(register != 0) ? 
+                        <ForgotRegisterText onClick={() => {registerClick(0)}}>Go To Login</ForgotRegisterText> 
+                    :
+                        <PickWhatToCreate registerOrg = {() => {registerClick(1)}} registerUser = {() => {registerClick(2)}} />
+                    }
                 </RegisterAndForgotUsername>
                 <SkipAndGoToHome onClick = {() => {setReToHome(true)}}>Skip And Go To Home Page</SkipAndGoToHome>
             </Content>

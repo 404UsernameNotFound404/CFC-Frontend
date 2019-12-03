@@ -6,6 +6,7 @@ import { BASEURL } from '../../../../Constants';
 import Cookie from 'js-cookie';
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 import Organization from '../Organzation';
+import PickWhatToSearchFor from '../PickWhatToSearchForButton';
 const axios = require("axios");
 
 
@@ -20,6 +21,7 @@ const Container = styled.div`
         width: 100% !important;
         display: inline-block;
     }
+    margin-bottom: 5em;
 `;
 
 const Error = styled.h4`
@@ -37,6 +39,10 @@ function SearchBar(props: Props) {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(true);
     const [choice, setChoice] = useState("");
+    const searchOption = [
+        {text: "Activists", link: "/search?search=Activists"},
+        {text: "Organizations", link: "/search?search=Organizations"}
+    ];
     useEffect(() => {
         setLoading(true);
         if (props.choice != null) {
@@ -52,6 +58,10 @@ function SearchBar(props: Props) {
         try {
             const res = await axios.post(`${BASEURL}/get${props.choice}`);
             networkError = false;
+            if (res.data.Error != undefined) {
+                setError(res.data.Error)
+                return
+            }
             setPages(res.data);
             setLoading(false);
             setChoice(props.choice);
@@ -66,13 +76,11 @@ function SearchBar(props: Props) {
 
     const checkIfInCategories = (arrayToCheck: any) => {
         let render = false;
-        props.categoriesToNotAllow.map((notAllowEle: any) => {
-            console.log(props.categoriesToNotAllow)
-            console.log(arrayToCheck)
-            render = !arrayToCheck.find((catEle: any) => {
-                return catEle.ID == notAllowEle
-            })
-        })
+        for(let x = 0;x < props.categoriesToNotAllow.length;x++) {
+            if(!!arrayToCheck.find((catEle: any) => catEle.ID == props.categoriesToNotAllow[x])) {
+                return true
+            }
+        }
         return (render || props.categoriesToNotAllow.length <= 0)
     }
 
@@ -99,9 +107,8 @@ function SearchBar(props: Props) {
                     return (<>
                         {
                             pages.map((ele, i) => {
-                                console.log(ele)
                                 if (checkIfInCategories(ele.Categories)) {
-                                    return <Page ID={ele.PageID} name={ele.Name} img={DefaultImage} para={ele.Para1} key={i} />
+                                    return <Page Categories = {ele.Categories} ID={ele.PageID} name={ele.Name} img={DefaultImage} para={ele.Para1} key={i} />
                                 }
                             })
                         } </>)
@@ -110,7 +117,13 @@ function SearchBar(props: Props) {
                 }
                 break;
             default:
-                return (<>pick</>)
+                return (
+                    <>
+                        {
+                            searchOption.map(ele => <PickWhatToSearchFor text = {ele.text} link = {ele.link} />)
+                        }
+                    </>
+                )
                 break;
         }
     }

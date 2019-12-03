@@ -7,13 +7,15 @@ const axios = require("axios");
 type ContentProps = {
     colour: string
     clickable: boolean,
-    disabled: boolean
+    disabled: boolean,
+    width: string
 }
 
 const Content = styled.div<ContentProps>`
-    width: 10em;
+    width: ${p => p.width};
+    max-width: 8em;
     height: fit-content;
-    margin: 1em 0;
+    margin: 0.5em 0;
     margin-right: 5%;
     display: flex;
     justify-content: center;
@@ -36,12 +38,13 @@ type Props = {
     disabled: boolean,
     clickable: boolean,
     clickFunction: any,
-    id: string
+    id: string,
+    width: string
 }
 
 function CategoryTag(props: Props) {
     return (
-        <Content onClick = {() => {props.clickFunction(props.id)}} clickable = {props.clickable} colour = {props.colour} disabled = {props.disabled}>
+        <Content width = {props.width} onClick = {() => {props.clickFunction(props.id)}} clickable = {props.clickable} colour = {props.colour} disabled = {props.disabled}>
             <Title>{props.name}</Title>
         </Content>
     );

@@ -92,7 +92,6 @@ type Props = {
 
 function UserPage(props: Props) {
     const {profilePhoto, name, email, canEditMode, editMode, messageToUser, updateFunction, switchEditMode, allCategories, setAllCategories, categories} = props;
-
     return (
         <TopBarContainer>
             <TopBarTopSection>
@@ -112,7 +111,9 @@ function UserPage(props: Props) {
                             : ''}
                     </EditButtonContianer> : ''}
             </TopBarTopSection>
-            <PageCategories allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
+            <div style = {{width: "125%"}}>
+                <PageCategories width = {"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
+            </div>
         </TopBarContainer>
     );
 }

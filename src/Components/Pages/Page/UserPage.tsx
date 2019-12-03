@@ -103,7 +103,7 @@ function UserPage(props: Props) {
         allCategories.map(ele => {
             if (!ele.disabled) {
                 try {
-                    activeTags.push(parseInt(ele.data[2]))
+                    activeTags.push(parseInt(ele.ID))
                 } catch (err) {
                     console.log(err)
                 }
@@ -194,19 +194,20 @@ function UserPage(props: Props) {
 
     const getAllCategories = async () => {
         const res = await axios.post(`${BASEURL}/getCategories`);
-        updateAllCategories(res.data.Categories)
-        setAllCategoriyApiData(res.data.Categories)
+        console.log(res.data)
+        updateAllCategories(res.data)
+        setAllCategoriyApiData(res.data)
         setEditMode(true);
     }
 
     const updateAllCategories = async (allCategories: any) => {
         console.log(allCategories)
-        setAllCategories(allCategories.map((ele: string[]) => {
+        setAllCategories(allCategories.map((ele: any) => {
             let dis = !categories.find((catEle: any) => {
-                return catEle[2] === ele[2]
+                return catEle.ID === ele.ID
             })
             console.log(ele)
-            return { data: ele, disabled: dis }
+            return { ...ele, disabled: dis }
         }));
     }
 

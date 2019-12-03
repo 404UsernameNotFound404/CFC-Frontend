@@ -10,13 +10,15 @@ const Content = styled.div`
     height: fit-content;
     margin: 1em auto;
     display: flex;
+    flex-wrap: wrap;
 `;
 
 type Props = {
     editMode: boolean,
-    categories: string[][],
+    categories: {Name: string, ID: string, Colour: string}[],
     allCategories: any,
-    setAllCategories: any
+    setAllCategories: any,
+    width: string
 }
 
 function PageCategories(props: Props) {
@@ -24,7 +26,7 @@ function PageCategories(props: Props) {
 
     const disable = (id: string) => {
         setAllCategories(allCategories.map((ele: any) => {
-            if (ele.data[2] == id) {
+            if (ele.ID == id) {
                 return {...ele, disabled: !ele.disabled}
             } else {
                 return ele
@@ -37,14 +39,13 @@ function PageCategories(props: Props) {
     if (!props.editMode) {
         return (
             <Content>
-                {props.categories.map(ele => <CategoryTag id = {""} clickFunction={() => { }} clickable={false} disabled={false} name={ele[0]} colour={ele[1]} />)}
+                {props.categories.map(ele => <CategoryTag width = {props.width} id = {""} clickFunction={() => { }} clickable={false} disabled={false} name={ele.Name} colour={ele.Colour} />)}
             </Content>
         );
     } else {
         return (
             <Content>
-                {console.log("here")}
-                {allCategories.map((ele: any) => <CategoryTag id = {ele.data[2]} clickFunction={disable} clickable={true} disabled={ele.disabled} name={ele.data[0]} colour={ele.data[1]} />)}
+                {allCategories.map((ele: any) => <CategoryTag width = {props.width} id = {ele.ID} clickFunction={disable} clickable={true} disabled={ele.disabled} name={ele.Name} colour={ele.Colour} />)}
             </Content>
         );
     }

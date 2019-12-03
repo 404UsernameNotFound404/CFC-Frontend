@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import PageCategories from '../Page/PageCategories';
 
 const Container = styled.div`
     position: relative;
     border: black 0.2rem solid;
+    background-color: #f9f9f9;
     width: 30%;
     padding: 1%;
     margin: 1.5%;
@@ -57,7 +59,7 @@ type Props = {
     desc: string,
     link: string,
     location: string,
-    interests: {Name: string, Colour: string}
+    interests: {Name: string, Colour: string, ID: string}[]
 }
 
 function Organzation(props: Props) {
@@ -68,6 +70,7 @@ function Organzation(props: Props) {
             <Desc>{props.desc}</Desc>
             <LinkToWebite href = {props.link}>{props.name}</LinkToWebite>
             <LogoOfOrg src = {props.img} />
+            <PageCategories editMode = {false} categories = {props.interests} allCategories = {[]} setAllCategories = {[]} width = {"100%"} />
         </Container>
     );
 }

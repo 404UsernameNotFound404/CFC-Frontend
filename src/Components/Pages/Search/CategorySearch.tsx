@@ -80,6 +80,12 @@ function CategorySearch(props: Props) {
             }
             return ele;
         });
+        if(!newArray.find((ele: any) => ele.active)) {
+            setFirstTimePick(true)
+            newArray = newArray.map((ele: any) => {
+                return {...ele, active: true}
+            })
+        }
         setCategoryButtons(newArray);
     }
 

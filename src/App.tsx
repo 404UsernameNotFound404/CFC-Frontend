@@ -16,15 +16,17 @@ import {
 } from "react-router-dom";
 import Cookie from 'js-cookie'
 import { AppContext} from './Context/AppContext'
+import OrgPage from './Components/Pages/OrgPage/OrgPage'
 
 const axios = require("axios");
 
-function App(props: any) {
+function App() {
   const [redirectToLogin, setRedirectToLogin] = useState(false);
   const [showNavBar, setShowNavBar] = useState(true);
   const [userToken, setUserToken] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [userID, setUserID] = useState("");
+  const [userType, setUserType] = useState(-1);
 
 
   const RedirectToLogin = () => {
@@ -38,15 +40,13 @@ function App(props: any) {
   }
 
   const checkToken = async () => {
-    console.log("check token")
-    console.log(Cookie.get("authToken"))
     try {
       if (Cookie.get("authToken").length > 0) {
         const res = await axios.post(`${BASEURL}/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
-        if (res.data.Valid.length > 0) {
-          console.log("valid cookie")
+        if (res.data.UserID.length > 0) {
           setUserToken(Cookie.get("authToken"))
-          setUserID(res.data.Valid)
+          setUserID(res.data.UserID)
+          setUserType(res.data.Type)
           setLoggedIn(true)
         } else {
           setRedirectToLogin(true);
@@ -56,14 +56,12 @@ function App(props: any) {
         throw "no auth token"
       }
     } catch (err) {
-      console.log("error when checking token")
       setUserToken("")
       setUserID("")
     }
   }
 
   useEffect(() => {
-    console.log("asd")
     checkToken();
   }, [loggedIn])
 
@@ -74,7 +72,7 @@ function App(props: any) {
 
   return (
     <div>
-      <AppContext.Provider value = {{userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn}}>
+      <AppContext.Provider value = {{userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType}}>
         <Router>
           {RedirectToLogin()}
           <Route component={showNavBarFunct} />
@@ -83,10 +81,10 @@ function App(props: any) {
             <Route path = '/search' component = {Search}/>
             <Route path='/login' component={onLoginPage} />
             <Route path='/page' component={UserPage} />
-            {console.log(userID)}
-            <Redirect from = '/edit' to ={`/page?id=${userID}`} />
+            <Redirect from = '/edit' to ={`/${(userType === 0) ? "page" : "organization"}?id=${userID}`} />
             <Route path='/about' component={AboutPage} />
             <Route path='/learn' component={LearningPage} />
+            <Route path = '/organization' component = {OrgPage} />
             <Route component={Home} />
           </Switch>
           <NavBar showNavBar={showNavBar} />

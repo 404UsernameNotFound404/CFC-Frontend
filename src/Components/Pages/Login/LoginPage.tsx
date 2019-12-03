@@ -26,14 +26,14 @@ const Page = styled.div`
     margin: auto;
     display: flex;
     justify-content: center;
-    height: fit-content;
-    
+    height: 100vh;
 `;
 
 const SubTitle = styled.h1`
     margin: 0.2em;
     font-size: 2em;
     text-align: center;
+    margin-top: 1em;
 `;
 
 const Content = styled.div`
@@ -107,7 +107,7 @@ const SkipAndGoToHome = styled.div`
 function LoginPage() {
     const c = useContext(AppContext);
 
-    const [register, setRegister] = useState(1);
+    const [register, setRegister] = useState(0);
     const [reToHome, setReToHome] = useState(false); 
     const isPhone = useMediaQuery({ minDeviceWidth: 768 })
 

@@ -8,6 +8,7 @@ import { useMediaQuery } from 'react-responsive'
 import MobileNavBar from './MobileNavBar'
 import DesktopNavBar from './NavBarDesktop'
 import { AppContext } from '../../Context/AppContext';
+import Cookie from 'js-cookie'
 
 const Container = styled.div`
     top: 0;
@@ -35,6 +36,8 @@ function NavBar(props: NavBarProps) {
     const logoutLogin = () => {
         if (c.loggedIn) {
             c.setUserToken("")
+            Cookie.set("authToken", "")
+            c.setLoggedIn(false);
         } else {
             setRedirectToLogin(true);
         }

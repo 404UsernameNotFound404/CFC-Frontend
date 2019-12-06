@@ -154,7 +154,7 @@ function LoginForm(props: Props) {
             if (props.register == 2) {
                 let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
-                    setMessage({ error: false, message: "Registered Sucssfully" })
+                    setMessage({ error: false, message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
                     props.setRegister(false);
                     return
                 }
@@ -228,22 +228,22 @@ function LoginForm(props: Props) {
         return (
             <Content>
                 <Message error={message.error}>{message.message}</Message>
-                <LoginInput value={registerValues[0]} onChange={(e) => { funcSetRegisterValues(e.target.value, 0) }} placeholder="Please Enter Email" />
+                <LoginInput value={registerValues[0]} onChange={(e) => { funcSetRegisterValues(e.target.value, 0) }} placeholder="*Please Enter Email" />
                 <BreakLine />
-                <LoginInput value={registerValues[1]} onChange={(e) => { funcSetRegisterValues(e.target.value, 1) }} placeholder="Enter Password" type='password' />
+                <LoginInput value={registerValues[1]} onChange={(e) => { funcSetRegisterValues(e.target.value, 1) }} placeholder="*Enter Password" type='password' />
                 <BreakLine />
-                <LoginInput value={registerValues[2]} onChange={(e) => { funcSetRegisterValues(e.target.value, 2) }} placeholder="Re-Enter Password" type='password' />
+                <LoginInput value={registerValues[2]} onChange={(e) => { funcSetRegisterValues(e.target.value, 2) }} placeholder="*Re-Enter Password" type='password' />
                 <BreakLine />
                 <LoginInput value={registerValues[3]} onChange={(e) => { funcSetRegisterValues(e.target.value, 3) }} placeholder="Phone Number" />
                 <BreakLine />
-                <LoginInput value={registerValues[4]} onChange={(e) => { funcSetRegisterValues(e.target.value, 4) }} placeholder="Name" />
+                <LoginInput value={registerValues[4]} onChange={(e) => { funcSetRegisterValues(e.target.value, 4) }} placeholder="*Name" />
                 <BreakLine />
                 {
                     (props.register == 1) ?
                         <>
-                            <LoginInput value={registerValues[5]} onChange={(e) => { funcSetRegisterValues(e.target.value, 5) }} placeholder="Location" />
+                            <LoginInput value={registerValues[5]} onChange={(e) => { funcSetRegisterValues(e.target.value, 5) }} placeholder="*Location" />
                             <BreakLine />
-                            <LoginInput value={registerValues[6]} onChange={(e) => { funcSetRegisterValues(e.target.value, 6) }} placeholder="Link" />
+                            <LoginInput value={registerValues[6]} onChange={(e) => { funcSetRegisterValues(e.target.value, 6) }} placeholder="*Link" />
                             <OrgRegisterInfoInput description={description} setDescription={setDescription} categories={categories} setCategories={setCategories} />
                         </>
                         :

@@ -7,20 +7,20 @@ const Container = styled.div`
     border: black 0.2rem solid;
     background-color: #f9f9f9;
     width: 30%;
-    padding: 1%;
+    padding: 2%;
     margin: 1.5%;
     border-radius: 1em;
     @media (max-width: 768px) { 
         border-width: 1%;
         width: 98%;
         margin: 1.5em 0;
-        padding: 0;
     }
 `;
 
 const Name = styled.h1`
     font-size: 1.75em;
     margin: 0.1em 0;
+    max-width: 75%;
 `;
 
 const LogoOfOrg = styled.img`

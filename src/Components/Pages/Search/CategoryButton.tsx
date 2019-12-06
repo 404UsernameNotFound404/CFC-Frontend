@@ -12,15 +12,30 @@ const Container = styled.div<ContainerStyleProps>`
     background-color: ${p => p.colour};
     border-radius: 0.5em;
     width: 21%;
-    padding: 1em 1%;
+    padding: 1.5em 1%;
     margin: 1em auto;
     text-align: center;
     color: black !important;
-    font-size: 1.5em;
+    
     opacity: ${p => p.active ? '1' : '0.5'};
+    @media (max-width: 768px) { 
+        padding: 1em 1%;
+        width: 8em;
+    }
+    display: flex;
+    justify-content: center;
     &:hover {
         border-color: transparent;
         color: white;
+    }
+`;
+
+const Text = styled.h1`
+    font-size: 1.5em;
+    text-align: center;
+    margin: auto;
+    @media (max-width: 768px) { 
+        font-size: 1.25em;
     }
 `;
 
@@ -34,7 +49,7 @@ type Props = {
 
 function CategoryButton(props: Props) {
     return (
-        <Container active={props.active} colour={props.colour} onClick={() => { props.activateButton(props.id) }}>{props.text}</Container>
+        <Container active={props.active} colour={props.colour} onClick={() => { props.activateButton(props.id) }}><Text>{props.text}</Text></Container>
     );
 }
 

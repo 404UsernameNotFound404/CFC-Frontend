@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import climateMarch from '../../../img/climateMarch.jpg'
+import { useMediaQuery } from 'react-responsive'
 
 const Content = styled.div`
     width: 47%;
     margin-left: 3%;
+    @media (max-width: 768px) {    
+        width: 50%;
+    }
 `;
 
 const Title = styled.h1`
@@ -12,12 +16,19 @@ const Title = styled.h1`
     text-align: center;
     text-decoration: underline;
     margin-bottom: 0.3em;
+    @media (max-width: 768px) {   
+        font-size: 3em;
+    }
 `;
 
 const NameOfEvent = styled.h3`
     font-size: 2.5em;
     text-align: center;
     margin: 0;
+    @media (max-width: 768px) {   
+        font-size: 2em;
+        margin-bottom: 0.5em;
+    }
 `;
 
 const TimeAndLocation = styled.h4`
@@ -37,6 +48,9 @@ const Photo = styled.img`
     object-position: mid;
     border-radius: 0.5em;
     border: black 0.2em solid;
+    @media (max-width: 768px) {    
+        margin-top: 2em;
+    }
 `;
 
 const Description = styled.p`
@@ -46,14 +60,17 @@ const Description = styled.p`
 `;
 
 function Events() {
+    const phone = useMediaQuery({ query: '(max-width: 768px)' })
+
     return (
         <Content>
             <Title>Event</Title>
             <NameOfEvent>The March For Climate</NameOfEvent>
-            <Photo src = {climateMarch} />
+            {!phone ? <Photo src = {climateMarch} /> : ""}
             <TimeAndLocation>Time: <TimeAndLocationContent>Wednseday 13th of Decemeber</TimeAndLocationContent></TimeAndLocation>
             <TimeAndLocation>Location: <TimeAndLocationContent>Parliment Hill</TimeAndLocationContent></TimeAndLocation>
             <Description>Why does the coupled innocence strike underneath the statistic? How can a blackmail scratch a cluster?</Description>
+            {phone ? <Photo src = {climateMarch} /> : ""}
         </Content>
     );
 }

@@ -5,11 +5,17 @@ import ActivstPhoto from '../../../img/greta.jpg'
 const Component = styled.div`
     width: 47%;
     margin-right: 3%;
+    @media (max-width: 768px) {
+        width: 50%;
+    }
 `;
 
 const Content = styled.div`
     width: 100%;
     display: flex;
+    @media (max-width: 768px) { 
+        display: inline-block;
+    }
     height: 20em;
 `;
 
@@ -37,6 +43,9 @@ const LongDescription = styled.p`
 
 const TextContainer = styled.div`
     width: 60%;
+    @media (max-width: 768px) {  
+        width: 100%;
+    }
 `;
 
 const ImageOfActvist = styled.img`
@@ -48,6 +57,9 @@ const ImageOfActvist = styled.img`
     max-height: 100%;
     border-radius: 0.5em;
     border: black 0.2em solid;
+    @media (max-width: 768px) {   
+        width: 90%;
+    }
 `;
 
 function ActvistOfWeek() {

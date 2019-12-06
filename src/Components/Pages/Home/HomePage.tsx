@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import NatureImage from '../../../img/nature-image.jpg';
-import PeopleTalking from '../../img/people-talking.png';
-import LinkBox from './LinkContainer';
-import PlaceHolder from '../../../img/placeholder.png';
 import { Link } from 'react-router-dom';
 import ActvistOfWeek  from './ActvistOfWeek'
 import Events from './Events'
@@ -11,6 +7,9 @@ import Events from './Events'
 const PageContainer = styled.div`
     width: 75em;
     margin: auto;
+    @media (max-width: 768px) {
+        width: 95%;    
+    }
 `;
 
 const TopPart = styled.div`
@@ -23,9 +22,6 @@ const TopPart = styled.div`
 `;
 
 const LookForActvitsButtonContainer = styled.div`
-    @media (max-width: 768px) {
-        
-    }
     height: fit-content;
     width: 100%;
     display: flex;

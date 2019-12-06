@@ -22,6 +22,7 @@ const TopPartPage = styled.div`
     width: 100%;
     @media (max-width: 768px) { 
         padding-top: 3em;
+        padding-bottom: 0em;
     }
 `;
 

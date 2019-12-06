@@ -4,25 +4,168 @@ import {
     BrowserRouter as Router,
     Redirect
 } from "react-router-dom";
+import Cookie from 'js-cookie';
+import { BASEURL } from '../../../Constants'
+import SingleLineInput from "../../ComponentLibrayer/InputForSingleLine";
+import PageCategories from '../Page/PageCategories'
+import { async } from 'q';
 
-const Component = styled.div`
-    width: 100%;
-    height: fit-content;
-    background-color: rgba(255,255,255,0.8);
+const axios = require("axios");
+
+const Page = styled.div`
+    width: 75em;
+    margin: auto;
+    margin-top: 5em;
+    @media (max-width: 768px) {  
+        width: 90%;
+    }
+`;
+
+const InputContainer = styled.div`
+    display: flex;
+    width: 30em;
+`;
+
+const DescTitle = styled.h1`
+    font-size: 1.75em;
+`;
+
+const DescInput = styled.textarea`
+    width: 80%;
+    height: 5em;
+    margin: auto;
+    resize: none;
+    overflow: none;
+    border: black solid thin;
+    font-size: 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: normal;
+`;
+
+const UpdateButton = styled.div`
+    margin-top: 1em;
+    width: 8em;
+    padding: 0.5em 0;
+    background-color: #27f627;
+    text-align: center;
+    border-radius: 0.25em;
+    font-size: 1.25em;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        background-color: #1e971e;
+    }
+`;
+
+type MessageToUserProps = {
+    error: boolean
+}
+
+const MessageToUser = styled.h1<MessageToUserProps>`
+    font-size: 2em;
+    color: ${p => p.error ? "red" : "green"};
 `;
 
 type NavBarDekstopProps = {
     logoutLogin: any
 }
 
-function NavBarDesktop(props: NavBarDekstopProps) {
-    const [redirectToHome, setRedirectToHome] = useState(false)
+function OrgPage(props: NavBarDekstopProps) {
+    const [canEdit, setCanEdit] = useState(false);
+    const [redirectToHome, setRedirectToHome] = useState(false);
+    const [desc, setDesc] = useState("")
+    const [inputs, setInputs] = useState([]);
+    const [allCategories, setAllCategories] = useState([])
+    const [message, setMessage] = useState({ error: false, text: "" })
+    useEffect(() => {
+        fetchAPI()
+    }, []);
+
+    const updateInput = (id: number, value: string) => {
+        if (canEdit) {
+            setInputs(inputs.map(ele => {
+                if (ele.id == id) {
+                    ele.value = value;
+                }
+                return ele
+            }))
+        }
+    }
+
+    const fetchAPI = async () => {
+        let params = new URLSearchParams(document.location.search.substring(1));
+        let OrgID = params.get("id");
+        if (OrgID == null) {
+            setRedirectToHome(true);
+        } else {
+            try {
+                const res = await axios.post(`${BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: {"Authorization": Cookie.get("authToken")}});
+                setInputs([
+                    { title: "Email", value: res.data.Email, id: 0 },
+                    { title: "Link", value: res.data.Link, id: 1 },
+                    { title: "Name", value: res.data.Name, id: 2 },
+                    { title: "Location", value: res.data.Location, id: 3 }
+                ]);
+                setCanEdit(res.data.IsOwner)
+                setDesc(res.data.Desc)
+                const resCats = await axios.post(`${BASEURL}/getCategories`);
+                updateAllCategories(resCats.data, res.data.Instrests)
+            } catch (err) {
+                console.log(err);
+            }
+        }
+    }
+
+    const updateAllCategories = async (allCategories: any, categories: any) => {
+        setAllCategories(allCategories.map((ele: any) => {
+            let dis = !categories.find((catEle: any) => {
+                return catEle.ID === ele.ID
+            })
+            return { ...ele, disabled: dis }
+        }));
+    }
+
+    const update = async () => {
+        let catIdArray: any = []
+        allCategories.map(ele => {
+            if (!ele.disabled) {
+                catIdArray.push(parseInt(ele.ID))
+            }
+        })
+        try {
+            const res = await axios.post(`${BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), {headers: {"Authorization": Cookie.get("authToken")}});
+            if(res.data.Valid.length >= 0) {
+                setMessage({ error: false, text: "Updated" })
+            }
+        } catch (err) {
+            setMessage({ error: true, text: "Error updating" })
+        }
+    }
+
     return (
-        <Component>
-            {redirectToHome ? <Redirect to = "/home" /> : ""}
-            
-        </Component>
+        <Page>
+            {redirectToHome ? <Redirect to="/home" /> : ""}
+            <MessageToUser error={message.error}>{message.text}</MessageToUser>
+            {
+                (inputs.length == 4) ?
+                    <>
+                        <InputContainer>
+                            <SingleLineInput value={inputs[0].value} id={inputs[0].id} title={inputs[0].title} update={updateInput} />
+                            <SingleLineInput value={inputs[1].value} id={inputs[1].id} title={inputs[1].title} update={updateInput} />
+                        </InputContainer>
+                        <InputContainer>
+                            <SingleLineInput value={inputs[2].value} id={inputs[2].id} title={inputs[2].title} update={updateInput} />
+                            <SingleLineInput value={inputs[3].value} id={inputs[3].id} title={inputs[3].title} update={updateInput} />
+                        </InputContainer>
+                    </>
+                    : ""
+            }
+            <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={[]} editMode={true} />
+            <DescTitle>Description: </DescTitle>
+            <DescInput>{desc}</DescInput>
+            <UpdateButton onClick={update}>Update</UpdateButton>
+        </Page>
     );
 }
 
-export default NavBarDesktop;
+export default OrgPage;

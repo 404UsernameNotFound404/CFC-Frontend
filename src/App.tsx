@@ -12,11 +12,12 @@ import {
   Route,
   Redirect,
   Switch,
-
 } from "react-router-dom";
 import Cookie from 'js-cookie'
 import { AppContext} from './Context/AppContext'
 import OrgPage from './Components/Pages/OrgPage/OrgPage'
+import VerificationPage from './Components/Pages/Verify/Verify'
+import ContactPage from './Components/Pages/Contact/Contact';
 
 const axios = require("axios");
 
@@ -85,6 +86,8 @@ function App() {
             <Route path='/about' component={AboutPage} />
             <Route path='/learn' component={LearningPage} />
             <Route path = '/organization' component = {OrgPage} />
+            <Route path = '/verify' component = {VerificationPage} />
+            <Route path = '/contact' component = {ContactPage} />
             <Route component={Home} />
           </Switch>
           <NavBar showNavBar={showNavBar} />

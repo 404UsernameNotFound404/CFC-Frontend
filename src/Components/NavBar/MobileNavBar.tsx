@@ -90,13 +90,12 @@ function NavBarMobile(props: NavBarPropsMobile) {
     return (
         <Menu styles={styles} isOpen={mobileOpen} customOnKeyDown={changeMobileMenuOpen}>
             <LinkTitle marginRight = {"0"} color = {"black"} to='/home'>Home Page</LinkTitle>
-            {c.loggedIn ? <LinkTitle marginRight = {"0"} color = {"black"} to='/edit'>Profile Page</LinkTitle> : ""}
+            {c.loggedIn ? <LinkTitle marginRight = {"0"} color = {"black"} to='/edit'>{(c.userType == 0) ? "Edit Your Page" : "Edit Organization Information"}</LinkTitle> : ""}
             <LinkTitle marginRight = {"0"} color = {"black"} to='/about'>About Page</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"black"} to='/learn'>Learn About The Issues</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"#3c78d8"} to='/search'>Search</LinkTitle>
-            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=activists'>Activist</LinkTitle>
-            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=event'>Event</LinkTitle>
-            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=organization'>Organization</LinkTitle>
+            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Activists'>Activist</LinkTitle>
+            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Organizations'>Organization</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"black"} to='/login'><span onClick={props.logoutLogin}>{c.loggedIn ? "Logout" : "Login"}</span></LinkTitle>
         </Menu>
     );

@@ -65,6 +65,7 @@ function NavBarDesktop(props: NavBarDekstopProps) {
                 <LogoTitle to='/home'>Connecting For Change</LogoTitle>
                 <RightPart>
                     {c.loggedIn ? <LinkTitle to='/edit'>{(c.userType == 0) ? "Edit Your Page" : "Edit Organization Information"}</LinkTitle> : ""}
+                    <LinkTitle to='/contact'>Contact Us</LinkTitle>
                     <LinkTitle to='/about'>About Page</LinkTitle>
                     <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
                     <DropDown options = {[{name: "Activists", link: "/search?search=Activists"}, {name: "Organizations", link: "/search?search=Organizations"}]} title = {"Search"} />

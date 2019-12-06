@@ -9,6 +9,7 @@ const Container = styled.div`
     padding-bottom: 2em;
     display: flex;
     flex-wrap: wrap;
+    margin-top: 2em;
 `;
 
 type Props = {

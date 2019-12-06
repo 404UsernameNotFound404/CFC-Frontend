@@ -18,6 +18,11 @@ const Component = styled(Link)`
     &:hover {
         background-color: #1c6ceb;
     }
+    @media (max-width: 768px) { 
+        width: 75%;
+        height: 15em;
+        margin: 2em auto;
+    }
 `;
 
 const Text = styled.h1`

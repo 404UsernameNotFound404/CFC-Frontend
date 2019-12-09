@@ -8,7 +8,10 @@ import Cookie from 'js-cookie';
 import { BASEURL } from '../../../Constants'
 import SingleLineInput from "../../ComponentLibrayer/InputForSingleLine";
 import PageCategories from '../Page/PageCategories'
+import PhotoUploader from '../../ComponentLibrayer/PhotoUploader'
 import { async } from 'q';
+import DefaultImage from '../../../img/default.jpg'
+import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 
 const axios = require("axios");
 
@@ -57,6 +60,14 @@ const UpdateButton = styled.div`
     }
 `;
 
+const OrgImage = styled.img`
+    margin-left: 2em;
+    width: 15em;
+    height: 15em;
+    object-fit: cover;
+    object-position: middle;
+`;
+
 type MessageToUserProps = {
     error: boolean
 }
@@ -77,6 +88,9 @@ function OrgPage(props: NavBarDekstopProps) {
     const [inputs, setInputs] = useState([]);
     const [allCategories, setAllCategories] = useState([])
     const [message, setMessage] = useState({ error: false, text: "" })
+    const [image, setImage] = useState("")
+    const [loading, setLoading] = useState(true);
+    const [imageHash, setImageHash] = useState(0)
     useEffect(() => {
         fetchAPI()
     }, []);
@@ -93,13 +107,20 @@ function OrgPage(props: NavBarDekstopProps) {
     }
 
     const fetchAPI = async () => {
+        setLoading(true);
         let params = new URLSearchParams(document.location.search.substring(1));
         let OrgID = params.get("id");
         if (OrgID == null) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.post(`${BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: {"Authorization": Cookie.get("authToken")}});
+                const res = await axios.post(`${BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": Cookie.get("authToken") } });
+                if (res.data.Image.length > 2) {
+                    setImage(res.data.Image)
+                } else {
+                    setImage(DefaultImage)
+                }
+                setImageHash(Date.now())
                 setInputs([
                     { title: "Email", value: res.data.Email, id: 0 },
                     { title: "Link", value: res.data.Link, id: 1 },
@@ -114,6 +135,7 @@ function OrgPage(props: NavBarDekstopProps) {
                 console.log(err);
             }
         }
+        setLoading(false);
     }
 
     const updateAllCategories = async (allCategories: any, categories: any) => {
@@ -133,8 +155,8 @@ function OrgPage(props: NavBarDekstopProps) {
             }
         })
         try {
-            const res = await axios.post(`${BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), {headers: {"Authorization": Cookie.get("authToken")}});
-            if(res.data.Valid.length >= 0) {
+            const res = await axios.post(`${BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": Cookie.get("authToken") } });
+            if (res.data.Valid.length >= 0) {
                 setMessage({ error: false, text: "Updated" })
             }
         } catch (err) {
@@ -142,30 +164,36 @@ function OrgPage(props: NavBarDekstopProps) {
         }
     }
 
-    return (
-        <Page>
-            {redirectToHome ? <Redirect to="/home" /> : ""}
-            <MessageToUser error={message.error}>{message.text}</MessageToUser>
-            {
-                (inputs.length == 4) ?
-                    <>
-                        <InputContainer>
-                            <SingleLineInput value={inputs[0].value} id={inputs[0].id} title={inputs[0].title} update={updateInput} />
-                            <SingleLineInput value={inputs[1].value} id={inputs[1].id} title={inputs[1].title} update={updateInput} />
-                        </InputContainer>
-                        <InputContainer>
-                            <SingleLineInput value={inputs[2].value} id={inputs[2].id} title={inputs[2].title} update={updateInput} />
-                            <SingleLineInput value={inputs[3].value} id={inputs[3].id} title={inputs[3].title} update={updateInput} />
-                        </InputContainer>
-                    </>
-                    : ""
-            }
-            <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={[]} editMode={true} />
-            <DescTitle>Description: </DescTitle>
-            <DescInput>{desc}</DescInput>
-            <UpdateButton onClick={update}>Update</UpdateButton>
-        </Page>
-    );
+    if (!loading) {
+        return (
+            <Page>
+                {redirectToHome ? <Redirect to="/home" /> : ""}
+                <MessageToUser error={message.error}>{message.text}</MessageToUser>
+                {
+                    (inputs.length == 4) ?
+                        <>
+                            <InputContainer>
+                                <SingleLineInput value={inputs[0].value} id={inputs[0].id} title={inputs[0].title} update={updateInput} />
+                                <SingleLineInput value={inputs[1].value} id={inputs[1].id} title={inputs[1].title} update={updateInput} />
+                            </InputContainer>
+                            <InputContainer>
+                                <SingleLineInput value={inputs[2].value} id={inputs[2].id} title={inputs[2].title} update={updateInput} />
+                                <SingleLineInput value={inputs[3].value} id={inputs[3].id} title={inputs[3].title} update={updateInput} />
+                            </InputContainer>
+                        </>
+                        : ""
+                }
+                <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={[]} editMode={true} />
+                <OrgImage src={`${image}?${imageHash}`} />
+                <PhotoUploader update = {fetchAPI} />
+                <DescTitle>Description: </DescTitle>
+                <DescInput>{desc}</DescInput>
+                <UpdateButton onClick={update}>Update</UpdateButton>
+            </Page>
+        );
+    } else {
+        return <LoadingPage />
+    }
 }
 
 export default OrgPage;

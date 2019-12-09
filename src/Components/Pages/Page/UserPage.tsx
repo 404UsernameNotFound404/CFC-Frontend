@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DaxtonImage from '../../../img/default.jpg'
 import { Redirect } from 'react-router';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
 import { BASEURL } from '../../../Constants'
 import Cookie from 'js-cookie'
 import LoadingComp from '../../ComponentLibrayer/LoadingPage'
-import PageCategories from './PageCategories';
 import ProfileTopPart from './ProfileTopPart';
 
 const axios = require("axios");
@@ -75,6 +73,7 @@ function UserPage(props: Props) {
     const [categories, setCategories] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
     const [allCategoriyApiData, setAllCategoriyApiData] = useState([])
+    const [image, setImage] = useState("")
 
     useEffect(() => {
         fetchAPI()
@@ -109,7 +108,7 @@ function UserPage(props: Props) {
                 }
             }
         })
-        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: {"Authorization": Cookie.get("authToken")}});
+        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": Cookie.get("authToken") } });
         try {
             if (res.data.Error.length >= 0) {
                 setMessageToUser(res.data.Error)
@@ -141,10 +140,15 @@ function UserPage(props: Props) {
         if (PageID == null) {
             setRedirectToHome(true);
         } else {
-            const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: {"Authorization": Cookie.get("authToken")}});
             try {
+                const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": Cookie.get("authToken") } });
                 if (res.data.IsOwner) {
                     setCanEditMode(true)
+                }
+                if (res.data.Image.length > 2) {
+                    setImage(res.data.Image)
+                } else {
+                    setImage(DaxtonImage)
                 }
                 setOrginalPara1(res.data.Para1)
                 setOrginalPara2(res.data.Para2)
@@ -232,7 +236,7 @@ function UserPage(props: Props) {
                 {/* Split into more components */}
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <ProfileTopPart setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
+                    <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
                     <TextContent>
                         <ParaTitle>Who Am I?</ParaTitle>
                         {paraInputOne == undefined && !editMode ? "Click the edit button to fill me in!" : ""}

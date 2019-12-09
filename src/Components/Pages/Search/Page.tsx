@@ -30,6 +30,7 @@ const PortraitOfActivist = styled.img`
     height: 12em;
     margin: 1em auto;
     display: block;
+    object-fit: cover;
 `;
 
 const Cause = styled.h1`
@@ -60,10 +61,10 @@ const ElevatorPitch = styled.h1`
 
 type Props = {
     name: string,
-    img: string,
     para: string,
     ID: string,
-    Categories: {Name: string, ID: string, Colour: string}[]
+    Categories: {Name: string, ID: string, Colour: string}[],
+    image: string
 }
 
 function Page(props: Props) {
@@ -76,7 +77,8 @@ function Page(props: Props) {
 
     return (
         <Container>
-            <PortraitOfActivist src={props.img} />
+            {}
+            <PortraitOfActivist src={props.image} />
             <Name>{props.name}</Name>
             <ElevatorPitch>
                 {props.para.substring(0,80)}...

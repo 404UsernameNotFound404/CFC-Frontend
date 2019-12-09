@@ -89,9 +89,9 @@ function SearchBar(props: Props) {
             case "Organizations":
             if (props.choice == choice) {
                 return (<>{
-                    pages.map(ele => {
+                    pages.map((ele, i) => {
                         if (checkIfInCategories(ele.Instrests)) {
-                            return <Organization name={ele.Name} link={ele.Link} desc={ele.Desc} img={DefaultImage} location={ele.Location} interests={ele.Instrests} />
+                            return <Organization image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} name={ele.Name} link={ele.Link} desc={ele.Desc} location={ele.Location} interests={ele.Instrests} key = {i} />
                         }
                     })
                 }</>)
@@ -108,7 +108,7 @@ function SearchBar(props: Props) {
                         {
                             pages.map((ele, i) => {
                                 if (checkIfInCategories(ele.Categories)) {
-                                    return <Page Categories = {ele.Categories} ID={ele.PageID} name={ele.Name} img={DefaultImage} para={ele.Para1} key={i} />
+                                    return <Page image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories = {ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
                                 }
                             })
                         } </>)

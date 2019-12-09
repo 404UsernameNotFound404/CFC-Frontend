@@ -27,12 +27,13 @@ const LogoOfOrg = styled.img`
     position: absolute;
     border: black thin solid;
     border-radius: 0.1em;
-    width: 3em;
-    height: 3em;
+    width: 7em;
+    height: 7em;
     margin: 1em auto;
     display: block;
     top: 0;
     right: 1em;
+    object-fit: cover;
 `;
 
 const Location = styled.h1`
@@ -55,11 +56,11 @@ const LinkToWebite = styled.a`
 
 type Props = {
     name: string,
-    img: string,
     desc: string,
     link: string,
     location: string,
-    interests: {Name: string, Colour: string, ID: string}[]
+    interests: {Name: string, Colour: string, ID: string}[],
+    image: string
 }
 
 function Organzation(props: Props) {
@@ -69,7 +70,7 @@ function Organzation(props: Props) {
             <Location>{props.location}</Location>
             <Desc>{props.desc}</Desc>
             <LinkToWebite href = {props.link}>{props.name}</LinkToWebite>
-            <LogoOfOrg src = {props.img} />
+            <LogoOfOrg src = {props.image} />
             <PageCategories editMode = {false} categories = {props.interests} allCategories = {[]} setAllCategories = {[]} width = {"100%"} />
         </Container>
     );

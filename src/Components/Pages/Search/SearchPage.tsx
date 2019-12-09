@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import SearchActivists from './SearchResults/SearchActvists';
+import SearchActivists from './SearchResults/SearchResults';
 import CategorySearch from './CategorySearch';
 import { BASEURL } from '../../../Constants';
-import SearchEvents from './SearchResults/SearchEvents';
-import SearchOrganizations from './SearchResults/SearchOrganizations';
 const axios = require("axios");
 
 const PageContainer = styled.div`

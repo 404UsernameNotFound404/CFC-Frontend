@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
 import PageCategories from './PageCategories';
+import UploadPhoto from '../../ComponentLibrayer/PhotoUploader';
 
 const ProfileImage = styled.img`
     margin: 0;
@@ -10,6 +11,7 @@ const ProfileImage = styled.img`
     border-radius: 50%;
     display: block;
     border: #3c78d8 0.25em solid;
+    object-fit: cover;
     @media (max-width: 768px) { 
         margin: auto;
     }
@@ -88,14 +90,23 @@ type Props = {
     allCategories: any,
     setAllCategories: any,
     categories: any,
+    update: any,
+    image: string
 }
 
 function UserPage(props: Props) {
-    const {profilePhoto, name, email, canEditMode, editMode, messageToUser, updateFunction, switchEditMode, allCategories, setAllCategories, categories} = props;
+    const [imageHash, setImageHash] = useState(0)
+    const {image, profilePhoto, name, email, canEditMode, editMode, messageToUser, updateFunction, switchEditMode, allCategories, setAllCategories, categories} = props;
+    
+    const update = () => {
+        props.update()
+        setImageHash(Date.now())
+    }
+
     return (
         <TopBarContainer>
             <TopBarTopSection>
-                <ProfileImage src={profilePhoto} />
+                <ProfileImage src={`${image}?${imageHash}`} />
                 <TopBarTextContainer>
                     <TopBarText>{name}</TopBarText>
                     <TopBarText>{email}</TopBarText>
@@ -111,6 +122,7 @@ function UserPage(props: Props) {
                             : ''}
                     </EditButtonContianer> : ''}
             </TopBarTopSection>
+            <UploadPhoto update = {update} />
             <div style = {{width: "125%"}}>
                 <PageCategories width = {"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
             </div>

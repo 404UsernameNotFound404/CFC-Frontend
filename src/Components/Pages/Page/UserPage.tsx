@@ -142,6 +142,7 @@ function UserPage(props: Props) {
         } else {
             try {
                 const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": Cookie.get("authToken") } });
+                console.log(res)
                 if (res.data.IsOwner) {
                     setCanEditMode(true)
                 }

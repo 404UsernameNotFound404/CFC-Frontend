@@ -65,7 +65,7 @@ const ImageOfActvist = styled.img`
 function ActvistOfWeek() {
     return (
         <Component>
-            <Title>Activst Of The Week</Title>
+            <Title>Activist Of The Week</Title>
             <Content>
                 <TextContainer>
                     <Name>Greta Thunberg</Name>

@@ -41,7 +41,7 @@ function PickWhatToCreate(props: Props) {
             </LinkContainer>
             -
             <LinkContainer>
-                <LinkTo marginLeft = {false} onClick = {props.registerOrg}>Create A Organizations</LinkTo>
+                <LinkTo marginLeft = {false} onClick = {props.registerOrg}>Create An Organization</LinkTo>
             </LinkContainer>
         </Component>
     );

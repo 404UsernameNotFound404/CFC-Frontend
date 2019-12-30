@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import ActvistOfWeek  from './ActvistOfWeek'
+import ActvistOfWeek from './ActvistOfWeek'
 import Events from './Events'
+import HomePagePhoto from '../../../img/protest.jpg'
 
 const PageContainer = styled.div`
     width: 75em;
@@ -19,6 +20,7 @@ const TopPart = styled.div`
     height: fit-content;
     width: 100%;
     margin: auto;
+    text-align: center;
 `;
 
 const LookForActvitsButtonContainer = styled.div`
@@ -30,7 +32,6 @@ const LookForActvitsButtonContainer = styled.div`
 const PageTitle = styled.h1`
     width: 100%;
     margin: 0 0;
-    text-align: center;
     font-size: 6em;
     @media (max-width: 768px) {
         font-size: 2.75em;
@@ -38,10 +39,10 @@ const PageTitle = styled.h1`
     }
 `;
 
-const PagePara = styled.h4`
+const PageSubTitle = styled.h4`
     margin: 0;
-    text-align: center;
     font-size: 3em;
+    font-weight: bolder;
 `;
 
 const LookForActvitsButton = styled(Link)`
@@ -58,7 +59,7 @@ const LookForActvitsButton = styled(Link)`
     @media (max-width: 768px) { 
         margin-top: 1em;
     }
-    transition: all 0.4s ease 0s;
+    transition: 0.3s background-color linear, 0.3s color linear;
     text-decoration: none;
     &:hover {
         background-color: #3c78d8;
@@ -71,15 +72,28 @@ const BlueHighlight = styled.span`
     color: #3c78d8;
 `;
 
-const QuoteAuthor = styled.span`
-    font-size: 0.75em;
-    color: grey;
-    font-weight: bolder;
-`;
-
 const ActvistsAndEventsContainer = styled.div`
     display: flex;
     margin-bottom: 2em;
+`;
+
+const TopPartTextContainer = styled.div`
+    width: 72%;
+`;
+
+const HomePageImage = styled.img`
+    width: 28%;
+    height: 30em;
+    object-fit: cover;
+    border: 0.2em solid black;
+    border-radius: 0.2em;
+`;
+
+const PagePara = styled.p`
+    font-size: 1.5em;
+    width: 85%;
+    margin: auto;
+    margin-top: 0.5em;
 `;
 
 function HomePage() {
@@ -87,9 +101,12 @@ function HomePage() {
         <PageContainer>
             <TopPart>
                 <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
-                <PagePara>This is about working for a just world, together.</PagePara>
+                <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
+                <PagePara>
+                    This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.
+                </PagePara>
                 <LookForActvitsButtonContainer>
-                    <LookForActvitsButton to = '/search'>Find Activists</LookForActvitsButton>
+                    <LookForActvitsButton to='/search'>Find Activists</LookForActvitsButton>
                 </LookForActvitsButtonContainer>
             </TopPart>
             <ActvistsAndEventsContainer>

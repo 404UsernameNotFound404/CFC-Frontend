@@ -79,25 +79,6 @@ function UserPage(props: Props) {
         }
     }
 
-    function sleep(ms: number) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    const uploadThePhoto = async () => {
-        try {
-            let res = await UploadPhoto(file, Cookie.get("authToken"))
-            console.log(res)
-            if (res) {
-                setMessageToUser({ text: "Done", colour: "green" })
-                // props.update()
-                return
-            }
-            setMessageToUser({ text: "Error uploading photo.", colour: "red" })
-        } catch (err) {
-        }
-
-    }
-
     const onChangePhoto = (e: any) => {
         const { files } = e.target;
         if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 500000) {

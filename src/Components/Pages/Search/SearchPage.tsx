@@ -73,8 +73,12 @@ function LinksContainer() {
     }
 
     const fetchCatagories = async () => {
-        const res = await axios.post(`${BASEURL}/getCategories`);
-        setAllCategories(res.data)
+        try {
+            const res = await axios.post(`${BASEURL}/getCategories`);
+            setAllCategories(res.data)
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     return (

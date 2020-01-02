@@ -5,6 +5,8 @@ import TitleImage from '../../../img/AboutPage/protestPhoto.jpg'
 import HenryPhoto from '../../../img/AboutPage/HenryPhoto.jpg'
 import DaxtonPhoto from '../../../img/AboutPage/DaxtonPhoto.jpg'
 import { useMediaQuery } from 'react-responsive'
+import protester from '../../../img/protesterYelling.webp';
+import ActivistPage from '../Search/Page';
 
 const Page = styled.div`
     padding-top: 2.5em;
@@ -17,17 +19,18 @@ const Page = styled.div`
 `;
 
 const PageTitle = styled.h1`
-    font-size: 5em;
-    text-align: center;
+    font-size: 4em;
     font-weight: bolder;
     width: 100%;
-    margin: 0.1em;
+    margin: 0;
 `;
 
 const TitleSection = styled.div`
-    width: 100%;
+    width: 65em;
     display: flex;
+    height: 32em;
     margin-top: 2em;
+    position: relative;
 `;
 
 const ImageOfUs = styled.img`
@@ -37,10 +40,8 @@ const ImageOfUs = styled.img`
 `;
 
 const OrgDescription = styled.p`
-    text-align: center;
-    width: 90%;
-    font-size: 1.5em;
-    margin: auto;
+    width: 100%;
+    font-size: 1.6em;
 `;
 
 const TextContainer = styled.div`
@@ -49,22 +50,118 @@ const TextContainer = styled.div`
     margin: auto;
 `;
 
+type OurStoryImageProps = {
+    photo: string
+}
 
-function AbouPage() {
-    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+
+const OurStoryImage = styled.div<OurStoryImageProps>`
+    width: 32em;
+    height: 32em;
+    background-image: url(${p => p.photo});
+    background-size: cover;
+    background-color: red;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 82% 100%);
+    position: absolute;
+    right: 0;
+    top: 0em;
+`;
+
+const PhotoOfBothFounders = styled.img`
+    width: 90%;
+    margin: auto;
+    margin-top: 2em;
+    height: 25em;
+    object-fit: cover;
+    border-radius: 0.3em;
+    display: block;
+`;
+
+const FutureOfOrgPara = styled.p`
+    width: 90%;
+    font-size: 1.25em;
+    margin: 0em auto;
+`;
+
+const FutureOfOrgParaTitle = styled.h4`
+    font-size: 2.5em;
+    margin: 1em;
+    margin-left: 5%;
+    text-align: center;
+`;
+
+const BioTitle = styled.h1`
+    font-size: 2.5em;
+    text-align: center;
+    margin-bottom: 2em;
+`;
+
+const BioContainer = styled.div`
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+`;
+
+const TeamMember = styled.div`
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
+const TeamMemberTitle = styled.h1`
+    top: -2em;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+`;
+
+
+
+function AboutPage() {
     return (
         <Page>
             <TitleSection>
                 <TextContainer>
-                    <PageTitle>About Page</PageTitle>
-                    <OrgDescription>This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.</OrgDescription>
+                    <PageTitle>Our Story</PageTitle>
+                    <OrgDescription>
+                        In 2011, Henry and Daxton first got involved
+                        <br />in activism. They learned about past and present
+                        <br />injustices facing Indigenous communities, and wanted
+                        <br />to take action. They had a lot of support from their teachers,
+                        <br />and from groups like the First Nations Child and Family Caring
+                        <br />Society. By 2017 both Henry and Daxton were noticing that many
+                        <br />people wanted to learn more, and get more involved, but did not have
+                        <br />the same support they had received, or did not know how to take action.
+                        <br />This is when the idea of Connecting for Change was born. This website’s
+                        <br />purpose is to help like-minded people connect and join forces to fight injustice.
+                    </OrgDescription>
                 </TextContainer>
-                {isPhone ? <ImageOfUs src={TitleImage} /> : ""}
+                <OurStoryImage photo={protester} />
             </TitleSection>
-            <SectionOfPage name={"Henry Morris"} mobile={isPhone} imgSide={true} imgSrc={HenryPhoto} title="Our Vision" para="Connecting for Change was born out of Henry and my desire to continue our activism and help others. We want to provide to activists, some of the support we have had. We also have seen the importance of connecting with others to create change and working together for social justice.<br/>We hope our website can help you find other activists, and help you find groups to get involved with. We are not (yet) a registered non-profit organization, so we pay our hosting fees out of our own pockets. While donations are welcomed, we can not provide charitable tax receipts." />
-            <SectionOfPage name={"Daxton Rhead"} mobile={isPhone} imgSide={false} imgSrc={DaxtonPhoto} title="Our Story" para="Henry and I met in elementary school, and became friends through our involvement in activism. This activism began when we learned about unequal funding for schools on and off reserves in Canada, and a campaign called Shannen’s Dream that was trying to fix this. Henry and I went with a few of our peers to talk about Shannen’s Dream with other schools.<br/>We got involved with the First Nations Child and Family Caring Society and continued to learn and speak about reconciliation. Since 2012, we have had the privilege to present to schools, church groups, and conferences, usually alongside our former elementary school teacher, Danielle.<br/>As we grew,, our interest in activism and other areas of injustice, grew. We want to help activists connect and encourage everyone to become involved in campaigns that speak to them. Being involved in social change has not only taught me and Henry about this invaluable work, but it shows us what democracy is supposed to look like.<br/>We have had a lot of help to get our voices heard and want to help elevate the voices of others." />
+            <PhotoOfBothFounders src={DaxtonPhoto} />
+            <FutureOfOrgParaTitle>What the future holds</FutureOfOrgParaTitle>
+            <FutureOfOrgPara>
+                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
+                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
+                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
+                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
+                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
+            </FutureOfOrgPara>
+            <BioTitle>Our Team</BioTitle>
+            <BioContainer>
+                <TeamMember>
+                    <TeamMemberTitle>Co-Founder</TeamMemberTitle>
+                    <ActivistPage width = {"55%"} name={"Henry Morris"} ID={"123"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={HenryPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
+                </TeamMember>
+                <TeamMember>
+                    <TeamMemberTitle>Co-Founder</TeamMemberTitle>
+                    <ActivistPage width = {"55%"} name={"Daxton Rhead"} ID={"123"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={DaxtonPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
+                </TeamMember>
+            </BioContainer>
         </Page>
     );
 }
 
-export default AbouPage;
+export default AboutPage;

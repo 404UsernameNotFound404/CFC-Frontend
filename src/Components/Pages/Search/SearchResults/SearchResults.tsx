@@ -57,6 +57,7 @@ function SearchBar(props: Props) {
         let networkError = true;
         try {
             const res = await axios.post(`${BASEURL}/get${props.choice}`);
+            console.log(res)
             networkError = false;
             if (res.data.Error != undefined) {
                 setError(res.data.Error)
@@ -70,6 +71,7 @@ function SearchBar(props: Props) {
                 setError("Network error sorry for the inconvenience.")
                 return
             }
+            console.log(err)
             setError("Error getting activists. Sorry about that the service will return soon.")
         }
     }
@@ -108,7 +110,7 @@ function SearchBar(props: Props) {
                         {
                             pages.map((ele, i) => {
                                 if (checkIfInCategories(ele.Categories)) {
-                                    return <Page image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories = {ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
+                                    return <Page width = {"29%"} image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories = {ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
                                 }
                             })
                         } </>)

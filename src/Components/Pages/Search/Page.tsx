@@ -4,9 +4,13 @@ import BasicButton from '../../ComponentLibrayer/BasicButton';
 import { Link } from 'react-router-dom';
 import PageCategories from '../Page/PageCategories';
 
-const Container = styled.div`
+type ContainerProps = {
+    width: string
+}
+
+const Container = styled.div<ContainerProps>`
     border: black 0.2rem solid;
-    width: 29%;
+    width: ${p => p.width};
     margin: 1.5%;
     border-radius: 1em;
     @media (max-width: 768px) { 
@@ -64,7 +68,8 @@ type Props = {
     para: string,
     ID: string,
     Categories: {Name: string, ID: string, Colour: string}[],
-    image: string
+    image: string,
+    width: string
 }
 
 function Page(props: Props) {
@@ -76,7 +81,7 @@ function Page(props: Props) {
     }
 
     return (
-        <Container>
+        <Container width = {props.width}>
             {}
             <PortraitOfActivist src={props.image} />
             <Name>{props.name}</Name>

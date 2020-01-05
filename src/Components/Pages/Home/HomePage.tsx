@@ -27,6 +27,8 @@ const LookForActvitsButtonContainer = styled.div`
     height: fit-content;
     width: 100%;
     display: flex;
+    margin-top: 1em;
+    margin-bottom: 4em;
 `;
 
 const PageTitle = styled.h1`
@@ -102,12 +104,12 @@ function HomePage() {
             <TopPart>
                 <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
                 <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
-                <PagePara>
-                    This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.
-                </PagePara>
                 <LookForActvitsButtonContainer>
                     <LookForActvitsButton to='/search'>Find Activists</LookForActvitsButton>
                 </LookForActvitsButtonContainer>
+                <PagePara>
+                    This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.
+                </PagePara>
             </TopPart>
             <ActvistsAndEventsContainer>
                 <ActvistOfWeek />

@@ -7,8 +7,11 @@ import DaxtonPhoto from '../../../img/AboutPage/DaxtonPhoto.jpg'
 import { useMediaQuery } from 'react-responsive'
 import protester from '../../../img/protesterYelling.webp';
 import ActivistPage from '../Search/Page';
-import SlideContainer from './SlidesComponents/SlideContainer'
-import FirstSlide from './SlidesComponents/FirstSlide'
+import SlideContainer from './SlidesComponents/SlideContainer';
+import FirstSlide from './SlidesComponents/FirstSlide';
+import SecondSlide from './SlidesComponents/SecondSlide';
+import ThirdSlide from './SlidesComponents/ThirdSlide';
+import ButtonForTransition from './TransitionButtons';
 
 const Page = styled.div`
     padding-top: 45em;
@@ -89,12 +92,16 @@ const TeamMemberTitle = styled.h1`
 `;
 
 function AboutPage() {
+    
+
     return (
         <Page>
             <TitleSection>
                 <PageTitle>Our Story</PageTitle>
                 <SlideContainer width = "65em">
                     <FirstSlide />
+                    <SecondSlide />
+                    <ThirdSlide />
                 </SlideContainer>
             </TitleSection>
             <PhotoOfBothFounders src={DaxtonPhoto} />

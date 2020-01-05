@@ -163,6 +163,7 @@ function UserPage(props: Props) {
                     setCategories(res.data.Categories)
                 }
             } catch (err) {
+                //ERROR HANDLING
                 console.log(err);
             }
         }

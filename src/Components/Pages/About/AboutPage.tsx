@@ -12,7 +12,8 @@ import FirstSlide from './SlidesComponents/FirstSlide';
 import SecondSlide from './SlidesComponents/SecondSlide';
 import ThirdSlide from './SlidesComponents/ThirdSlide';
 import PhotoOfFounders from '../../../img/BothOfUsPhoto.jpg'
-
+import AliceCarousel from 'react-alice-carousel';
+import 'react-alice-carousel/lib/alice-carousel.css'
 
 const Page = styled.div`
     padding-top: 45em;
@@ -77,6 +78,9 @@ const BioContainer = styled.div`
     margin: auto;
     display: flex;
     justify-content: space-around;
+    @media (max-width: 768px) { 
+        display: block;
+    }
 `;
 
 const TeamMember = styled.div`
@@ -84,6 +88,10 @@ const TeamMember = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    @media (max-width: 768px) { 
+        height: fit-content;
+        margin-bottom: 2.5em;
+    }
 `;
 
 const TeamMemberTitle = styled.h1`
@@ -94,17 +102,27 @@ const TeamMemberTitle = styled.h1`
 `;
 
 function AboutPage() {
-    
-
+    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+    const responsive = { 0: { items: 1 } };
+    // @ts-ignore: Unreachable code error
     return (
         <Page>
             <TitleSection>
                 <PageTitle>Our Story</PageTitle>
-                <SlideContainer width = "65em">
-                    <FirstSlide />
-                    <SecondSlide />
-                    <ThirdSlide />
-                </SlideContainer>
+                {isPhone ?
+                    <SlideContainer width="65em">
+                        <FirstSlide />
+                        <SecondSlide />
+                        <ThirdSlide />
+                    </SlideContainer>
+                    :
+                    <AliceCarousel infinite = {false} responsive = {responsive} onInitialized = {() => {console.log('asd')}} mouseTrackingEnabled buttonsDisabled={true} dotsDisabled={true} touchTrackingEnabled>
+                        <FirstSlide />
+                        <SecondSlide />
+                        <ThirdSlide />
+                    </AliceCarousel>
+                }
+
             </TitleSection>
             <PhotoOfBothFounders src={PhotoOfFounders} />
             <FutureOfOrgParaTitle>What the future holds</FutureOfOrgParaTitle>

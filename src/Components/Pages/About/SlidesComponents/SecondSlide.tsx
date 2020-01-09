@@ -1,16 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 import FNFCS from '../../../../img/FNFCS.png'
+import { useMediaQuery } from 'react-responsive';
 
 const Component = styled.div`
     height: fit-content;
     margin: auto;
     margin-top: 5%;
+    @media (max-width: 768px) { 
+        width: 90%;
+    }
 `;
 
 const FirstSentence = styled.h1`
     font-size: 1.7em;
     text-align: center;
+    @media (max-width: 768px) { 
+        font-size: 1.43em;
+    }
 `;
 
 const FNFCSLogo = styled.img`
@@ -27,16 +34,20 @@ const FNFCSContainer = styled.div`
 
 const FNFCSTitle = styled.h1`
     font-size: 1.5em;
-    width: 10em;
+    width: 50%;
     margin: auto;
+    @media (max-width: 768px) { 
+        font-size: 1.25em;
+    }
 `;
 
 function SecondSlide() {
+    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
     return (
         <Component>
             <FirstSentence>They had a lot of support from their teachers, and from groups like the </FirstSentence>
             <FNFCSContainer>
-                <FNFCSLogo src = {FNFCS}/>
+                <FNFCSLogo src={FNFCS} />
                 <FNFCSTitle>First Nation Family Caring Soceity(F.N.F.C.S)</FNFCSTitle>
             </FNFCSContainer>
             <FirstSentence>By 2017 both Henry and Daxton were noticing that many people wanted to learn more, and get more involved, but did not have the same support they had received, or did not know how to take action. </FirstSentence>

@@ -1273,6 +1273,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
+"@types/react-alice-carousel@^1.15.3":
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/@types/react-alice-carousel/-/react-alice-carousel-1.15.3.tgz#e581096b3867c025bbe842e4f2af5b239dc6df62"
+  integrity sha512-3tv5HALFTjS7ixUbBzkvEn7aDqPMxoYZkcISbkV58utCUNwJDznhKC/b+qqZv4SXMdRHGT1uU0U476OduKXwwg==
+  dependencies:
+    react-alice-carousel "*"
+
 "@types/react-burger-menu@^2.2.5":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@types/react-burger-menu/-/react-burger-menu-2.2.5.tgz#f767d31201b8d410d801c5752a59692d5854b2c2"
@@ -8501,6 +8508,14 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-alice-carousel@*, react-alice-carousel@^1.17.2:
+  version "1.17.2"
+  resolved "https://registry.yarnpkg.com/react-alice-carousel/-/react-alice-carousel-1.17.2.tgz#cad38acf463d0da741fe4e82ee475e7532795938"
+  integrity sha512-4k9MpERU7uSC3xQNvLrtVn2OgitDlIBTVkoJwbY03qHwbSEuggHdjg31H4KB4BYtwlcvMMT0adqvFdNrMOP5Og==
+  dependencies:
+    prop-types "^15.5.10"
+    vanilla-swipe "^1.0.0"
+
 react-app-polyfill@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-1.0.2.tgz#2a51175885c88245a2a356dc46df29f38ec9f060"
@@ -10360,6 +10375,11 @@ value-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-1.0.1.tgz#1e0b794c734c5c0cade179c437d356d931a34d6c"
   integrity sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==
+
+vanilla-swipe@^1.0.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vanilla-swipe/-/vanilla-swipe-1.1.1.tgz#8792b849f60a3ae98dfe8cc0313e52f8bad118bf"
+  integrity sha512-GQ8y6omllPD03KbVTlxa6cjdn+T69nXVitTLRG3PMCz3t8fPdMDFODwIDgj53IfRxcdw5bL6n6Q8MIPoctIA3w==
 
 vary@~1.1.2:
   version "1.1.2"

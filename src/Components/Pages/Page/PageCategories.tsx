@@ -11,6 +11,9 @@ const Content = styled.div`
     margin: 1em auto;
     display: flex;
     flex-wrap: wrap;
+    @media (max-width: 768px) {   
+        justify-content: center;
+    }
 `;
 
 type Props = {

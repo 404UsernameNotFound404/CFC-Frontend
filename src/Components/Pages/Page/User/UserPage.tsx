@@ -22,30 +22,6 @@ const TextContent = styled.div`
     text-align: center;
 `;
 
-const ParaTitle = styled.h1``;
-
-const ParaInput = styled.textarea`
-    width: 80%;
-    height: 10em;
-    margin: auto;
-    resize: none;
-    overflow: none;
-    border: lightgrey solid thin;
-    font-size: 1.5rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-style: normal;
-    text-align: center;
-`;
-
-const Para = styled.p`
-    width: 80%;
-    font-size: 1.5rem;
-    margin: auto;
-    font-weight: lighter;
-    font-style: normal;
-    font-family: 'Cormorant Garamond', serif;
-`;
-
 const Content = styled.div`
     margin: auto 0;
     width: 100%;

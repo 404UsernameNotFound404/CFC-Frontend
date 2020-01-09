@@ -28,7 +28,11 @@ const Para = styled.p`
     font-family: 'Cormorant Garamond', serif;
 `;
 
-const ParaTitle = styled.h1``;
+const ParaTitle = styled.h1`
+    @media (max-width: 768px) {   
+        margin: 0;
+    }
+`;
 
 const CharacterCount = styled.p`
     font-size: 1em;
@@ -36,6 +40,10 @@ const CharacterCount = styled.p`
     right: 0;
     top: 0;
     color: black;
+    @media (max-width: 768px) {   
+        position: static;
+        margin: 0;
+    }
 `;
 
 const NumberOfCharacter = styled.span`
@@ -54,8 +62,8 @@ function ParaInput(props: Props) {
     const { paragraphValue, setParagraphValue, editMode, title} = props;
     return (
         <Component>
-            <CharacterCount>Number of characters: <NumberOfCharacter>{ paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount>
             <ParaTitle>{title}</ParaTitle>
+            {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{ paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
             {editMode ? <ParaInputStyle value={paragraphValue} onChange={(e) => { setParagraphValue(e.target.value) }} /> : <Para>{paragraphValue}</Para>}
         </Component>

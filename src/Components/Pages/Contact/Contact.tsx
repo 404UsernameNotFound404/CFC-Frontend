@@ -30,6 +30,7 @@ const ContactInfo = styled.textarea`
     font-family: 'Cormorant Garamond', serif;
     width: 100%;
     margin-top: 1em;
+    resize: none;
 `;
 
 const TextContainer = styled.div`
@@ -85,7 +86,7 @@ const XOut = styled.h1`
     }
 `;
 
-const ContactInfoContent = styled.span``;
+const ContactInfoContent = styled.h1``;
 
 function ContactPage() {
     const [textToCopy, setTextToCopy] = useState()

@@ -12,7 +12,7 @@ const Container = styled.div`
     border-radius: 1em;
     @media (max-width: 768px) { 
         border-width: 1%;
-        width: 98%;
+        width: 90%;
         margin: 1.5em 0;
     }
 `;
@@ -21,6 +21,9 @@ const Name = styled.h1`
     font-size: 1.75em;
     margin: 0.1em 0;
     max-width: 75%;
+    @media (max-width: 768px) { 
+        font-size: 1.5em;
+    }
 `;
 
 const LogoOfOrg = styled.img`
@@ -34,6 +37,10 @@ const LogoOfOrg = styled.img`
     top: 0;
     right: 1em;
     object-fit: cover;
+    @media (max-width: 768px) { 
+        width: 5em;
+        height: 5em;
+    }
 `;
 
 const Location = styled.h1`
@@ -52,6 +59,7 @@ const Desc = styled.h1`
 
 const LinkToWebite = styled.a`
     text-decoration: none;
+    
 `;
 
 type Props = {

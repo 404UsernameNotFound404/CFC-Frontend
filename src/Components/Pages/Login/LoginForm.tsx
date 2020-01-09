@@ -105,6 +105,7 @@ function LoginForm(props: Props) {
         try { e.preventDefault(); } catch(err) {}
         try {
             let res = await axios.post(`${BASEURL}/login`, { Email: emailInput, Password: passwordInput });
+            console.log(res)
             networkError = false;
             if (res.data.AuthToken != undefined) {
                 console.log(res.data)

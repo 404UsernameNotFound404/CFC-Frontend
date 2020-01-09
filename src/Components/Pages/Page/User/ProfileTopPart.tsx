@@ -45,6 +45,9 @@ const TopBarTextContainer = styled.div`
 const TopBarText = styled.h1`
     font-size: 1.75em;
     font-family: "Times New Roman", Times, serif !important;
+    @media (max-width: 768px) {  
+        font-size: 1.5em;
+    }
 `;
 
 const EditButtonContianer = styled.div`
@@ -76,6 +79,18 @@ const UpdateButtonContainer = styled.div`
     right: 2em;
     top: 0;
     left: 10em;
+    @media (max-width: 768px) {  
+        position: static;
+        margin: auto;
+    }
+`;
+
+const PageCategoryContainer = styled.div`
+    width: 125%;
+    @media (max-width: 768px) {  
+        width: 90%;
+        margin: auto;
+    }
 `;
 
 type Props = {
@@ -123,9 +138,9 @@ function UserPage(props: Props) {
                     </EditButtonContianer> : ''}
             </TopBarTopSection>
             <UploadPhoto update = {update} />
-            <div style = {{width: "125%"}}>
+            <PageCategoryContainer>
                 <PageCategories width = {"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
-            </div>
+            </PageCategoryContainer>
         </TopBarContainer>
     );
 }

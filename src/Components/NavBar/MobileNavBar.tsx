@@ -25,6 +25,7 @@ const LinkTitle = styled(Link)<LinkTitleProps>`
     color: ${p => p.color};
     width: 100%;
     font-weight: bold;
+    white-space: nowrap;
 `;
 
 type NavBarPropsMobile = {

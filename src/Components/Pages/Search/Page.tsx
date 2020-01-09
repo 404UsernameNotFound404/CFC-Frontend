@@ -18,6 +18,7 @@ const Container = styled.div<ContainerProps>`
         width: 98%;
         margin: 1.5em 0;
         padding: 0;
+        height: fit-content;
     }
 `;
 

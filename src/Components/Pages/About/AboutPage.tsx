@@ -57,6 +57,7 @@ const PhotoOfBothFounders = styled.img`
     display: block;
     @media (max-width: 768px) {  
         margin-top: 4em;
+        height: 15em;
     }
 `;
 

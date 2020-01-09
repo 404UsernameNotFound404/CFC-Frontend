@@ -41,6 +41,9 @@ const TitleSection = styled.div`
     overflow-x: hidden;
     left: 0;
     top: 2.25em;
+    @media (max-width: 768px) {  
+        height: 55em;
+    }
 `;
 
 const PhotoOfBothFounders = styled.img`
@@ -52,6 +55,9 @@ const PhotoOfBothFounders = styled.img`
     object-position: top;
     border-radius: 0.3em;
     display: block;
+    @media (max-width: 768px) {  
+        margin-top: 4em;
+    }
 `;
 
 const FutureOfOrgPara = styled.p`
@@ -116,13 +122,12 @@ function AboutPage() {
                         <ThirdSlide />
                     </SlideContainer>
                     :
-                    <AliceCarousel infinite = {false} responsive = {responsive} onInitialized = {() => {console.log('asd')}} mouseTrackingEnabled buttonsDisabled={true} dotsDisabled={true} touchTrackingEnabled>
+                    <AliceCarousel infinite = {false} responsive = {responsive} onInitialized = {() => {console.log('asd')}} mouseTrackingEnabled buttonsDisabled={true} dotsDisabled={false} touchTrackingEnabled>
                         <FirstSlide />
                         <SecondSlide />
                         <ThirdSlide />
                     </AliceCarousel>
                 }
-
             </TitleSection>
             <PhotoOfBothFounders src={PhotoOfFounders} />
             <FutureOfOrgParaTitle>What the future holds</FutureOfOrgParaTitle>

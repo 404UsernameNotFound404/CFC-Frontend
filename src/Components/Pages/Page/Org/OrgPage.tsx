@@ -5,13 +5,12 @@ import {
     Redirect
 } from "react-router-dom";
 import Cookie from 'js-cookie';
-import { BASEURL } from '../../../Constants'
-import SingleLineInput from "../../ComponentLibrayer/InputForSingleLine";
-import PageCategories from '../Page/PageCategories'
-import PhotoUploader from '../../ComponentLibrayer/PhotoUploader'
-import { async } from 'q';
-import DefaultImage from '../../../img/default.jpg'
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import { BASEURL } from '../../../../Constants'
+import SingleLineInput from "../../../ComponentLibrayer/InputForSingleLine";
+import PageCategories from '../PageCategories'
+import PhotoUploader from '../../../ComponentLibrayer/PhotoUploader'
+import DefaultImage from '../../../../img/default.jpg'
+import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 
 const axios = require("axios");
 

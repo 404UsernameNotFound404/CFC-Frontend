@@ -10,10 +10,11 @@ import {
 import { AppContext } from '../../../Context/AppContext';
 import Cookie from 'js-cookie'
 import OrgRegisterInfoInput from './OrgRegisterInfoInput';
+import PhonNumberInput from './PhoneNumberInput';
 
 const axios = require('axios')
 
-const Content = styled.div`
+const Content = styled.form`
     width: 40%;
     @media (max-width: 768px) {
         width: 60%;
@@ -29,7 +30,7 @@ const Content = styled.div`
 const LoginInput = styled.input`
     width: 100%;
     margin: 0.5em auto;
-    padding: 0.5em 0.25em;
+    padding: 0.5em 0em;
     font-size: 1em;
     border: none;
     background-color: transparent;
@@ -62,7 +63,9 @@ const Message = styled.h1<Message>`
 
 type Props = {
     register: number
-    setRegister: Function
+    setRegister: Function,
+    message: {message: string, error: boolean},
+    setMessage: Function
 }
 
 function LoginForm(props: Props) {
@@ -71,33 +74,46 @@ function LoginForm(props: Props) {
     const [passwordInput, setPasswordInput] = useState("");
     const [redirectToHome, setRedirectToHome] = useState(false);
     const [authToken, setAuthToken] = useState("");
-    const [message, setMessage] = useState({ error: false, message: "" })
     const c = useContext(AppContext);
     const [categories, setCategories] = useState([]);
     const [description, setDescription] = useState("");
-
+    const [phoneNumber, setPhoneNumber] = useState<{first: string, middle: string, end: string}>({first: '', middle: '', end: ''})
+    const { message } = props
+    const { setMessage } = props;
     useEffect(() => {
         if (categories.length == 0) {
             getCategories();
         }
     }, [props.register])
-    
+
     const getCategories = async () => {
-        const res = await axios.post(`${BASEURL}/getCategories`);
-        setCategories(res.data.map((ele: any) => {
-            return {...ele, disabled: true}
-        }))
+        try {
+            const res = await axios.post(`${BASEURL}/getCategories`);
+            setCategories(res.data.map((ele: any) => {
+                return { ...ele, disabled: true }
+            }))
+        } catch (err) {
+            console.log(err)
+            setMessage({error: true, message: "Network Down"})
+        }
     }
 
-    const login = async () => {
+    const login = async (e: any) => {
+        console.log("login")
         let networkError = true;
+         //this is so enter key works, but I can also activate login through a function
+        try { e.preventDefault(); } catch(err) {}
         try {
             let res = await axios.post(`${BASEURL}/login`, { Email: emailInput, Password: passwordInput });
             networkError = false;
-            if (res.data.AuthToken.length >= 0) {
+            if (res.data.AuthToken != undefined) {
                 console.log(res.data)
                 setAuthToken(res.data.AuthToken);
                 setRedirectToHome(true);
+            }
+            if (res.data.Error != undefined) {
+                console.log("should be showing error")
+                throw res.data.Error
             }
             throw 'invalid login'
         }
@@ -107,7 +123,7 @@ function LoginForm(props: Props) {
                 setMessage({ error: true, message: "Network Error Sorry For Inconveince" });
                 setRedirectToHome(false);
             } else {
-                setMessage({ error: true, message: "invalid login" });
+                setMessage({ error: true, message: err });
                 setRedirectToHome(false);
             }
         }
@@ -125,16 +141,16 @@ function LoginForm(props: Props) {
 
     const register = async () => {
         try {
-            //checking if the password and re-entred passwords match
-            if (registerValues[1] != registerValues[2]) {
-                setMessage({ error: true, message: "Passwords do not match" })
+            //password minum requirement check(Must be at least eight characters and have 1 number and letter)
+            if (!registerValues[1].match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
+                setMessage({ error: true, message: "Password must be 8 characters with atleast one number and letter" })
                 funcSetRegisterValues("", 1);
                 funcSetRegisterValues("", 2);
                 return;
             }
-            //password minum requirement check(Must be at least eight characters and have 1 number and letter)
-            if (!registerValues[1].match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
-                setMessage({ error: true, message: "Password must be 8 characters with atleast one number and letter" })
+            //checking if the password and re-entred passwords match
+            if (registerValues[1] != registerValues[2]) {
+                setMessage({ error: true, message: "Passwords do not match" })
                 funcSetRegisterValues("", 1);
                 funcSetRegisterValues("", 2);
                 return;
@@ -151,8 +167,19 @@ function LoginForm(props: Props) {
                 funcSetRegisterValues("", 4);
                 return;
             }
+            if ((phoneNumber.first.length != 3 || phoneNumber.middle.length != 3 || phoneNumber.end.length != 4) && (phoneNumber.first.length != 0 || phoneNumber.middle.length != 0 || phoneNumber.end.length != 0)) {
+                console.log("error")
+                setMessage({ error: true, message: "Phone Number not properly formatted(not mandatory)" })
+                setPhoneNumber({first: '', middle: '', end: ''})
+                return;
+            }
+            let phoneNumberString = ''
+            if (phoneNumber.first.length >= 1) {
+                console.log("formating phone number")
+                phoneNumberString = phoneNumber.first + '-' + phoneNumber.middle + '-' + phoneNumber.end;
+             }
             if (props.register == 2) {
-                let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4], Type: 0 });
+                let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
                     setMessage({ error: false, message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
                     props.setRegister(false);
@@ -187,8 +214,9 @@ function LoginForm(props: Props) {
                         }
                     }
                 })
-                console.log({ Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1})
-                let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1});
+               
+                console.log({ Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 })
+                let res = await axios.post(`${BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 });
                 if (res.data.Valid != undefined) {
                     setMessage({ error: false, message: "Registered Sucssfully" })
                     props.setRegister(false);
@@ -215,12 +243,13 @@ function LoginForm(props: Props) {
 
     if (props.register == 0) {
         return (
-            <Content>
+            <Content onSubmit = {login}>
                 <Message error={message.error}>{message.message}</Message>
                 <LoginInput onChange={(e) => { setEmailInput(e.target.value) }} value={emailInput} placeholder="Email Address" />
                 <BreakLine />
                 <LoginInput onChange={(e) => { setPasswordInput(e.target.value) }} value={passwordInput} placeholder="Password" type='password' />
                 <BasicButton activateButton={login} width={"50%"} text={"Login"} active={false} id={20} />
+                <input type="submit" style={{display:"none"}}/>
                 {goToHome()}
             </Content>
         );
@@ -234,8 +263,7 @@ function LoginForm(props: Props) {
                 <BreakLine />
                 <LoginInput value={registerValues[2]} onChange={(e) => { funcSetRegisterValues(e.target.value, 2) }} placeholder="*Re-Enter Password" type='password' />
                 <BreakLine />
-                <LoginInput value={registerValues[3]} onChange={(e) => { funcSetRegisterValues(e.target.value, 3) }} placeholder="Phone Number" />
-                <BreakLine />
+                <PhonNumberInput phoneNumber = {phoneNumber} setPhoneNumber = {setPhoneNumber} />
                 <LoginInput value={registerValues[4]} onChange={(e) => { funcSetRegisterValues(e.target.value, 4) }} placeholder="*Name" />
                 <BreakLine />
                 {

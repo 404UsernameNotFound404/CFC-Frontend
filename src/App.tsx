@@ -5,7 +5,7 @@ import NavBar from './Components/NavBar/NavBarPage';
 import Login from './Components/Pages/Login/LoginPage';
 import AboutPage from './Components/Pages/About/AboutPage'
 import { BASEURL } from './Constants';
-import UserPage from './Components/Pages/Page/UserPage';
+import UserPage from './Components/Pages/Page/User/UserPage';
 import LearningPage from './Components/Pages/Learning/LearnPage'
 import {
   BrowserRouter as Router,
@@ -15,7 +15,7 @@ import {
 } from "react-router-dom";
 import Cookie from 'js-cookie'
 import { AppContext} from './Context/AppContext'
-import OrgPage from './Components/Pages/OrgPage/OrgPage'
+import OrgPage from './Components/Pages/Page/Org/OrgPage'
 import VerificationPage from './Components/Pages/Verify/Verify'
 import ContactPage from './Components/Pages/Contact/Contact';
 

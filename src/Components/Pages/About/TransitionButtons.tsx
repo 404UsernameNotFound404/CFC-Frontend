@@ -47,7 +47,6 @@ function TransitionButtons(props: Props) {
     const arrowLeft = <FontAwesomeIcon icon={faArrowLeft} />
     return (
         <Component>
-            {console.log(props)}
             {!props.end ? <ButtonForSlideTransition right={false} onClick={() => { props.slideTransition(true) }}>
                 <ArrowContainer>{arrowRight}</ArrowContainer>
             </ButtonForSlideTransition> : ""}

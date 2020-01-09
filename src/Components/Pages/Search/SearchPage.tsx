@@ -44,7 +44,6 @@ function LinksContainer() {
     const [whatYourSearching, setWhatYourSearching] = useState(null);
     const thingsToSearch = ["Activists", "Events", "Organizations", null]
 
-
     useEffect(() => {
         fetchCatagories();
     }, []);

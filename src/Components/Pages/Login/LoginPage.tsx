@@ -110,11 +110,24 @@ function LoginPage() {
     const [register, setRegister] = useState(0);
     const [reToHome, setReToHome] = useState(false); 
     const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+    const [message, setMessage] = useState({ error: false, message: "" })
+
 
     const registerClick = (whatToSwitch: number) => {
         setRegister(whatToSwitch)
         //set inputs to zero later
     }
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let registerValue = urlParams.get('register')
+        if (registerValue == 'organization') {
+            setRegister(1)
+        }
+        if (registerValue == 'user') {
+            setRegister(2)
+        }
+    })
 
     return (
         <Page>
@@ -127,13 +140,12 @@ function LoginPage() {
             }
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
-                <LoginForm setRegister = {setRegister} register = {register}/>
+                <LoginForm setMessage = {setMessage} message = {message} setRegister = {setRegister} register = {register} />
                 <RegisterAndForgotUsername>
-                    {/* <ForgotRegisterText>Forgot Password?</ForgotRegisterText> */}
                     {(register != 0) ? 
-                        <ForgotRegisterText onClick={() => {registerClick(0)}}>Go To Login</ForgotRegisterText> 
+                        <ForgotRegisterText onClick={() => {registerClick(0); setMessage({error: false, message: ""})}}>Go To Login</ForgotRegisterText> 
                     :
-                        <PickWhatToCreate registerOrg = {() => {registerClick(1)}} registerUser = {() => {registerClick(2)}} />
+                        <PickWhatToCreate setMessage = {setMessage} registerOrg = {() => {registerClick(1)}} registerUser = {() => {registerClick(2)}} />
                     }
                 </RegisterAndForgotUsername>
                 <SkipAndGoToHome onClick = {() => {setReToHome(true)}}>Skip And Go To Home Page</SkipAndGoToHome>

@@ -12,8 +12,8 @@ type LinkToProps = {
 }
 
 const LinkTo = styled.div<LinkToProps>`
-    margin-left: ${p => p.marginLeft ? 'auto' : '0'};
-    margin-right: 0.5em
+    margin-left: ${p => p.marginLeft ? 'auto' : '0.5em'};
+    margin-right: ${p => !p.marginLeft ? 'auto' : '0.5em'};
     font-size: 1em;
     color: grey;
     cursor: pointer;
@@ -23,26 +23,35 @@ const LinkTo = styled.div<LinkToProps>`
 `;
 
 const LinkContainer = styled.div`
-    width: 12em;
+    width: 15em;
     display: flex;
     justify-content: center;
 `;
 
+const Text = styled.p`
+    font-size: 1em;
+    text-align: center;
+`;
+
+const LinkToCreatingSomething = styled.span`
+    color: #3d3dff;
+    cursor: pointer;
+    :hover {
+        text-decoration: underline;
+    }
+`;
+
 type Props = {
-    registerUser: any,
-    registerOrg: any
+    registerUser: Function,
+    registerOrg: Function,
+    setMessage: Function
 }
 
 function PickWhatToCreate(props: Props) {
+
     return (
         <Component>
-            <LinkContainer>
-                <LinkTo marginLeft = {true} onClick = {props.registerUser}>Create An Account</LinkTo>
-            </LinkContainer>
-            -
-            <LinkContainer>
-                <LinkTo marginLeft = {false} onClick = {props.registerOrg}>Create An Organization</LinkTo>
-            </LinkContainer>
+            <Text>Create an <LinkToCreatingSomething onClick = {() => {props.registerUser(); props.setMessage({error: false, message: ""})}}>user</LinkToCreatingSomething>/<LinkToCreatingSomething onClick = {() => {props.registerOrg(); props.setMessage({error: false, message: ""})}}>organization</LinkToCreatingSomething> account</Text>
         </Component>
     );
 }

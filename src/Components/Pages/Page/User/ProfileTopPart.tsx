@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
-import PageCategories from './PageCategories';
-import UploadPhoto from '../../ComponentLibrayer/PhotoUploader';
+import BasicButton from '../../../ComponentLibrayer/BasicButton';
+import PageCategories from '../PageCategories';
+import UploadPhoto from '../../../ComponentLibrayer/PhotoUploader';
 
 const ProfileImage = styled.img`
     margin: 0;

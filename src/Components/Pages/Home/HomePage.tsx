@@ -105,7 +105,7 @@ function HomePage() {
                 <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
                 <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
                 <LookForActvitsButtonContainer>
-                    <LookForActvitsButton to='/search'>Find Activists</LookForActvitsButton>
+                    <LookForActvitsButton to='/search'>Search</LookForActvitsButton>
                 </LookForActvitsButtonContainer>
                 <PagePara>
                     This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.

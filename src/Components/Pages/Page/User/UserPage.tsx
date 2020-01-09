@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import DaxtonImage from '../../../img/default.jpg'
+import DaxtonImage from '../../../../img/default.jpg'
 import { Redirect } from 'react-router';
-import { BASEURL } from '../../../Constants'
+import { BASEURL } from '../../../../Constants'
 import Cookie from 'js-cookie'
-import LoadingComp from '../../ComponentLibrayer/LoadingPage'
+import LoadingComp from '../../../ComponentLibrayer/LoadingPage'
 import ProfileTopPart from './ProfileTopPart';
+import ParagraphInput from '../ParaInput'
 
 const axios = require("axios");
 
@@ -240,12 +241,8 @@ function UserPage(props: Props) {
                 <Content>
                     <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
                     <TextContent>
-                        <ParaTitle>Who Am I?</ParaTitle>
-                        {paraInputOne == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-                        {editMode ? <ParaInput value={paraInputOne} onChange={(e) => { setParaInputOne(e.target.value) }} /> : <Para>{paraInputOne}</Para>}
-                        <ParaTitle>What I Stand For</ParaTitle>
-                        {paraInputTwo == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-                        {editMode ? <ParaInput value={paraInputTwo} onChange={(e) => { setParaInputTwo(e.target.value) }} /> : <Para>{paraInputTwo}</Para>}
+                        <ParagraphInput title = {"Who Am I?"} paragraphValue = {paraInputOne} setParagraphValue = {setParaInputOne} editMode = {editMode} />
+                        <ParagraphInput title = {"What I Stand For"} paragraphValue = {paraInputTwo} setParagraphValue = {setParaInputTwo} editMode = {editMode} />
                     </TextContent>
                 </Content>
             </Page>

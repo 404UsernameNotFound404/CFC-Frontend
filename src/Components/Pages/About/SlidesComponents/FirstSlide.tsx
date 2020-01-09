@@ -15,6 +15,7 @@ const Photo = styled.img`
     width: 100%;
     height: 15em;
     object-fit: cover;
+    object-position: 0 -4em;
 `;
 
 const Desc = styled.p`

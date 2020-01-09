@@ -11,7 +11,8 @@ import SlideContainer from './SlidesComponents/SlideContainer';
 import FirstSlide from './SlidesComponents/FirstSlide';
 import SecondSlide from './SlidesComponents/SecondSlide';
 import ThirdSlide from './SlidesComponents/ThirdSlide';
-import ButtonForTransition from './TransitionButtons';
+import PhotoOfFounders from '../../../img/BothOfUsPhoto.jpg'
+
 
 const Page = styled.div`
     padding-top: 45em;
@@ -47,6 +48,7 @@ const PhotoOfBothFounders = styled.img`
     margin-top: 2em;
     height: 25em;
     object-fit: cover;
+    object-position: top;
     border-radius: 0.3em;
     display: block;
 `;
@@ -104,7 +106,7 @@ function AboutPage() {
                     <ThirdSlide />
                 </SlideContainer>
             </TitleSection>
-            <PhotoOfBothFounders src={DaxtonPhoto} />
+            <PhotoOfBothFounders src={PhotoOfFounders} />
             <FutureOfOrgParaTitle>What the future holds</FutureOfOrgParaTitle>
             <FutureOfOrgPara>
                 In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
@@ -117,7 +119,7 @@ function AboutPage() {
             <BioContainer>
                 <TeamMember>
                     <TeamMemberTitle>Co-Founder</TeamMemberTitle>
-                    <ActivistPage width={"55%"} name={"Henry Morris"} ID={"123"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={HenryPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
+                    <ActivistPage width={"55%"} name={"Henry Morris"} ID={"1VEYNkGKc2HQQAdF5dgdO5hMdRw"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={HenryPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
                 </TeamMember>
                 <TeamMember>
                     <TeamMemberTitle>Co-Founder</TeamMemberTitle>

@@ -12,11 +12,19 @@ const InputComponent = styled.input`
     &:focus {
         outline: none;
     }
+    @media (max-width: 768px) {  
+        font-size: 1.1em;
+        margin: 0.2em 0;
+    }
 `;
 
 const Title = styled.h1`
     font-size: 1.25em;
     margin: 0.25em 0;
+    @media (max-width: 768px) {  
+        font-size: 1.5em;
+        margin: 0;    
+    }
 `;
 
 type Props = {
@@ -29,7 +37,7 @@ type Props = {
 function InputForSingleLine(props: Props) {
     return (
         <Component>
-            <Title>{props.title}</Title>
+            <Title>{props.title}:</Title>
             <InputComponent value={props.value} onChange={(e) => { props.update(props.id, e.target.value) }} />
         </Component>
     );

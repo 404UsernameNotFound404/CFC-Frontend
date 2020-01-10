@@ -38,6 +38,7 @@ const SearchBoxSubTitle = styled.h4`
 
 
 function LinksContainer() {
+    const [loadingCategories, setLoadingCategories] = useState(true);
     const [allCategories, setAllCategories] = useState([]);
     const [categoryButtons, setCategoryButtons] = useState([]);
     const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
@@ -75,6 +76,7 @@ function LinksContainer() {
         try {
             const res = await axios.post(`${BASEURL}/getCategories`);
             setAllCategories(res.data)
+            setLoadingCategories(false);
         } catch(err) {
             console.log(err)
         }
@@ -85,7 +87,7 @@ function LinksContainer() {
             <TopPartPage>
                 <SearchBoxTitle>What are you looking for?</SearchBoxTitle>
                 <SearchBoxSubTitle>What category are you looking for?</SearchBoxSubTitle>
-                <CategorySearch setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
+                <CategorySearch loading = {loadingCategories} setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
             </TopPartPage>
             <SearchActivists choice={whatYourSearching} categoriesToNotAllow={categoriesToNotAllow} />
         </PageContainer>

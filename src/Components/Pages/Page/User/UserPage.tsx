@@ -217,8 +217,8 @@ function UserPage(props: Props) {
                 <Content>
                     <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
                     <TextContent>
-                        <ParagraphInput title = {"Who Am I?"} paragraphValue = {paraInputOne} setParagraphValue = {setParaInputOne} editMode = {editMode} />
-                        <ParagraphInput title = {"What I Stand For"} paragraphValue = {paraInputTwo} setParagraphValue = {setParaInputTwo} editMode = {editMode} />
+                        <ParagraphInput margin = {"auto"} title = {"Who Am I?"} paragraphValue = {paraInputOne} setParagraphValue = {setParaInputOne} editMode = {editMode} />
+                        <ParagraphInput margin = {"auto"} title = {"What I Stand For"} paragraphValue = {paraInputTwo} setParagraphValue = {setParaInputTwo} editMode = {editMode} />
                     </TextContent>
                 </Content>
             </Page>

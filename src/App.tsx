@@ -18,6 +18,7 @@ import { AppContext} from './Context/AppContext'
 import OrgPage from './Components/Pages/Page/Org/OrgPage'
 import VerificationPage from './Components/Pages/Verify/Verify'
 import ContactPage from './Components/Pages/Contact/Contact';
+import FAQ from './Components/Pages/FAQ/FAQPage'
 
 const axios = require("axios");
 
@@ -88,6 +89,7 @@ function App() {
             <Route path = '/organization' component = {OrgPage} />
             <Route path = '/verify' component = {VerificationPage} />
             <Route path = '/contact' component = {ContactPage} />
+            <Route path = '/FAQ' component = {FAQ} />
             <Route component={Home} />
           </Switch>
           <NavBar showNavBar={showNavBar} />

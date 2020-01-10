@@ -11,6 +11,8 @@ import PageCategories from '../PageCategories'
 import PhotoUploader from '../../../ComponentLibrayer/PhotoUploader'
 import DefaultImage from '../../../../img/default.jpg'
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
+import ParagraphInput from '../ParaInput'
+import { useMediaQuery } from 'react-responsive';
 
 const axios = require("axios");
 
@@ -26,22 +28,10 @@ const Page = styled.div`
 const InputContainer = styled.div`
     display: flex;
     width: 30em;
-`;
-
-const DescTitle = styled.h1`
-    font-size: 1.75em;
-`;
-
-const DescInput = styled.textarea`
-    width: 80%;
-    height: 5em;
-    margin: auto;
-    resize: none;
-    overflow: none;
-    border: black solid thin;
-    font-size: 1.5rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-style: normal;
+    @media (max-width: 768px) {  
+        width: 100%;
+        display: block;
+    }
 `;
 
 const UpdateButton = styled.div`
@@ -57,6 +47,7 @@ const UpdateButton = styled.div`
     &:hover {
         background-color: #1e971e;
     }
+    margin-bottom: 2em;
 `;
 
 const OrgImage = styled.img`
@@ -89,7 +80,8 @@ function OrgPage(props: NavBarDekstopProps) {
     const [message, setMessage] = useState({ error: false, text: "" })
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(true);
-    const [imageHash, setImageHash] = useState(0)
+    const [imageHash, setImageHash] = useState(0);
+    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
     useEffect(() => {
         fetchAPI()
     }, []);
@@ -154,7 +146,9 @@ function OrgPage(props: NavBarDekstopProps) {
             }
         })
         try {
+            //need check
             const res = await axios.post(`${BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": Cookie.get("authToken") } });
+            console.log(res)
             if (res.data.Valid.length >= 0) {
                 setMessage({ error: false, text: "Updated" })
             }
@@ -185,8 +179,7 @@ function OrgPage(props: NavBarDekstopProps) {
                 <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={[]} editMode={true} />
                 <OrgImage src={`${image}?${imageHash}`} />
                 <PhotoUploader update = {fetchAPI} />
-                <DescTitle>Description: </DescTitle>
-                <DescInput>{desc}</DescInput>
+                <ParagraphInput margin = {isPhone ? "0" : "auto"} title = {"Description:"} paragraphValue = {desc} setParagraphValue = {setDesc} editMode = {true} />
                 <UpdateButton onClick={update}>Update</UpdateButton>
             </Page>
         );

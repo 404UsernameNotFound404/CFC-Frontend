@@ -1,11 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Component = styled.div`
+type Component = {
+    margin: string
+}
+const Component = styled.div<Component>`
     position:  relative;
     width: 80%;
     height: 100%;
-    margin: auto;
+    margin: ${p => p.margin};
+    @media (max-width: 768px) {   
+        width: 95%;
+    }
 `;
 
 const ParaInputStyle = styled.textarea`
@@ -18,6 +24,9 @@ const ParaInputStyle = styled.textarea`
     font-family: 'Cormorant Garamond', serif;
     font-style: normal;
     text-align: center;
+    @media (max-width: 768px) {   
+        padding: 0.25em;
+    }
 `;
 
 const Para = styled.p`
@@ -54,14 +63,15 @@ type Props = {
     paragraphValue: string,
     setParagraphValue: Function,
     editMode: boolean,
-    title: string
+    title: string,
+    margin: string
 }
 
 
 function ParaInput(props: Props) {
-    const { paragraphValue, setParagraphValue, editMode, title} = props;
+    const { paragraphValue, setParagraphValue, editMode, title, margin} = props;
     return (
-        <Component>
+        <Component margin = {margin}>
             <ParaTitle>{title}</ParaTitle>
             {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{ paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}

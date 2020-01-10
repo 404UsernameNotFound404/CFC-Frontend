@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CategoryButton from './CategoryButton';
+import LoadingAnimation from '../../../img/LoadingImageLine.gif'
+import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 
 const Container = styled.div`
     width: 90%;
@@ -12,18 +14,24 @@ const Container = styled.div`
     margin-top: 2em;
 `;
 
+const LoadingGif = styled.img`
+    margin: auto;
+    display: block;
+    height: 10em;
+`;
+
 type Props = {
     categories: string[][],
     categoryButtons: any,
     setCategoryButtons: any,
     categoriesToNotAllow: any,
-    setCategoriesToNotAllow: any
+    setCategoriesToNotAllow: any,
+    loading: boolean
 }
 
 function CategorySearch(props: Props) {
-    const {categoryButtons, setCategoryButtons} = props;
     const [firstTimePick, setFirstTimePick] = useState(true);
-    const {categoriesToNotAllow, setCategoriesToNotAllow} = props;
+    const {categoriesToNotAllow, setCategoriesToNotAllow, categoryButtons, setCategoryButtons, loading} = props;
 
     useEffect(() => {
         buildCategoryButtons();
@@ -92,9 +100,13 @@ function CategorySearch(props: Props) {
 
     return (
         <Container>
-            {categoryButtons.map((ele: any, i: any) => {
+            {!loading ? 
+            categoryButtons.map((ele: any, i: any) => {
                 return <CategoryButton colour = {ele.colour} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} key = {i} />
-            })}
+            })
+            :
+            <LoadingPage />
+            }
         </Container>
     );
 }

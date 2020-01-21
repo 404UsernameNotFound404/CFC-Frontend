@@ -60,8 +60,11 @@ function UserPage(props: Props) {
         e.preventDefault();
         setMessageToUser({ text: "Loading", colour: "black" })
         let formData = new FormData()
+        console.log(file)
         formData.append('image', file)
         try {
+            console.log("sending to backend")
+            console.log(formData)
             let res = await axios({
                 url: `${BASEURL}/setProfilePhoto`,
                 method: "POST",
@@ -70,6 +73,7 @@ function UserPage(props: Props) {
                 },
                 data: formData
             });
+            console.log(res)
             if (res.data.Valid.length > 2) {
                 setMessageToUser({ text: "Uploaded", colour: "green" })
                 props.update();
@@ -80,11 +84,12 @@ function UserPage(props: Props) {
     }
 
     const onChangePhoto = (e: any) => {
+        e.preventDefault();
         const { files } = e.target;
-        if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 500000) {
+        if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 2000000) {
             setFile(files[0])
         } else {
-            console.log("invalid upload please upload only one photo in jpg or png format")
+            setMessageToUser({ text: "Invalid File", colour: "red" })
         }
     }
 

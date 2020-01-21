@@ -51,6 +51,7 @@ const Location = styled.h1`
 `;
 
 const Desc = styled.h1`
+    text-overflow: ellipsis;
     font-size: 1em;
     width: 90%;
     margin: 1em 0;

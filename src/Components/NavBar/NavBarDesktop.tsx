@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import DropDown from './DropDownMenu';
 import { AppContext } from '../../Context/AppContext';
+import ProfileDropDown from './ProfileDropDown';
 
 const RightPart = styled.div`
     margin-left: auto;
@@ -68,8 +69,11 @@ function NavBarDesktop(props: NavBarDekstopProps) {
                     <LinkTitle to='/contact'>Contact Us</LinkTitle>
                     <LinkTitle to='/about'>About Page</LinkTitle>
                     <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-                    <DropDown options = {[{name: "Activists", link: "/search?search=Activists"}, {name: "Organizations", link: "/search?search=Organizations"}]} title = {"Search"} />
-                    <LinkTitle to='/login'><span onClick={props.logoutLogin}>{c.loggedIn ? "Logout" : "Login"}</span></LinkTitle>
+                    <DropDown options={[{ name: "Activists", link: "/search?search=Activists" }, { name: "Organizations", link: "/search?search=Organizations" }]} title={"Search"} />
+                    {c.loggedIn ?
+                        <ProfileDropDown loggedIn={c.loggedIn} logoutLogin={props.logoutLogin} /> :
+                        <LinkTitle to='/login'><span onClick={props.logoutLogin}>Login</span></LinkTitle>
+                    }
                 </RightPart>
             </Content>
         </LightOverlay>

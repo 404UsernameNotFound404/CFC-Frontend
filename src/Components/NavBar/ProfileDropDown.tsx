@@ -20,7 +20,7 @@ const Title = styled(Link)`
         text-decoration: underline;
     }
     cursor: pointer;
-    color: #3c78d8;
+    color: black;
     font-weight: bold;
 
 `;
@@ -33,7 +33,12 @@ const MenuOptions = styled.div`
     margin-top: -0.25em;
 `;
 
-const Option = styled(Link)`
+const OptionContainer = styled.div`
+    width: 5em;
+    margin-bottom: 0.5em;
+`;
+
+const LinkTitle = styled(Link)`
     font-size: 1.1em;
     margin: auto 0;
     text-decoration: none;
@@ -45,33 +50,24 @@ const Option = styled(Link)`
     font-weight: bold;
 `;
 
-const OptionContainer = styled.div`
-    width: 5em;
-    margin-bottom: 0.5em;
-`;
 type DropDownProps = {
-    options: {name: string, link: string}[]
-    title: string,
+    loggedIn: boolean,
+    logoutLogin: any
 }
 
-function DropDown(props: DropDownProps) {
+function ProfileDropDown(props: DropDownProps) {
     const [hovering, setHovering] = useState(false);
     return (
-        <Component  onMouseEnter = {() => {setHovering(true)}} onMouseLeave = {() => {setHovering(false)}}>
-            <Title to = '/search'>{props.title}</Title>
+        <Component onMouseEnter={() => { setHovering(true) }} onMouseLeave={() => { setHovering(false) }}>
+            <Title to='/profile'>Profile</Title>
             {hovering ?
                 <MenuOptions>
-                    { 
-                        props.options.map(ele => {
-                            return <OptionContainer><Option to = {ele.link}>{ele.name}</Option></OptionContainer>
-                        })
-                       
-                    }
+                    <OptionContainer><LinkTitle to='/login'><span onClick={props.logoutLogin}>{props.loggedIn ? "Logout" : "Login"}</span></LinkTitle></OptionContainer>
                 </MenuOptions>
-                 : ""
+                : ""
             }
         </Component>
     );
 }
 
-export default DropDown;
+export default ProfileDropDown;

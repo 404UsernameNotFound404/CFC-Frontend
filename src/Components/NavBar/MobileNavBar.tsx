@@ -98,6 +98,7 @@ function NavBarMobile(props: NavBarPropsMobile) {
             <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Activists'>Activist</LinkTitle>
             <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Organizations'>Organization</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"black"} to='/login'><span onClick={props.logoutLogin}>{c.loggedIn ? "Logout" : "Login"}</span></LinkTitle>
+            {c.loggedIn ? <LinkTitle marginRight = {"0"} color = {"black"} to='/profile'>Profile</LinkTitle> : ''}
         </Menu>
     );
 }

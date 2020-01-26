@@ -93,7 +93,7 @@ function SearchBar(props: Props) {
                 return (<>{
                     pages.map((ele, i) => {
                         if (checkIfInCategories(ele.Instrests)) {
-                            return <Organization image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} name={ele.Name} link={ele.Link} desc={ele.Desc} location={ele.Location} interests={ele.Instrests} key = {i} />
+                            return <Organization image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} name={ele.Name} link={ele.Link} desc={ele.Desc} location={ele.Location} email = {ele.Email} interests={ele.Instrests} key = {i} />
                         }
                     })
                 }</>)

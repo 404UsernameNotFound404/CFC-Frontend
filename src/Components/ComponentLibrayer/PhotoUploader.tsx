@@ -9,6 +9,11 @@ const Component = styled.form`
     width: fit-content;
     margin: 1em 0;
     margin-left: 2.5%;
+    @media (max-width: 768px) {
+        margin: 0.5em auto;
+        width: 90%;
+        display: flex;
+    }
 `;
 
 const Button = styled.input`
@@ -17,6 +22,10 @@ const Button = styled.input`
     border: black thin solid;
     background-color: transparent;
     font-size: 1em;
+    @media (max-width: 768px) { 
+        width: 100%;
+        flex: 4;
+    }
 `;
 
 const UploadButton = styled.button`
@@ -25,6 +34,13 @@ const UploadButton = styled.button`
     width: fit-content;
     border: black thin solid;
     background-color: transparent;
+    @media (max-width: 768px) {
+        margin: auto 0;
+        margin-left: 1em;
+        width: 10%;
+        height: 90%;
+        flex: 1;
+    }
 `;
 
 type MessageToUserProps = {
@@ -93,7 +109,7 @@ function UserPage(props: Props) {
         <Component onSubmit={uploadThePhotoButtonPressed}>
             <Button type="file" onChange={onChangePhoto} accept="image/*" data-sigil="photo-input" />
             <UploadButton type="submit">Upload</UploadButton>
-            <MessageToUser colour={messageToUser.colour}>{messageToUser.text}</MessageToUser>
+            {/* <MessageToUser colour={messageToUser.colour}>{messageToUser.text}</MessageToUser> */}
         </Component>
     );
 }

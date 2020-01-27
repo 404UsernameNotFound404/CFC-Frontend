@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive'
 const Content = styled.div`
     width: 47%;
     margin-left: 3%;
-    @media (max-width: 768px) {    
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {    
         width: 50%;
     }
 `;
@@ -16,7 +16,7 @@ const Title = styled.h1`
     text-align: center;
     text-decoration: underline;
     margin-bottom: 0.3em;
-    @media (max-width: 768px) {   
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         font-size: 3em;
     }
 `;
@@ -25,7 +25,7 @@ const NameOfEvent = styled.h3`
     font-size: 2.5em;
     text-align: center;
     margin: 0;
-    @media (max-width: 768px) {   
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         font-size: 2em;
         margin-bottom: 0.5em;
     }
@@ -48,7 +48,7 @@ const Photo = styled.img`
     object-position: mid;
     border-radius: 0.5em;
     border: black 0.2em solid;
-    @media (max-width: 768px) {    
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {    
         margin-top: 2em;
     }
 `;
@@ -60,7 +60,7 @@ const Description = styled.p`
 `;
 
 function Events() {
-    const phone = useMediaQuery({ query: '(max-width: 768px)' })
+    const phone = useMediaQuery({ query: `(max-width: ${process.env.REACT_APP_PHONE_BREAK}px)` })
 
     return (
         <Content>

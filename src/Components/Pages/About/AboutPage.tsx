@@ -21,7 +21,7 @@ const Page = styled.div`
     width: 65rem;
     margin: auto;
     margin-bottom: 4em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
     }
 `;
@@ -42,7 +42,7 @@ const TitleSection = styled.div`
     overflow-x: hidden;
     left: 0;
     top: 2.25em;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         height: 55em;
     }
 `;
@@ -56,7 +56,7 @@ const PhotoOfBothFounders = styled.img`
     object-position: top;
     border-radius: 0.3em;
     display: block;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         margin-top: 4em;
         height: 15em;
     }
@@ -86,7 +86,7 @@ const BioContainer = styled.div`
     margin: auto;
     display: flex;
     justify-content: space-around;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         display: block;
     }
 `;
@@ -96,7 +96,7 @@ const TeamMember = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         height: fit-content;
         margin-bottom: 2.5em;
     }

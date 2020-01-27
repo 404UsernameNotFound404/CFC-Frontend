@@ -12,7 +12,7 @@ const ProfileImage = styled.img`
     display: block;
     border: #3c78d8 0.25em solid;
     object-fit: cover;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin: auto;
     }
 `;
@@ -28,7 +28,7 @@ const TopBarTopSection = styled.div`
     width: fit-content;
     margin: auto;
     height: fit-content;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         display: inline-block;
     }
 `;
@@ -36,7 +36,7 @@ const TopBarTopSection = styled.div`
 const TopBarTextContainer = styled.div`
     margin: auto 0;
     margin-left: 1em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin: 1em;
         text-align: center;
     }
@@ -45,7 +45,7 @@ const TopBarTextContainer = styled.div`
 const TopBarText = styled.h1`
     font-size: 1.75em;
     font-family: "Times New Roman", Times, serif !important;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         font-size: 1.5em;
     }
 `;
@@ -55,7 +55,7 @@ const EditButtonContianer = styled.div`
     height: fit-content;
     margin: auto 0;
     margin-left: 3em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 100%;
         margin: 1em 0;
     }
@@ -79,7 +79,7 @@ const UpdateButtonContainer = styled.div`
     right: 2em;
     top: 0;
     left: 10em;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         position: static;
         margin: auto;
     }
@@ -87,7 +87,7 @@ const UpdateButtonContainer = styled.div`
 
 const PageCategoryContainer = styled.div`
     width: 125%;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         width: 90%;
         margin: auto;
     }

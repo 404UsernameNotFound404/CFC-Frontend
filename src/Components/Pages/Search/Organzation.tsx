@@ -10,7 +10,7 @@ const Container = styled.div`
     padding: 2%;
     margin: 0.5%;
     border-radius: 1em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         border-width: 1%;
         width: 90%;
         margin: 1.5em 0;
@@ -23,7 +23,7 @@ const Name = styled.h1`
     margin: 0.1em 0;
     width: 60%;
     height: 4em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.5em;
     }
 `;
@@ -39,7 +39,7 @@ const LogoOfOrg = styled.img`
     top: 0;
     right: 1em;
     object-fit: cover;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 5em;
         height: 5em;
     }

@@ -19,7 +19,7 @@ const Page = styled.div`
     width: 75em;
     margin: auto;
     margin-top: 5em;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         width: 90%;
     }
 `;
@@ -27,7 +27,7 @@ const Page = styled.div`
 const InputContainer = styled.div`
     display: flex;
     width: 30em;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         width: 100%;
         display: block;
     }

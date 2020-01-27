@@ -15,7 +15,7 @@ const Page = styled.div`
     height: 100vh;
     display: flex;
     justify-content: center;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 100%;
     }
 `;
@@ -25,7 +25,7 @@ const PageContent = styled.div`
     width: fit-content;
     margin: auto;
     display: flex;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         display: block;
         width: 100%;
     }
@@ -35,7 +35,7 @@ const Content = styled.div`
     width: fit-content;
     margin: auto 0;
     margin-left: 3em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin-left: 0;
         width: 100%;
     }
@@ -46,7 +46,7 @@ const ProfileImage = styled.img`
     height: 20em;
     width: 20em;
     border-radius: 50%;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin: 1em auto;
         display: block;
         width: 15rem;
@@ -57,7 +57,7 @@ const ProfileImage = styled.img`
 const Name = styled.h2`
     font-size: 2.5em;
     margin: 0;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         text-align: center;
         font-size: 2em;
     }
@@ -66,7 +66,7 @@ const Name = styled.h2`
 const Email = styled.h2`
     font-size: 2.5em;
     margin: 0;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         text-align: center;
         font-size: 1.6em;
     }
@@ -83,7 +83,7 @@ const DeleteButton = styled.div`
     &:hover {
         background-color: #d61010;
     }
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: 1em auto;
     }
 `;

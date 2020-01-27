@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive'
 
 const StartOfStory = styled.h1`
     font-size: 1.8em;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 90%;
         margin: auto;
         text-align: center;
@@ -16,7 +16,7 @@ const StartOfStory = styled.h1`
 
 const PhotoAndTextContainer = styled.div`
     width: 33%;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
     }
 `;
@@ -26,7 +26,7 @@ const Photo = styled.img`
     height: 15em;
     object-fit: cover;
     object-position: 0 -4em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         height: 12em;
     }
 `;
@@ -35,7 +35,7 @@ const Desc = styled.p`
     text-align: center;
     width: 90%;
     margin: 1em auto;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin: 0.25em;
         margin-bottom: 0;
     }

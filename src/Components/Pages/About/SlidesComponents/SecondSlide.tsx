@@ -7,7 +7,7 @@ const Component = styled.div`
     height: fit-content;
     margin: auto;
     margin-top: 5%;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
     }
 `;
@@ -15,7 +15,7 @@ const Component = styled.div`
 const FirstSentence = styled.h1`
     font-size: 1.7em;
     text-align: center;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.43em;
     }
 `;
@@ -36,7 +36,7 @@ const FNFCSTitle = styled.h1`
     font-size: 1.5em;
     width: 50%;
     margin: auto;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.25em;
     }
 `;

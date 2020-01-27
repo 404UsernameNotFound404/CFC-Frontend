@@ -9,7 +9,7 @@ const Component = styled.form`
     width: fit-content;
     margin: 1em 0;
     margin-left: 2.5%;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: 0.5em auto;
         width: 90%;
         display: flex;
@@ -22,7 +22,7 @@ const Button = styled.input`
     border: black thin solid;
     background-color: transparent;
     font-size: 1em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 100%;
         flex: 4;
     }
@@ -34,7 +34,7 @@ const UploadButton = styled.button`
     width: fit-content;
     border: black thin solid;
     background-color: transparent;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: auto 0;
         margin-left: 1em;
         width: 10%;

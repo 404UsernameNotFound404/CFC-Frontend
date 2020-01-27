@@ -9,7 +9,7 @@ const Component = styled.div<Component>`
     width: 80%;
     height: 100%;
     margin: ${p => p.margin};
-    @media (max-width: 768px) {   
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         width: 95%;
     }
 `;
@@ -24,7 +24,7 @@ const ParaInputStyle = styled.textarea`
     font-family: 'Cormorant Garamond', serif;
     font-style: normal;
     text-align: center;
-    @media (max-width: 768px) {   
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         padding: 0.25em;
     }
 `;
@@ -38,7 +38,7 @@ const Para = styled.p`
 `;
 
 const ParaTitle = styled.h1`
-    @media (max-width: 768px) {   
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         margin: 0;
     }
 `;
@@ -49,7 +49,7 @@ const CharacterCount = styled.p`
     right: 0;
     top: 0;
     color: black;
-    @media (max-width: 768px) {   
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         position: static;
         margin: 0;
     }

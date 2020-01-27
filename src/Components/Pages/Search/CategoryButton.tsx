@@ -18,7 +18,7 @@ const Container = styled.div<ContainerStyleProps>`
     color: black !important;
     
     opacity: ${p => p.active ? '1' : '0.5'};
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         padding: 1em 1%;
         width: 8em;
     }
@@ -34,7 +34,7 @@ const Text = styled.h1`
     font-size: 1.5em;
     text-align: center;
     margin: auto;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.25em;
     }
 `;

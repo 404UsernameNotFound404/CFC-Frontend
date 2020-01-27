@@ -13,7 +13,7 @@ const Container = styled.div<ContainerProps>`
     width: ${p => p.width};
     margin: 1.5%;
     border-radius: 1em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         border-width: 1%;
         width: 98%;
         margin: 1.5em 0;

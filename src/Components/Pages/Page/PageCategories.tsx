@@ -10,7 +10,7 @@ const Content = styled.div`
     margin: 1em auto;
     display: flex;
     flex-wrap: wrap;
-    @media (max-width: 768px) {   
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         justify-content: center;
     }
 `;

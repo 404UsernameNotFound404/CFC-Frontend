@@ -8,7 +8,7 @@ const PageContainer = styled.div`
     padding-top: 2.5em;
     width: 75em;
     margin: auto;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
     }
 `;
@@ -17,7 +17,7 @@ const TopPartPage = styled.div`
     padding-top: 15vh;
     padding-bottom: 7.5vh;
     width: 100%;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         padding-top: 3em;
         padding-bottom: 0em;
     }

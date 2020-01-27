@@ -15,7 +15,7 @@ const axios = require('axios')
 
 const Content = styled.form`
     width: 40%;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 60%;
     }
     margin: 3em auto;

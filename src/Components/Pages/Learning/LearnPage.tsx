@@ -10,7 +10,7 @@ const Page = styled.div`
     width: 75em;
     margin: 10em auto;
     margin-bottom: 0;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 90%;
         margin: 7em auto;
         margin-bottom: 2em;
@@ -19,7 +19,7 @@ const Page = styled.div`
 
 const Title = styled.h1`
     font-size: 2.75em;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         font-size: 2em;
         width: 90%;
         text-align: center;
@@ -29,7 +29,7 @@ const Title = styled.h1`
 
 const IssuesContainer = styled.div`
     width: 100%;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         display: inline;
     }
 `;

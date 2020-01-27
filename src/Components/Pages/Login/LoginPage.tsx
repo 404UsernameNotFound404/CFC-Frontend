@@ -18,7 +18,7 @@ const axios = require('axios');
 
 const Page = styled.div`
     width: 75em;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 95%;
     }
     
@@ -41,7 +41,7 @@ const Content = styled.div`
     width: 100%;
     margin: auto 0;
     margin-left: 40%;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: auto;
     }
     padding-bottom: 2em;

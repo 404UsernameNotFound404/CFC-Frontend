@@ -26,7 +26,7 @@ const TextSection = styled.div`
     width: 75%;
     height: fit-content;
     margin: auto;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 100%;
     }
 `;

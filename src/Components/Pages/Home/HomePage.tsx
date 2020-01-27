@@ -8,7 +8,7 @@ import HomePagePhoto from '../../../img/protest.jpg'
 const PageContainer = styled.div`
     width: 75em;
     margin: auto;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 95%;    
     }
 `;
@@ -35,7 +35,7 @@ const PageTitle = styled.h1`
     width: 100%;
     margin: 0 0;
     font-size: 6em;
-    @media (max-width: 768px) {
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         font-size: 2.75em;
         margin-bottom: 0em;
     }
@@ -58,7 +58,7 @@ const LookForActvitsButton = styled(Link)`
     border-radius: 1em;
     margin: 0em auto;
     margin-top: 1em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin-top: 1em;
     }
     transition: 0.3s background-color linear, 0.3s color linear;

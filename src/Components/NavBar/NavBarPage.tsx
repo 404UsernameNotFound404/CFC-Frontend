@@ -26,7 +26,7 @@ type NavBarProps = {
 
 function NavBar(props: NavBarProps) {
     const [redirectToLogin, setRedirectToLogin] = useState(false);
-    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+    const isPhone = useMediaQuery({ minDeviceWidth: 1000 })
     const c = useContext(AppContext)
    
     useEffect(() => {

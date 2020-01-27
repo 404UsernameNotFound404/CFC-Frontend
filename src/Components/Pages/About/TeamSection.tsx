@@ -9,7 +9,7 @@ const Component = styled.div`
     margin: auto;
     display: flex;
     justify-content: space-around;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         display: block;
     }
 `;

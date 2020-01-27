@@ -5,7 +5,7 @@ import { useMediaQuery } from 'react-responsive'
 const Content = styled.div`
     width: 100%;
     height: 25em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         height: fit-content;
     }
     margin: 1rem 0;
@@ -16,7 +16,7 @@ const Content = styled.div`
 
 const Title = styled.h1`
     font-size: 5em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 3em;
     }
     margin: 0;
@@ -24,7 +24,7 @@ const Title = styled.h1`
 
 const SubTitle = styled.h2`
     font-size: 2.5em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.75em;
     }
     margin: 0;
@@ -43,7 +43,7 @@ type TextContainerStyle = {
 
 const TextContainer = styled.div<TextContainerStyle>`
     width: 66.66%;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 100%;
     }
     margin: auto 0;

@@ -6,7 +6,7 @@ import { useMediaQuery } from 'react-responsive';
 const Component = styled.div`
     height: fit-content;
     margin: auto;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
     }
 `;
@@ -14,7 +14,7 @@ const Component = styled.div`
 const Title = styled.h1`
     margin-top: 0.5em;
     font-size: 1.7em;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.4em;
         text-align: center;
     }
@@ -23,7 +23,7 @@ const Title = styled.h1`
 const UnderTitle = styled.h1`
     font-size: 1.7em;
     text-align: center;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.4em;
         text-align: center;
     }
@@ -36,7 +36,7 @@ const Photo = styled.img`
     height: 20em;
     object-fit: cover;
     object-position: top;
-    @media (max-width: 768px) { 
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 100%;
     }
 `;

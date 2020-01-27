@@ -12,7 +12,7 @@ const InputComponent = styled.input`
     &:focus {
         outline: none;
     }
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         font-size: 1.1em;
         margin: 0.2em 0;
     }
@@ -21,7 +21,7 @@ const InputComponent = styled.input`
 const Title = styled.h1`
     font-size: 1.25em;
     margin: 0.25em 0;
-    @media (max-width: 768px) {  
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
         font-size: 1.5em;
         margin: 0;    
     }

@@ -93,6 +93,7 @@ function NavBarMobile(props: NavBarPropsMobile) {
             <LinkTitle marginRight = {"0"} color = {"black"} to='/home'>Home Page</LinkTitle>
             {c.loggedIn ? <LinkTitle marginRight = {"0"} color = {"black"} to='/edit'>{(c.userType == 0) ? "Edit Your Page" : "Edit Organization Information"}</LinkTitle> : ""}
             <LinkTitle marginRight = {"0"} color = {"black"} to='/about'>About Page</LinkTitle>
+            <LinkTitle marginRight = {"0"} color = {"black"} to='/FAQ'>FAQ</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"black"} to='/learn'>Learn About The Issues</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"#3c78d8"} to='/search'>Search</LinkTitle>
             <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Activists'>Activist</LinkTitle>

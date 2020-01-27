@@ -48,7 +48,7 @@ const PhotosContainer = styled.div`
 `;
 
 function FirstSlide() {
-    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+    const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK })
     return (
         <>
             <StartOfStory>In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action.</StartOfStory>

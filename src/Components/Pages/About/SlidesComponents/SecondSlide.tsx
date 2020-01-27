@@ -42,7 +42,7 @@ const FNFCSTitle = styled.h1`
 `;
 
 function SecondSlide() {
-    const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+    const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK })
     return (
         <Component>
             <FirstSentence>They had a lot of support from their teachers, and from groups like the </FirstSentence>

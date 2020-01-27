@@ -88,7 +88,7 @@ type Props = {
 
 function LearnPage(props: any) {
   const {para, title, subTitle, imageURL, Color, linkArray} = props;
-  const isPhone = useMediaQuery({ minDeviceWidth: 768 })
+  const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK  })
   return (
     <Content>
         <TextContainer Color = {Color}>

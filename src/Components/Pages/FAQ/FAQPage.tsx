@@ -6,6 +6,10 @@ const Page = styled.div`
     padding-top: 5em;
     margin: auto;
     width: 65em;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
+        width: 90%;
+        margin: auto;
+    }
 `;
 
 const PageTitle = styled.h1`

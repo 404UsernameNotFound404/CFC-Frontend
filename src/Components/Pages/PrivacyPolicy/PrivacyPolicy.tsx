@@ -31,10 +31,10 @@ function PrivacyPolicy() {
         <Page>
             <Title>Privacy Policy</Title>
             <Para>
-                THis needs to be long to see how it will look. THis needs to be long to see how it will look. THis needs to be long to see how it will look. THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.
+                We only collect the data you input to us. E.X when you register you give use your email and potential your phone. When you delete your account we don’t save your information for any time period.
             </Para>
             <Para>
-                THis needs to be long to see how it will look. THis needs to be long to see how it will look. THis needs to be long to see how it will look. THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.THis needs to be long to see how it will look.
+                If you are concerned and would like to get in contact.
             </Para>
             <Contact>Email: <ContactInfo>connecting4changeinfo@gmail.com</ContactInfo></Contact>
             <Contact>Phone Number: <ContactInfo>613-223-3911</ContactInfo></Contact>

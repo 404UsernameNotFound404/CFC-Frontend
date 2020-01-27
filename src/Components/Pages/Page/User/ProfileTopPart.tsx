@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import BasicButton from '../../../ComponentLibrayer/BasicButton';
 import PageCategories from '../PageCategories';
 import UploadPhoto from '../../../ComponentLibrayer/PhotoUploader';
+import { useMediaQuery } from 'react-responsive';
 
 const ProfileImage = styled.img`
     margin: 0;
@@ -137,7 +138,7 @@ function UserPage(props: Props) {
                             : ''}
                     </EditButtonContianer> : ''}
             </TopBarTopSection>
-            <UploadPhoto update = {update} />
+            {canEditMode ? <UploadPhoto update = {update} /> : ''}
             <PageCategoryContainer>
                 <PageCategories width = {"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
             </PageCategoryContainer>

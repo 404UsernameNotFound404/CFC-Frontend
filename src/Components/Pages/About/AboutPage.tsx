@@ -110,7 +110,7 @@ const TeamMemberTitle = styled.h1`
 `;
 
 function AboutPage() {
-    const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK })
+    const isPhone = useMediaQuery({ minDeviceWidth: 1000 })
     const responsive = { 0: { items: 1 } };
     // @ts-ignore: Unreachable code error
     return (
@@ -141,16 +141,6 @@ function AboutPage() {
                 In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
             </FutureOfOrgPara>
             <BioTitle>Our Team</BioTitle>
-            {/* <BioContainer>
-                <TeamMember>
-                    <TeamMemberTitle>Co-Founder</TeamMemberTitle>
-                    <ActivistPage width={"55%"} name={"Henry Morris"} ID={"1VEYNkGKc2HQQAdF5dgdO5hMdRw"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={HenryPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
-                </TeamMember>
-                <TeamMember>
-                    <TeamMemberTitle>Co-Founder</TeamMemberTitle>
-                    <ActivistPage width={"55%"} name={"Daxton Rhead"} ID={"123"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={DaxtonPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
-                </TeamMember>
-            </BioContainer> */}
             <TeamSection />
         </Page>
     );

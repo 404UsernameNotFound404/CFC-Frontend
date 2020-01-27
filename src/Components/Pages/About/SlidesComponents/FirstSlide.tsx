@@ -48,19 +48,19 @@ const PhotosContainer = styled.div`
 `;
 
 function FirstSlide() {
-    const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK })
+    const isPhone = useMediaQuery({ minDeviceWidth: 1000 })
     return (
         <>
             <StartOfStory>In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action.</StartOfStory>
             <PhotosContainer>
                 <PhotoAndTextContainer>
                     <Photo src={HaveAHeartDay} />
-                    <Desc>Have a heart day started because of... .This protest was one of the first Daxton and Henry went to.</Desc>
+                    <Desc>Have a Heart Day is an annual child-led event on Parliament Hill. Children sing songs, read letters, and bring signs, to tell the government that First Nations kids deserve equitable access to services.</Desc>
                 </PhotoAndTextContainer>
                 {!isPhone ? '' :
                     <PhotoAndTextContainer>
                         <Photo src={ShannensDream} />
-                        <Desc>Shannens dream is a campaign to ... Daxton write it I can't</Desc>
+                        <Desc>Shannen’s Dream is a campaign to fight for “safe and comfy schools” and culturally relevant education for all children. It is named in honour of Shannen Koostachin from Attawapiskat First Nation.</Desc>
                     </PhotoAndTextContainer>
                 }
             </PhotosContainer>

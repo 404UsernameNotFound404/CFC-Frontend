@@ -97,7 +97,7 @@ function UserPage(props: Props) {
     const onChangePhoto = (e: any) => {
         e.preventDefault();
         const { files } = e.target;
-        if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 15000000) {
+        if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 100000000) {
             setFile(files[0])
         } else {
             setMessageToUser({ text: "Invalid File", colour: "red" })

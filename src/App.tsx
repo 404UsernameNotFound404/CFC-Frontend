@@ -19,6 +19,7 @@ import VerificationPage from './Components/Pages/Verify/Verify'
 import ContactPage from './Components/Pages/Contact/Contact';
 import FAQ from './Components/Pages/FAQ/FAQPage'
 import ProfilePage from './Components/Pages/ProfilePage/ProfilePage';
+import PrivacyPolicy from './Components/Pages/PrivacyPolicy/PrivacyPolicy';
 
 const axios = require("axios");
 
@@ -90,6 +91,7 @@ function App() {
             <Route path = '/verify' component = {VerificationPage} />
             <Route path = '/contact' component = {ContactPage} />
             <Route path = '/FAQ' component = {FAQ} />
+            <Route path = '/Privacy-Policy' component = {PrivacyPolicy} />
             <Route path = '/profile' component = {() => <ProfilePage userID = {userID} />} />
             <Route component={Home} />
           </Switch>

@@ -109,7 +109,7 @@ function LoginPage() {
 
     const [register, setRegister] = useState(0);
     const [reToHome, setReToHome] = useState(false); 
-    const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK  })
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10)  })
     const [message, setMessage] = useState({ error: false, message: "" })
 
 

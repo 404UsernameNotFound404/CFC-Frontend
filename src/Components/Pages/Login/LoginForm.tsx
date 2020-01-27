@@ -60,6 +60,17 @@ const Message = styled.h1<Message>`
     text-align: center;
 `;
 
+const AgreeToPrivacyPolicy = styled.input`
+`;
+
+const CheckboxContainer = styled.div`
+    display: flex;
+`;
+
+const CheckboxText = styled.h4`
+
+`;
+
 type Props = {
     register: number
     setRegister: Function,
@@ -77,6 +88,7 @@ function LoginForm(props: Props) {
     const [categories, setCategories] = useState([]);
     const [description, setDescription] = useState("");
     const [phoneNumber, setPhoneNumber] = useState<{first: string, middle: string, end: string}>({first: '', middle: '', end: ''})
+    const [checkBox, setCheckBox] = useState(false);
     const { message } = props
     const { setMessage } = props;
     useEffect(() => {
@@ -141,6 +153,7 @@ function LoginForm(props: Props) {
 
     const register = async () => {
         try {
+            if (!checkBox) throw "Must agree to privacy policy"
             //password minum requirement check(Must be at least eight characters and have 1 number and letter)
             if (!registerValues[1].match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
                 setMessage({ error: true, message: "Password must be 8 characters with atleast one number and letter" })
@@ -226,7 +239,10 @@ function LoginForm(props: Props) {
             }
         }
         catch (err) {
-            console.log(err)
+            if (typeof err == "string") {
+                setMessage({ error: true, message: err })
+                return
+            }
             setMessage({ error: true, message: "Error creating account" })
         }
     }
@@ -277,6 +293,10 @@ function LoginForm(props: Props) {
                         :
                         ""
                 }
+                <CheckboxContainer>
+                    <AgreeToPrivacyPolicy checked = {checkBox} onChange = {() => {setCheckBox(!checkBox)}} type = 'checkbox' />
+                    <CheckboxText>You agree with our privacy policy. <span><a href = "/Privacy-Policy">Privacy Policy</a></span></CheckboxText>
+                </CheckboxContainer>
                 <BasicButton activateButton={register} width={"45%"} text={"Register"} active={false} id={20} />
             </Content>
         );

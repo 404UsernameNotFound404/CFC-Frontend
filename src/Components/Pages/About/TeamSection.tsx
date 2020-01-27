@@ -17,7 +17,7 @@ const Component = styled.div`
 function TeamSection() {
     const [teamMemberData, setTeamMemberData] = useState([
         { role: "Co-Founder", id: "1WwyaMUaPRl8bkEA3hoqHOyg87C" },
-        { role: "Co-Founder", id: "1VEYNkGKc2HQQAdF5dgdO5hMdRw" },
+        { role: "Co-Founder", id: "1WxtVNFM64F102yBb1BBFeltKWo" },
     ]);
     const [loading, setLoading] = useState(true);
 
@@ -30,6 +30,7 @@ function TeamSection() {
             let allRes = await Promise.all(teamMemberData.map(ele => {
                 return getATeamMember(ele.id, ele.role)
             }))
+            console.log(allRes)
             setTeamMemberData(allRes);
             setLoading(false);
         } catch (err) {
@@ -40,7 +41,7 @@ function TeamSection() {
     const getATeamMember = async (id: string, role: string) => {
         let resRaw = await fetch(process.env.REACT_APP_BASEURL + "/checkIsOwner", { method: "POST", body: JSON.stringify({ PageID: id }) });
         let res = await resRaw.json();
-        res = { ...res, role: role }
+        res = { ...res, role: role, id: id }
         return res
     }
     if (!loading) {

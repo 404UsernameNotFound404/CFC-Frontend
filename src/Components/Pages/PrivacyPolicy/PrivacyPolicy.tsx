@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 const Page = styled.div`
     width: 75em;
+    padding-top: 5em;
+    padding-left: 5em;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 100%;
     }

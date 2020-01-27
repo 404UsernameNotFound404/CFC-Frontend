@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import { UploadPhoto } from './PhotoUploadingFunctions';
 import Cookie from 'js-cookie';
-import { BASEURL } from '../../Constants';
 
 const axios = require("axios")
 
@@ -60,20 +59,16 @@ function UserPage(props: Props) {
         e.preventDefault();
         setMessageToUser({ text: "Loading", colour: "black" })
         let formData = new FormData()
-        console.log(file)
         formData.append('image', file)
         try {
-            console.log("sending to backend")
-            console.log(formData)
             let res = await axios({
-                url: `${BASEURL}/setProfilePhoto`,
+                url: `${process.env.REACT_APP_BASEURL}/setProfilePhoto`,
                 method: "POST",
                 headers: {
                     authorization: Cookie.get("authToken")
                 },
                 data: formData
             });
-            console.log(res)
             if (res.data.Valid.length > 2) {
                 setMessageToUser({ text: "Uploaded", colour: "green" })
                 props.update();
@@ -86,16 +81,17 @@ function UserPage(props: Props) {
     const onChangePhoto = (e: any) => {
         e.preventDefault();
         const { files } = e.target;
-        if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 2000000) {
+        if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 15000000) {
             setFile(files[0])
         } else {
             setMessageToUser({ text: "Invalid File", colour: "red" })
         }
+        setFile(files[0])
     }
 
     return (
         <Component onSubmit={uploadThePhotoButtonPressed}>
-            <Button type="file" onChange={onChangePhoto} accept="image/*" />
+            <Button type="file" onChange={onChangePhoto} accept="image/*" data-sigil="photo-input" />
             <UploadButton type="submit">Upload</UploadButton>
             <MessageToUser colour={messageToUser.colour}>{messageToUser.text}</MessageToUser>
         </Component>

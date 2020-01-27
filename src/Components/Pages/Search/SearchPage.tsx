@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchActivists from './SearchResults/SearchResults';
 import CategorySearch from './CategorySearch';
-import { BASEURL } from '../../../Constants';
 const axios = require("axios");
 
 const PageContainer = styled.div`
@@ -74,7 +73,7 @@ function LinksContainer() {
 
     const fetchCatagories = async () => {
         try {
-            const res = await axios.post(`${BASEURL}/getCategories`);
+            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
             setAllCategories(res.data)
             setLoadingCategories(false);
         } catch(err) {

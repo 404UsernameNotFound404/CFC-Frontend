@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Page from '../Page';
 import DefaultImage from '../../../../img/default.jpg';
-import { BASEURL } from '../../../../Constants';
 import Cookie from 'js-cookie';
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 import Organization from '../Organzation';
@@ -56,7 +55,7 @@ function SearchBar(props: Props) {
         setError("")
         let networkError = true;
         try {
-            const res = await axios.post(`${BASEURL}/get${props.choice}`);
+            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/get${props.choice}`);
             console.log(res)
             networkError = false;
             if (res.data.Error != undefined) {

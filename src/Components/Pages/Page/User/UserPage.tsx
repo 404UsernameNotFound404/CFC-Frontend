@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DaxtonImage from '../../../../img/default.jpg'
 import { Redirect } from 'react-router';
-import { BASEURL } from '../../../../Constants'
 import Cookie from 'js-cookie'
 import LoadingComp from '../../../ComponentLibrayer/LoadingPage'
 import ProfileTopPart from './ProfileTopPart';
@@ -72,8 +71,8 @@ function UserPage(props: Props) {
             setEditMode(false);
             return
         }
-        if (paraInputOne.length < 100 || paraInputTwo.length < 100) {
-            setMessageToUser("Paragraphs need to be at least 100 characters")
+        if (paraInputOne.length < 50 || paraInputTwo.length < 50) {
+            setMessageToUser("Paragraphs need to be at least 50 characters")
         }
         activeTags = []
         allCategories.map(ele => {
@@ -85,7 +84,7 @@ function UserPage(props: Props) {
                 }
             }
         })
-        const res = await axios.post(`${BASEURL}/updatePage`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": Cookie.get("authToken") } });
+        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/updatePage`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": Cookie.get("authToken") } });
         try {
             if (res.data.Error.length >= 0) {
                 setMessageToUser(res.data.Error)
@@ -118,7 +117,7 @@ function UserPage(props: Props) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": Cookie.get("authToken") } });
+                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": Cookie.get("authToken") } });
                 console.log(res)
                 if (res.data.IsOwner) {
                     setCanEditMode(true)
@@ -176,7 +175,7 @@ function UserPage(props: Props) {
     }
 
     const getAllCategories = async () => {
-        const res = await axios.post(`${BASEURL}/getCategories`);
+        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
         console.log(res.data)
         updateAllCategories(res.data)
         setAllCategoriyApiData(res.data)

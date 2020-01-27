@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { BASEURL } from '../../../Constants'
 import CategoryTag from './CategoryTag'
 
 const axios = require("axios");

@@ -5,7 +5,6 @@ import {
     Redirect
 } from "react-router-dom";
 import Cookie from 'js-cookie';
-import { BASEURL } from '../../../../Constants'
 import SingleLineInput from "../../../ComponentLibrayer/InputForSingleLine";
 import PageCategories from '../PageCategories'
 import PhotoUploader from '../../../ComponentLibrayer/PhotoUploader'
@@ -105,7 +104,7 @@ function OrgPage(props: NavBarDekstopProps) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.post(`${BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": Cookie.get("authToken") } });
+                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": Cookie.get("authToken") } });
                 if (res.data.Image.length > 2) {
                     setImage(res.data.Image)
                 } else {
@@ -120,7 +119,7 @@ function OrgPage(props: NavBarDekstopProps) {
                 ]);
                 setCanEdit(res.data.IsOwner)
                 setDesc(res.data.Desc)
-                const resCats = await axios.post(`${BASEURL}/getCategories`);
+                const resCats = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
                 updateAllCategories(resCats.data, res.data.Instrests)
             } catch (err) {
                 console.log(err);
@@ -147,7 +146,7 @@ function OrgPage(props: NavBarDekstopProps) {
         })
         try {
             //need check
-            const res = await axios.post(`${BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": Cookie.get("authToken") } });
+            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": Cookie.get("authToken") } });
             console.log(res)
             if (res.data.Valid.length >= 0) {
                 setMessage({ error: false, text: "Updated" })

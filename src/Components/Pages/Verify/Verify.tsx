@@ -6,7 +6,6 @@ import {
     Link
 } from "react-router-dom";
 import BasicButton from '../../ComponentLibrayer/BasicButton';
-import { BASEURL } from '../../../Constants'
 import Cookie from 'js-cookie'
 import LoadingComp from '../../ComponentLibrayer/LoadingPage'
 
@@ -48,7 +47,7 @@ function Verify() {
         let Auth = params.get("auth");
         if (Auth != null) {
             try {
-                const res = await axios.post(`${BASEURL}/verifyEmail`, JSON.stringify({ Auth: Auth }));
+                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/verifyEmail`, JSON.stringify({ Auth: Auth }));
                 if (res.data.Valid.length >= 1) {
                     setMessageToUser({ text: "Verification Complete", error: false })
                     setLoading(false)

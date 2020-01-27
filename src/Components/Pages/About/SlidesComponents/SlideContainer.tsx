@@ -35,35 +35,6 @@ type Props = {
 function SlideContainer(props: Props) {
     const { children, width } = props;
     const [slide, setSlide] = useState("0")
-    const [clicking, setClicking] = useState(false)
-    const [initialPos, setInitialPos] = useState(-1)
-    const nothing = 0;
-
-    // useEffect(() => {
-    //     let sliderEle = document.getElementById('123456789Slider987654321')
-    //     sliderEle.addEventListener('ontouchstart', touchStart)
-    //     sliderEle.addEventListener('ontouchmove', touchMove)
-    //     sliderEle.addEventListener('ontouchend', touchEnd)
-    //     console.log(sliderEle)
-    // }, [])
-
-    const touchStart = (e: any) => {
-        console.log("touch start")
-        setClicking(true)
-        console.log(e.clientX)
-        console.log(e.clientY)
-    }
-
-    const touchMove = (e: any) => {
-        if (clicking) {
-            console.log("touch move")
-        }
-    }
-
-    const touchEnd = (e: any) => {
-        console.log("touch end")
-        setClicking(false)
-    }
 
     const slideTransition = (positive: boolean) => {
         let slideIndex = parseInt(slide) / 100
@@ -74,16 +45,9 @@ function SlideContainer(props: Props) {
         }
     }
 
-    const moveSlideShow = (e: Event) => {
-        var ctl = document.getElementById('Javascript_example');
-        var startPos = ctl.onselectstart;
-        var endPos = ctl.onselectionchange;
-        console.log(startPos, endPos)
-    }
-
     return (
         // onClick = {() => {console.log("click")}} onDrag = {() => {console.log("drag")}} onMouseMove = {() => {console.log("mouse move")}}
-        <Component onTouchStart={touchStart} onTouchMove={touchMove} onTouchEnd={touchEnd} onMouseDown={touchStart} onMouseMove={touchMove} onMouseLeave={touchEnd} onMouseUp={touchEnd} id="123456789Slider987654321">
+        <Component>
             <ButtonForTransition end={(parseInt(slide[0]) == children.length - 1)} start={(parseInt(slide) == 0)} slideTransition={slideTransition} />
             <Content transformDistance={slide}>
                 {

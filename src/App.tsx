@@ -4,7 +4,6 @@ import Search from './Components/Pages/Search/SearchPage';
 import NavBar from './Components/NavBar/NavBarPage';
 import Login from './Components/Pages/Login/LoginPage';
 import AboutPage from './Components/Pages/About/AboutPage'
-import { BASEURL } from './Constants';
 import UserPage from './Components/Pages/Page/User/UserPage';
 import LearningPage from './Components/Pages/Learning/LearnPage'
 import {
@@ -45,7 +44,7 @@ function App() {
   const checkToken = async () => {
     try {
       if (Cookie.get("authToken").length > 0) {
-        const res = await axios.post(`${BASEURL}/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
+        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
         if (res.data.UserID.length > 0) {
           setUserToken(Cookie.get("authToken"))
           setUserID(res.data.UserID)

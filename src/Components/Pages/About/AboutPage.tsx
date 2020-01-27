@@ -14,6 +14,7 @@ import ThirdSlide from './SlidesComponents/ThirdSlide';
 import PhotoOfFounders from '../../../img/BothOfUsPhoto.jpg'
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css'
+import TeamSection from './TeamSection';
 
 const Page = styled.div`
     padding-top: 45em;
@@ -140,7 +141,7 @@ function AboutPage() {
                 In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
             </FutureOfOrgPara>
             <BioTitle>Our Team</BioTitle>
-            <BioContainer>
+            {/* <BioContainer>
                 <TeamMember>
                     <TeamMemberTitle>Co-Founder</TeamMemberTitle>
                     <ActivistPage width={"55%"} name={"Henry Morris"} ID={"1VEYNkGKc2HQQAdF5dgdO5hMdRw"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={HenryPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
@@ -149,7 +150,8 @@ function AboutPage() {
                     <TeamMemberTitle>Co-Founder</TeamMemberTitle>
                     <ActivistPage width={"55%"} name={"Daxton Rhead"} ID={"123"} Categories={[{ Colour: "purple", ID: "0", Name: "Racial Justice" }]} image={DaxtonPhoto} para={"In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many"} />
                 </TeamMember>
-            </BioContainer>
+            </BioContainer> */}
+            <TeamSection />
         </Page>
     );
 }

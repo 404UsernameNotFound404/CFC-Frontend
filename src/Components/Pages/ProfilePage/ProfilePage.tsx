@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import PhotoUploader from '../../ComponentLibrayer/PhotoUploader'
-import { BASEURL } from '../../../Constants'
 import { AppContext } from '../../../Context/AppContext';
 import Cookie from 'js-cookie'
 import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 import { Redirect } from 'react-router';
+import DefaultPhoto from '../../../img/default.jpg';
 
 
 const axios = require("axios")
@@ -81,7 +81,7 @@ function ProfilePage(props: Props) {
     }
 
     const fetchAPI = async () => {
-        const res = await axios.post(`${BASEURL}/checkIsOwner`, JSON.stringify({ PageID: props.userID }), { headers: { "Authorization": Cookie.get("authToken") } });
+        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: props.userID }), { headers: { "Authorization": Cookie.get("authToken") } });
         const { Name, Email, Image } = res.data;
         setName(Name);
         setEmail(Email)
@@ -90,7 +90,7 @@ function ProfilePage(props: Props) {
     }
 
     const deleteAccount = async () => {
-        await axios.post(`${BASEURL}/deleteAccount`, JSON.stringify({}), { headers: { "Authorization": Cookie.get("authToken") } });
+        await axios.post(`${process.env.REACT_APP_BASEURL}/deleteAccount`, JSON.stringify({}), { headers: { "Authorization": Cookie.get("authToken") } });
         setRedirectToHome(true);
         Cookie.set("authToken", "")
         c.setLoggedIn(false);
@@ -101,7 +101,7 @@ function ProfilePage(props: Props) {
             <Page>
                 {redirectToHome ? <Redirect to = "/home" /> : ''}
                 <PageContent>
-                    <ProfileImage src={imageSRC} />
+                    <ProfileImage src={imageSRC.length <= 1 ? DefaultPhoto : imageSRC} />
                     <Content>
                         <Name>{name}</Name>
                         <Email>{email}</Email>

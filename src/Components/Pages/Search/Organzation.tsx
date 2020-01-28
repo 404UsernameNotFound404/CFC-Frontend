@@ -22,7 +22,12 @@ const Name = styled.h1`
     font-size: 1.75em;
     margin: 0.1em 0;
     width: 60%;
-    height: 4em;
+    height: 3.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* number of lines to show */
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         font-size: 1.5em;
     }
@@ -56,9 +61,13 @@ const Location = styled.h1`
 const Desc = styled.p`
     font-size: 1em;
     width: 90%;
-    margin: 1em 0;
-    margin-bottom: 0.1em;
-    transition: all 1s;
+    margin-bottom: 0.5em;
+    height: 4em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* number of lines to show */
 `;
 
 const SeeMore = styled.h4`
@@ -80,9 +89,53 @@ const LinkToWebite = styled.a`
     }
 `;
 
-const Email = styled.h4`
+const Email = styled.textarea`
     font-size: 1.25em;
     margin: 0;
+    background-color: none !important; 
+    border: none;
+    font-family: 'Cormorant Garamond', serif;
+    width: 100%;
+    height: 1.5em;
+    resize: none;
+`;
+
+const CopyEmail = styled.div`
+    margin: 0.5em 0;
+    width: 6em;
+    text-align: center;
+    padding: 0.em 0;
+    background-color: lightgray;
+    border: solid thin darkgrey;
+    cursor: pointer;
+    user-select: none;
+    &:hover {
+        background-color: #b2b2b2;
+    }
+    &:active {
+        background-color: gray;
+    }
+`;
+
+const GhostToFocus = styled.textarea`
+    position: absolute;
+    left: -90000px;
+`;
+
+const CopyButtonContainer = styled.div`
+    display: flex;
+`;
+
+type CopyMessageProps = {
+    color: string
+}
+
+const CopyMessage = styled.h4<CopyMessageProps>`
+    margin: auto 0.25em;
+    font-size: 1.25em;
+    color: ${p => p.color};
+    transition: all 0.5s ease;
+    opacity: 0;
 `;
 
 type Props = {
@@ -90,23 +143,49 @@ type Props = {
     desc: string,
     link: string,
     location: string,
-    interests: {Name: string, Colour: string, ID: string}[],
+    interests: { Name: string, Colour: string, ID: string }[],
     image: string,
     email: string
 }
 
 function Organzation(props: Props) {
     const [seeMore, setSeeMore] = useState(false);
+    const [textToCopy, setTextToCopy] = useState();
+    const [ghostText, setGhostText] = useState();
+    const [copyMessage, setCopyMessage] = useState({message: '', color: 'red'})
+    const [specificID, setSpecificID] = useState("super-long-never-going-to-be-the-same-as-someone-else-1234-asd-123-asdcvxvxgfdg-5940" + props.email)
+
+
+    const copyEmail = async (e: any) => {
+        textToCopy.select();
+        await document.execCommand('copy');
+        ghostText.select();
+        setCopyMessage({message: "Copied Email", color: "green"})
+        let copyMessage = document.getElementById(specificID);
+        copyMessage.style.opacity = '1';
+        setTimeout(() => {
+            let copyMessage = document.getElementById(specificID);
+            copyMessage.style.opacity = '0';
+        }, 2000)
+    }
+
     return (
         <Container>
-            <Name>{props.name.length >= 30 ? (props.name.substring(0, 30) + "...") : props.name}</Name>
+            <Name>{props.name}</Name>
             <Location>{props.location.length >= 30 ? (props.location.substring(0, 30) + "...") : props.location}</Location>
+            <form>
+                <GhostToFocus readOnly ref={(ref) => { setGhostText(ref) }} id="org-card-ghost">Shhhhhh</GhostToFocus>
+                <Email readOnly ref={(ref) => { setTextToCopy(ref) }} >{props.email}</Email>
+            </form>
+            <CopyButtonContainer>
+                <CopyEmail onClick={copyEmail}>Copy Email</CopyEmail>
+                <CopyMessage color = {copyMessage.color} id = {specificID}>{copyMessage.message}</CopyMessage>
+            </CopyButtonContainer>
             <Desc>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : props.desc}</Desc>
-            {props.desc.length >= 100 ? <SeeMore onClick = {() => {setSeeMore(!seeMore)}}>See More</SeeMore> : <div style = {{height: '1.3em'}}></div>}
-            <LinkToWebite href = {props.link}>{props.link.length >= 35 ? (props.link.substring(0, 35) + "...") : props.link}</LinkToWebite>
-            <Email>{props.email}</Email>
-            <LogoOfOrg src = {props.image} />
-            <PageCategories editMode = {false} categories = {props.interests} allCategories = {[]} setAllCategories = {[]} width = {"100%"} />
+            {props.desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>See More</SeeMore> : <div style={{ height: '1.3em' }}></div>}
+            <LinkToWebite href={props.link}>{props.link.length >= 35 ? (props.link.substring(0, 35) + "...") : props.link}</LinkToWebite>
+            <LogoOfOrg src={props.image} />
+            <PageCategories editMode={false} categories={props.interests} allCategories={[]} setAllCategories={[]} width={"100%"} />
         </Container>
     );
 }

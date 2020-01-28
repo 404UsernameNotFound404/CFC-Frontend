@@ -54,7 +54,7 @@ const LookForActvitsButton = styled(Link)`
     font-size: 2em;
     width: fit-content;
     height: fit-content;
-    padding: 0.5em 2em;
+    padding: 0.5em 1em;
     border-radius: 1em;
     margin: 0em auto;
     margin-top: 1em;
@@ -105,7 +105,7 @@ function HomePage() {
                 <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
                 <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
                 <LookForActvitsButtonContainer>
-                    <LookForActvitsButton to='/search'>Search</LookForActvitsButton>
+                    <LookForActvitsButton to='/search'>Search For Activists Or Organizations</LookForActvitsButton>
                 </LookForActvitsButtonContainer>
                 <PagePara>
                     This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.

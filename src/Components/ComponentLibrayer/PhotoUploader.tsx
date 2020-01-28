@@ -5,10 +5,16 @@ import Cookie from 'js-cookie';
 
 const axios = require("axios")
 
-const Component = styled.form`
+const Form = styled.form`
+    width: 0;
+    height: 0;
+`;
+
+const Content = styled.div`
     width: fit-content;
     margin: 1em 0;
-    margin-left: 2.5%;
+    display: flex;
+    height: 3em;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: 0.5em auto;
         width: 90%;
@@ -16,24 +22,21 @@ const Component = styled.form`
     }
 `;
 
-const Button = styled.input`
-    padding: 0.25em;
-    width: 100%;
-    border: black thin solid;
-    background-color: transparent;
-    font-size: 1em;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        width: 100%;
-        flex: 4;
-    }
-`;
+const GhostInput = styled.input``;
 
-const UploadButton = styled.button`
-    margin-top: 0.5em; 
-    padding: 0.25em;
-    width: fit-content;
-    border: black thin solid;
-    background-color: transparent;
+const UploadButton = styled.div`
+    background-color: green;
+    padding: 0.5em 0;
+    width: 12em;
+    text-align: center;
+    color: white;
+    margin: 0;
+    height: fit-content;
+    margin: auto 0;
+    cursor: pointer;
+    &:hover {
+        background-color: darkgreen;
+    }
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: auto 0;
         margin-left: 1em;
@@ -48,19 +51,21 @@ type MessageToUserProps = {
 }
 
 const MessageToUser = styled.h4<MessageToUserProps>`
-    margin: 0;
-    width: 100%;
-    font-size: 1em;
+    margin: auto 0;
+    margin-left: 0.5em;
+    font-size: 1.5em;
     color: ${p => p.colour};
 `;
+
+
 
 type Props = {
     update: any
 }
 
 function UserPage(props: Props) {
-    const [file, setFile] = useState('')
     const [messageToUser, setMessageToUser] = useState({ text: "", colour: "black" })
+    const randID = Math.random().toString(36).substring(12);
 
     const checkFileExtension = (filename: string) => {
         var parts = filename.split('.');
@@ -71,8 +76,7 @@ function UserPage(props: Props) {
         return false
     }
 
-    const uploadThePhotoButtonPressed = async (e: any) => {
-        e.preventDefault();
+    const uploadThePhotoButtonPressed = async (file: any) => {
         setMessageToUser({ text: "Loading", colour: "black" })
         let formData = new FormData()
         formData.append('image', file)
@@ -94,23 +98,35 @@ function UserPage(props: Props) {
         }
     }
 
-    const onChangePhoto = (e: any) => {
+    const getFileToUpload = (e: any) => {
         e.preventDefault();
         const { files } = e.target;
         if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 100000000) {
-            setFile(files[0])
+            uploadThePhotoButtonPressed(files[0])
+            setMessageToUser({text: "Uploading", colour: "black"})
         } else {
             setMessageToUser({ text: "Invalid File", colour: "red" })
         }
-        setFile(files[0])
+    }
+
+    const uploadButton = (e: any) => {
+        e.preventDefault();
+        const getFileUpload = document.getElementById(randID);
+        getFileUpload.click();
     }
 
     return (
-        <Component onSubmit={uploadThePhotoButtonPressed}>
-            <Button type="file" onChange={onChangePhoto} accept="image/*" data-sigil="photo-input" />
-            <UploadButton type="submit">Upload</UploadButton>
-            {/* <MessageToUser colour={messageToUser.colour}>{messageToUser.text}</MessageToUser> */}
-        </Component>
+        <>
+            <Form>
+                <div style={{ height: '0', overflow: 'hidden' }}>
+                    <GhostInput id={randID} type="file" onChange={getFileToUpload} accept="image/*" data-sigil="photo-input"></GhostInput>
+                </div>
+            </Form>
+            <Content>
+                <UploadButton onClick={uploadButton}>Upload A Profile Photo</UploadButton>
+                <MessageToUser colour = {messageToUser.colour}>{messageToUser.text}</MessageToUser>
+            </Content>
+        </>
     );
 }
 

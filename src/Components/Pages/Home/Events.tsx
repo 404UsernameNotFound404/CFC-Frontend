@@ -67,9 +67,9 @@ function Events() {
             <Title>Event</Title>
             <NameOfEvent>The March For Climate</NameOfEvent>
             {!phone ? <Photo src = {climateMarch} /> : ""}
-            <TimeAndLocation>Time: <TimeAndLocationContent>Wednseday 13th of Decemeber</TimeAndLocationContent></TimeAndLocation>
-            <TimeAndLocation>Location: <TimeAndLocationContent>Parliment Hill</TimeAndLocationContent></TimeAndLocation>
-            <Description>Why does the coupled innocence strike underneath the statistic? How can a blackmail scratch a cluster?</Description>
+            <TimeAndLocation>Time: <TimeAndLocationContent>Wednesday 32nd of December</TimeAndLocationContent></TimeAndLocation>
+            <TimeAndLocation>Location: <TimeAndLocationContent>Parliament Hill</TimeAndLocationContent></TimeAndLocation>
+            <Description>Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.?</Description>
             {phone ? <Photo src = {climateMarch} /> : ""}
         </Content>
     );

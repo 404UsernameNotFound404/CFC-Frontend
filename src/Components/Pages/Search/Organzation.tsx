@@ -157,12 +157,14 @@ function Organzation(props: Props) {
     const [copyMessage, setCopyMessage] = useState({message: '', color: 'red'})
     const specificID = "super-long-never-going-to-be-the-same-as-someone-else-1234-asd-123-asdcvxvxgfdg-5940" + props.email;
 
-
     const copyEmail = async (e: any) => {
+        //selecting email ele
         textToCopy.select();
         await document.execCommand('copy');
+        //selecting a div way outside of view so the email is not visually every highlighted
         ghostText.select();
         setCopyMessage({message: "Copied Email", color: "black"})
+        //animation for copied message
         let copyMessage = document.getElementById(specificID);
         copyMessage.style.opacity = '1';
         setTimeout(() => {

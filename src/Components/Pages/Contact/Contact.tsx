@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Cookie from 'js-cookie'
 import ProtesterImage from '../../../img/protesterYelling.webp'
 import { async } from 'q';
+import { useMediaQuery } from 'react-responsive';
 
 const axios = require("axios");
 
@@ -11,6 +12,9 @@ const Page = styled.div`
     margin: auto;
     margin-top: 10em;
     display: flex;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        width: 100%;
+    }
 `;
 
 const Title = styled.h1`
@@ -20,6 +24,9 @@ const Title = styled.h1`
     background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 50%, rgba(0,212,255,1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        text-align: center;
+    }
 `;
 
 const ContactInfo = styled.textarea`
@@ -31,10 +38,18 @@ const ContactInfo = styled.textarea`
     width: 100%;
     margin-top: 1em;
     resize: none;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        font-size: 1.5em;
+        text-align: center;
+    }
 `;
 
 const TextContainer = styled.div`
     width: 50%;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        width: 90%;
+        margin: auto;
+    }
 `;
 
 const Image = styled.img`
@@ -58,6 +73,9 @@ const CopyButton = styled.div`
         background-color: rgb(10, 80, 155)
     }
     cursor: pointer;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        padding: 4% 1%;
+    }
 `;
 
 const MessageToUser = styled.div`
@@ -91,6 +109,7 @@ const ContactInfoContent = styled.h1``;
 function ContactPage() {
     const [textToCopy, setTextToCopy] = useState()
     const [showSuccess, setHowSuccess] = useState(false);
+    const isPhone = useMediaQuery({minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK)})
 
     const copyEmail = async (e: any) => {
         textToCopy.select();
@@ -112,7 +131,7 @@ function ContactPage() {
                 </MessageToUser> : ""}
                
             </TextContainer>
-            <Image src = {ProtesterImage} />
+            {isPhone ? <Image src = {ProtesterImage} /> : ''}
         </Page>
     )
 }

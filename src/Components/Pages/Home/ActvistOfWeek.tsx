@@ -70,7 +70,7 @@ function ActvistOfWeek() {
                 <TextContainer>
                     <Name>Greta Thunberg</Name>
                     <ShortDesc>Swedish Climate Change Activist</ShortDesc>
-                    <LongDescription>Why does the coupled innocence strike underneath the statistic? How can a blackmail scratch a cluster? How will a virgin storm? The arithmetic bows. The susceptible planet punches the more mate. The formed captain thinks.</LongDescription>
+                    <LongDescription>Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.</LongDescription>
                 </TextContainer>
                 <ImageOfActvist src = {ActivstPhoto} />
             </Content>

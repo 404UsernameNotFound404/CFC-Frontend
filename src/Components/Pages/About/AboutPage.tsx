@@ -110,7 +110,7 @@ const TeamMemberTitle = styled.h1`
 `;
 
 function AboutPage() {
-    const isPhone = useMediaQuery({ minDeviceWidth: 1000 })
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
     const responsive = { 0: { items: 1 } };
     // @ts-ignore: Unreachable code error
     return (

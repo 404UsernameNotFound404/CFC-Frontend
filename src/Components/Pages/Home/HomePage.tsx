@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import ActvistOfWeek from './ActvistOfWeek'
+import ActivistsOfWeek from './ActvistOfWeek'
 import Events from './Events'
 import HomePagePhoto from '../../../img/protest.jpg'
 
@@ -23,7 +23,7 @@ const TopPart = styled.div`
     text-align: center;
 `;
 
-const LookForActvitsButtonContainer = styled.div`
+const LookForActivistButtonContainer = styled.div`
     height: fit-content;
     width: 100%;
     display: flex;
@@ -47,7 +47,7 @@ const PageSubTitle = styled.h4`
     font-weight: bolder;
 `;
 
-const LookForActvitsButton = styled(Link)`
+const LookForActivistButton = styled(Link)`
     cursor: pointer;
     border: black thin solid;
     color: black;
@@ -74,7 +74,7 @@ const BlueHighlight = styled.span`
     color: #3c78d8;
 `;
 
-const ActvistsAndEventsContainer = styled.div`
+const ActivistsAndEventsContainer = styled.div`
     display: flex;
     margin-bottom: 2em;
 `;
@@ -104,17 +104,17 @@ function HomePage() {
             <TopPart>
                 <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
                 <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
-                <LookForActvitsButtonContainer>
-                    <LookForActvitsButton to='/search'>Search For Activists Or Organizations</LookForActvitsButton>
-                </LookForActvitsButtonContainer>
+                <LookForActivistButtonContainer>
+                    <LookForActivistButton to='/search'>Search For Activists Or Organizations</LookForActivistButton>
+                </LookForActivistButtonContainer>
                 <PagePara>
                     This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.
                 </PagePara>
             </TopPart>
-            <ActvistsAndEventsContainer>
-                <ActvistOfWeek />
+            <ActivistsAndEventsContainer>
+                <ActivistsOfWeek />
                 <Events />
-            </ActvistsAndEventsContainer>
+            </ActivistsAndEventsContainer>
         </PageContainer>
     );
 }

@@ -42,7 +42,7 @@ const Photo = styled.img`
 `;
 
 function ThirdSlide() {
-    const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK  })
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10)  })
     return (
         <Component>
             <Title>This is when the idea of Connecting for Change was born. </Title>

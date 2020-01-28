@@ -12,6 +12,7 @@ const axios = require("axios")
 
 const Page = styled.div`
     width: 75em;
+    margin: auto;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -21,6 +22,9 @@ const Page = styled.div`
 `;
 
 const PageContent = styled.div`
+    background-color: #a4c2f4;
+    border-radius: 1em;
+    padding: 3% 6%;
     height: 20em;
     width: fit-content;
     margin: auto;

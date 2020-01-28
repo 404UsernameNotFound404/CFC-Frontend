@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import CategoryButton from './CategoryButton';
 import LoadingAnimation from '../../../img/LoadingImageLine.gif'
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import LoadingPage from '../LoadingPage';
 
 const Container = styled.div`
     width: 90%;

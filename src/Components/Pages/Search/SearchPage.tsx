@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchActivists from './SearchResults/SearchResults';
-import CategorySearch from './CategorySearch';
+import CategorySearch from '../../ComponentLibrayer/CategorySearch/CategorySearch';
 const axios = require("axios");
 
 const PageContainer = styled.div`
@@ -94,13 +94,3 @@ function LinksContainer() {
 }
 
 export default LinksContainer;
-
-
-//   <SearchForWhatPage>
-//                 <SearchForWhatTitle>What would you like to search for?</SearchForWhatTitle>
-//                 <SearchForWhatContainer>
-//                     <SearchForWhat Title = "Events" />
-//                     <OR>or</OR>
-//                     <SearchForWhat Title = "People" />
-//                 </SearchForWhatContainer>
-//             </SearchForWhatPage>

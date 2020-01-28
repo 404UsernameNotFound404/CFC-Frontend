@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Page from '../Page';
+import Page from '../SearchResultCards/Page';
 import DefaultImage from '../../../../img/default.jpg';
 import Cookie from 'js-cookie';
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
-import Organization from '../Organzation';
+import Organization from '../SearchResultCards/Organzation';
 import PickWhatToSearchFor from '../PickWhatToSearchForButton';
 const axios = require("axios");
 
@@ -55,6 +55,10 @@ function SearchBar(props: Props) {
         setError("")
         let networkError = true;
         try {
+            if (props.choice == "Organizations" || props.choice == "Events" || props.choice == "Activists") {
+                setLoading(false);
+                return;
+            }
             const res = await axios.post(`${process.env.REACT_APP_BASEURL}/get${props.choice}`);
             console.log(res)
             networkError = false;
@@ -70,7 +74,6 @@ function SearchBar(props: Props) {
                 setError("Network error sorry for the inconvenience.")
                 return
             }
-            console.log(err)
             setError("Error getting activists. Sorry about that the service will return soon.")
         }
     }
@@ -101,7 +104,7 @@ function SearchBar(props: Props) {
             }
                 break;
             case "Events":
-                return <>Even</>
+                return <h1 style = {{textAlign: 'center'}}>Events Coming Soon</h1>
                 break;
             case "Activists":
                 if (props.choice == choice) {

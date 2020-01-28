@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ActivistPage from '../Search/Page';
+import ActivistPage from '../Search/SearchResultCards/Page';
 import styled from 'styled-components';
 import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 import DefaultPhoto from '../../../img/default.jpg'

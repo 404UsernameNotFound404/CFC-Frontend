@@ -7,7 +7,6 @@ type ContainerStyleProps = {
 }
 
 const Container = styled.div<ContainerStyleProps>`
-    /* flex: 1; */
     cursor: pointer;
     background-color: ${p => p.colour};
     border-radius: 0.5em;
@@ -16,7 +15,7 @@ const Container = styled.div<ContainerStyleProps>`
     margin: 1em auto;
     text-align: center;
     color: black !important;
-    
+    min-height: 3em;
     opacity: ${p => p.active ? '1' : '0.5'};
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         padding: 1em 1%;

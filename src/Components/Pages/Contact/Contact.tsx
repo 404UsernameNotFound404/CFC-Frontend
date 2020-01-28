@@ -104,8 +104,6 @@ const XOut = styled.h1`
     }
 `;
 
-const ContactInfoContent = styled.h1``;
-
 function ContactPage() {
     const [textToCopy, setTextToCopy] = useState()
     const [showSuccess, setHowSuccess] = useState(false);

@@ -1,8 +1,8 @@
 import React, { useState }from 'react';
 import styled from 'styled-components';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../../ComponentLibrayer/BasicButton';
 import { Link } from 'react-router-dom';
-import PageCategories from '../Page/PageCategories';
+import PageCategories from '../../Page/PageCategories';
 
 type ContainerProps = {
     width: string

@@ -6,7 +6,7 @@ import HenryPhoto from '../../../img/AboutPage/HenryPhoto.jpg'
 import DaxtonPhoto from '../../../img/AboutPage/DaxtonPhoto.jpg'
 import { useMediaQuery } from 'react-responsive'
 import protester from '../../../img/protesterYelling.webp';
-import ActivistPage from '../Search/Page';
+import ActivistPage from '../Search/SearchResultCards/Page';
 import SlideContainer from './SlidesComponents/SlideContainer';
 import FirstSlide from './SlidesComponents/FirstSlide';
 import SecondSlide from './SlidesComponents/SecondSlide';

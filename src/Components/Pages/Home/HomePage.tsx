@@ -60,6 +60,7 @@ const LookForActivistButton = styled(Link)`
     margin-top: 1em;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin-top: 1em;
+        border: black 0.1em solid;
     }
     transition: 0.3s background-color linear, 0.3s color linear;
     text-decoration: none;

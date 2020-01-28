@@ -61,6 +61,7 @@ const Location = styled.h1`
 const Desc = styled.p`
     font-size: 1em;
     width: 90%;
+    margin-top: 0.25em;
     margin-bottom: 0.5em;
     height: 4em;
     overflow: hidden;
@@ -131,8 +132,9 @@ type CopyMessageProps = {
 }
 
 const CopyMessage = styled.h4<CopyMessageProps>`
-    margin: auto 0.25em;
-    font-size: 1.25em;
+    margin: auto 0;
+    margin-left: 0.5em;
+    font-size: 1.1em;
     color: ${p => p.color};
     transition: all 0.5s ease;
     opacity: 0;
@@ -153,14 +155,14 @@ function Organzation(props: Props) {
     const [textToCopy, setTextToCopy] = useState();
     const [ghostText, setGhostText] = useState();
     const [copyMessage, setCopyMessage] = useState({message: '', color: 'red'})
-    const [specificID, setSpecificID] = useState("super-long-never-going-to-be-the-same-as-someone-else-1234-asd-123-asdcvxvxgfdg-5940" + props.email)
+    const specificID = "super-long-never-going-to-be-the-same-as-someone-else-1234-asd-123-asdcvxvxgfdg-5940" + props.email;
 
 
     const copyEmail = async (e: any) => {
         textToCopy.select();
         await document.execCommand('copy');
         ghostText.select();
-        setCopyMessage({message: "Copied Email", color: "green"})
+        setCopyMessage({message: "Copied Email", color: "black"})
         let copyMessage = document.getElementById(specificID);
         copyMessage.style.opacity = '1';
         setTimeout(() => {

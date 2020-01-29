@@ -41,7 +41,7 @@ type Props = {
 
 function Question(props: Props) {
     const { question, answer } = props;
-    const isPhone = useMediaQuery({ minDeviceWidth: 1000 })
+    const isPhone = useMediaQuery({minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK)})
     return (
         <Component>
             {!isPhone ? <>

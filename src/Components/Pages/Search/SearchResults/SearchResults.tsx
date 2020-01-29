@@ -43,6 +43,7 @@ function SearchBar(props: Props) {
         {text: "Organizations", link: "/search?search=Organizations"}
     ];
     useEffect(() => {
+        console.log("this should change")
         setLoading(true);
         if (props.choice != null) {
             fetchAPI();
@@ -55,12 +56,11 @@ function SearchBar(props: Props) {
         setError("")
         let networkError = true;
         try {
-            if (props.choice == "Organizations" || props.choice == "Events" || props.choice == "Activists") {
+            if (!(props.choice == "Organizations" || props.choice == "Events" || props.choice == "Activists")) {
                 setLoading(false);
                 return;
             }
             const res = await axios.post(`${process.env.REACT_APP_BASEURL}/get${props.choice}`);
-            console.log(res)
             networkError = false;
             if (res.data.Error != undefined) {
                 setError(res.data.Error)
@@ -107,7 +107,9 @@ function SearchBar(props: Props) {
                 return <h1 style = {{textAlign: 'center'}}>Events Coming Soon</h1>
                 break;
             case "Activists":
+                console.log("in case")
                 if (props.choice == choice) {
+                    console.log("rendering actvists")
                     return (<>
                         {
                             pages.map((ele, i) => {

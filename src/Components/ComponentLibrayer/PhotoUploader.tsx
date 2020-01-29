@@ -18,7 +18,8 @@ const Content = styled.div`
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: 0.5em auto;
         width: 90%;
-        display: flex;
+        display: block;
+        height: fit-content;
     }
 `;
 
@@ -40,7 +41,9 @@ const UploadButton = styled.div`
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: auto 0;
         margin-left: 1em;
-        width: 10%;
+        width: 60%;
+        margin: auto;
+        padding: 0.5em 0;
         height: 90%;
         flex: 1;
     }
@@ -55,6 +58,11 @@ const MessageToUser = styled.h4<MessageToUserProps>`
     margin-left: 0.5em;
     font-size: 1.5em;
     color: ${p => p.colour};
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
+        text-align: center;
+        margin: 0;
+        margin-top: 0.5em;
+    }
 `;
 
 
@@ -65,7 +73,7 @@ type Props = {
 
 function UserPage(props: Props) {
     const [messageToUser, setMessageToUser] = useState({ text: "", colour: "black" })
-    const randID = Math.random().toString(36).substring(12);
+    const randID = "Math.random().toString(36).substring(12)asdasdasdas123123vxvcasd";
 
     const checkFileExtension = (filename: string) => {
         var parts = filename.split('.');

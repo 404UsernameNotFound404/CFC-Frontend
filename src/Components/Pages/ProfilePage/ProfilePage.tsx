@@ -32,6 +32,7 @@ const PageContent = styled.div`
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         display: block;
         width: 100%;
+        background-color: transparent;
     }
 `;
 

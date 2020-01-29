@@ -80,7 +80,7 @@ function OrgPage(props: NavBarDekstopProps) {
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(true);
     const [imageHash, setImageHash] = useState(0);
-    const isPhone = useMediaQuery({ minDeviceWidth: process.env.REACT_APP_PHONE_BREAK })
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK) })
     useEffect(() => {
         fetchAPI()
     }, []);

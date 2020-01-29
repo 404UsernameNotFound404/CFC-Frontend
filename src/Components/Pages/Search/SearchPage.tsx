@@ -42,6 +42,7 @@ function LinksContainer() {
     const [categoryButtons, setCategoryButtons] = useState([]);
     const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
     const [whatYourSearching, setWhatYourSearching] = useState(null);
+    const [pickedCategory, setPickedCategory] = useState(false);
     const thingsToSearch = ["Activists", "Events", "Organizations", null]
 
     useEffect(() => {
@@ -74,9 +75,10 @@ function LinksContainer() {
     const fetchCatagories = async () => {
         try {
             const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
-            setAllCategories(res.data)
+            setAllCategories(res.data);
+            setCategoriesToNotAllow([])
             setLoadingCategories(false);
-        } catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -84,9 +86,13 @@ function LinksContainer() {
     return (
         <PageContainer>
             <TopPartPage>
-                <SearchBoxTitle>What are you looking for?</SearchBoxTitle>
-                <SearchBoxSubTitle>What category are you looking for?</SearchBoxSubTitle>
-                <CategorySearch loading = {loadingCategories} setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
+                {!(whatYourSearching == "Organizations" || whatYourSearching == "Activists" || whatYourSearching == "Events") ? 
+                    <SearchBoxTitle>What are you looking for?</SearchBoxTitle> :
+                    <>
+                        <SearchBoxTitle>What category are you looking for?</SearchBoxTitle>
+                        <CategorySearch loading={loadingCategories} setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
+                    </>
+                }
             </TopPartPage>
             <SearchActivists choice={whatYourSearching} categoriesToNotAllow={categoriesToNotAllow} />
         </PageContainer>

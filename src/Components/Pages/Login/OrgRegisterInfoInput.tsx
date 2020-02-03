@@ -7,7 +7,6 @@ import {
     Redirect
 } from "react-router-dom";
 import { AppContext } from '../../../Context/AppContext';
-import Cookie from 'js-cookie'
 import PageCategories from '../Page/PageCategories';
 
 const axios = require('axios')

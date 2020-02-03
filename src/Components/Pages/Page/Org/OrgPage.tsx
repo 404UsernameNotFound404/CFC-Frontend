@@ -4,7 +4,6 @@ import {
     BrowserRouter as Router,
     Redirect
 } from "react-router-dom";
-import Cookie from 'js-cookie';
 import SingleLineInput from "../../../ComponentLibrayer/InputForSingleLine";
 import PageCategories from '../PageCategories'
 import PhotoUploader from '../../../ComponentLibrayer/PhotoUploader'
@@ -12,6 +11,7 @@ import DefaultImage from '../../../../img/default.jpg'
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 import ParagraphInput from '../ParaInput'
 import { useMediaQuery } from 'react-responsive';
+import { AppContext } from '../../../../Context/AppContext';
 
 const axios = require("axios");
 
@@ -80,7 +80,8 @@ function OrgPage(props: NavBarDekstopProps) {
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(true);
     const [imageHash, setImageHash] = useState(0);
-    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK) })
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK) });
+    const c = useContext(AppContext);
     useEffect(() => {
         fetchAPI()
     }, []);
@@ -104,7 +105,7 @@ function OrgPage(props: NavBarDekstopProps) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": Cookie.get("authToken") } });
+                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": c.userToken } });
                 if (res.data.Image.length > 2) {
                     setImage(res.data.Image)
                 } else {
@@ -146,7 +147,7 @@ function OrgPage(props: NavBarDekstopProps) {
         })
         try {
             //need check
-            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": Cookie.get("authToken") } });
+            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": c.userToken } });
             console.log(res)
             if (res.data.Valid.length >= 0) {
                 setMessage({ error: false, text: "Updated" })

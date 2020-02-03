@@ -13,7 +13,7 @@ import {
   Switch,
 } from "react-router-dom";
 import Cookie from 'js-cookie'
-import { AppContext} from './Context/AppContext'
+import { AppContext } from './Context/AppContext'
 import OrgPage from './Components/Pages/Page/Org/OrgPage'
 import VerificationPage from './Components/Pages/Verify/Verify'
 import ContactPage from './Components/Pages/Contact/Contact';
@@ -45,6 +45,7 @@ function App() {
   const checkToken = async () => {
     try {
       if (Cookie.get("authToken").length > 0) {
+        console.log("checking token")
         const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
         if (res.data.UserID.length > 0) {
           setUserToken(Cookie.get("authToken"))
@@ -75,7 +76,7 @@ function App() {
 
   return (
     <div>
-      <AppContext.Provider value = {{userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType}}>
+      <AppContext.Provider value = {{userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType}}>
         <Router>
           {RedirectToLogin()}
           <Route component={showNavBarFunct} />

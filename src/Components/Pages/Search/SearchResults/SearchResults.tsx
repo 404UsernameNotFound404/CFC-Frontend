@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Page from '../SearchResultCards/Page';
 import DefaultImage from '../../../../img/default.jpg';
-import Cookie from 'js-cookie';
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 import Organization from '../SearchResultCards/Organzation';
 import PickWhatToSearchFor from '../PickWhatToSearchForButton';

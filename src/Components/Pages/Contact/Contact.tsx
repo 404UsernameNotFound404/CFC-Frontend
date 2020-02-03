@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Cookie from 'js-cookie'
 import ProtesterImage from '../../../img/protesterYelling.webp'
-import { async } from 'q';
 import { useMediaQuery } from 'react-responsive';
 
 const axios = require("axios");

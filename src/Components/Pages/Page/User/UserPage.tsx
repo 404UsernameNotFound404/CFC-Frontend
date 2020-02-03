@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import DaxtonImage from '../../../../img/default.jpg'
 import { Redirect } from 'react-router';
-import Cookie from 'js-cookie'
 import LoadingComp from '../../../ComponentLibrayer/LoadingPage'
 import ProfileTopPart from './ProfileTopPart';
 import ParagraphInput from '../ParaInput'
+import { AppContext } from '../../../../Context/AppContext';
 
 const axios = require("axios");
 
@@ -49,7 +49,8 @@ function UserPage(props: Props) {
     const [categories, setCategories] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
     const [allCategoriyApiData, setAllCategoriyApiData] = useState([])
-    const [image, setImage] = useState("")
+    const [image, setImage] = useState("");
+    const c = useContext(AppContext);
 
     useEffect(() => {
         fetchAPI()
@@ -84,7 +85,7 @@ function UserPage(props: Props) {
                 }
             }
         })
-        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/updatePage`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": Cookie.get("authToken") } });
+        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/updatePage`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
         try {
             if (res.data.Error.length >= 0) {
                 setMessageToUser(res.data.Error)
@@ -117,7 +118,7 @@ function UserPage(props: Props) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": Cookie.get("authToken") } });
+                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": c.userToken } });
                 console.log(res)
                 if (res.data.IsOwner) {
                     setCanEditMode(true)

@@ -103,7 +103,7 @@ function ProfilePage(props: Props) {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [imageSRC, setImageSRC] = useState("")
-    const [redirectToHome, setRedirectToHome] = useState(false)
+    const [redirectToHome, setRedirectToHome] = useState(false);
 
     useEffect(() => {
         fetchAPI()
@@ -114,7 +114,7 @@ function ProfilePage(props: Props) {
     }
 
     const fetchAPI = async () => {
-        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: props.userID }), { headers: { "Authorization": Cookie.get("authToken") } });
+        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: props.userID }), { headers: { "Authorization": c.userToken } });
         const { Name, Email, Image } = res.data;
         setName(Name);
         setEmail(Email)
@@ -123,7 +123,7 @@ function ProfilePage(props: Props) {
     }
 
     const deleteAccount = async () => {
-        await axios.post(`${process.env.REACT_APP_BASEURL}/deleteAccount`, JSON.stringify({}), { headers: { "Authorization": Cookie.get("authToken") } });
+        await axios.post(`${process.env.REACT_APP_BASEURL}/deleteAccount`, JSON.stringify({}), { headers: { "Authorization": c.userToken } });
         setRedirectToHome(true);
         Cookie.set("authToken", "")
         c.setLoggedIn(false);

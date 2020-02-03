@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from 'styled-components';
-import { UploadPhoto } from './PhotoUploadingFunctions';
-import Cookie from 'js-cookie';
+import { AppContext } from "../../Context/AppContext";
 
 const axios = require("axios")
 
@@ -73,6 +72,7 @@ type Props = {
 
 function UserPage(props: Props) {
     const [messageToUser, setMessageToUser] = useState({ text: "", colour: "black" })
+    const c = useContext(AppContext);
     const randID = "Math.random().toString(36).substring(12)asdasdasdas123123vxvcasd";
 
     const checkFileExtension = (filename: string) => {
@@ -93,7 +93,7 @@ function UserPage(props: Props) {
                 url: `${process.env.REACT_APP_BASEURL}/setProfilePhoto`,
                 method: "POST",
                 headers: {
-                    authorization: Cookie.get("authToken")
+                    authorization: c.userToken
                 },
                 data: formData
             });

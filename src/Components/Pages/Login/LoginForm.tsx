@@ -119,8 +119,9 @@ function LoginForm(props: Props) {
             console.log(res)
             networkError = false;
             if (res.data.AuthToken != undefined) {
-                console.log(res.data)
-                setAuthToken(res.data.AuthToken);
+                c.setUserToken(res.data.AuthToken);
+                c.setLoggedIn(true);
+                c.setUserType(res.data.Type)
                 setRedirectToHome(true);
             }
             if (res.data.Error != undefined) {
@@ -143,7 +144,6 @@ function LoginForm(props: Props) {
 
     const goToHome = () => {
         if (redirectToHome) {
-            console.log(authToken)
             c.setUserToken(authToken)
             Cookie.set("authToken", authToken)
             c.setLoggedIn(true)

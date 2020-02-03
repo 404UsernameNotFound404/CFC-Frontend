@@ -6,7 +6,6 @@ import {
     Link
 } from "react-router-dom";
 import BasicButton from '../../ComponentLibrayer/BasicButton';
-import Cookie from 'js-cookie'
 import LoadingComp from '../../ComponentLibrayer/LoadingPage'
 
 const axios = require("axios");

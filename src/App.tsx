@@ -20,6 +20,7 @@ import ContactPage from './Components/Pages/Contact/Contact';
 import FAQ from './Components/Pages/FAQ/FAQPage'
 import ProfilePage from './Components/Pages/ProfilePage/ProfilePage';
 import PrivacyPolicy from './Components/Pages/PrivacyPolicy/PrivacyPolicy';
+import ForgotPasswordPage from './Components/Pages/ForgotPasswordPage/ForgotPage';
 
 const axios = require("axios");
 
@@ -48,6 +49,7 @@ function App() {
         console.log("checking token")
         const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
         if (res.data.UserID.length > 0) {
+          console.log("setting user token to cookie")
           setUserToken(Cookie.get("authToken"))
           setUserID(res.data.UserID)
           setUserType(res.data.Type)
@@ -60,14 +62,25 @@ function App() {
         throw "no auth token"
       }
     } catch (err) {
+      console.log("Setting token blank error")
       setUserToken("")
       setUserID("")
     }
   }
 
+  const login = (token: string, userType: number, userID: string, rememberMe: boolean) => {
+    setUserToken(token);
+    setUserType(userType);
+    setUserID(userID);
+    setLoggedIn(true);
+    if (rememberMe) {
+      Cookie.set("authToken", token)
+    }
+  }
+
   useEffect(() => {
     checkToken();
-  }, [loggedIn])
+  }, [])
 
   const onLoginPage = () => {
     setShowNavBar(false);
@@ -76,7 +89,7 @@ function App() {
 
   return (
     <div>
-      <AppContext.Provider value = {{userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType}}>
+      <AppContext.Provider value = {{login: login, userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType}}>
         <Router>
           {RedirectToLogin()}
           <Route component={showNavBarFunct} />
@@ -85,6 +98,7 @@ function App() {
             <Route path = '/search' component = {Search}/>
             <Route path='/login' component={onLoginPage} />
             <Route path='/page' component={UserPage} />
+            {console.log(userID)}
             <Redirect from = '/edit' to ={`/${(userType === 0) ? "page" : "organization"}?id=${userID}`} />
             <Route path='/about' component={AboutPage} />
             <Route path='/learn' component={LearningPage} />
@@ -94,6 +108,7 @@ function App() {
             <Route path = '/FAQ' component = {FAQ} />
             <Route path = '/Privacy-Policy' component = {PrivacyPolicy} />
             <Route path = '/profile' component = {() => <ProfilePage userID = {userID} />} />
+            <Route path = '/forgotPassword' component = {ForgotPasswordPage} />
             <Route component={Home} />
           </Switch>
           <NavBar showNavBar={showNavBar} />

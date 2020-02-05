@@ -4,6 +4,7 @@ import {
     BrowserRouter as Router,
     Link,
 } from "react-router-dom";
+import DropDownOption from './DropDownOption';
 
 const Component = styled.div`
     width: fit-content;
@@ -62,8 +63,8 @@ function DropDown(props: DropDownProps) {
             {hovering ?
                 <MenuOptions>
                     { 
-                        props.options.map(ele => {
-                            return <OptionContainer><Option to = {ele.link}>{ele.name}</Option></OptionContainer>
+                        props.options.map((ele, i) => {
+                            return <DropDownOption link = {ele.link} name = {ele.name} key = {i} />
                         })
                        
                     }

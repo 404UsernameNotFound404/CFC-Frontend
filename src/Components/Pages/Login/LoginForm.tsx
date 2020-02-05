@@ -10,6 +10,7 @@ import { AppContext } from '../../../Context/AppContext';
 import Cookie from 'js-cookie'
 import OrgRegisterInfoInput from './OrgRegisterInfoInput';
 import PhonNumberInput from './PhoneNumberInput';
+import CheckBox from '../../ComponentLibrayer/CheckBox';
 
 const axios = require('axios')
 
@@ -19,6 +20,7 @@ const Content = styled.form`
         width: 60%;
     }
     margin: 3em auto;
+    margin-bottom: 0.5em;
     height: fit-content;
     padding: 0 2%;
     padding-top: 1.5%;
@@ -60,21 +62,16 @@ const Message = styled.h1<Message>`
     text-align: center;
 `;
 
-const AgreeToPrivacyPolicy = styled.input`
-`;
-
-const CheckboxContainer = styled.div`
-    display: flex;
-`;
-
-const CheckboxText = styled.h4`
-
+const TextForForgotPassword = styled.h4`
+    font-size: 1.5em;
+    margin: 0;
+    text-align: center;
 `;
 
 type Props = {
     register: number
     setRegister: Function,
-    message: {message: string, error: boolean},
+    message: { message: string, error: boolean },
     setMessage: Function
 }
 
@@ -87,8 +84,9 @@ function LoginForm(props: Props) {
     const c = useContext(AppContext);
     const [categories, setCategories] = useState([]);
     const [description, setDescription] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState<{first: string, middle: string, end: string}>({first: '', middle: '', end: ''})
+    const [phoneNumber, setPhoneNumber] = useState<{ first: string, middle: string, end: string }>({ first: '', middle: '', end: '' })
     const [checkBox, setCheckBox] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
     const { message } = props
     const { setMessage } = props;
     useEffect(() => {
@@ -105,24 +103,24 @@ function LoginForm(props: Props) {
             }))
         } catch (err) {
             console.log(err)
-            setMessage({error: true, message: "Network Down"})
+            setMessage({ error: true, message: "Network Down" })
         }
     }
 
     const login = async (e: any) => {
         console.log("login")
         let networkError = true;
-         //this is so enter key works, but I can also activate login through a function
-        try { e.preventDefault(); } catch(err) {}
+        //this is so enter key works, but I can also activate login through a function
+        try { e.preventDefault(); } catch (err) { }
         try {
             let res = await axios.post(`${process.env.REACT_APP_BASEURL}/login`, { Email: emailInput, Password: passwordInput });
-            console.log(res)
             networkError = false;
             if (res.data.AuthToken != undefined) {
-                c.setUserToken(res.data.AuthToken);
-                c.setLoggedIn(true);
-                c.setUserType(res.data.Type)
+                console.log("setting user token")
+                console.log(res.data.AuthToken)
+                c.login(res.data.AuthToken, res.data.Type, res.data.UserID, rememberMe);
                 setRedirectToHome(true);
+                return
             }
             if (res.data.Error != undefined) {
                 console.log("should be showing error")
@@ -142,11 +140,26 @@ function LoginForm(props: Props) {
         }
     }
 
+    const forgotPassword = async (e?: any) => {
+        try { e.preventDefault(); } catch (err) { }
+        try {
+            console.log("1")
+            if (!registerValues[0].match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) throw "Email is not properly formated";
+            let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/forgotPassword/send`, { Email: registerValues[0] });
+            if (res.data.Error != undefined) throw res.data.Error
+            setMessage({ error: false, message: "Email sent please check your inbox." })
+        } catch (err) {
+            console.log(err);
+            if (typeof err == "string") {
+                setMessage({ error: true, message: err })
+            }
+            setMessage({ error: true, message: "Error Process Failed" })
+        }
+
+    }
+
     const goToHome = () => {
         if (redirectToHome) {
-            c.setUserToken(authToken)
-            Cookie.set("authToken", authToken)
-            c.setLoggedIn(true)
             return <Redirect to='/home' />
         }
     }
@@ -183,14 +196,14 @@ function LoginForm(props: Props) {
             if ((phoneNumber.first.length != 3 || phoneNumber.middle.length != 3 || phoneNumber.end.length != 4) && (phoneNumber.first.length != 0 || phoneNumber.middle.length != 0 || phoneNumber.end.length != 0)) {
                 console.log("error")
                 setMessage({ error: true, message: "Phone Number not properly formatted(not mandatory)" })
-                setPhoneNumber({first: '', middle: '', end: ''})
+                setPhoneNumber({ first: '', middle: '', end: '' })
                 return;
             }
             let phoneNumberString = ''
             if (phoneNumber.first.length >= 1) {
                 console.log("formating phone number")
                 phoneNumberString = phoneNumber.first + '-' + phoneNumber.middle + '-' + phoneNumber.end;
-             }
+            }
             if (props.register == 2) {
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
@@ -227,7 +240,7 @@ function LoginForm(props: Props) {
                         }
                     }
                 })
-               
+
                 console.log({ Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 })
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 });
                 if (res.data.Valid != undefined) {
@@ -257,49 +270,60 @@ function LoginForm(props: Props) {
         }))
     }
 
-    if (props.register == 0) {
-        return (
-            <Content onSubmit = {login}>
-                <Message error={message.error}>{message.message}</Message>
-                <LoginInput onChange={(e) => { setEmailInput(e.target.value) }} value={emailInput} placeholder="Email Address" />
-                <BreakLine />
-                <LoginInput onChange={(e) => { setPasswordInput(e.target.value) }} value={passwordInput} placeholder="Password" type='password' />
-                <BasicButton activateButton={login} width={"50%"} text={"Login"} active={false} id={20} />
-                <input type="submit" style={{display:"none"}}/>
-                {goToHome()}
-            </Content>
-        );
-    } else {
-        return (
-            <Content>
-                <Message error={message.error}>{message.message}</Message>
-                <LoginInput value={registerValues[0]} onChange={(e) => { funcSetRegisterValues(e.target.value, 0) }} placeholder="*Please Enter Email" />
-                <BreakLine />
-                <LoginInput value={registerValues[1]} onChange={(e) => { funcSetRegisterValues(e.target.value, 1) }} placeholder="*Enter Password" type='password' />
-                <BreakLine />
-                <LoginInput value={registerValues[2]} onChange={(e) => { funcSetRegisterValues(e.target.value, 2) }} placeholder="*Re-Enter Password" type='password' />
-                <BreakLine />
-                <PhonNumberInput phoneNumber = {phoneNumber} setPhoneNumber = {setPhoneNumber} />
-                <LoginInput value={registerValues[4]} onChange={(e) => { funcSetRegisterValues(e.target.value, 4) }} placeholder="*Name" />
-                <BreakLine />
-                {
-                    (props.register == 1) ?
-                        <>
-                            <LoginInput value={registerValues[5]} onChange={(e) => { funcSetRegisterValues(e.target.value, 5) }} placeholder="*Location" />
-                            <BreakLine />
-                            <LoginInput value={registerValues[6]} onChange={(e) => { funcSetRegisterValues(e.target.value, 6) }} placeholder="*Link" />
-                            <OrgRegisterInfoInput description={description} setDescription={setDescription} categories={categories} setCategories={setCategories} />
-                        </>
-                        :
-                        ""
-                }
-                <CheckboxContainer>
-                    <AgreeToPrivacyPolicy checked = {checkBox} onChange = {() => {setCheckBox(!checkBox)}} type = 'checkbox' />
-                    <CheckboxText>You agree with our privacy policy. <span><a href = "/Privacy-Policy">Privacy Policy</a></span></CheckboxText>
-                </CheckboxContainer>
-                <BasicButton activateButton={register} width={"45%"} text={"Register"} active={false} id={20} />
-            </Content>
-        );
+    switch (props.register) {
+        case 0:
+            return (
+                <Content onSubmit={login}>
+                    <Message error={message.error}>{message.message}</Message>
+                    <LoginInput onChange={(e) => { setEmailInput(e.target.value) }} value={emailInput} placeholder="Email Address" />
+                    <BreakLine />
+                    <LoginInput onChange={(e) => { setPasswordInput(e.target.value) }} value={passwordInput} placeholder="Password" type='password' />
+                    <BasicButton activateButton={login} width={"50%"} text={"Login"} active={false} id={20} />
+                    <CheckBox text={{ __html: "Remember Me" }} checked={rememberMe} setChecked={setRememberMe} />
+                    <input type="submit" style={{ display: "none" }} />
+                    {goToHome()}
+                </Content>
+            );
+            break;
+        case 1:
+            return (
+                <Content>
+                    <Message error={message.error}>{message.message}</Message>
+                    <LoginInput value={registerValues[0]} onChange={(e) => { funcSetRegisterValues(e.target.value, 0) }} placeholder="*Please Enter Email" />
+                    <BreakLine />
+                    <LoginInput value={registerValues[1]} onChange={(e) => { funcSetRegisterValues(e.target.value, 1) }} placeholder="*Enter Password" type='password' />
+                    <BreakLine />
+                    <LoginInput value={registerValues[2]} onChange={(e) => { funcSetRegisterValues(e.target.value, 2) }} placeholder="*Re-Enter Password" type='password' />
+                    <BreakLine />
+                    <PhonNumberInput phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber} />
+                    <LoginInput value={registerValues[4]} onChange={(e) => { funcSetRegisterValues(e.target.value, 4) }} placeholder="*Name" />
+                    <BreakLine />
+                    {
+                        (props.register == 1) ?
+                            <>
+                                <LoginInput value={registerValues[5]} onChange={(e) => { funcSetRegisterValues(e.target.value, 5) }} placeholder="*Location" />
+                                <BreakLine />
+                                <LoginInput value={registerValues[6]} onChange={(e) => { funcSetRegisterValues(e.target.value, 6) }} placeholder="*Link" />
+                                <OrgRegisterInfoInput description={description} setDescription={setDescription} categories={categories} setCategories={setCategories} />
+                            </>
+                            :
+                            ""
+                    }
+                    <CheckBox text={{ __html: `You agree with our privacy policy. <span><a href = "/Privacy-Policy">Privacy Policy</a></span>` }} checked={checkBox} setChecked={setCheckBox} />
+                    <BasicButton activateButton={register} width={"45%"} text={"Register"} active={false} id={20} />
+                </Content>
+            );
+            break;
+        case 2:
+            return (
+                <Content onSubmit={forgotPassword}>
+                    <Message error={message.error}>{message.message}</Message>
+                    <TextForForgotPassword>Enter your email and we will send a link to change your password.</TextForForgotPassword>
+                    <LoginInput value={registerValues[0]} onChange={(e) => { funcSetRegisterValues(e.target.value, 0) }} placeholder="Enter Email Associated With Account" />
+                    <BasicButton activateButton={forgotPassword} width={"45%"} text={"Submit"} active={false} id={20} />
+                </Content>
+            )
+            break;
     }
 }
 

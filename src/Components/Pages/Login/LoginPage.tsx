@@ -7,9 +7,9 @@ import {
     BrowserRouter as Router,
     Route,
     Redirect
-  } from "react-router-dom";
+} from "react-router-dom";
 import { useMediaQuery } from 'react-responsive'
-import {AppContext} from '../../../Context/AppContext';
+import { AppContext } from '../../../Context/AppContext';
 import PickWhatToCreate from './PickWhatToCreate';
 
 
@@ -104,18 +104,27 @@ const SkipAndGoToHome = styled.div`
     }
 `;
 
+const ForgotPassword = styled.p`
+    margin: 0;
+    text-align: center;
+    font-size: 1em;
+    color: #3d3dff;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
 function LoginPage() {
     const c = useContext(AppContext);
-
     const [register, setRegister] = useState(0);
-    const [reToHome, setReToHome] = useState(false); 
-    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10)  })
+    const [reToHome, setReToHome] = useState(false);
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
     const [message, setMessage] = useState({ error: false, message: "" })
 
 
     const registerClick = (whatToSwitch: number) => {
         setRegister(whatToSwitch)
-        //set inputs to zero later
     }
 
     useEffect(() => {
@@ -131,8 +140,8 @@ function LoginPage() {
 
     return (
         <Page>
-            {c.loggedIn ? <Redirect to = '/home' /> : ''}
-            { isPhone ?
+            {c.loggedIn ? <Redirect to='/home' /> : ''}
+            {isPhone ?
                 <BackgroundImageContainer>
                     <BackgroundImage src={ProtestPhoto} />
                 </BackgroundImageContainer>
@@ -140,20 +149,24 @@ function LoginPage() {
             }
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
-                <LoginForm setMessage = {setMessage} message = {message} setRegister = {setRegister} register = {register} />
+                <LoginForm setMessage={setMessage} message={message} setRegister={setRegister} register={register} />
                 <RegisterAndForgotUsername>
-                    {(register != 0) ? 
-                        <ForgotRegisterText onClick={() => {registerClick(0); setMessage({error: false, message: ""})}}>Go To Login</ForgotRegisterText> 
-                    :
-                        <PickWhatToCreate setMessage = {setMessage} registerOrg = {() => {registerClick(1)}} registerUser = {() => {registerClick(2)}} />
+                    {(register != 0) ?
+                        <ForgotRegisterText onClick={() => { registerClick(0); setMessage({ error: false, message: "" }) }}>Go To Login</ForgotRegisterText>
+                        :
+                        <div>
+                            <PickWhatToCreate setMessage={setMessage} registerOrg={() => { registerClick(1) }} registerUser={() => { registerClick(2) }} />
+                            <ForgotPassword onClick={() => { registerClick(2) }}>Forgot Password?</ForgotPassword>
+                        </div>
                     }
                 </RegisterAndForgotUsername>
-                <SkipAndGoToHome onClick = {() => {setReToHome(true)}}>Skip And Go To Home Page</SkipAndGoToHome>
+
+                <SkipAndGoToHome onClick={() => { setReToHome(true) }}>Skip And Go To Home Page</SkipAndGoToHome>
             </Content>
-            {reToHome ? <Redirect to = '/home' /> : ''}
+            {reToHome ? <Redirect to='/home' /> : ''}
         </Page>
     );
 }
-   
-  export default LoginPage;
-  
+
+export default LoginPage;
+

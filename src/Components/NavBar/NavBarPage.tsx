@@ -35,6 +35,7 @@ function NavBar(props: NavBarProps) {
 
     const logoutLogin = () => {
         if (c.loggedIn) {
+            console.log("nav bar reset")
             c.setUserToken("")
             Cookie.set("authToken", "")
             c.setLoggedIn(false);

@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-type Component = {
+type ComponentProps = {
     margin: string
+    width: string
 }
-const Component = styled.div<Component>`
+
+const Component = styled.div<ComponentProps>`
     position:  relative;
-    width: 80%;
+    width: ${p => p.width};
     height: 100%;
     margin: ${p => p.margin};
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
@@ -64,14 +66,15 @@ type Props = {
     setParagraphValue: Function,
     editMode: boolean,
     title: string,
-    margin: string
+    margin: string,
+    width: string
 }
 
 
 function ParaInput(props: Props) {
     const { paragraphValue, setParagraphValue, editMode, title, margin} = props;
     return (
-        <Component margin = {margin}>
+        <Component width = {props.width} margin = {margin}>
             <ParaTitle>{title}</ParaTitle>
             {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{ paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}

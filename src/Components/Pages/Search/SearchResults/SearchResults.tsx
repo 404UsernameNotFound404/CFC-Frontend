@@ -5,6 +5,9 @@ import DefaultImage from '../../../../img/default.jpg';
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 import Organization from '../SearchResultCards/Organzation';
 import PickWhatToSearchFor from '../PickWhatToSearchForButton';
+import Event from '../SearchResultCards/Event';
+
+import DefaultImg from '../../../../img/climateMarch.jpg'
 const axios = require("axios");
 
 
@@ -27,6 +30,13 @@ const Error = styled.h4`
     color: red;
 `;
 
+const SearchPickComponent = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+`;
+
 type Props = {
     categoriesToNotAllow: any,
     choice: string
@@ -35,11 +45,12 @@ type Props = {
 function SearchBar(props: Props) {
     const [pages, setPages] = useState([]);
     const [error, setError] = useState("")
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [choice, setChoice] = useState("");
     const searchOption = [
-        {text: "Activists", link: "/search?search=Activists"},
-        {text: "Organizations", link: "/search?search=Organizations"}
+        { text: "Activists", link: "/search?search=Activists" },
+        { text: "Organizations", link: "/search?search=Organizations" },
+        { text: "Events", link: "/search?search=Events" }
     ];
     useEffect(() => {
         console.log("this should change")
@@ -79,8 +90,8 @@ function SearchBar(props: Props) {
 
     const checkIfInCategories = (arrayToCheck: any) => {
         let render = false;
-        for(let x = 0;x < props.categoriesToNotAllow.length;x++) {
-            if(!!arrayToCheck.find((catEle: any) => catEle.ID == props.categoriesToNotAllow[x])) {
+        for (let x = 0; x < props.categoriesToNotAllow.length; x++) {
+            if (!!arrayToCheck.find((catEle: any) => catEle.ID == props.categoriesToNotAllow[x])) {
                 return true
             }
         }
@@ -90,20 +101,27 @@ function SearchBar(props: Props) {
     const ComponentToRender = () => {
         switch (props.choice) {
             case "Organizations":
-            if (props.choice == choice) {
-                return (<>{
-                    pages.map((ele, i) => {
-                        if (checkIfInCategories(ele.Instrests)) {
-                            return <Organization image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} name={ele.Name} link={ele.Link} desc={ele.Desc} location={ele.Location} email = {ele.Email} interests={ele.Instrests} key = {i} />
-                        }
-                    })
-                }</>)
-            } else {
-                return (<div></div>)
-            }
+                if (props.choice == choice) {
+                    return (<>{
+                        pages.map((ele, i) => {
+                            if (checkIfInCategories(ele.Instrests)) {
+                                return <Organization image={(ele.Image.length > 2) ? ele.Image : DefaultImage} name={ele.Name} link={ele.Link} desc={ele.Desc} location={ele.Location} email={ele.Email} interests={ele.Instrests} key={i} />
+                            }
+                        })
+                    }</>)
+                } else {
+                    return (<div></div>)
+                }
                 break;
             case "Events":
-                return <h1 style = {{textAlign: 'center'}}>Events Coming Soon</h1>
+                console.log("Events running")
+                return (
+                    <>
+                        {
+                            <Event categories = {[{Name: "Testing", Colour: 'black', ID: '0'}]} title = {"March for the climate"} where = {"Parliment Hill"} when = {"Now and yesterday"} img = {DefaultImg} desc = {"This is some filler text. I think it should be about three sentences. ABout the events, actually it ho-udl be able to be more with a see more button so I am still going."} />
+                        }
+                    </>
+                )
                 break;
             case "Activists":
                 console.log("in case")
@@ -113,7 +131,7 @@ function SearchBar(props: Props) {
                         {
                             pages.map((ele, i) => {
                                 if (checkIfInCategories(ele.Categories)) {
-                                    return <Page width = {"29%"} image = {(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories = {ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
+                                    return <Page width={"29%"} image={(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories={ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
                                 }
                             })
                         } </>)
@@ -124,18 +142,21 @@ function SearchBar(props: Props) {
             default:
                 return (
                     <>
-                        {
-                            searchOption.map(ele => <PickWhatToSearchFor text = {ele.text} link = {ele.link} />)
-                        }
+                        <SearchPickComponent>
+                            {
+                                searchOption.map(ele => <PickWhatToSearchFor text={ele.text} link={ele.link} />)
+                            }
+                        </SearchPickComponent>
                     </>
                 )
                 break;
         }
     }
-    if (!loading || error.length > 0) {
+    if (true) {
         return (
             <Container>
-                <Error>{error}</Error>
+                {/* <Error>{error}</Error> */}
+                {console.log("not loading")}
                 {ComponentToRender()}
             </Container>
         );

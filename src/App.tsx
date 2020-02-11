@@ -21,6 +21,7 @@ import FAQ from './Components/Pages/FAQ/FAQPage'
 import ProfilePage from './Components/Pages/ProfilePage/ProfilePage';
 import PrivacyPolicy from './Components/Pages/PrivacyPolicy/PrivacyPolicy';
 import ForgotPasswordPage from './Components/Pages/ForgotPasswordPage/ForgotPage';
+import EventPage from './Components/Pages/Event/EventPage'
 
 const axios = require("axios");
 
@@ -101,6 +102,7 @@ function App() {
             {console.log(userID)}
             <Redirect from = '/edit' to ={`/${(userType === 0) ? "page" : "organization"}?id=${userID}`} />
             <Route path='/about' component={AboutPage} />
+            <Route path = '/event' component = {EventPage} />
             <Route path='/learn' component={LearningPage} />
             <Route path = '/organization' component = {OrgPage} />
             <Route path = '/verify' component = {VerificationPage} />

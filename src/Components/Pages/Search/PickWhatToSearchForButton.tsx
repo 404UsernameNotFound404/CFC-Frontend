@@ -7,10 +7,9 @@ import {
 
 
 const Component = styled(Link)`
-    width: 28%;
+    width: 30%;
     height: 20em;
     background-color: #3c78d8;
-    margin: 0 10%;
     display: flex;
     justify-content: center;
     border-radius: 1em;

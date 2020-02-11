@@ -179,7 +179,7 @@ function OrgPage(props: NavBarDekstopProps) {
                 <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={[]} editMode={true} />
                 <OrgImage src={`${image}?${imageHash}`} />
                 <PhotoUploader update = {fetchAPI} />
-                <ParagraphInput margin = {isPhone ? "0" : "auto"} title = {"Description:"} paragraphValue = {desc} setParagraphValue = {setDesc} editMode = {true} />
+                <ParagraphInput width = {"80%"} margin = {isPhone ? "0" : "auto"} title = {"Description:"} paragraphValue = {desc} setParagraphValue = {setDesc} editMode = {true} />
                 <UpdateButton onClick={update}>Update</UpdateButton>
             </Page>
         );

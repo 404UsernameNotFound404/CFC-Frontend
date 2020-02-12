@@ -30,6 +30,9 @@ const Text = styled.h1`
 const Container = styled.div`
     width: 65em;
     margin: auto;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
+        width: 90%;
+    }
 `;
 
 const FullWidth = styled.div`
@@ -38,6 +41,11 @@ const FullWidth = styled.div`
     top: 5em;
     left: 0;
     position: fixed;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
+        top: 2em;
+        -webkit-backface-visibility: hidden;
+    }
+   
 `;
 
 type Props = {

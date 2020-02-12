@@ -41,13 +41,13 @@ function PageCategories(props: Props) {
     if (!props.editMode) {
         return (
             <Content>
-                {props.categories.map(ele => <CategoryTag width = {props.width} id = {""} clickFunction={() => { }} clickable={false} disabled={false} name={ele.Name} colour={ele.Colour} />)}
+                {props.categories.map((ele, i: number) => <CategoryTag width = {props.width} id = {""} clickFunction={() => { }} clickable={false} disabled={false} name={ele.Name} colour={ele.Colour} key = {i} />)}
             </Content>
         );
     } else {
         return (
             <Content>
-                {allCategories.map((ele: any) => <CategoryTag width = {props.width} id = {ele.ID} clickFunction={disable} clickable={true} disabled={ele.disabled} name={ele.Name} colour={ele.Colour} />)}
+                {allCategories.map((ele: any, i: number) => <CategoryTag width = {props.width} id = {ele.ID} clickFunction={disable} clickable={true} disabled={ele.disabled} name={ele.Name} colour={ele.Colour} key = {i} />)}
             </Content>
         );
     }

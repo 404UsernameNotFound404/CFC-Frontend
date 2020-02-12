@@ -6,6 +6,7 @@ import LoadingComp from '../../../ComponentLibrayer/LoadingPage'
 import ProfileTopPart from './ProfileTopPart';
 import ParagraphInput from '../ParaInput'
 import { AppContext } from '../../../../Context/AppContext';
+import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
 
 const axios = require("axios");
 
@@ -55,6 +56,10 @@ function UserPage(props: Props) {
     useEffect(() => {
         fetchAPI()
     }, []);
+
+    useEffect(() => {
+        fetchAPI();
+    }, [c.userToken])
 
     const updatePage = async () => {
         let activeTags: any = []
@@ -119,7 +124,6 @@ function UserPage(props: Props) {
         } else {
             try {
                 const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": c.userToken } });
-                console.log(res)
                 if (res.data.IsOwner) {
                     setCanEditMode(true)
                 }
@@ -213,6 +217,7 @@ function UserPage(props: Props) {
         return (
             <Page>
                 {/* Split into more components */}
+                <UpdateEditButton canEdit = {canEditMode} update = {editMode} switchFCN = {() => {setEditMode(!editMode)}} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
                     <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />

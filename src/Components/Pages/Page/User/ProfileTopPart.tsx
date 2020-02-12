@@ -130,12 +130,6 @@ function UserPage(props: Props) {
                 {canEditMode ?
                     <EditButtonContianer>
                         <MessageToUser>{messageToUser}</MessageToUser>
-                        <BasicButton activateButton={switchEditMode} text="edit" active={editMode} width={'5em'} id={20} />
-                        {editMode ?
-                            <UpdateButtonContainer>
-                                <BasicButton activateButton={updateFunction} text="Update" active={!editMode} width={'5em'} id={20} />
-                            </UpdateButtonContainer>
-                            : ''}
                     </EditButtonContianer> : ''}
             </TopBarTopSection>
             {canEditMode ? <UploadPhoto update = {update} /> : ''}

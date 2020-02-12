@@ -118,7 +118,7 @@ function SearchBar(props: Props) {
                 return (
                     <>
                         {
-                            <Event categories = {[{Name: "Testing", Colour: 'black', ID: '0'}]} title = {"March for the climate"} where = {"Parliment Hill"} when = {"Now and yesterday"} img = {DefaultImg} desc = {"This is some filler text. I think it should be about three sentences. ABout the events, actually it ho-udl be able to be more with a see more button so I am still going."} />
+                            <Event id = {"This is a ID"} categories = {[{Name: "Testing", Colour: 'black', ID: '0'}]} title = {"March for the climate"} where = {"Parliment Hill"} when = {"Now and yesterday"} img = {DefaultImg} desc = {"This is some filler text. I think it should be about three sentences. ABout the events, actually it ho-udl be able to be more with a see more button so I am still going."} />
                         }
                     </>
                 )
@@ -126,7 +126,7 @@ function SearchBar(props: Props) {
             case "Activists":
                 console.log("in case")
                 if (props.choice == choice) {
-                    console.log("rendering actvists")
+                    console.log("rendering activists")
                     return (<>
                         {
                             pages.map((ele, i) => {
@@ -152,7 +152,7 @@ function SearchBar(props: Props) {
                 break;
         }
     }
-    if (true) {
+    if (!loading || error.length > 0) {
         return (
             <Container>
                 {/* <Error>{error}</Error> */}

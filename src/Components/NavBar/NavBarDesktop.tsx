@@ -70,7 +70,7 @@ function NavBarDesktop(props: NavBarDekstopProps) {
                     <LinkTitle to='/about'>About Page</LinkTitle>
                     <LinkTitle to = '/FAQ'>FAQ</LinkTitle>
                     <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-                    <DropDown options={[{ name: "Activists", link: "/search?search=Activists" }, { name: "Organizations", link: "/search?search=Organizations" }]} title={"Search"} />
+                    <DropDown options={[{name: "Events", link: "/search?search=Events"}, { name: "Activists", link: "/search?search=Activists" }, { name: "Organizations", link: "/search?search=Organizations" }]} title={"Search"} />
                     {c.loggedIn ?
                         <ProfileDropDown loggedIn={c.loggedIn} logoutLogin={props.logoutLogin} /> :
                         <LinkTitle to='/login'><span onClick={props.logoutLogin}>Login</span></LinkTitle>

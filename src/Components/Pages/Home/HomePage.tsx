@@ -25,9 +25,10 @@ const TopPart = styled.div`
 
 const LookForActivistButtonContainer = styled.div`
     height: fit-content;
-    width: 100%;
+    width: 75%;
+    margin: auto;
     display: flex;
-    margin-top: 1em;
+    margin-top: 0em;
     margin-bottom: 4em;
 `;
 
@@ -35,6 +36,7 @@ const PageTitle = styled.h1`
     width: 100%;
     margin: 0 0;
     font-size: 6em;
+    text-decoration: underline;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         font-size: 2.75em;
         margin-bottom: 0em;
@@ -44,7 +46,7 @@ const PageTitle = styled.h1`
 const PageSubTitle = styled.h4`
     margin: 0;
     font-size: 3em;
-    font-weight: bolder;
+    font-weight: lighter;
 `;
 
 const LookForActivistButton = styled(Link)`
@@ -52,8 +54,8 @@ const LookForActivistButton = styled(Link)`
     border: black thin solid;
     color: black;
     font-size: 2em;
-    width: fit-content;
-    height: fit-content;
+    width: 5em;
+    height: 5em;
     padding: 0.5em 1em;
     border-radius: 1em;
     margin: 0em auto;
@@ -64,11 +66,20 @@ const LookForActivistButton = styled(Link)`
     }
     transition: 0.3s background-color linear, 0.3s color linear;
     text-decoration: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
     &:hover {
         background-color: #3c78d8;
         color: white;
         border-color: transparent;
     }
+`;
+
+const LookForActivistButtonText = styled.h1`
+    font-size: 1em;
+    margin: auto;
+
 `;
 
 const BlueHighlight = styled.span`
@@ -99,14 +110,26 @@ const PagePara = styled.p`
     margin-top: 0.5em;
 `;
 
+const SearchFor = styled.h1`
+    text-align: center;
+    font-size: 4em;
+    text-decoration: underline;
+    margin: 0;
+    margin-top: 1em;
+`;
+
 function HomePage() {
     return (
         <PageContainer>
             <TopPart>
                 <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
                 <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
+                <SearchFor>Search For</SearchFor>
                 <LookForActivistButtonContainer>
-                    <LookForActivistButton to='/search'>Search For Activists Or Organizations</LookForActivistButton>
+                    {/* <LookForActivistButton to='/search'><LookForActivistButtonText>Search For<br /> Activists<br /> Organizations <br /> Events</LookForActivistButtonText></LookForActivistButton> */}
+                    <LookForActivistButton to={'/search?search=' + "Activists"}><LookForActivistButtonText>Activists</LookForActivistButtonText></LookForActivistButton>
+                    <LookForActivistButton to={'/search?search=' + "Organizations"}><LookForActivistButtonText>Organizations</LookForActivistButtonText></LookForActivistButton>
+                    <LookForActivistButton to={'/search?search=' + "Events"}><LookForActivistButtonText>Events</LookForActivistButtonText></LookForActivistButton>
                 </LookForActivistButtonContainer>
                 <PagePara>
                     This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.

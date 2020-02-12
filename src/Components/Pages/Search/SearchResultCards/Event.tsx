@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BasicButton from '../../../ComponentLibrayer/BasicButton';
 import PageCategories from '../../Page/PageCategories';
+import { Redirect } from 'react-router-dom';
 
 const Component = styled.div`
     width: 40%;
@@ -70,6 +71,7 @@ const PageCategoryContainer = styled.div`
 `;
 
 type Props = {
+    id: string,
     where: string,
     when: string,
     title: string,
@@ -79,8 +81,10 @@ type Props = {
 }
 
 function Event(props: Props) {
+    const [goToEventPage, setGoToEventPage] = useState(false);
     return (
         <Component>
+            {goToEventPage ? <Redirect to = {'/event?id=' + props.id} /> : ''}
             <Title>{props.title}</Title>
             <BlackLineSeparator />
             <EventImage src={props.img} />
@@ -92,7 +96,7 @@ function Event(props: Props) {
             <PageCategoryContainer>
                 <PageCategories editMode={false} categories={props.categories} allCategories={[]} setAllCategories={[]} width={"90%"} />
             </PageCategoryContainer>
-            <BasicButton activateButton={() => { console.log("button") }} width={"50%"} text={"See More"} active={false} id={20} />
+            <BasicButton activateButton={() => {setGoToEventPage(true)}} width={"50%"} text={"See More"} active={false} id={20} />
         </Component>
     )
 }

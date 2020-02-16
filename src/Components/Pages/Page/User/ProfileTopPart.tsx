@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import BasicButton from '../../../ComponentLibrayer/BasicButton';
 import PageCategories from '../PageCategories';
-import UploadPhoto from '../../../ComponentLibrayer/PhotoUploader';
+// import UploadPhoto from '../../../ComponentLibrayer/PhotoUploader';
+import PhotoAndUploader from '../../../ComponentLibrayer/PhotoAndUploader'
 import { useMediaQuery } from 'react-responsive';
 
 const ProfileImage = styled.img`
@@ -122,7 +123,8 @@ function UserPage(props: Props) {
     return (
         <TopBarContainer>
             <TopBarTopSection>
-                <ProfileImage src={`${image}?${imageHash}`} />
+                {/* <ProfileImage src={`${image}?${imageHash}`} /> */}
+                <PhotoAndUploader img = {`${image}?${imageHash}`} update = {update} canEdit = {canEditMode} />
                 <TopBarTextContainer>
                     <TopBarText>{name}</TopBarText>
                     <TopBarText>{email}</TopBarText>
@@ -132,7 +134,7 @@ function UserPage(props: Props) {
                         <MessageToUser>{messageToUser}</MessageToUser>
                     </EditButtonContianer> : ''}
             </TopBarTopSection>
-            {canEditMode ? <UploadPhoto update = {update} /> : ''}
+            {/* {canEditMode ? <PhotoAndUploader img = {`${image}?${imageHash}`} update = {update} /> : ''} */}
             <PageCategoryContainer>
                 <PageCategories width = {"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
             </PageCategoryContainer>

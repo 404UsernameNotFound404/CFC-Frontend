@@ -36,7 +36,7 @@ const PageTitle = styled.h1`
     width: 100%;
     margin: 0 0;
     font-size: 6em;
-    text-decoration: underline;
+    /* text-decoration: underline; */
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         font-size: 2.75em;
         margin-bottom: 0em;
@@ -113,7 +113,6 @@ const PagePara = styled.p`
 const SearchFor = styled.h1`
     text-align: center;
     font-size: 4em;
-    text-decoration: underline;
     margin: 0;
     margin-top: 1em;
 `;

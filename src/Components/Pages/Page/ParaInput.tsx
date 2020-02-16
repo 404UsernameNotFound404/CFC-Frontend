@@ -44,7 +44,7 @@ const Para = styled.p`
 const ParaTitle = styled.h1`
     margin: auto 0;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
-        margin: 0;
+        margin: auto;
         text-align: center;
     }
 `;
@@ -56,7 +56,7 @@ const CharacterCount = styled.p`
     color: black;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         position: static;
-        margin: 0;
+        margin: auto;
     }
 `;
 

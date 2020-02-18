@@ -102,13 +102,11 @@ function LoginForm(props: Props) {
                 return { ...ele, disabled: true }
             }))
         } catch (err) {
-            console.log(err)
             setMessage({ error: true, message: "Network Down" })
         }
     }
 
     const login = async (e: any) => {
-        console.log("login")
         let networkError = true;
         //this is so enter key works, but I can also activate login through a function
         try { e.preventDefault(); } catch (err) { }
@@ -116,20 +114,16 @@ function LoginForm(props: Props) {
             let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, { Email: emailInput, Password: passwordInput });
             networkError = false;
             if (res.data.AuthToken != undefined) {
-                console.log("setting user token")
-                console.log(res.data.AuthToken)
                 c.login(res.data.AuthToken, res.data.Type, res.data.UserID, rememberMe);
                 setRedirectToHome(true);
                 return
             }
             if (res.data.Error != undefined) {
-                console.log("should be showing error")
                 throw res.data.Error
             }
             throw 'invalid login'
         }
         catch (err) {
-            console.log(err)
             if (networkError) {
                 setMessage({ error: true, message: "Network Error Sorry For Inconveince" });
                 setRedirectToHome(false);
@@ -143,13 +137,11 @@ function LoginForm(props: Props) {
     const forgotPassword = async (e?: any) => {
         try { e.preventDefault(); } catch (err) { }
         try {
-            console.log("1")
             if (!registerValues[0].match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) throw "Email is not properly formated";
             let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/forgotPassword/send`, { Email: registerValues[0] });
             if (res.data.Error != undefined) throw res.data.Error
             setMessage({ error: false, message: "Email sent please check your inbox." })
         } catch (err) {
-            console.log(err);
             if (typeof err == "string") {
                 setMessage({ error: true, message: err })
             }
@@ -194,14 +186,12 @@ function LoginForm(props: Props) {
                 return;
             }
             if ((phoneNumber.first.length != 3 || phoneNumber.middle.length != 3 || phoneNumber.end.length != 4) && (phoneNumber.first.length != 0 || phoneNumber.middle.length != 0 || phoneNumber.end.length != 0)) {
-                console.log("error")
                 setMessage({ error: true, message: "Phone Number not properly formatted(not mandatory)" })
                 setPhoneNumber({ first: '', middle: '', end: '' })
                 return;
             }
             let phoneNumberString = ''
             if (phoneNumber.first.length >= 1) {
-                console.log("formating phone number")
                 phoneNumberString = phoneNumber.first + '-' + phoneNumber.middle + '-' + phoneNumber.end;
             }
             if (props.register == 2) {
@@ -213,7 +203,6 @@ function LoginForm(props: Props) {
                 }
                 setMessage({ error: true, message: res.data.Error })
             } else {
-                console.log("here")
                 if (registerValues[5].length < 3) {
                     setMessage({ error: true, message: "Location must be more then three characters" })
                     funcSetRegisterValues("", 5);
@@ -234,9 +223,7 @@ function LoginForm(props: Props) {
                     if (!ele.disabled) {
                         try {
                             activeTags.push(parseInt(ele.ID))
-                        } catch (err) {
-                            console.log(err)
-                        }
+                        } catch (err) {}
                     }
                 })
 

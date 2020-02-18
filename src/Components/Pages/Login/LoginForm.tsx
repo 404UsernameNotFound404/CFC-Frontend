@@ -113,7 +113,7 @@ function LoginForm(props: Props) {
         //this is so enter key works, but I can also activate login through a function
         try { e.preventDefault(); } catch (err) { }
         try {
-            let res = await axios.post(`${process.env.REACT_APP_BASEURL}/login`, { Email: emailInput, Password: passwordInput });
+            let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, { Email: emailInput, Password: passwordInput });
             networkError = false;
             if (res.data.AuthToken != undefined) {
                 console.log("setting user token")
@@ -205,7 +205,7 @@ function LoginForm(props: Props) {
                 phoneNumberString = phoneNumber.first + '-' + phoneNumber.middle + '-' + phoneNumber.end;
             }
             if (props.register == 2) {
-                let res = await axios.post(`${process.env.REACT_APP_BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
+                let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
                     setMessage({ error: false, message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
                     props.setRegister(false);
@@ -230,7 +230,6 @@ function LoginForm(props: Props) {
                     return;
                 }
                 let activeTags: number[] = []
-                console.log("before this")
                 categories.map(ele => {
                     if (!ele.disabled) {
                         try {
@@ -241,8 +240,7 @@ function LoginForm(props: Props) {
                     }
                 })
 
-                console.log({ Email: registerValues[0], Password: registerValues[1], PhoneNumber: registerValues[3], Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 })
-                let res = await axios.post(`${process.env.REACT_APP_BASEURL}/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 });
+                let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 });
                 if (res.data.Valid != undefined) {
                     setMessage({ error: false, message: "Registered Sucssfully" })
                     props.setRegister(false);

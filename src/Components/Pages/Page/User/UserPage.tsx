@@ -90,7 +90,7 @@ function UserPage(props: Props) {
                 }
             }
         })
-        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/updatePage`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
+        const res = await axios.put(`${process.env.REACT_APP_BASEURL}/activist/`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
         try {
             if (res.data.Error.length >= 0) {
                 setMessageToUser(res.data.Error)
@@ -123,7 +123,7 @@ function UserPage(props: Props) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": c.userToken } });
+                const res = await axios.get(`${process.env.REACT_APP_BASEURL}/activist/${PageID}`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": c.userToken } });
                 if (res.data.IsOwner) {
                     setCanEditMode(true)
                 }

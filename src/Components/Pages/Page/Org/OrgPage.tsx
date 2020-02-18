@@ -105,7 +105,7 @@ function OrgPage(props: NavBarDekstopProps) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getOrganization`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": c.userToken } });
+                const res = await axios.get(`${process.env.REACT_APP_BASEURL}/organization/${OrgID}`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": c.userToken } });
                 if (res.data.Image.length > 2) {
                     setImage(res.data.Image)
                 } else {
@@ -147,7 +147,7 @@ function OrgPage(props: NavBarDekstopProps) {
         })
         try {
             //need check
-            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/editOrganization`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": c.userToken } });
+            const res = await axios.put(`${process.env.REACT_APP_BASEURL}/organization/`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": c.userToken } });
             console.log(res)
             if (res.data.Valid.length >= 0) {
                 setMessage({ error: false, text: "Updated" })

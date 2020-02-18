@@ -47,10 +47,8 @@ function App() {
   const checkToken = async () => {
     try {
       if (Cookie.get("authToken").length > 0) {
-        console.log("checking token")
-        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
+        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
         if (res.data.UserID.length > 0) {
-          console.log("setting user token to cookie")
           setUserToken(Cookie.get("authToken"))
           setUserID(res.data.UserID)
           setUserType(res.data.Type)
@@ -63,7 +61,6 @@ function App() {
         throw "no auth token"
       }
     } catch (err) {
-      console.log("Setting token blank error")
       setUserToken("")
       setUserID("")
     }
@@ -99,7 +96,6 @@ function App() {
             <Route path = '/search' component = {Search}/>
             <Route path='/login' component={onLoginPage} />
             <Route path='/page' component={UserPage} />
-            {console.log(userID)}
             <Redirect from = '/edit' to ={`/${(userType === 0) ? "page" : "organization"}?id=${userID}`} />
             <Route path='/about' component={AboutPage} />
             <Route path = '/event' component = {EventPage} />

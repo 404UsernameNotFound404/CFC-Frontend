@@ -60,6 +60,11 @@ type NavBarDekstopProps = {
 
 function NavBarDesktop(props: NavBarDekstopProps) {
     const c = useContext(AppContext)
+    const thingsToSearch = [
+        // { name: "Events", link: "/search?search=Events" },
+        { name: "Activists", link: "/search?search=Activists" },
+        { name: "Organizations", link: "/search?search=Organizations" }
+    ]
     return (
         <LightOverlay>
             <Content>
@@ -68,9 +73,9 @@ function NavBarDesktop(props: NavBarDekstopProps) {
                     {c.loggedIn ? <LinkTitle to='/edit'>{(c.userType == 0) ? "Edit Your Page" : "Edit Organization Information"}</LinkTitle> : ""}
                     <LinkTitle to='/contact'>Contact Us</LinkTitle>
                     <LinkTitle to='/about'>About Page</LinkTitle>
-                    <LinkTitle to = '/FAQ'>FAQ</LinkTitle>
+                    <LinkTitle to='/FAQ'>FAQ</LinkTitle>
                     <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-                    <DropDown options={[{name: "Events", link: "/search?search=Events"}, { name: "Activists", link: "/search?search=Activists" }, { name: "Organizations", link: "/search?search=Organizations" }]} title={"Search"} />
+                    <DropDown options={thingsToSearch} title={"Search"} />
                     {c.loggedIn ?
                         <ProfileDropDown loggedIn={c.loggedIn} logoutLogin={props.logoutLogin} /> :
                         <LinkTitle to='/login'><span onClick={props.logoutLogin}>Login</span></LinkTitle>

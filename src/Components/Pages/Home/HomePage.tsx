@@ -91,18 +91,6 @@ const ActivistsAndEventsContainer = styled.div`
     margin-bottom: 2em;
 `;
 
-const TopPartTextContainer = styled.div`
-    width: 72%;
-`;
-
-const HomePageImage = styled.img`
-    width: 28%;
-    height: 30em;
-    object-fit: cover;
-    border: 0.2em solid black;
-    border-radius: 0.2em;
-`;
-
 const PagePara = styled.p`
     font-size: 1.5em;
     width: 85%;
@@ -128,7 +116,7 @@ function HomePage() {
                     {/* <LookForActivistButton to='/search'><LookForActivistButtonText>Search For<br /> Activists<br /> Organizations <br /> Events</LookForActivistButtonText></LookForActivistButton> */}
                     <LookForActivistButton to={'/search?search=' + "Activists"}><LookForActivistButtonText>Activists</LookForActivistButtonText></LookForActivistButton>
                     <LookForActivistButton to={'/search?search=' + "Organizations"}><LookForActivistButtonText>Organizations</LookForActivistButtonText></LookForActivistButton>
-                    <LookForActivistButton to={'/search?search=' + "Events"}><LookForActivistButtonText>Events</LookForActivistButtonText></LookForActivistButton>
+                    {/* <LookForActivistButton to={'/search?search=' + "Events"}><LookForActivistButtonText>Events</LookForActivistButtonText></LookForActivistButton> */}
                 </LookForActivistButtonContainer>
                 <PagePara>
                     This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.

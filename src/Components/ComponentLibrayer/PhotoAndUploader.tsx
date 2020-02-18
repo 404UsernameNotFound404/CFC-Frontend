@@ -207,10 +207,14 @@ function PhotoUnloader(props: Props) {
             </Form>
             <Content>
                 <PhotoImage size={props.size} img={props.img}>
-                    <UploadAndDeleteButtons onMouseOver={() => { setUploadOpacity(1) }} onMouseLeave={() => { setUploadOpacity(0.2) }}>
-                        <UploadButton opacity={uploadOpacity} color={"green"} darkColor={"darkgreen"} onClick={uploadButton}>Upload A Profile Photo</UploadButton>
-                        <UploadButton opacity={uploadOpacity} color={"red"} darkColor={"darkred"} onClick={deleteProfilePhoto}>Delete Profile Photo</UploadButton>
-                    </UploadAndDeleteButtons>
+                    {
+                        props.canEdit ?
+                            <UploadAndDeleteButtons onMouseOver={() => { setUploadOpacity(1) }} onMouseLeave={() => { setUploadOpacity(0.2) }}>
+                                <UploadButton opacity={uploadOpacity} color={"green"} darkColor={"darkgreen"} onClick={uploadButton}>Upload A Profile Photo</UploadButton>
+                                <UploadButton opacity={uploadOpacity} color={"red"} darkColor={"darkred"} onClick={deleteProfilePhoto}>Delete Profile Photo</UploadButton>
+                            </UploadAndDeleteButtons>
+                            : ''
+                    }
                 </PhotoImage>
             </Content>
             <MessageToUser colour={messageToUser.colour}>{messageToUser.text}</MessageToUser>

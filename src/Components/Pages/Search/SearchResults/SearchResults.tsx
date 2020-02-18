@@ -50,7 +50,7 @@ function SearchBar(props: Props) {
     const searchOption = [
         { text: "Activists", link: "/search?search=Activists" },
         { text: "Organizations", link: "/search?search=Organizations" },
-        { text: "Events", link: "/search?search=Events" }
+        // { text: "Events", link: "/search?search=Events" }
     ];
     useEffect(() => {
         console.log("this should change")
@@ -70,7 +70,9 @@ function SearchBar(props: Props) {
                 setLoading(false);
                 return;
             }
-            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/get${props.choice}`);
+            console.log(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}`)
+            const res = await axios.get(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}`);
+            console.log(res)
             networkError = false;
             if (res.data.Error != undefined) {
                 setError(res.data.Error)
@@ -155,8 +157,6 @@ function SearchBar(props: Props) {
     if (!loading || error.length > 0) {
         return (
             <Container>
-                {/* <Error>{error}</Error> */}
-                {console.log("not loading")}
                 {ComponentToRender()}
             </Container>
         );

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
-import PhotoUploader from '../../ComponentLibrayer/PhotoUploader'
 import { AppContext } from '../../../Context/AppContext';
 import Cookie from 'js-cookie'
 import LoadingPage from '../../ComponentLibrayer/LoadingPage';
@@ -44,19 +43,6 @@ const Content = styled.div`
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin-left: 0;
         width: 100%;
-    }
-`;
-
-const ProfileImage = styled.img`
-    object-fit: cover;
-    height: 20em;
-    width: 20em;
-    border-radius: 50%;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        margin: 1em auto;
-        display: block;
-        width: 15rem;
-        height: 15rem;
     }
 `;
 
@@ -109,25 +95,21 @@ function ProfilePage(props: Props) {
 
     useEffect(() => {
         fetchAPI()
-    }, [])
-
-    const updateProfileImage = () => {
-        window.location.reload();
-    }
+    }, []);
 
     const fetchAPI = async () => {
-        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/checkIsOwner`, JSON.stringify({ PageID: props.userID }), { headers: { "Authorization": c.userToken } });
+        const res = await axios.get(`${process.env.REACT_APP_BASEURL}/user/${props.userID}`, JSON.stringify({ PageID: props.userID }), { headers: { "Authorization": c.userToken } });
         const { Name, Email, Image } = res.data;
         setName(Name);
-        setEmail(Email)
-        setImageSRC(Image)
+        setEmail(Email);
+        setImageSRC(Image);
         setLoading(false);
     }
 
     const deleteAccount = async () => {
-        await axios.post(`${process.env.REACT_APP_BASEURL}/deleteAccount`, JSON.stringify({}), { headers: { "Authorization": c.userToken } });
+        await axios.delete(`${process.env.REACT_APP_BASEURL}/user/`, JSON.stringify({}), { headers: { "Authorization": c.userToken } });
         setRedirectToHome(true);
-        Cookie.set("authToken", "")
+        Cookie.set("authToken", "");
         c.setLoggedIn(false);
     }
     

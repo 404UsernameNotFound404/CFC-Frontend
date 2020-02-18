@@ -6,6 +6,7 @@ import Cookie from 'js-cookie'
 import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 import { Redirect } from 'react-router';
 import DefaultPhoto from '../../../img/default.jpg';
+import PhotoAndUploader from '../../ComponentLibrayer/PhotoAndUploader'
 
 
 const axios = require("axios")
@@ -24,7 +25,7 @@ const Page = styled.div`
 const PageContent = styled.div`
     background-color: #a4c2f4;
     border-radius: 1em;
-    padding: 3% 6%;
+    padding: 5% 6%;
     height: 20em;
     width: fit-content;
     margin: auto;
@@ -71,6 +72,7 @@ const Name = styled.h2`
 const Email = styled.h2`
     font-size: 2.5em;
     margin: 0;
+    margin-bottom: 0.5em;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         text-align: center;
         font-size: 1.6em;
@@ -134,11 +136,10 @@ function ProfilePage(props: Props) {
             <Page>
                 {redirectToHome ? <Redirect to = "/home" /> : ''}
                 <PageContent>
-                    <ProfileImage src={imageSRC.length <= 1 ? DefaultPhoto : imageSRC} />
+                    <PhotoAndUploader update = {fetchAPI} canEdit = {true} size = "20em" img = {imageSRC.length <= 1 ? DefaultPhoto : imageSRC} />
                     <Content>
                         <Name>{name}</Name>
                         <Email>{email}</Email>
-                        <PhotoUploader update={updateProfileImage} />
                         <DeleteButton onClick = {deleteAccount}>Delete Account</DeleteButton>
                     </Content>
                 </PageContent>

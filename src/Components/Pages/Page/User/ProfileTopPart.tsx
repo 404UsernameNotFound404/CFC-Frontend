@@ -124,7 +124,7 @@ function UserPage(props: Props) {
         <TopBarContainer>
             <TopBarTopSection>
                 {/* <ProfileImage src={`${image}?${imageHash}`} /> */}
-                <PhotoAndUploader img = {`${image}?${imageHash}`} update = {update} canEdit = {canEditMode} />
+                <PhotoAndUploader size = {"12.5em"} img = {`${image}?${imageHash}`} update = {update} canEdit = {canEditMode} />
                 <TopBarTextContainer>
                     <TopBarText>{name}</TopBarText>
                     <TopBarText>{email}</TopBarText>

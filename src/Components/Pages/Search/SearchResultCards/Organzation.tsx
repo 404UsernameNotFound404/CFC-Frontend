@@ -101,6 +101,7 @@ const Email = styled.textarea`
     resize: none;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: transparent;
 `;
 
 const CopyEmail = styled.div`

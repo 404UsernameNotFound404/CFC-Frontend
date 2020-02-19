@@ -12,6 +12,7 @@ import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 import ParagraphInput from '../ParaInput'
 import { useMediaQuery } from 'react-responsive';
 import { AppContext } from '../../../../Context/AppContext';
+import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
 
 const axios = require("axios");
 
@@ -76,7 +77,7 @@ function OrgPage(props: NavBarDekstopProps) {
     const [desc, setDesc] = useState("")
     const [inputs, setInputs] = useState([]);
     const [allCategories, setAllCategories] = useState([])
-    const [message, setMessage] = useState({ error: false, text: "" })
+    const [message, setMessage] = useState({ colour: "", text: "" })
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(true);
     const [imageHash, setImageHash] = useState(0);
@@ -163,13 +164,11 @@ function OrgPage(props: NavBarDekstopProps) {
                 }
             });
             const res = await resRaw.json();
-            console.log(res)
             if (res.Valid.length >= 0) {
-                setMessage({ error: false, text: "Updated" })
+                setMessage({ colour: "green", text: "Updated" })
             }
         } catch (err) {
-            console.log(err)
-            setMessage({ error: true, text: "Error updating" })
+            setMessage({ colour: "red", text: "Error updating" })
         }
     }
 
@@ -177,7 +176,8 @@ function OrgPage(props: NavBarDekstopProps) {
         return (
             <Page>
                 {redirectToHome ? <Redirect to="/home" /> : ""}
-                <MessageToUser error={message.error}>{message.text}</MessageToUser>
+                {/* <UpdateEditButton messageToUser={messageToUser} canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} /> */}
+                <UpdateEditButton messageToUser = {message} canEdit = {true} update = {true} switchFCN = {update} />
                 {
                     (inputs.length == 4) ?
                         <>
@@ -196,7 +196,6 @@ function OrgPage(props: NavBarDekstopProps) {
                 <OrgImage src={`${image}?${imageHash}`} />
                 <PhotoUploader update={fetchAPI} />
                 <ParagraphInput width={"80%"} margin={isPhone ? "0" : "auto"} title={"Description:"} paragraphValue={desc} setParagraphValue={setDesc} editMode={true} />
-                <UpdateButton onClick={update}>Update</UpdateButton>
             </Page>
         );
     } else {

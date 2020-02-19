@@ -22,6 +22,7 @@ import ProfilePage from './Components/Pages/ProfilePage/ProfilePage';
 import PrivacyPolicy from './Components/Pages/PrivacyPolicy/PrivacyPolicy';
 import ForgotPasswordPage from './Components/Pages/ForgotPasswordPage/ForgotPage';
 import EventPage from './Components/Pages/Event/EventPage'
+import LoadingPage from './Components/ComponentLibrayer/LoadingPage';
 
 const axios = require("axios");
 
@@ -32,6 +33,11 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [userID, setUserID] = useState("");
   const [userType, setUserType] = useState(-1);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkToken();
+  }, [])
 
 
   const RedirectToLogin = () => {
@@ -45,22 +51,20 @@ function App() {
   }
 
   const checkToken = async () => {
+    let authToken = Cookie.get("authToken")
     try {
-      if (Cookie.get("authToken").length > 0) {
-        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/checkToken`, JSON.stringify({ JWTToken: Cookie.get("authToken") }));
-        if (res.data.UserID.length > 0) {
-          setUserToken(Cookie.get("authToken"))
-          setUserID(res.data.UserID)
-          setUserType(res.data.Type)
-          setLoggedIn(true)
-        } else {
-          setRedirectToLogin(true);
-          throw "auth token wrong or expired"
-        }
-      } else {
-        throw "no auth token"
-      }
+      setLoading(true);
+      if (authToken.length <= 1) throw "No Auth Token it's fine"
+      const res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/checkToken`, JSON.stringify({ JWTToken: authToken }));
+      if (res.data.UserID == undefined) throw "Invalid Token"
+      setUserToken(authToken);
+      setUserID(res.data.UserID);
+      setUserType(res.data.Type);
+      setLoggedIn(true);
+      
+      setLoading(false);
     } catch (err) {
+      if (authToken.length > 1) setRedirectToLogin(true);
       setUserToken("")
       setUserID("")
     }
@@ -76,44 +80,49 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    checkToken();
-  }, [])
+
 
   const onLoginPage = () => {
     setShowNavBar(false);
     return <Login />;
   }
 
-  return (
-    <div>
-      <AppContext.Provider value = {{login: login, userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType}}>
-        <Router>
-          {RedirectToLogin()}
-          <Route component={showNavBarFunct} />
-          <Switch>
-            <Route path='/home' component={Home} />
-            <Route path = '/search' component = {Search}/>
-            <Route path='/login' component={onLoginPage} />
-            <Route path='/page' component={UserPage} />
-            <Redirect from = '/edit' to ={`/${(userType === 0) ? "page" : "organization"}?id=${userID}`} />
-            <Route path='/about' component={AboutPage} />
-            <Route path = '/event' component = {EventPage} />
-            <Route path='/learn' component={LearningPage} />
-            <Route path = '/organization' component = {OrgPage} />
-            <Route path = '/verify' component = {VerificationPage} />
-            <Route path = '/contact' component = {ContactPage} />
-            <Route path = '/FAQ' component = {FAQ} />
-            <Route path = '/Privacy-Policy' component = {PrivacyPolicy} />
-            <Route path = '/profile' component = {() => <ProfilePage userID = {userID} />} />
-            <Route path = '/forgotPassword' component = {ForgotPasswordPage} />
-            <Route component={Home} />
-          </Switch>
-          <NavBar showNavBar={showNavBar} />
-        </Router>
-      </AppContext.Provider>
-    </div>
-  );
+  if (!loading) {
+
+    return (
+      <div>
+        <AppContext.Provider value={{ login: login, userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType }}>
+          <Router>
+            {RedirectToLogin()}
+            <Route component={showNavBarFunct} />
+            <Switch>
+              <Route path='/home' component={Home} />
+              <Route path='/search' component={Search} />
+              <Route path='/login' component={onLoginPage} />
+              <Route path='/page' component={UserPage} />
+              <Redirect from='/edit' to={`/${(userType === 0) ? "page" : "organization"}?id=${userID}`} />
+              <Route path='/about' component={AboutPage} />
+              <Route path='/event' component={EventPage} />
+              <Route path='/learn' component={LearningPage} />
+              <Route path='/organization' component={OrgPage} />
+              <Route path='/verify' component={VerificationPage} />
+              <Route path='/contact' component={ContactPage} />
+              <Route path='/FAQ' component={FAQ} />
+              <Route path='/Privacy-Policy' component={PrivacyPolicy} />
+              <Route path='/profile' component={() => <ProfilePage userID={userID} />} />
+              <Route path='/forgotPassword' component={ForgotPasswordPage} />
+              <Route component={Home} />
+            </Switch>
+            <NavBar showNavBar={showNavBar} />
+          </Router>
+        </AppContext.Provider>
+      </div>
+    );
+  } else {
+    return (
+      <LoadingPage />
+    )
+  }
 }
 
 export default App;

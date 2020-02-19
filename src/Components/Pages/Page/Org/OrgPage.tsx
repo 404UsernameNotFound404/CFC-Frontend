@@ -99,39 +99,38 @@ function OrgPage(props: NavBarDekstopProps) {
 
     const fetchAPI = async () => {
         setLoading(true);
-        let params = new URLSearchParams(document.location.search.substring(1));
-        let OrgID = params.get("id");
-        if (OrgID == null) {
-            setRedirectToHome(true);
-        } else {
-            try {
-                const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/organization/${OrgID}`, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": c.userToken
-                    }
-                });
-                const res = await resRaw.json();
-                console.log(res)
-                if (res.Image.length > 2) {
-                    setImage(res.Image)
-                } else {
-                    setImage(DefaultImage)
+        try {
+            let params = new URLSearchParams(document.location.search.substring(1));
+            let OrgID = params.get("id");
+            if (OrgID == null) throw "No Org ID"
+            if (c.userToken.length <= 1) throw "No token"
+            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/organization/${OrgID}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": c.userToken
                 }
-                setImageHash(Date.now())
-                setInputs([
-                    { title: "Email", value: res.Email, id: 0 },
-                    { title: "Link", value: res.Link, id: 1 },
-                    { title: "Name", value: res.Name, id: 2 },
-                    { title: "Location", value: res.Location, id: 3 }
-                ]);
-                setCanEdit(res.IsOwner)
-                setDesc(res.Desc)
-                const resCats = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
-                updateAllCategories(resCats.data, res.Instrests)
-            } catch (err) {
-                console.log(err);
+            });
+            const res = await resRaw.json();
+            if (res.Error != undefined) throw "Error getting org data"
+            if (res.Image.length > 2) {
+                setImage(res.Image)
+            } else {
+                setImage(DefaultImage)
             }
+            setImageHash(Date.now())
+            setInputs([
+                { title: "Email", value: res.Email, id: 0 },
+                { title: "Link", value: res.Link, id: 1 },
+                { title: "Name", value: res.Name, id: 2 },
+                { title: "Location", value: res.Location, id: 3 }
+            ]);
+            setCanEdit(res.IsOwner)
+            setDesc(res.Desc)
+            const resCats = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
+            updateAllCategories(resCats.data, res.Instrests)
+        } catch (err) {
+            setLoading(false)
+            setRedirectToHome(true);
         }
         setLoading(false);
     }
@@ -154,12 +153,22 @@ function OrgPage(props: NavBarDekstopProps) {
         })
         try {
             //need check
-            const res = await axios.put(`${process.env.REACT_APP_BASEURL}/organization/`, JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }), { headers: { "Authorization": c.userToken } });
+            console.log("trying update")
+            console.log(c.userToken)
+            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/organization/`, {
+                method: "PUT",
+                body: JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }),
+                headers: {
+                    "Authorization": c.userToken
+                }
+            });
+            const res = await resRaw.json();
             console.log(res)
-            if (res.data.Valid.length >= 0) {
+            if (res.Valid.length >= 0) {
                 setMessage({ error: false, text: "Updated" })
             }
         } catch (err) {
+            console.log(err)
             setMessage({ error: true, text: "Error updating" })
         }
     }

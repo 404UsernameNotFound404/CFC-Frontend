@@ -70,8 +70,7 @@ function SearchBar(props: Props) {
                 setLoading(false);
                 return;
             }
-            console.log(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}`)
-            const res = await axios.get(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}`);
+            const res = await axios.get(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`);
             console.log(res)
             networkError = false;
             if (res.data.Error != undefined) {

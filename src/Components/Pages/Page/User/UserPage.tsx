@@ -54,10 +54,6 @@ function UserPage(props: Props) {
     const c = useContext(AppContext);
 
     useEffect(() => {
-        fetchAPI()
-    }, []);
-
-    useEffect(() => {
         fetchAPI();
     }, [c.userToken])
 
@@ -123,25 +119,37 @@ function UserPage(props: Props) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.get(`${process.env.REACT_APP_BASEURL}/activist/${PageID}`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": c.userToken } });
-                if (res.data.IsOwner) {
+                await console.log("trying to fetch")
+                if (c.userToken.length <= 1) throw "Can't find token"
+                await console.log("token is fine")
+                await console.log(c.userToken)
+                // const res = await axios.get(`${process.env.REACT_APP_BASEURL}/activist/${PageID}`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": c.userToken } });
+                const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/${PageID}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": c.userToken
+                    }
+                })
+                const res = await resRaw.json();
+                console.log(res);
+                if (res.IsOwner) {
                     setCanEditMode(true)
                 }
-                if (res.data.Image.length > 2) {
-                    setImage(res.data.Image)
+                if (res.Image.length > 2) {
+                    setImage(res.Image)
                 } else {
                     setImage(DaxtonImage)
                 }
-                setOrginalPara1(res.data.Para1)
-                setOrginalPara2(res.data.Para2)
-                setParaInputOne(res.data.Para1)
-                setParaInputTwo(res.data.Para2)
-                setColour(res.data.Colour)
-                setName(res.data.Name)
-                setEmail(res.data.Email)
+                setOrginalPara1(res.Para1)
+                setOrginalPara2(res.Para2)
+                setParaInputOne(res.Para1)
+                setParaInputTwo(res.Para2)
+                setColour(res.Colour)
+                setName(res.Name)
+                setEmail(res.Email)
                 setLoading(false);
-                if (res.data.Categories != null) {
-                    setCategories(res.data.Categories)
+                if (res.Categories != null) {
+                    setCategories(res.Categories)
                 }
             } catch (err) {
                 //ERROR HANDLING
@@ -213,11 +221,20 @@ function UserPage(props: Props) {
         }
     }
 
+    const editButtonClicked = () => {
+        if (editMode) {
+            setEditMode(false);
+            updatePage();
+        } else {
+            setEditMode(true);
+        }
+    }
+
     if (!loading) {
         return (
             <Page>
                 {/* Split into more components */}
-                <UpdateEditButton canEdit = {canEditMode} update = {editMode} switchFCN = {() => {setEditMode(!editMode)}} />
+                <UpdateEditButton canEdit = {canEditMode} update = {editMode} switchFCN = {editButtonClicked} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
                     <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />

@@ -98,12 +98,23 @@ function ProfilePage(props: Props) {
     }, []);
 
     const fetchAPI = async () => {
-        const res = await axios.get(`${process.env.REACT_APP_BASEURL}/user/${props.userID}`, JSON.stringify({ PageID: props.userID }), { headers: { "Authorization": c.userToken } });
-        const { Name, Email, Image } = res.data;
-        setName(Name);
-        setEmail(Email);
-        setImageSRC(Image);
-        setLoading(false);
+        try {
+            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/${props.userID}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": c.userToken
+                }
+            });
+            const res = await resRaw.json();
+            console.log(res)
+            const { Name, Email, Image } = res;
+            setName(Name);
+            setEmail(Email);
+            setImageSRC(Image);
+            setLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const deleteAccount = async () => {
@@ -112,17 +123,17 @@ function ProfilePage(props: Props) {
         Cookie.set("authToken", "");
         c.setLoggedIn(false);
     }
-    
+
     if (!loading) {
         return (
             <Page>
-                {redirectToHome ? <Redirect to = "/home" /> : ''}
+                {redirectToHome ? <Redirect to="/home" /> : ''}
                 <PageContent>
-                    <PhotoAndUploader update = {fetchAPI} canEdit = {true} size = "20em" img = {imageSRC.length <= 1 ? DefaultPhoto : imageSRC} />
+                    <PhotoAndUploader update={fetchAPI} canEdit={true} size="20em" img={imageSRC.length <= 1 ? DefaultPhoto : imageSRC} />
                     <Content>
                         <Name>{name}</Name>
                         <Email>{email}</Email>
-                        <DeleteButton onClick = {deleteAccount}>Delete Account</DeleteButton>
+                        <DeleteButton onClick={deleteAccount}>Delete Account</DeleteButton>
                     </Content>
                 </PageContent>
             </Page>

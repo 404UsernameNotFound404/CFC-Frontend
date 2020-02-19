@@ -136,8 +136,8 @@ function PhotoUnloader(props: Props) {
         formData.append('image', file)
         try {
             let res = await axios({
-                url: `${process.env.REACT_APP_BASEURL}/setProfilePhoto`,
-                method: "POST",
+                url: `${process.env.REACT_APP_BASEURL}/user/photo`,
+                method: "PUT",
                 headers: {
                     authorization: c.userToken
                 },
@@ -173,7 +173,7 @@ function PhotoUnloader(props: Props) {
         try {
             setMessageToUserAndDisappear({ text: "Deleting Photo", colour: "black" })
             let res = await axios({
-                url: `${process.env.REACT_APP_BASEURL}/user/photo/`,
+                url: `${process.env.REACT_APP_BASEURL}/user/photo`,
                 method: "DELETE",
                 headers: {
                     authorization: c.userToken

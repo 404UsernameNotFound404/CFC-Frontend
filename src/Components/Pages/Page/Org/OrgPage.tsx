@@ -105,23 +105,30 @@ function OrgPage(props: NavBarDekstopProps) {
             setRedirectToHome(true);
         } else {
             try {
-                const res = await axios.get(`${process.env.REACT_APP_BASEURL}/organization/${OrgID}`, JSON.stringify({ OrgID: OrgID }), { headers: { "Authorization": c.userToken } });
-                if (res.data.Image.length > 2) {
-                    setImage(res.data.Image)
+                const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/organization/${OrgID}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": c.userToken
+                    }
+                });
+                const res = await resRaw.json();
+                console.log(res)
+                if (res.Image.length > 2) {
+                    setImage(res.Image)
                 } else {
                     setImage(DefaultImage)
                 }
                 setImageHash(Date.now())
                 setInputs([
-                    { title: "Email", value: res.data.Email, id: 0 },
-                    { title: "Link", value: res.data.Link, id: 1 },
-                    { title: "Name", value: res.data.Name, id: 2 },
-                    { title: "Location", value: res.data.Location, id: 3 }
+                    { title: "Email", value: res.Email, id: 0 },
+                    { title: "Link", value: res.Link, id: 1 },
+                    { title: "Name", value: res.Name, id: 2 },
+                    { title: "Location", value: res.Location, id: 3 }
                 ]);
-                setCanEdit(res.data.IsOwner)
-                setDesc(res.data.Desc)
+                setCanEdit(res.IsOwner)
+                setDesc(res.Desc)
                 const resCats = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
-                updateAllCategories(resCats.data, res.data.Instrests)
+                updateAllCategories(resCats.data, res.Instrests)
             } catch (err) {
                 console.log(err);
             }
@@ -178,8 +185,8 @@ function OrgPage(props: NavBarDekstopProps) {
                 }
                 <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={[]} editMode={true} />
                 <OrgImage src={`${image}?${imageHash}`} />
-                <PhotoUploader update = {fetchAPI} />
-                <ParagraphInput width = {"80%"} margin = {isPhone ? "0" : "auto"} title = {"Description:"} paragraphValue = {desc} setParagraphValue = {setDesc} editMode = {true} />
+                <PhotoUploader update={fetchAPI} />
+                <ParagraphInput width={"80%"} margin={isPhone ? "0" : "auto"} title={"Description:"} paragraphValue={desc} setParagraphValue={setDesc} editMode={true} />
                 <UpdateButton onClick={update}>Update</UpdateButton>
             </Page>
         );

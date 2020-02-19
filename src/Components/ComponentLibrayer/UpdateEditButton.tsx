@@ -6,7 +6,7 @@ type ComponentProps = {
 }
 
 const Component = styled.div<ComponentProps>`
-    width: 8em;
+    width: 8rem;
     margin-left: auto;
     padding: 0.1em 0;
     border: 0.2em black solid;
@@ -48,14 +48,29 @@ const FullWidth = styled.div`
    
 `;
 
+type MessageToUserProps = {
+    colour: string
+}
+
+const MessageToUser = styled.h3<MessageToUserProps>`
+    font-size: 1.25em;
+    margin: 0.5em 0;
+    margin-left: auto;
+    min-width: 8rem;
+    width: fit-content;
+    text-align: center;
+    color: ${p => p.colour};
+`;
+
 type Props = {
     update: boolean,
     switchFCN: any,
-    canEdit: boolean
+    canEdit: boolean,
+    messageToUser: {text: string, colour: string}
 }
 
 function UpdateEditButton(props: Props) {
-    const { update, switchFCN, canEdit } = props;
+    const { update, switchFCN, canEdit, messageToUser } = props;
     if (canEdit) {
         return (
             <FullWidth>
@@ -63,6 +78,7 @@ function UpdateEditButton(props: Props) {
                     <Component update={update} onClick={switchFCN}>
                         <Text>{update ? "Update" : "Edit"}</Text>
                     </Component>
+                    <MessageToUser colour = {messageToUser.colour}>{messageToUser.text}</MessageToUser>
                 </Container>
             </FullWidth>
         )

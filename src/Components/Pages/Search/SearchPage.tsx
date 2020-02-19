@@ -75,6 +75,7 @@ function LinksContainer() {
     const fetchCatagories = async () => {
         try {
             const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
+            console.log(res.data)
             setAllCategories(res.data);
             setCategoriesToNotAllow([])
             setLoadingCategories(false);
@@ -90,7 +91,7 @@ function LinksContainer() {
                     <SearchBoxTitle>What are you looking for?</SearchBoxTitle> :
                     <>
                         <SearchBoxTitle>What category are you looking for?</SearchBoxTitle>
-                        {/* <CategorySearch loading={loadingCategories} setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} /> */}
+                        <CategorySearch loading={loadingCategories} setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
                     </>
                 }
             </TopPartPage>

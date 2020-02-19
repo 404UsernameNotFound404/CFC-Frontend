@@ -43,7 +43,7 @@ function UserPage(props: Props) {
     const [name, setName] = useState("");
     const [orginalPara1, setOrginalPara1] = useState("");
     const [orginalPara2, setOrginalPara2] = useState("");
-    const [messageToUser, setMessageToUser] = useState("");
+    const [messageToUser, setMessageToUser] = useState({text: "", colour: "black"});
     const [deleteChanges, setDeleteChanges] = useState(false);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
@@ -58,6 +58,7 @@ function UserPage(props: Props) {
     }, [c.userToken])
 
     const updatePage = async () => {
+        console.log("trying to update")
         let activeTags: any = []
         allCategories.map(ele => {
             if (!ele.disabled) {
@@ -68,13 +69,14 @@ function UserPage(props: Props) {
                 }
             }
         })
+        console.log(activeTags)
         if (orginalPara1 == paraInputOne && orginalPara2 == paraInputTwo && (compareArrays(activeTags, categories) || allCategories.length == 0)) {
-            setMessageToUser("successfully updated page")
+            setMessageToUser({text: "successfully updated page", colour: "green"})
             setEditMode(false);
             return
         }
         if (paraInputOne.length < 50 || paraInputTwo.length < 50) {
-            setMessageToUser("Paragraphs need to be at least 50 characters")
+            setMessageToUser({text: "Paragraphs need to be at least 50 characters", colour: "red"})
         }
         activeTags = []
         allCategories.map(ele => {
@@ -86,8 +88,8 @@ function UserPage(props: Props) {
                 }
             }
         })
-        const res = await axios.put(`${process.env.REACT_APP_BASEURL}/activist/`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
         try {
+            const res = await axios.put(`${process.env.REACT_APP_BASEURL}/activist/`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
             if (res.data.Error.length >= 0) {
                 setMessageToUser(res.data.Error)
                 return
@@ -119,11 +121,6 @@ function UserPage(props: Props) {
             setRedirectToHome(true);
         } else {
             try {
-                await console.log("trying to fetch")
-                if (c.userToken.length <= 1) throw "Can't find token"
-                await console.log("token is fine")
-                await console.log(c.userToken)
-                // const res = await axios.get(`${process.env.REACT_APP_BASEURL}/activist/${PageID}`, JSON.stringify({ PageID: PageID }), { headers: { "Authorization": c.userToken } });
                 const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/${PageID}`, {
                     method: "GET",
                     headers: {
@@ -131,7 +128,6 @@ function UserPage(props: Props) {
                     }
                 })
                 const res = await resRaw.json();
-                console.log(res);
                 if (res.IsOwner) {
                     setCanEditMode(true)
                 }
@@ -160,6 +156,7 @@ function UserPage(props: Props) {
 
     const switchEditMode = () => {
         //add loading symbol for this call
+        console.log(allCategories)
         if (allCategories.length <= 0) {
             getAllCategories();
         } else {
@@ -171,15 +168,9 @@ function UserPage(props: Props) {
                 resetParagraphsOrginalsAndSendMessage(false, "");
                 return
             }
-            if (orginalPara1 != paraInputOne || orginalPara2 != paraInputTwo) {
-                setDeleteChanges(true);
-                setMessageToUser("Un updated changes. Click again if you want to delete changes")
-                return
-            }
-            setMessageToUser("");
-            setEditMode(false);
+            updatePage();
         } else {
-            setMessageToUser("");
+            setMessageToUser({text: "", colour: "black"});
             if (allCategories.length < 0) {
                 getAllCategories();
             }
@@ -188,6 +179,7 @@ function UserPage(props: Props) {
     }
 
     const getAllCategories = async () => {
+        console.log("gettind cats")
         const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
         console.log(res.data)
         updateAllCategories(res.data)
@@ -207,7 +199,7 @@ function UserPage(props: Props) {
     }
 
     const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean, message: string) => {
-        setMessageToUser(message);
+        setMessageToUser({text: message, colour: "black"});
         setEditMode(false);
         if (setOrginal) {
             setOrginalPara1(paraInputOne);
@@ -221,23 +213,14 @@ function UserPage(props: Props) {
         }
     }
 
-    const editButtonClicked = () => {
-        if (editMode) {
-            setEditMode(false);
-            updatePage();
-        } else {
-            setEditMode(true);
-        }
-    }
-
     if (!loading) {
         return (
             <Page>
                 {/* Split into more components */}
-                <UpdateEditButton canEdit = {canEditMode} update = {editMode} switchFCN = {editButtonClicked} />
+                <UpdateEditButton messageToUser = {messageToUser} canEdit = {canEditMode} update = {editMode} switchFCN = {switchEditMode} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} messageToUser={messageToUser} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
+                    <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
                     <TextContent>
                         <ParagraphInput width = {"80%"} margin = {"auto"} title = {"Who Am I?"} paragraphValue = {paraInputOne} setParagraphValue = {setParaInputOne} editMode = {editMode} />
                         <ParagraphInput width = {"80%"} margin = {"auto"} title = {"What I Stand For"} paragraphValue = {paraInputTwo} setParagraphValue = {setParaInputTwo} editMode = {editMode} />

@@ -102,7 +102,6 @@ type Props = {
     canEditMode: boolean,
     editMode: boolean,
     updateFunction: Function,
-    messageToUser: string,
     switchEditMode: Function,
     allCategories: any,
     setAllCategories: any,
@@ -113,7 +112,7 @@ type Props = {
 
 function UserPage(props: Props) {
     const [imageHash, setImageHash] = useState(0)
-    const {image, profilePhoto, name, email, canEditMode, editMode, messageToUser, updateFunction, switchEditMode, allCategories, setAllCategories, categories} = props;
+    const {image, profilePhoto, name, email, canEditMode, editMode, updateFunction, switchEditMode, allCategories, setAllCategories, categories} = props;
     
     const update = () => {
         props.update()
@@ -129,10 +128,6 @@ function UserPage(props: Props) {
                     <TopBarText>{name}</TopBarText>
                     <TopBarText>{email}</TopBarText>
                 </TopBarTextContainer>
-                {canEditMode ?
-                    <EditButtonContianer>
-                        <MessageToUser>{messageToUser}</MessageToUser>
-                    </EditButtonContianer> : ''}
             </TopBarTopSection>
             {/* {canEditMode ? <PhotoAndUploader img = {`${image}?${imageHash}`} update = {update} /> : ''} */}
             <PageCategoryContainer>

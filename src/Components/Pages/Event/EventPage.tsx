@@ -92,7 +92,7 @@ function EventPage() {
 
     return (
         <Page>
-            <UpdateEditButton canEdit={canEdit} update={update} switchFCN={() => { setUpdate(!update) }} />
+            {/* <UpdateEditButton messageToUser = {"TODO"} canEdit={canEdit} update={update} switchFCN={() => { setUpdate(!update) }} /> */}
             <Title>{title}</Title>
             <BlackLine />
             <ParaInput width={"100%"} paragraphValue={desc} setParagraphValue={setDesc} editMode={update} title={"Description"} margin={"auto"} />

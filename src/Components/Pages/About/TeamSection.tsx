@@ -39,7 +39,9 @@ function TeamSection() {
     }
 
     const getATeamMember = async (id: string, role: string) => {
-        let resRaw = await fetch(process.env.REACT_APP_BASEURL + "/checkIsOwner", { method: "POST", body: JSON.stringify({ PageID: id }) });
+        const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/${id}`, {
+            method: "GET"
+        })
         let res = await resRaw.json();
         res = { ...res, role: role, id: id }
         return res

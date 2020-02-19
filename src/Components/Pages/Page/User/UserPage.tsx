@@ -89,6 +89,7 @@ function UserPage(props: Props) {
             }
         })
         try {
+            setMessageToUser({text: "Updating...", colour: "black"})
             const res = await axios.put(`${process.env.REACT_APP_BASEURL}/activist/`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
             if (res.data.Error.length >= 0) {
                 setMessageToUser(res.data.Error)
@@ -199,7 +200,7 @@ function UserPage(props: Props) {
     }
 
     const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean, message: string) => {
-        setMessageToUser({text: message, colour: "black"});
+        setMessageToUser({text: message, colour: "green"});
         setEditMode(false);
         if (setOrginal) {
             setOrginalPara1(paraInputOne);

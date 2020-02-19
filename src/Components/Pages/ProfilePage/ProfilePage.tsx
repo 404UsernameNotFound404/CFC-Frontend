@@ -99,6 +99,7 @@ function ProfilePage(props: Props) {
 
     const fetchAPI = async () => {
         try {
+            if (c.userToken.length <= 1) throw "User not logged in"
             const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/${props.userID}`, {
                 method: "GET",
                 headers: {
@@ -113,7 +114,8 @@ function ProfilePage(props: Props) {
             setImageSRC(Image);
             setLoading(false);
         } catch (err) {
-            console.log(err);
+            setLoading(false);
+            setRedirectToHome(true);
         }
     }
 
@@ -129,7 +131,7 @@ function ProfilePage(props: Props) {
             <Page>
                 {redirectToHome ? <Redirect to="/home" /> : ''}
                 <PageContent>
-                    <PhotoAndUploader update={fetchAPI} canEdit={true} size="20em" img={imageSRC.length <= 1 ? DefaultPhoto : imageSRC} />
+                    <PhotoAndUploader update={fetchAPI} canEdit={true} size="20em" img={imageSRC == undefined ? DefaultPhoto : imageSRC} />
                     <Content>
                         <Name>{name}</Name>
                         <Email>{email}</Email>

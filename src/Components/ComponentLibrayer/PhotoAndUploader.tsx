@@ -170,7 +170,8 @@ function PhotoUnloader(props: Props) {
         getFileUpload.click();
     }
 
-    const deleteProfilePhoto = async () => {
+    const deleteProfilePhoto = async (e: any) => {
+        try {e.preventDefault() } catch(err) {}
         try {
             setMessageToUserAndDisappear({ text: "Deleting Photo", colour: "black" })
             let res = await axios({
@@ -201,7 +202,7 @@ function PhotoUnloader(props: Props) {
 
     return (
         <Component>
-            <Form>
+            <Form onSubmit = {(e: any) => {e.preventDefault()}}>
                 <div style={{ height: '0', overflow: 'hidden' }}>
                     <GhostInput id={randID} type="file" onChange={getFileToUpload} accept="image/*" data-sigil="photo-input"></GhostInput>
                 </div>

@@ -4,10 +4,16 @@ import CategoryTag from './CategoryTag'
 
 const axios = require("axios");
 
-const Content = styled.div`
-    width: 100%;
+type ContentProp = {
+    margin: string
+}
+
+const Content = styled.div<ContentProp>`
+    /* min-width: 60em; */
+    max-width: 100%;
+    width: fit-content;
     height: fit-content;
-    margin: 1em auto;
+    margin: 1em ${p => p.margin};
     display: flex;
     flex-wrap: wrap;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
@@ -20,14 +26,20 @@ type Props = {
     categories: { Name: string, ID: string, Colour: string }[],
     allCategories: any,
     setAllCategories: any,
-    width: string
+    width: string,
+    margin?: string
+}
+
+const defaultProps = {
+    margin: 'auto'
 }
 
 function PageCategories(props: Props) {
     const [loading, setLoading] = useState(true);
     const { allCategories, setAllCategories, editMode, categories, width } = props;
-
+    const margin = props.margin == undefined ? defaultProps.margin : props.margin;
     useEffect(() => {
+        console.log(props.margin)
         if (setAllCategories != null) fetchCategories();
     }, [])
 
@@ -72,14 +84,13 @@ function PageCategories(props: Props) {
 
     if (!editMode) {
         return (
-            <Content>
+            <Content margin = {margin}>
                 {categories.map((ele, i: number) => <CategoryTag width={width} id={""} clickFunction={() => { }} clickable={false} disabled={false} name={ele.Name} colour={ele.Colour} key={i} />)}
             </Content>
         );
     } else {
         return (
-            <Content>
-                {console.log("doing all cats")}
+            <Content margin = {margin}>
                 {allCategories.map((ele: any, i: number) => <CategoryTag width={width} id={ele.ID} clickFunction={disable} clickable={true} disabled={ele.disabled} name={ele.Name} colour={ele.Colour} key={i} />)}
             </Content>
         );

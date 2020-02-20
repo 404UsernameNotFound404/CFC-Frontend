@@ -6,13 +6,12 @@ import {
 } from "react-router-dom";
 import SingleLineInput from "../../../ComponentLibrayer/InputForSingleLine";
 import PageCategories from '../PageCategories'
-import PhotoUploader from '../../../ComponentLibrayer/PhotoUploader'
 import DefaultImage from '../../../../img/default.jpg'
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
 import ParagraphInput from '../ParaInput'
-import { useMediaQuery } from 'react-responsive';
 import { AppContext } from '../../../../Context/AppContext';
 import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
+import PhotoAndUploader from '../../../ComponentLibrayer/PhotoAndUploader';
 
 const axios = require("axios");
 
@@ -67,22 +66,30 @@ const MessageToUser = styled.h1<MessageToUserProps>`
     color: ${p => p.error ? "red" : "green"};
 `;
 
-type NavBarDekstopProps = {
-    logoutLogin: any
-}
+const TopSection = styled.div`
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
+        display: block;
+    }
+`;
 
-function OrgPage(props: NavBarDekstopProps) {
+const BasicInfoInputSection = styled.div`
+    margin: auto;
+    margin-left: 2em;
+`;
+
+function OrgPage() {
     const [canEdit, setCanEdit] = useState(false);
     const [redirectToHome, setRedirectToHome] = useState(false);
     const [desc, setDesc] = useState("")
-    const [inputs, setInputs] = useState([]);
+    const [inputs, setInputs] = useState([{ id: -1, value: "", title: "" }, { id: -1, value: "", title: "" }, { id: -1, value: "", title: "" }, { id: -1, value: "", title: "" }]);
     const [allCategories, setAllCategories] = useState([]);
     const [categories, setCategories] = useState([]);
     const [message, setMessage] = useState({ colour: "", text: "" })
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(true);
-    const [imageHash, setImageHash] = useState(0);
-    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK) });
     const c = useContext(AppContext);
     useEffect(() => {
         fetchAPI()
@@ -121,7 +128,6 @@ function OrgPage(props: NavBarDekstopProps) {
             }
             await console.log(res.Instrests)
             setCategories(res.Instrests)
-            setImageHash(Date.now())
             setInputs([
                 { title: "Email", value: res.Email, id: 0 },
                 { title: "Link", value: res.Link, id: 1 },
@@ -147,9 +153,6 @@ function OrgPage(props: NavBarDekstopProps) {
         })
         try {
             //need check
-            console.log("trying update")
-            console.log(c.userToken)
-            await console.log(catIdArray)
             const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/organization/`, {
                 method: "PUT",
                 body: JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }),
@@ -171,25 +174,22 @@ function OrgPage(props: NavBarDekstopProps) {
             <Page>
                 {redirectToHome ? <Redirect to="/home" /> : ""}
                 {/* <UpdateEditButton messageToUser={messageToUser} canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} /> */}
-                <UpdateEditButton messageToUser = {message} canEdit = {true} update = {true} switchFCN = {update} />
-                {
-                    (inputs.length == 4) ?
-                        <>
-                            <InputContainer>
-                                <SingleLineInput value={inputs[0].value} id={inputs[0].id} title={inputs[0].title} update={updateInput} />
-                                <SingleLineInput value={inputs[1].value} id={inputs[1].id} title={inputs[1].title} update={updateInput} />
-                            </InputContainer>
-                            <InputContainer>
-                                <SingleLineInput value={inputs[2].value} id={inputs[2].id} title={inputs[2].title} update={updateInput} />
-                                <SingleLineInput value={inputs[3].value} id={inputs[3].id} title={inputs[3].title} update={updateInput} />
-                            </InputContainer>
-                        </>
-                        : ""
-                }
-                <PageCategories width={"10em"} allCategories = {allCategories} setAllCategories = {setAllCategories} categories={categories} editMode={true} />
-                <OrgImage src={`${image}?${imageHash}`} />
-                <PhotoUploader update={fetchAPI} />
-                <ParagraphInput width={"80%"} margin={isPhone ? "0" : "auto"} title={"Description:"} paragraphValue={desc} setParagraphValue={setDesc} editMode={true} />
+                <UpdateEditButton messageToUser={message} canEdit={true} update={true} switchFCN={update} />
+                <TopSection>
+                    <PhotoAndUploader size={"15em"} canEdit={true} img={image} update={fetchAPI} />
+                    <BasicInfoInputSection>
+                        <InputContainer>
+                            <SingleLineInput value={inputs[0].value} id={inputs[0].id} title={inputs[0].title} update={updateInput} />
+                            <SingleLineInput value={inputs[1].value} id={inputs[1].id} title={inputs[1].title} update={updateInput} />
+                        </InputContainer>
+                        <InputContainer>
+                            <SingleLineInput value={inputs[2].value} id={inputs[2].id} title={inputs[2].title} update={updateInput} />
+                            <SingleLineInput value={inputs[3].value} id={inputs[3].id} title={inputs[3].title} update={updateInput} />
+                        </InputContainer>
+                    </BasicInfoInputSection>
+                </TopSection>
+                <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={true} />
+                <ParagraphInput width={"80%"} margin={"auto"} title={"Description:"} paragraphValue={desc} setParagraphValue={setDesc} editMode={true} />
             </Page>
         );
     } else {

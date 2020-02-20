@@ -15,8 +15,7 @@ const Content = styled.div<ContentProps>`
     width: ${p => p.width};
     max-width: 8em;
     height: fit-content;
-    margin: 0.5em 0;
-    margin-right: 5%;
+    margin: 0.5em 1.5em;
     display: flex;
     justify-content: center;
     border-radius: 0.5em;

@@ -30,6 +30,9 @@ const LookForActivistButtonContainer = styled.div`
     display: flex;
     margin-top: 0em;
     margin-bottom: 4em;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        display: block;
+    }
 `;
 
 const PageTitle = styled.h1`
@@ -56,14 +59,9 @@ const LookForActivistButton = styled(Link)`
     font-size: 2em;
     width: 5em;
     height: 5em;
-    padding: 0.5em 1em;
     border-radius: 1em;
     margin: 0em auto;
     margin-top: 1em;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        margin-top: 1em;
-        border: black 0.1em solid;
-    }
     transition: 0.3s background-color linear, 0.3s color linear;
     text-decoration: none;
     border-radius: 50%;
@@ -74,12 +72,19 @@ const LookForActivistButton = styled(Link)`
         color: white;
         border-color: transparent;
     }
+     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        width: 6.5em;
+        height: 6.5em;
+        padding: 0;
+        margin: auto;
+        margin-top: 1em;
+        border: black 0.1em solid;
+    }
 `;
 
 const LookForActivistButtonText = styled.h1`
     font-size: 1em;
     margin: auto;
-
 `;
 
 const BlueHighlight = styled.span`
@@ -113,7 +118,6 @@ function HomePage() {
                 <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
                 <SearchFor>Search For</SearchFor>
                 <LookForActivistButtonContainer>
-                    {/* <LookForActivistButton to='/search'><LookForActivistButtonText>Search For<br /> Activists<br /> Organizations <br /> Events</LookForActivistButtonText></LookForActivistButton> */}
                     <LookForActivistButton to={'/search?search=' + "Activists"}><LookForActivistButtonText>Activists</LookForActivistButtonText></LookForActivistButton>
                     <LookForActivistButton to={'/search?search=' + "Organizations"}><LookForActivistButtonText>Organizations</LookForActivistButtonText></LookForActivistButton>
                     {/* <LookForActivistButton to={'/search?search=' + "Events"}><LookForActivistButtonText>Events</LookForActivistButtonText></LookForActivistButton> */}

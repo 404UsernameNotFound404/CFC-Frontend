@@ -30,12 +30,10 @@ function TeamSection() {
             let allRes = await Promise.all(teamMemberData.map(ele => {
                 return getATeamMember(ele.id, ele.role)
             }))
-            console.log(allRes)
             setTeamMemberData(allRes);
             setLoading(false);
-        } catch (err) {
-            console.log(err)
-        }
+        } catch (err) { }
+        //consider error handling
     }
 
     const getATeamMember = async (id: string, role: string) => {
@@ -50,7 +48,7 @@ function TeamSection() {
         return (
             <Component>
                 {
-                    teamMemberData.map((ele: any) => <ActivistPage width={"30%"} name={ele.Name} ID={ele.id} Categories={ele.Categories} image={ele.Image.length <= 1 ? DefaultPhoto : ele.Image} para={ele.Para1}></ActivistPage>)
+                    teamMemberData.map((ele: any, i: number) => <ActivistPage width={"30%"} name={ele.Name} ID={ele.id} Categories={ele.Categories} image={ele.Image.length <= 1 ? DefaultPhoto : ele.Image} para={ele.Para1} key = {i} />)
                 }
             </Component>
         )

@@ -28,7 +28,7 @@ function PageCategories(props: Props) {
     const { allCategories, setAllCategories, editMode, categories, width } = props;
 
     useEffect(() => {
-        fetchCategories();
+        if (setAllCategories != null) fetchCategories();
     }, [])
 
     useEffect(() => {

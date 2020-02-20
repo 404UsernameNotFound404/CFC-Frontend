@@ -51,12 +51,10 @@ function SlideContainer(props: Props) {
             <ButtonForTransition end={(parseInt(slide[0]) == children.length - 1)} start={(parseInt(slide) == 0)} slideTransition={slideTransition} />
             <Content transformDistance={slide}>
                 {
-                    children.map((ele: ReactNode, i: Number) => {
+                    children.map((ele: ReactNode, i: number) => {
                         let end = (i == children.length - 1)
                         return (
-                            <Slide widthOfPage={width}>
-                                {ele}
-                            </Slide>);
+                            <Slide widthOfPage={width} key = {i}>{ele}</Slide>);
                     })
                 }
             </Content>

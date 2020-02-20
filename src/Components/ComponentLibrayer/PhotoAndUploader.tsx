@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { AppContext } from "../../Context/AppContext";
+import DefaultPhoto from '../../img/default.jpg';
 
 const axios = require("axios");
 
@@ -206,7 +207,7 @@ function PhotoUnloader(props: Props) {
                 </div>
             </Form>
             <Content>
-                <PhotoImage size={props.size} img={props.img}>
+                <PhotoImage size={props.size} img={props.img == undefined || props.img.length <= 1 ? DefaultPhoto: props.img}>
                     {
                         props.canEdit ?
                             <UploadAndDeleteButtons onMouseOver={() => { setUploadOpacity(1) }} onMouseLeave={() => { setUploadOpacity(0.2) }}>

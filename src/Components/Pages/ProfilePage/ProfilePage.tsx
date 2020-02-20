@@ -121,8 +121,7 @@ function ProfilePage(props: Props) {
 
     const deleteAccount = async () => {
         try {
-            let res = await axios.delete(`${process.env.REACT_APP_BASEURL}/user`, JSON.stringify({}), { headers: { "Authorization": c.userToken } });
-            console.log(res)
+            await axios.delete(`${process.env.REACT_APP_BASEURL}/user`, JSON.stringify({}), { headers: { "Authorization": c.userToken } });
             setRedirectToHome(true);
             Cookie.set("authToken", "");
             c.setLoggedIn(false);
@@ -136,7 +135,7 @@ function ProfilePage(props: Props) {
             <Page>
                 {redirectToHome ? <Redirect to="/home" /> : ''}
                 <PageContent>
-                    <PhotoAndUploader update={fetchAPI} canEdit={true} size="20em" img={imageSRC == undefined ? DefaultPhoto : imageSRC} />
+                    <PhotoAndUploader update={fetchAPI} canEdit={true} size="20em" img={imageSRC} />
                     <Content>
                         <Name>{name}</Name>
                         <Email>{email}</Email>

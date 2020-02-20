@@ -61,14 +61,9 @@ function UserPage(props: Props) {
         let activeTags: any = []
         allCategories.map(ele => {
             if (!ele.disabled) {
-                try {
-                    activeTags.push(ele)
-                } catch (err) {
-                    console.log(err)
-                }
+                activeTags.push(ele)
             }
         })
-        console.log(activeTags)
         if (orginalPara1 == paraInputOne && orginalPara2 == paraInputTwo && (compareArrays(activeTags, categories) || allCategories.length == 0)) {
             setMessageToUser({ text: "successfully updated page", colour: "green" })
             setEditMode(false);
@@ -80,11 +75,7 @@ function UserPage(props: Props) {
         activeTags = []
         allCategories.map(ele => {
             if (!ele.disabled) {
-                try {
-                    activeTags.push(parseInt(ele.ID))
-                } catch (err) {
-                    console.log(err)
-                }
+                activeTags.push(parseInt(ele.ID))
             }
         })
         try {
@@ -103,7 +94,7 @@ function UserPage(props: Props) {
     }
 
     const compareArrays = (array1: any, array2: any) => {
-        if (array1.length === array2.length) {
+        if (array1.length == array2.length) {
             return !array1.find((ele: any) => {
                 return array2.find((ele2: any) => {
                     return ele2 != ele
@@ -190,7 +181,7 @@ function UserPage(props: Props) {
                 <UpdateEditButton messageToUser={messageToUser} canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <ProfileTopPart update={fetchAPI} image={image} allCategories = {allCategories} setAllCategories = {setAllCategories}  name={name} email={email} canEditMode={canEditMode} editMode={editMode}  categories={categories} />
+                    <ProfileTopPart update={fetchAPI} image={image} allCategories={allCategories} setAllCategories={setAllCategories} name={name} email={email} canEditMode={canEditMode} editMode={editMode} categories={categories} />
                     <TextContent>
                         <ParagraphInput width={"80%"} margin={"auto"} title={"Who Am I?"} paragraphValue={paraInputOne} setParagraphValue={setParaInputOne} editMode={editMode} />
                         <ParagraphInput width={"80%"} margin={"auto"} title={"What I Stand For"} paragraphValue={paraInputTwo} setParagraphValue={setParaInputTwo} editMode={editMode} />

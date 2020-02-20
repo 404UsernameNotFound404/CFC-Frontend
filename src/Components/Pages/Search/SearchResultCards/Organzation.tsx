@@ -192,7 +192,7 @@ function Organzation(props: Props) {
             {props.desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>See More</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={props.link}>{props.link.length >= 35 ? (props.link.substring(0, 35) + "...") : props.link}</LinkToWebite>
             <LogoOfOrg src={props.image} />
-            <PageCategories editMode={false} categories={props.interests} allCategories={[]} setAllCategories={[]} width={"100%"} />
+            <PageCategories allCategories = {[]} setAllCategories = {null} editMode={false} categories={props.interests} width={"100%"} />
         </Container>
     );
 }

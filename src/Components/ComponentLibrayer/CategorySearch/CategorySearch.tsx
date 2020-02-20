@@ -21,34 +21,41 @@ const LoadingGif = styled.img`
 `;
 
 type Props = {
-    categories: string[][],
     categoryButtons: any,
     setCategoryButtons: any,
     categoriesToNotAllow: any,
     setCategoriesToNotAllow: any,
-    loading: boolean
 }
 
 function CategorySearch(props: Props) {
+    const [loading, setLoading] = useState(true);
     const [firstTimePick, setFirstTimePick] = useState(true);
-    const {categoriesToNotAllow, setCategoriesToNotAllow, categoryButtons, setCategoryButtons, loading} = props;
+    const [categories, setCategories] = useState([]);
+    const { categoriesToNotAllow, setCategoriesToNotAllow, categoryButtons, setCategoryButtons } = props;
 
     useEffect(() => {
         buildCategoryButtons();
-    }, [props.categories])
+    }, [])
 
-    const buildCategoryButtons = () => {
-        console.log(props.categories)
-        setCategoryButtons(
-            props.categories.map((ele: any, i) => {
-                return {
-                    text: ele.Name,
-                    colour: ele.Colour,
-                    active: true,
-                    id: ele.ID
-                }
-            })
-        );
+    const buildCategoryButtons = async () => {
+        try {
+            const res = await fetch(`${process.env.REACT_APP_BASEURL}/getCategories`, {method: "GET"});
+            let allCategories = await res.json()
+            setCategories(allCategories)
+            setCategoryButtons(
+                allCategories.map((ele: any) => {
+                    return {
+                        text: ele.Name,
+                        colour: ele.Colour,
+                        active: true,
+                        id: ele.ID
+                    }
+                })
+            );
+            setLoading(false);
+        } catch (err) {
+
+        }
     }
 
     const activateButton = (id: number) => {
@@ -62,7 +69,7 @@ function CategorySearch(props: Props) {
                     ele.active = true;
                 } else {
                     ele.active = false;
-                   
+
                 }
                 return ele;
             });
@@ -73,8 +80,8 @@ function CategorySearch(props: Props) {
             if (ele.id === id) {
                 if (ele.active) {
                     let temp = [];
-                    for(let x = 0;x < categoriesToNotAllow.length; x++) {
-                        if(categoriesToNotAllow[x] != id) {
+                    for (let x = 0; x < categoriesToNotAllow.length; x++) {
+                        if (categoriesToNotAllow[x] != id) {
                             temp.push(categoriesToNotAllow[x])
                         }
                     }
@@ -89,10 +96,10 @@ function CategorySearch(props: Props) {
             }
             return ele;
         });
-        if(!newArray.find((ele: any) => ele.active)) {
+        if (!newArray.find((ele: any) => ele.active)) {
             setFirstTimePick(true)
             newArray = newArray.map((ele: any) => {
-                return {...ele, active: true}
+                return { ...ele, active: true }
             })
         }
         setCategoryButtons(newArray);
@@ -100,12 +107,12 @@ function CategorySearch(props: Props) {
 
     return (
         <Container>
-            {!loading ? 
-            categoryButtons.map((ele: any, i: any) => {
-                return <CategoryButton colour = {ele.colour} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} key = {i} />
-            })
-            :
-            <LoadingPage />
+            {!loading ?
+                categoryButtons.map((ele: any, i: any) => {
+                    return <CategoryButton colour={ele.colour} activateButton={activateButton} text={ele.text} active={ele.active} id={ele.id} key={i} />
+                })
+                :
+                <LoadingPage />
             }
         </Container>
     );

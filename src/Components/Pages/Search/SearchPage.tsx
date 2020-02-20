@@ -37,17 +37,12 @@ const SearchBoxSubTitle = styled.h4`
 
 
 function LinksContainer() {
-    const [loadingCategories, setLoadingCategories] = useState(true);
     const [allCategories, setAllCategories] = useState([]);
     const [categoryButtons, setCategoryButtons] = useState([]);
     const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
     const [whatYourSearching, setWhatYourSearching] = useState(null);
     const [pickedCategory, setPickedCategory] = useState(false);
     const thingsToSearch = ["Activists", "Events", "Organizations", null]
-
-    useEffect(() => {
-        fetchCatagories();
-    }, []);
 
     useEffect(() => {
         if (checkIfSearchParamsChanges() != whatYourSearching) {
@@ -72,27 +67,17 @@ function LinksContainer() {
         return params.get("search");
     }
 
-    const fetchCatagories = async () => {
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
-            console.log(res.data)
-            setAllCategories(res.data);
-            setCategoriesToNotAllow([])
-            setLoadingCategories(false);
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
     return (
         <PageContainer>
             <TopPartPage>
-                {!(whatYourSearching == "Organizations" || whatYourSearching == "Activists" || whatYourSearching == "Events") ? 
-                    <SearchBoxTitle>What are you looking for?</SearchBoxTitle> :
-                    <>
-                        <SearchBoxTitle>What category are you looking for?</SearchBoxTitle>
-                        <CategorySearch loading={loadingCategories} setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} categories={allCategories} />
-                    </>
+                {
+                    !(whatYourSearching == "Organizations" || whatYourSearching == "Activists" || whatYourSearching == "Events") ?
+                        <SearchBoxTitle>What are you looking for?</SearchBoxTitle> 
+                        :
+                        <>
+                            <SearchBoxTitle>What category are you looking for?</SearchBoxTitle>
+                            <CategorySearch setCategoriesToNotAllow={setCategoriesToNotAllow} categoriesToNotAllow={categoriesToNotAllow} categoryButtons={categoryButtons} setCategoryButtons={setCategoryButtons} />
+                        </>
                 }
             </TopPartPage>
             <SearchActivists choice={whatYourSearching} categoriesToNotAllow={categoriesToNotAllow} />

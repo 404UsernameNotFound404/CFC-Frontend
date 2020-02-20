@@ -33,7 +33,7 @@ function PrivacyPolicy() {
         <Page>
             <Title>Privacy Policy</Title>
             <Para>
-                We only collect the data you input to us. E.X when you register you give use your email and potential your phone. When you delete your account we don’t save your information for any time period.
+                We only collect the data you input to us, e.g. when you register you give us your email and potentially your phone number. When you delete your account we don’t save your information for any time period.
             </Para>
             <Para>
                 If you are concerned and would like to get in contact.

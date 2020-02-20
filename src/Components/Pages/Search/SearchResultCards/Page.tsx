@@ -91,7 +91,7 @@ function Page(props: Props) {
             </ElevatorPitch>
             <Link to =  {`/page?id=${props.ID}`}><BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} /></Link>
             <div style = {{marginLeft: "1em"}}>
-                <PageCategories editMode = {false} categories = {props.Categories} allCategories = {[]} setAllCategories = {[]} width = {"100%"} />
+                <PageCategories allCategories = {[]} setAllCategories = {null} editMode = {false} categories = {props.Categories} width = {"100%"} />
             </div>
         </Container>
     );

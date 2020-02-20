@@ -120,10 +120,15 @@ function ProfilePage(props: Props) {
     }
 
     const deleteAccount = async () => {
-        await axios.delete(`${process.env.REACT_APP_BASEURL}/user/`, JSON.stringify({}), { headers: { "Authorization": c.userToken } });
-        setRedirectToHome(true);
-        Cookie.set("authToken", "");
-        c.setLoggedIn(false);
+        try {
+            let res = await axios.delete(`${process.env.REACT_APP_BASEURL}/user`, JSON.stringify({}), { headers: { "Authorization": c.userToken } });
+            console.log(res)
+            setRedirectToHome(true);
+            Cookie.set("authToken", "");
+            c.setLoggedIn(false);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     if (!loading) {

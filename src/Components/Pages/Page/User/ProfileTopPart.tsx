@@ -96,24 +96,21 @@ const PageCategoryContainer = styled.div`
 `;
 
 type Props = {
-    profilePhoto: string,
     name: string,
     email: string,
     canEditMode: boolean,
     editMode: boolean,
-    updateFunction: Function,
-    switchEditMode: Function,
+    categories: any,
     allCategories: any,
     setAllCategories: any,
-    categories: any,
     update: any,
     image: string
 }
 
 function UserPage(props: Props) {
     const [imageHash, setImageHash] = useState(0)
-    const {image, profilePhoto, name, email, canEditMode, editMode, updateFunction, switchEditMode, allCategories, setAllCategories, categories} = props;
-    
+    const { image, name, email, canEditMode, editMode, categories, allCategories, setAllCategories } = props;
+
     const update = () => {
         props.update()
         setImageHash(Date.now())
@@ -123,7 +120,7 @@ function UserPage(props: Props) {
         <TopBarContainer>
             <TopBarTopSection>
                 {/* <ProfileImage src={`${image}?${imageHash}`} /> */}
-                <PhotoAndUploader size = {"12.5em"} img = {`${image}?${imageHash}`} update = {update} canEdit = {canEditMode} />
+                <PhotoAndUploader size={"12.5em"} img={`${image}?${imageHash}`} update={update} canEdit={canEditMode} />
                 <TopBarTextContainer>
                     <TopBarText>{name}</TopBarText>
                     <TopBarText>{email}</TopBarText>
@@ -131,7 +128,7 @@ function UserPage(props: Props) {
             </TopBarTopSection>
             {/* {canEditMode ? <PhotoAndUploader img = {`${image}?${imageHash}`} update = {update} /> : ''} */}
             <PageCategoryContainer>
-                <PageCategories width = {"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
+                <PageCategories width={"10em"} allCategories={allCategories} setAllCategories = {setAllCategories} categories={categories} editMode={editMode} />
             </PageCategoryContainer>
         </TopBarContainer>
     );

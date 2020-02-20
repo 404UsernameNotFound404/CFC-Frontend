@@ -116,6 +116,7 @@ function UserPage(props: Props) {
     const fetchAPI = async () => {
         //check search params
         try {
+            setLoading(true);
             let params = new URLSearchParams(document.location.search.substring(1));
             let PageID = params.get("id");
             if (PageID == null) throw "No Page ID"
@@ -154,13 +155,6 @@ function UserPage(props: Props) {
     }
 
     const switchEditMode = () => {
-        //add loading symbol for this call
-        console.log(allCategories)
-        if (allCategories.length <= 0) {
-            getAllCategories();
-        } else {
-            updateAllCategories(allCategoriyApiData);
-        }
         if (editMode) {
             if (deleteChanges) {
                 setDeleteChanges(false);
@@ -170,31 +164,8 @@ function UserPage(props: Props) {
             updatePage();
         } else {
             setMessageToUser({ text: "", colour: "black" });
-            if (allCategories.length < 0) {
-                getAllCategories();
-            }
             setEditMode(true);
         }
-    }
-
-    const getAllCategories = async () => {
-        console.log("gettind cats")
-        const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
-        console.log(res.data)
-        updateAllCategories(res.data)
-        setAllCategoriyApiData(res.data)
-        setEditMode(true);
-    }
-
-    const updateAllCategories = async (allCategories: any) => {
-        console.log(allCategories)
-        setAllCategories(allCategories.map((ele: any) => {
-            let dis = !categories.find((catEle: any) => {
-                return catEle.ID === ele.ID
-            })
-            console.log(ele)
-            return { ...ele, disabled: dis }
-        }));
     }
 
     const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean, message: string) => {
@@ -219,7 +190,7 @@ function UserPage(props: Props) {
                 <UpdateEditButton messageToUser={messageToUser} canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <ProfileTopPart update={fetchAPI} image={image} setAllCategories={setAllCategories} profilePhoto={DaxtonImage} name={name} email={email} canEditMode={canEditMode} editMode={editMode} updateFunction={updatePage} switchEditMode={switchEditMode} allCategories={allCategories} categories={categories} />
+                    <ProfileTopPart update={fetchAPI} image={image} allCategories = {allCategories} setAllCategories = {setAllCategories}  name={name} email={email} canEditMode={canEditMode} editMode={editMode}  categories={categories} />
                     <TextContent>
                         <ParagraphInput width={"80%"} margin={"auto"} title={"Who Am I?"} paragraphValue={paraInputOne} setParagraphValue={setParaInputOne} editMode={editMode} />
                         <ParagraphInput width={"80%"} margin={"auto"} title={"What I Stand For"} paragraphValue={paraInputTwo} setParagraphValue={setParaInputTwo} editMode={editMode} />

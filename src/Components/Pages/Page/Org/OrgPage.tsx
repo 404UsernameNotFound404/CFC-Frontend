@@ -76,7 +76,8 @@ function OrgPage(props: NavBarDekstopProps) {
     const [redirectToHome, setRedirectToHome] = useState(false);
     const [desc, setDesc] = useState("")
     const [inputs, setInputs] = useState([]);
-    const [allCategories, setAllCategories] = useState([])
+    const [allCategories, setAllCategories] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [message, setMessage] = useState({ colour: "", text: "" })
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(true);
@@ -118,6 +119,8 @@ function OrgPage(props: NavBarDekstopProps) {
             } else {
                 setImage(DefaultImage)
             }
+            await console.log(res.Instrests)
+            setCategories(res.Instrests)
             setImageHash(Date.now())
             setInputs([
                 { title: "Email", value: res.Email, id: 0 },
@@ -127,8 +130,6 @@ function OrgPage(props: NavBarDekstopProps) {
             ]);
             setCanEdit(res.IsOwner)
             setDesc(res.Desc)
-            const resCats = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
-            updateAllCategories(resCats.data, res.Instrests)
         } catch (err) {
             setLoading(false)
             setRedirectToHome(true);
@@ -136,19 +137,11 @@ function OrgPage(props: NavBarDekstopProps) {
         setLoading(false);
     }
 
-    const updateAllCategories = async (allCategories: any, categories: any) => {
-        setAllCategories(allCategories.map((ele: any) => {
-            let dis = !categories.find((catEle: any) => {
-                return catEle.ID === ele.ID
-            })
-            return { ...ele, disabled: dis }
-        }));
-    }
-
     const update = async () => {
         let catIdArray: any = []
         allCategories.map(ele => {
             if (!ele.disabled) {
+                console.log(ele)
                 catIdArray.push(parseInt(ele.ID))
             }
         })
@@ -156,6 +149,7 @@ function OrgPage(props: NavBarDekstopProps) {
             //need check
             console.log("trying update")
             console.log(c.userToken)
+            await console.log(catIdArray)
             const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/organization/`, {
                 method: "PUT",
                 body: JSON.stringify({ Desc: desc, Name: inputs[2].value, Link: inputs[1].value, Location: inputs[3].value, Instrests: catIdArray }),
@@ -192,7 +186,7 @@ function OrgPage(props: NavBarDekstopProps) {
                         </>
                         : ""
                 }
-                <PageCategories width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={[]} editMode={true} />
+                <PageCategories width={"10em"} allCategories = {allCategories} setAllCategories = {setAllCategories} categories={categories} editMode={true} />
                 <OrgImage src={`${image}?${imageHash}`} />
                 <PhotoUploader update={fetchAPI} />
                 <ParagraphInput width={"80%"} margin={isPhone ? "0" : "auto"} title={"Description:"} paragraphValue={desc} setParagraphValue={setDesc} editMode={true} />

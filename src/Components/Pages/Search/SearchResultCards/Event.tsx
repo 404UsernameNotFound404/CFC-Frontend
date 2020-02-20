@@ -94,7 +94,7 @@ function Event(props: Props) {
                 <TextWhereAndWhen>When: <TextWherAndWhenSpan>{props.when}</TextWherAndWhenSpan></TextWhereAndWhen>
             </WhereAndWhen>
             <PageCategoryContainer>
-                <PageCategories editMode={false} categories={props.categories} allCategories={[]} setAllCategories={[]} width={"90%"} />
+                <PageCategories allCategories = {[]} setAllCategories = {null} editMode={false} categories={props.categories} width={"90%"} />
             </PageCategoryContainer>
             <BasicButton activateButton={() => {setGoToEventPage(true)}} width={"50%"} text={"See More"} active={false} id={20} />
         </Component>

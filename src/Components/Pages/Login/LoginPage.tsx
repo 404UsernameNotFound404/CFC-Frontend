@@ -118,12 +118,14 @@ const ForgotPassword = styled.p`
 function LoginPage() {
     const c = useContext(AppContext);
     const [register, setRegister] = useState(0);
+    const [orgRegister, setOrgRegister] = useState(false);
     const [reToHome, setReToHome] = useState(false);
     const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
     const [message, setMessage] = useState({ error: false, message: "" })
 
 
-    const registerClick = (whatToSwitch: number) => {
+    const registerClick = (whatToSwitch: number, orgRegisterIn: boolean) => {
+        setOrgRegister(orgRegisterIn)
         setRegister(whatToSwitch)
     }
 
@@ -149,14 +151,14 @@ function LoginPage() {
             }
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
-                <LoginForm setMessage={setMessage} message={message} setRegister={setRegister} register={register} />
+                <LoginForm orgRegister = {orgRegister} setMessage={setMessage} message={message} setRegister={setRegister} register={register} />
                 <RegisterAndForgotUsername>
                     {(register != 0) ?
-                        <ForgotRegisterText onClick={() => { registerClick(0); setMessage({ error: false, message: "" }) }}>Go To Login</ForgotRegisterText>
+                        <ForgotRegisterText onClick={() => { registerClick(0, false); setMessage({ error: false, message: "" }) }}>Go To Login</ForgotRegisterText>
                         :
                         <div>
-                            <PickWhatToCreate setMessage={setMessage} registerOrg={() => { registerClick(1) }} registerUser={() => { registerClick(2) }} />
-                            <ForgotPassword onClick={() => { registerClick(2) }}>Forgot Password?</ForgotPassword>
+                            <PickWhatToCreate setMessage={setMessage} registerOrg={() => { registerClick(1, true) }} registerUser={() => { registerClick(1, false) }} />
+                            <ForgotPassword onClick={() => { registerClick(2, false) }}>Forgot Password?</ForgotPassword>
                         </div>
                     }
                 </RegisterAndForgotUsername>

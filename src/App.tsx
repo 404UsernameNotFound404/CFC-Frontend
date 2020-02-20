@@ -64,9 +64,10 @@ function App() {
       
       setLoading(false);
     } catch (err) {
-      if (authToken.length > 1) setRedirectToLogin(true);
+      if (authToken != undefined && authToken.length > 0) setRedirectToLogin(true);
       setUserToken("")
       setUserID("")
+      setLoading(false);
     }
   }
 

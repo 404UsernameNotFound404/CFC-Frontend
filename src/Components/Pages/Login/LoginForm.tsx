@@ -7,10 +7,11 @@ import {
     Redirect
 } from "react-router-dom";
 import { AppContext } from '../../../Context/AppContext';
-import Cookie from 'js-cookie'
 import OrgRegisterInfoInput from './OrgRegisterInfoInput';
 import PhonNumberInput from './PhoneNumberInput';
 import CheckBox from '../../ComponentLibrayer/CheckBox';
+import LoadingGif from '../../../img/loading.gif'
+
 
 const axios = require('axios')
 
@@ -68,11 +69,19 @@ const TextForForgotPassword = styled.h4`
     text-align: center;
 `;
 
+const LoadingSymbol = styled.img`
+    width: 50%;
+    height: fit-content;
+    margin: auto;
+    display: block;
+`;
+
 type Props = {
     register: number
     setRegister: Function,
     message: { message: string, error: boolean },
-    setMessage: Function
+    setMessage: Function,
+    orgRegister: boolean
 }
 
 function LoginForm(props: Props) {
@@ -89,27 +98,12 @@ function LoginForm(props: Props) {
     const [rememberMe, setRememberMe] = useState(false);
     const { message } = props
     const { setMessage } = props;
-    useEffect(() => {
-        if (categories.length == 0) {
-            getCategories();
-        }
-    }, [props.register])
-
-    const getCategories = async () => {
-        try {
-            const res = await axios.post(`${process.env.REACT_APP_BASEURL}/getCategories`);
-            setCategories(res.data.map((ele: any) => {
-                return { ...ele, disabled: true }
-            }))
-        } catch (err) {
-            setMessage({ error: true, message: "Network Down" })
-        }
-    }
 
     const login = async (e: any) => {
         let networkError = true;
         //this is so enter key works, but I can also activate login through a function
         try { e.preventDefault(); } catch (err) { }
+        props.setRegister(99);
         try {
             let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/login`, { Email: emailInput, Password: passwordInput });
             networkError = false;
@@ -124,6 +118,7 @@ function LoginForm(props: Props) {
             throw 'invalid login'
         }
         catch (err) {
+            props.setRegister(0);
             if (networkError) {
                 setMessage({ error: true, message: "Network Error Sorry For Inconveince" });
                 setRedirectToHome(false);
@@ -194,11 +189,11 @@ function LoginForm(props: Props) {
             if (phoneNumber.first.length >= 1) {
                 phoneNumberString = phoneNumber.first + '-' + phoneNumber.middle + '-' + phoneNumber.end;
             }
-            if (props.register == 2) {
+            if (!props.orgRegister) {
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
                     setMessage({ error: false, message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
-                    props.setRegister(false);
+                    props.setRegister(0);
                     return
                 }
                 setMessage({ error: true, message: res.data.Error })
@@ -229,8 +224,8 @@ function LoginForm(props: Props) {
 
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 });
                 if (res.data.Valid != undefined) {
-                    setMessage({ error: false, message: "Registered Sucssfully" })
-                    props.setRegister(false);
+                    setMessage({ error: false, message: "Registered Successfully" })
+                    props.setRegister(0);
                     return
                 }
                 setMessage({ error: true, message: res.data.Error })
@@ -284,7 +279,7 @@ function LoginForm(props: Props) {
                     <LoginInput value={registerValues[4]} onChange={(e) => { funcSetRegisterValues(e.target.value, 4) }} placeholder="*Name" />
                     <BreakLine />
                     {
-                        (props.register == 1) ?
+                        (props.orgRegister) ?
                             <>
                                 <LoginInput value={registerValues[5]} onChange={(e) => { funcSetRegisterValues(e.target.value, 5) }} placeholder="*Location" />
                                 <BreakLine />
@@ -309,6 +304,18 @@ function LoginForm(props: Props) {
                 </Content>
             )
             break;
+        case 99:
+            return (
+                <>
+                    <LoadingSymbol src = {LoadingGif} />
+                </>
+            )
+            break;
+        default: 
+        return (
+            <>
+            </>
+        )
     }
 }
 

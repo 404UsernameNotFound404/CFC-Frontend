@@ -78,6 +78,9 @@ const TopSection = styled.div`
 const BasicInfoInputSection = styled.div`
     margin: auto;
     margin-left: 2em;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
+        margin: 0;
+    }
 `;
 
 function OrgPage() {

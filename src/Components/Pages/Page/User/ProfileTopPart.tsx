@@ -110,6 +110,7 @@ type Props = {
 function UserPage(props: Props) {
     const [imageHash, setImageHash] = useState(0)
     const { image, name, email, canEditMode, editMode, categories, allCategories, setAllCategories } = props;
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
 
     const update = () => {
         props.update()
@@ -119,17 +120,13 @@ function UserPage(props: Props) {
     return (
         <TopBarContainer>
             <TopBarTopSection>
-                {/* <ProfileImage src={`${image}?${imageHash}`} /> */}
                 <PhotoAndUploader size={"12.5em"} img={`${image}?${imageHash}`} update={update} canEdit={canEditMode} />
                 <TopBarTextContainer>
                     <TopBarText>{name}</TopBarText>
                     <TopBarText>{email}</TopBarText>
                 </TopBarTextContainer>
             </TopBarTopSection>
-            {/* {canEditMode ? <PhotoAndUploader img = {`${image}?${imageHash}`} update = {update} /> : ''} */}
-            <PageCategoryContainer>
-                <PageCategories width={"10em"} allCategories={allCategories} setAllCategories = {setAllCategories} categories={categories} editMode={editMode} />
-            </PageCategoryContainer>
+            <PageCategories margin = {!isPhone ? "auto" : "0"} width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
         </TopBarContainer>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BasicButton from '../../../ComponentLibrayer/BasicButton';
 import { Link } from 'react-router-dom';
@@ -64,11 +64,16 @@ const ElevatorPitch = styled.h1`
     overflow: hidden; */
 `;
 
+const PageCategorieContainer = styled.div`
+    width: 90%;
+    margin: auto;
+`;
+
 type Props = {
     name: string,
     para: string,
     ID: string,
-    Categories: {Name: string, ID: string, Colour: string}[],
+    Categories: { Name: string, ID: string, Colour: string }[],
     image: string,
     width: string
 }
@@ -77,22 +82,22 @@ function Page(props: Props) {
     const [buttonState, setButtonState] = useState(false);
 
     const buttonClicked = () => {
-        if(buttonState) setButtonState(false)
+        if (buttonState) setButtonState(false)
         else setButtonState(true)
     }
 
     return (
-        <Container width = {props.width}>
-            {}
+        <Container width={props.width}>
+            {console.log(props.width)}
             <PortraitOfActivist src={props.image} />
             <Name>{props.name}</Name>
             <ElevatorPitch>
-                {props.para.substring(0,80)}...
+                {props.para.substring(0, 80)}...
             </ElevatorPitch>
-            <Link to =  {`/page?id=${props.ID}`}><BasicButton width = {"50%"} activateButton = {buttonClicked} text={"See More"} active={buttonState} id={20} /></Link>
-            <div style = {{marginLeft: "1em"}}>
-                <PageCategories allCategories = {[]} setAllCategories = {null} editMode = {false} categories = {props.Categories} width = {"100%"} />
-            </div>
+            <Link to={`/page?id=${props.ID}`}><BasicButton width={"40%"} activateButton={buttonClicked} text={"See More"} active={buttonState} id={20} /></Link>
+            <PageCategorieContainer>
+                <PageCategories margin={"auto"} allCategories={[]} setAllCategories={null} editMode={false} categories={props.Categories} width={"100%"} />
+            </PageCategorieContainer>
         </Container>
     );
 }

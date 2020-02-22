@@ -56,9 +56,9 @@ const LookForActivistButton = styled(Link)`
     cursor: pointer;
     border: black thin solid;
     color: black;
-    font-size: 2em;
-    width: 5em;
-    height: 5em;
+    font-size: 1.9em;
+    width: 6.5em;
+    height: 6.5em;
     border-radius: 1em;
     margin: 0em auto;
     margin-top: 1em;
@@ -73,8 +73,6 @@ const LookForActivistButton = styled(Link)`
         border-color: transparent;
     }
      @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        width: 6.5em;
-        height: 6.5em;
         padding: 0;
         margin: auto;
         margin-top: 1em;

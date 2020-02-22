@@ -7,13 +7,14 @@ const Container = styled.div`
     border: black 0.2rem solid;
     background-color: #f9f9f9;
     width: 27%;
-    padding: 2%;
+    padding: 1%;
     margin: 0.5%;
     border-radius: 1em;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         border-width: 1%;
         width: 90%;
         margin: 1.5em 0;
+        padding: 4%;
     }
     transition: all 1s;
 `;

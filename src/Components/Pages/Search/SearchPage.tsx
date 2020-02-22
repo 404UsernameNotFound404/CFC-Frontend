@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import SearchActivists from './SearchResults/SearchResults';
+import SearchActivists from './SearchResults';
 import CategorySearch from '../../ComponentLibrayer/CategorySearch/CategorySearch';
 const axios = require("axios");
 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Page from '../SearchResultCards/Page';
-import DefaultImage from '../../../../img/default.jpg';
-import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
-import Organization from '../SearchResultCards/Organzation';
-import PickWhatToSearchFor from '../PickWhatToSearchForButton';
-import Event from '../SearchResultCards/Event';
+import Page from './SearchResultCards/Page';
+import DefaultImage from '../../../img/default.jpg';
+import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import Organization from './SearchResultCards/Organzation';
+import PickWhatToSearchFor from './PickWhatToSearchForButton';
+import Event from './SearchResultCards/Event';
 
-import DefaultImg from '../../../../img/climateMarch.jpg'
+import DefaultImg from '../../../img/climateMarch.jpg'
 const axios = require("axios");
 
 
@@ -71,7 +71,6 @@ function SearchBar(props: Props) {
                 return;
             }
             const res = await axios.get(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`);
-            console.log(res)
             networkError = false;
             if (res.data.Error != undefined) {
                 setError(res.data.Error)
@@ -115,7 +114,6 @@ function SearchBar(props: Props) {
                 }
                 break;
             case "Events":
-                console.log("Events running")
                 return (
                     <>
                         {
@@ -125,14 +123,12 @@ function SearchBar(props: Props) {
                 )
                 break;
             case "Activists":
-                console.log("in case")
                 if (props.choice == choice) {
-                    console.log("rendering activists")
                     return (<>
                         {
                             pages.map((ele, i) => {
                                 if (checkIfInCategories(ele.Categories)) {
-                                    return <Page width={"29%"} image={(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories={ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
+                                    return <Page width={"30%"} image={(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories={ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
                                 }
                             })
                         } </>)

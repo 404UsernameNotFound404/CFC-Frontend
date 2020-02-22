@@ -13,10 +13,9 @@ type ContentProps = {
 
 const Content = styled.div<ContentProps>`
     width: ${p => p.width};
-    min-width: 4em;
-    max-width: 8em;
+    width: 8em;
     height: fit-content;
-    margin: 0.5em 1em;
+    margin: 0.5em 0.3em;
     display: flex;
     justify-content: center;
     border-radius: 0.5em;

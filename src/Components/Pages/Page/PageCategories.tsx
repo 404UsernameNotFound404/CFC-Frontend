@@ -11,14 +11,11 @@ type ContentProp = {
 const Content = styled.div<ContentProp>`
     /* min-width: 60em; */
     max-width: 100%;
-    width: fit-content;
     height: fit-content;
     margin: 1em ${p => p.margin};
     display: flex;
     flex-wrap: wrap;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
-        justify-content: center;
-    }
+    justify-content: space-between;
 `;
 
 type Props = {

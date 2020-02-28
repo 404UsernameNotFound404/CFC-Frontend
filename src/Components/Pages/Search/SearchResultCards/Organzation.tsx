@@ -68,7 +68,7 @@ const Desc = styled.p<DescProps>`
     width: 90%;
     margin-top: 0.25em;
     margin-bottom: 0.5em;
-    height: ${p => p.showAll ? 'auto' : '4em'};
+    height: ${p => p.showAll ? 'auto' : '4.1em'};
     overflow:  ${p => p.showAll ? 'visible' : 'hidden'};
     text-overflow: ${p => p.showAll ? 'none' : 'ellipsis'};;
     display: ${p => p.showAll ? 'block' : '-webkit-box'};

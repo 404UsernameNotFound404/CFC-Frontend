@@ -59,17 +59,21 @@ const Location = styled.h1`
     font-weight: 400;
 `;
 
-const Desc = styled.p`
+type DescProps = {
+    showAll: boolean
+}
+
+const Desc = styled.p<DescProps>`
     font-size: 1em;
     width: 90%;
     margin-top: 0.25em;
     margin-bottom: 0.5em;
-    height: 4em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /* number of lines to show */
+    height: ${p => p.showAll ? 'auto' : '4em'};
+    overflow:  ${p => p.showAll ? 'visible' : 'hidden'};
+    text-overflow: ${p => p.showAll ? 'none' : 'ellipsis'};;
+    display: ${p => p.showAll ? 'block' : '-webkit-box'};
+    -webkit-box-orient: ${p => p.showAll ? '' : 'vertical'};
+    -webkit-line-clamp: ${p => p.showAll ? '99' : '3'};
 `;
 
 const SeeMore = styled.h4`
@@ -189,7 +193,7 @@ function Organzation(props: Props) {
                 <CopyEmail onClick={copyEmail}>Copy Email</CopyEmail>
                 <CopyMessage color = {copyMessage.color} id = {specificID}>{copyMessage.message}</CopyMessage>
             </CopyButtonContainer>
-            <Desc>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : props.desc}</Desc>
+            <Desc showAll = {seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : props.desc}</Desc>
             {props.desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>See More</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={props.link}>{props.link.length >= 35 ? (props.link.substring(0, 35) + "...") : props.link}</LinkToWebite>
             <LogoOfOrg src={props.image} />

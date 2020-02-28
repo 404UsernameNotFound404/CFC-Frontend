@@ -48,30 +48,11 @@ const UploadButton = styled.div`
     }
 `;
 
-type MessageToUserProps = {
-    colour: string
-}
-
-const MessageToUser = styled.h4<MessageToUserProps>`
-    margin: auto 0;
-    margin-left: 0.5em;
-    font-size: 1.5em;
-    color: ${p => p.colour};
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
-        text-align: center;
-        margin: 0;
-        margin-top: 0.5em;
-    }
-`;
-
-
-
 type Props = {
     update: any
 }
 
 function UserPage(props: Props) {
-    const [messageToUser, setMessageToUser] = useState({ text: "", colour: "black" })
     const c = useContext(AppContext);
     const randID = "Math.random().toString(36).substring(12)asdasdasdas123123vxvcasd";
 
@@ -85,7 +66,7 @@ function UserPage(props: Props) {
     }
 
     const uploadThePhotoButtonPressed = async (file: any) => {
-        setMessageToUser({ text: "Loading", colour: "black" })
+        c.setMessageToUser({ message: "Loading", colour: "black" })
         let formData = new FormData()
         formData.append('image', file)
         try {
@@ -98,11 +79,11 @@ function UserPage(props: Props) {
                 data: formData
             });
             if (res.data.Valid.length > 2) {
-                setMessageToUser({ text: "Uploaded", colour: "green" })
+                c.setMessageToUser({ message: "Uploaded", colour: "green" })
                 props.update();
             }
         } catch (err) {
-            setMessageToUser({ text: "Failed To Upload Try Again", colour: "red" })
+            c.setMessageToUser({ message: "Failed To Upload Try Again", colour: "red" })
         }
     }
 
@@ -111,9 +92,9 @@ function UserPage(props: Props) {
         const { files } = e.target;
         if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 100000000) {
             uploadThePhotoButtonPressed(files[0])
-            setMessageToUser({text: "Uploading", colour: "black"})
+            c.setMessageToUser({message: "Uploading", colour: "black"})
         } else {
-            setMessageToUser({ text: "Invalid File", colour: "red" })
+            c.setMessageToUser({ message: "Invalid File", colour: "red" })
         }
     }
 
@@ -132,7 +113,6 @@ function UserPage(props: Props) {
             </Form>
             <Content>
                 <UploadButton onClick={uploadButton}>Upload A Profile Photo</UploadButton>
-                <MessageToUser colour = {messageToUser.colour}>{messageToUser.text}</MessageToUser>
             </Content>
         </>
     );

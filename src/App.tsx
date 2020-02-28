@@ -23,6 +23,7 @@ import PrivacyPolicy from './Components/Pages/PrivacyPolicy/PrivacyPolicy';
 import ForgotPasswordPage from './Components/Pages/ForgotPasswordPage/ForgotPage';
 import EventPage from './Components/Pages/Event/EventPage'
 import LoadingPage from './Components/ComponentLibrayer/LoadingPage';
+import MessageToUserComponent from './Components/MessageToUser/MessageToUserComponent';
 
 const axios = require("axios");
 
@@ -34,6 +35,7 @@ function App() {
   const [userID, setUserID] = useState("");
   const [userType, setUserType] = useState(-1);
   const [loading, setLoading] = useState(true);
+  const [messageToUser, setMessageToUser] = useState({message: "", colour: "black"})
 
   useEffect(() => {
     checkToken();
@@ -92,7 +94,7 @@ function App() {
 
     return (
       <div>
-        <AppContext.Provider value={{ login: login, userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType }}>
+        <AppContext.Provider value={{ setMessageToUser: setMessageToUser, login: login, userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType }}>
           <Router>
             {RedirectToLogin()}
             <Route component={showNavBarFunct} />
@@ -115,6 +117,7 @@ function App() {
               <Route component={Home} />
             </Switch>
             <NavBar showNavBar={showNavBar} />
+            <MessageToUserComponent message = {messageToUser.message} colour = {messageToUser.colour} />
           </Router>
         </AppContext.Provider>
       </div>

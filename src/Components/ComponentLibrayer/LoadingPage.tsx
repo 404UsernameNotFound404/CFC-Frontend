@@ -7,6 +7,9 @@ const Content = styled.div`
     height: 100%;
     display: flex;
     justify-content: center;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
+        height: 100vh;
+    }
 `;
 
 const LoadingImage = styled.img`
@@ -14,6 +17,9 @@ const LoadingImage = styled.img`
     margin: auto;
     width: 40%;
     height: auto;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
+        width: 90%;
+    }
 `;
 
 function LoadingPage() {

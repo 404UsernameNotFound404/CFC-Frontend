@@ -67,15 +67,38 @@ const Email = styled.h2`
 
 const DeleteButton = styled.div`
     width: 8em;
-    padding: 0.5em 0;
+    padding: 0.5em 1em;
     background-color: red;
     text-align: center;
     color: white;
     border-radius: 0.2em;
     cursor: pointer;
+    opacity: 0.9;
     &:hover {
-        background-color: #d61010;
+        opacity: 1;
     }
+    transition: all 0.2s;
+
+    margin: 0.5em 0;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
+        margin: 1em auto;
+    }
+`;
+
+const ForgotPasswordButton = styled.div`
+    width: 8em;
+    padding: 0.5em 1em;
+    background-color: green;
+    text-align: center;
+    color: white;
+    border-radius: 0.2em;
+    cursor: pointer;
+    opacity: 0.9;
+    &:hover {
+        opacity: 1;
+    }
+    transition: all 0.2s;
+    margin: 0.5em 0;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         margin: 1em auto;
     }
@@ -130,6 +153,15 @@ function ProfilePage(props: Props) {
         }
     }
 
+    const forgotPassword = async () => {
+        try {
+            let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/forgotPassword/send`, { Email: "registerValues" });
+            if (res.data.Error != undefined) throw res.data.Error
+        } catch (err) {
+
+        }
+    }
+
     if (!loading) {
         return (
             <Page>
@@ -140,6 +172,7 @@ function ProfilePage(props: Props) {
                         <Name>{name}</Name>
                         <Email>{email}</Email>
                         <DeleteButton onClick={deleteAccount}>Delete Account</DeleteButton>
+                        <ForgotPasswordButton>Forgot Password</ForgotPasswordButton>
                     </Content>
                 </PageContent>
             </Page>

@@ -66,23 +66,6 @@ const UploadButton = styled.div<PropsUploadButton>`
     }
 `;
 
-type MessageToUserProps = {
-    colour: string
-}
-
-const MessageToUser = styled.h4<MessageToUserProps>`
-    margin: 0.5em;
-    margin-left: 0.5em;
-    font-size: 1.5em;
-    color: ${p => p.colour};
-    text-align: center;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
-        text-align: center;
-        margin: 0;
-        margin-top: 0.5em;
-    }
-`;
-
 type PhotoImageProps = {
     img: string,
     size: string
@@ -117,7 +100,6 @@ type Props = {
 }
 
 function PhotoUnloader(props: Props) {
-    const [messageToUser, setMessageToUser] = useState({ text: "", colour: "black" });
     const [uploadOpacity, setUploadOpacity] = useState(0.2);
     const c = useContext(AppContext);
     const randID = "Math.random().toString(36).substring(12)asdasdasdas123123vxvcasd";
@@ -132,7 +114,7 @@ function PhotoUnloader(props: Props) {
     }
 
     const uploadThePhotoButtonPressed = async (file: any) => {
-        setMessageToUserAndDisappear({ text: "Loading", colour: "black" })
+        c.setMessageToUser({ message: "Loading", colour: "black" });
         let formData = new FormData()
         formData.append('image', file)
         try {
@@ -145,11 +127,11 @@ function PhotoUnloader(props: Props) {
                 data: formData
             });
             if (res.data.Valid.length > 2) {
-                setMessageToUserAndDisappear({ text: "Uploaded", colour: "green" })
+                c.setMessageToUser({ message: "Uploaded", colour: "green" })
                 props.update();
             }
         } catch (err) {
-            setMessageToUserAndDisappear({ text: "Failed To Upload Try Again", colour: "red" })
+            c.setMessageToUser({ message:"Failed To Upload Try Again", colour: "red" })
         }
     }
 
@@ -158,9 +140,9 @@ function PhotoUnloader(props: Props) {
         const { files } = e.target;
         if (files.length == 1 && checkFileExtension(files[0].name) && files[0].size < 100000000) {
             uploadThePhotoButtonPressed(files[0])
-            setMessageToUserAndDisappear({ text: "Uploading", colour: "black" })
+            c.setMessageToUser({ text: "Uploading", colour: "black" })
         } else {
-            setMessageToUserAndDisappear({ text: "Invalid File", colour: "red" })
+            c.setMessageToUser({ text: "Invalid File", colour: "red" })
         }
     }
 
@@ -173,7 +155,7 @@ function PhotoUnloader(props: Props) {
     const deleteProfilePhoto = async (e: any) => {
         try {e.preventDefault() } catch(err) {}
         try {
-            setMessageToUserAndDisappear({ text: "Deleting Photo", colour: "black" })
+            c.setMessageToUser({ message: "Deleting Photo", colour: "black" })
             let res = await axios({
                 url: `${process.env.REACT_APP_BASEURL}/user/photo`,
                 method: "DELETE",
@@ -182,23 +164,17 @@ function PhotoUnloader(props: Props) {
                 }
             });
             if (res.data.Error != undefined) throw "Failed to delete Photo"
-            setMessageToUserAndDisappear({ text: "Deleted Photo", colour: "green" })
+            c.setMessageToUser({ message: "Deleted Photo", colour: "green" })
             props.update();
         } catch (err) {
             if (typeof err == 'string') {
-                setMessageToUserAndDisappear({ text: err, colour: "red" })
+                c.setMessageToUser({ message: err, colour: "red" })
                 return
             }
-            setMessageToUserAndDisappear({ text: "Error Deleting Photo", colour: "red" })
+            c.setMessageToUser({ message: "Error Deleting Photo", colour: "red" })
         }
     }
 
-    const setMessageToUserAndDisappear = (data: { text: string, colour: string }) => {
-        setMessageToUser(data);
-        setTimeout(() => {
-            setMessageToUser({ text: "", colour: "black" })
-        }, 2000)
-    }
 
     return (
         <Component>
@@ -219,7 +195,6 @@ function PhotoUnloader(props: Props) {
                     }
                 </PhotoImage>
             </Content>
-            <MessageToUser colour={messageToUser.colour}>{messageToUser.text}</MessageToUser>
         </Component>
     )
 }

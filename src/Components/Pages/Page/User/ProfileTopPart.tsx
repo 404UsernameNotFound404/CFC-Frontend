@@ -52,49 +52,6 @@ const TopBarText = styled.h1`
     }
 `;
 
-const EditButtonContianer = styled.div`
-    position: relative;
-    height: fit-content;
-    margin: auto 0;
-    margin-left: 3em;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        width: 100%;
-        margin: 1em 0;
-    }
-`;
-
-const MessageToUser = styled.h1`
-    font-size: 1em;
-    text-align: left;
-    width: 30em;
-    margin: 0;
-    position: absolute;
-    top: -0.5em;
-    left: 0;
-`;
-
-const UpdateButtonContainer = styled.div`
-    width: fit-content;
-    height: fit-content;
-    margin: auto 0;
-    position: absolute;
-    right: 2em;
-    top: 0;
-    left: 10em;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
-        position: static;
-        margin: auto;
-    }
-`;
-
-const PageCategoryContainer = styled.div`
-    width: 125%;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
-        width: 90%;
-        margin: auto;
-    }
-`;
-
 type Props = {
     name: string,
     email: string,

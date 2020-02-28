@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import ProtesterImage from '../../../img/protesterYelling.webp'
 import { useMediaQuery } from 'react-responsive';
+import { AppContext } from '../../../Context/AppContext';
 
 const axios = require("axios");
 
@@ -76,41 +77,15 @@ const CopyButton = styled.div`
     }
 `;
 
-const MessageToUser = styled.div`
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: lightgreen;
-    left: 0;
-    border-top: lightgrey solid 0.15em;
-    display: flex;
-`;
-
-const MessageToUserText = styled.h2`
-    color: darkgreen;
-    margin: auto 0;
-    margin-left: 1em;
-`;
-
-const XOut = styled.h1`
-    margin-left: auto;
-    margin-right: 1em;
-    color: grey;
-    cursor: pointer;
-    &:hover {
-        color: lightgrey;
-    }
-`;
-
 function ContactPage() {
     const [textToCopy, setTextToCopy] = useState()
-    const [showSuccess, setHowSuccess] = useState(false);
+    const c = useContext(AppContext);
     const isPhone = useMediaQuery({minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK)})
 
     const copyEmail = async (e: any) => {
         textToCopy.select();
         await document.execCommand('copy');
-        setHowSuccess(true);
+        c.setMessageToUser({message: "Copied Email", colour: "green"});
     }
 
     return (
@@ -121,11 +96,6 @@ function ContactPage() {
                     <ContactInfo readOnly ref = {(ref) => {setTextToCopy(ref)}}>connecting4changeinfo@gmail.com</ContactInfo>
                 </form>
                 {document.queryCommandSupported('copy') ?  <CopyButton onClick = {copyEmail}>Copy Email</CopyButton> : ""}
-                {showSuccess ?  <MessageToUser>
-                    <MessageToUserText>Message Copied</MessageToUserText>
-                    <XOut onClick = {() => {setHowSuccess(false)}}>X</XOut>
-                </MessageToUser> : ""}
-               
             </TextContainer>
             {isPhone ? <Image src = {ProtesterImage} /> : ''}
         </Page>

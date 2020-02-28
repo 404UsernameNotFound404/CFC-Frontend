@@ -48,29 +48,14 @@ const FullWidth = styled.div`
    
 `;
 
-type MessageToUserProps = {
-    colour: string
-}
-
-const MessageToUser = styled.h3<MessageToUserProps>`
-    font-size: 1.25em;
-    margin: 0.5em 0;
-    margin-left: auto;
-    min-width: 8rem;
-    width: fit-content;
-    text-align: center;
-    color: ${p => p.colour};
-`;
-
 type Props = {
     update: boolean,
     switchFCN: any,
-    canEdit: boolean,
-    messageToUser: {text: string, colour: string}
+    canEdit: boolean
 }
 
 function UpdateEditButton(props: Props) {
-    const { update, switchFCN, canEdit, messageToUser } = props;
+    const { update, switchFCN, canEdit } = props;
     if (canEdit) {
         return (
             <FullWidth>
@@ -78,7 +63,6 @@ function UpdateEditButton(props: Props) {
                     <Component update={update} onClick={switchFCN}>
                         <Text>{update ? "Update" : "Edit"}</Text>
                     </Component>
-                    <MessageToUser colour = {messageToUser.colour}>{messageToUser.text}</MessageToUser>
                 </Container>
             </FullWidth>
         )

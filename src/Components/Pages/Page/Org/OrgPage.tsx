@@ -13,8 +13,6 @@ import { AppContext } from '../../../../Context/AppContext';
 import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
 import PhotoAndUploader from '../../../ComponentLibrayer/PhotoAndUploader';
 
-const axios = require("axios");
-
 const Page = styled.div`
     width: 75em;
     margin: auto;
@@ -31,39 +29,6 @@ const InputContainer = styled.div`
         width: 100%;
         display: block;
     }
-`;
-
-const UpdateButton = styled.div`
-    margin-top: 1em;
-    width: 8em;
-    padding: 0.5em 0;
-    background-color: #27f627;
-    text-align: center;
-    border-radius: 0.25em;
-    font-size: 1.25em;
-    color: white;
-    cursor: pointer;
-    &:hover {
-        background-color: #1e971e;
-    }
-    margin-bottom: 2em;
-`;
-
-const OrgImage = styled.img`
-    margin-left: 2em;
-    width: 15em;
-    height: 15em;
-    object-fit: cover;
-    object-position: middle;
-`;
-
-type MessageToUserProps = {
-    error: boolean
-}
-
-const MessageToUser = styled.h1<MessageToUserProps>`
-    font-size: 2em;
-    color: ${p => p.error ? "red" : "green"};
 `;
 
 const TopSection = styled.div`
@@ -90,7 +55,6 @@ function OrgPage() {
     const [inputs, setInputs] = useState([{ id: -1, value: "", title: "" }, { id: -1, value: "", title: "" }, { id: -1, value: "", title: "" }, { id: -1, value: "", title: "" }]);
     const [allCategories, setAllCategories] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [message, setMessage] = useState({ colour: "", text: "" })
     const [image, setImage] = useState("")
     const [loading, setLoading] = useState(true);
     const c = useContext(AppContext);
@@ -165,10 +129,10 @@ function OrgPage() {
             });
             const res = await resRaw.json();
             if (res.Valid.length >= 0) {
-                setMessage({ colour: "green", text: "Updated" })
+                c.setMessageToUser({ colour: "green", message: "Updated" })
             }
         } catch (err) {
-            setMessage({ colour: "red", text: "Error updating" })
+            c.setMessageToUser({ colour: "red", message: "Error updating" })
         }
     }
 
@@ -177,7 +141,7 @@ function OrgPage() {
             <Page>
                 {redirectToHome ? <Redirect to="/home" /> : ""}
                 {/* <UpdateEditButton messageToUser={messageToUser} canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} /> */}
-                <UpdateEditButton messageToUser={message} canEdit={true} update={true} switchFCN={update} />
+                <UpdateEditButton canEdit={true} update={true} switchFCN={update} />
                 <TopSection>
                     <PhotoAndUploader size={"15em"} canEdit={true} img={image} update={fetchAPI} />
                     <BasicInfoInputSection>

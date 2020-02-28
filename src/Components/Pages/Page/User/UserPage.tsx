@@ -43,13 +43,11 @@ function UserPage(props: Props) {
     const [name, setName] = useState("");
     const [orginalPara1, setOrginalPara1] = useState("");
     const [orginalPara2, setOrginalPara2] = useState("");
-    const [messageToUser, setMessageToUser] = useState({ text: "", colour: "black" });
     const [deleteChanges, setDeleteChanges] = useState(false);
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
-    const [allCategoriyApiData, setAllCategoriyApiData] = useState([])
     const [image, setImage] = useState("");
     const c = useContext(AppContext);
 
@@ -65,12 +63,12 @@ function UserPage(props: Props) {
             }
         })
         if (orginalPara1 == paraInputOne && orginalPara2 == paraInputTwo && (compareArrays(activeTags, categories) || allCategories.length == 0)) {
-            setMessageToUser({ text: "successfully updated page", colour: "green" })
+            c.setMessageToUser({ message: "Successfully updated page.", colour: "green" })
             setEditMode(false);
             return
         }
         if (paraInputOne.length < 50 || paraInputTwo.length < 50) {
-            setMessageToUser({ text: "Paragraphs need to be at least 50 characters", colour: "red" })
+            c.setMessageToUser({ message: "Paragraphs need to be at least 50 characters.", colour: "red" })
         }
         activeTags = []
         allCategories.map(ele => {
@@ -79,16 +77,16 @@ function UserPage(props: Props) {
             }
         })
         try {
-            setMessageToUser({ text: "Updating...", colour: "black" })
+            c.setMessageToUser({ message: "Updating...", colour: "black" })
             const res = await axios.put(`${process.env.REACT_APP_BASEURL}/activist/`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
             if (res.data.Error.length >= 0) {
-                setMessageToUser(res.data.Error)
+                c.setMessageToUser(res.data.Error)
                 return
             }
-            resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
+            resetParagraphsOrginalsAndSendMessage(true, "Successfully updated page.")
             fetchAPI()
         } catch (err) {
-            resetParagraphsOrginalsAndSendMessage(true, "successfully updated page")
+            resetParagraphsOrginalsAndSendMessage(true, "Successfully updated page.")
             fetchAPI()
         }
     }
@@ -154,13 +152,12 @@ function UserPage(props: Props) {
             }
             updatePage();
         } else {
-            setMessageToUser({ text: "", colour: "black" });
             setEditMode(true);
         }
     }
 
     const resetParagraphsOrginalsAndSendMessage = (setOrginal: boolean, message: string) => {
-        setMessageToUser({ text: message, colour: "green" });
+        c.setMessageToUser({ message: message, colour: "green" });
         setEditMode(false);
         if (setOrginal) {
             setOrginalPara1(paraInputOne);
@@ -178,7 +175,7 @@ function UserPage(props: Props) {
         return (
             <Page>
                 {/* Split into more components */}
-                <UpdateEditButton messageToUser={messageToUser} canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} />
+                <UpdateEditButton canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
                     <ProfileTopPart update={fetchAPI} image={image} allCategories={allCategories} setAllCategories={setAllCategories} name={name} email={email} canEditMode={canEditMode} editMode={editMode} categories={categories} />

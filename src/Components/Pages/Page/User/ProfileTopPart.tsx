@@ -126,7 +126,7 @@ function UserPage(props: Props) {
                     <TopBarText>{email}</TopBarText>
                 </TopBarTextContainer>
             </TopBarTopSection>
-            <PageCategories margin = {!isPhone ? "auto" : "0"} width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
+            <PageCategories justify_content = {"space"} margin = {!isPhone ? "auto" : "0"} width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />
         </TopBarContainer>
     );
 }

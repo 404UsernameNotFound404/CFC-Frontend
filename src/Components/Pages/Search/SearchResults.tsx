@@ -117,21 +117,25 @@ function SearchBar(props: Props) {
                 return (
                     <>
                         {
-                            <Event id = {"This is a ID"} categories = {[{Name: "Testing", Colour: 'black', ID: '0'}]} title = {"March for the climate"} where = {"Parliment Hill"} when = {"Now and yesterday"} img = {DefaultImg} desc = {"This is some filler text. I think it should be about three sentences. ABout the events, actually it ho-udl be able to be more with a see more button so I am still going."} />
+                            <Event id={"This is a ID"} categories={[{ Name: "Testing", Colour: 'black', ID: '0' }]} title={"March for the climate"} where={"Parliment Hill"} when={"Now and yesterday"} img={DefaultImg} desc={"This is some filler text. I think it should be about three sentences. ABout the events, actually it ho-udl be able to be more with a see more button so I am still going."} />
                         }
                     </>
                 )
                 break;
             case "Activists":
                 if (props.choice == choice) {
-                    return (<>
-                        {
-                            pages.map((ele, i) => {
-                                if (checkIfInCategories(ele.Categories)) {
-                                    return <Page width={"30%"} image={(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories={ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
-                                }
-                            })
-                        } </>)
+                    return (
+                        <>
+                            {
+                                pages.map((ele, i) => {
+                                    if (checkIfInCategories(ele.Categories)) {
+                                        return <Page width={"29%"} image={(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories={ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
+                                    }
+                                })
+                            }
+                        </>
+                    );
+
                 } else {
                     return (<div></div>)
                 }

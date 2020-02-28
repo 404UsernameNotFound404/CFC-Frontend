@@ -30,7 +30,7 @@ function FAQPage() {
     ]
     return (
         <Page>
-            <PageTitle>F.A.Q</PageTitle>
+            <PageTitle>F.A.Q.</PageTitle>
             {
                 faqs.map((ele, i) => <Question question={ele.question} answer={ele.answer} key={i} />)
             }

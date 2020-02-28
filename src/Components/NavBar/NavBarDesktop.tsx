@@ -73,7 +73,7 @@ function NavBarDesktop(props: NavBarDekstopProps) {
                     {c.loggedIn ? <LinkTitle to='/edit'>{(c.userType == 0) ? "Edit Your Page" : "Edit Organization Information"}</LinkTitle> : ""}
                     <LinkTitle to='/contact'>Contact Us</LinkTitle>
                     <LinkTitle to='/about'>About Page</LinkTitle>
-                    <LinkTitle to='/FAQ'>FAQ</LinkTitle>
+                    <LinkTitle to='/FAQ'>F.A.Q.</LinkTitle>
                     <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
                     <DropDown options={thingsToSearch} title={"Search"} />
                     {c.loggedIn ?

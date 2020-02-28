@@ -5,7 +5,8 @@ import CategoryTag from './CategoryTag'
 const axios = require("axios");
 
 type ContentProp = {
-    margin: string
+    margin: string,
+    justify_content: string
 }
 
 const Content = styled.div<ContentProp>`
@@ -15,7 +16,7 @@ const Content = styled.div<ContentProp>`
     margin: 1em ${p => p.margin};
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: ${p => p.justify_content};
 `;
 
 type Props = {
@@ -24,17 +25,20 @@ type Props = {
     allCategories: any,
     setAllCategories: any,
     width: string,
-    margin?: string
+    margin?: string,
+    justify_content?: string
 }
 
 const defaultProps = {
-    margin: 'auto'
+    margin: 'auto',
+    justify_content: 'space-between'
 }
 
 function PageCategories(props: Props) {
     const [loading, setLoading] = useState(true);
     const { allCategories, setAllCategories, editMode, categories, width } = props;
     const margin = props.margin == undefined ? defaultProps.margin : props.margin;
+    const justify_content = props.justify_content == undefined ? defaultProps.justify_content : props.justify_content;
     useEffect(() => {
         console.log(props.margin)
         if (setAllCategories != null) fetchCategories();
@@ -52,7 +56,7 @@ function PageCategories(props: Props) {
             setAllCategories(data);
             setLoading(false);
             updateAllCategories(data);
-        } catch (err) { 
+        } catch (err) {
             console.log(err);
         }
     }
@@ -77,21 +81,15 @@ function PageCategories(props: Props) {
         }))
     }
 
-
-
-    if (!editMode) {
-        return (
-            <Content margin = {margin}>
-                {categories.map((ele, i: number) => <CategoryTag width={width} id={""} clickFunction={() => { }} clickable={false} disabled={false} name={ele.Name} colour={ele.Colour} key={i} />)}
-            </Content>
-        );
-    } else {
-        return (
-            <Content margin = {margin}>
-                {allCategories.map((ele: any, i: number) => <CategoryTag width={width} id={ele.ID} clickFunction={disable} clickable={true} disabled={ele.disabled} name={ele.Name} colour={ele.Colour} key={i} />)}
-            </Content>
-        );
-    }
+    return (
+        <Content justify_content={justify_content} margin={margin}>
+            {!editMode ?
+                categories.map((ele, i: number) => <CategoryTag width={width} id={""} clickFunction={() => { }} clickable={false} disabled={false} name={ele.Name} colour={ele.Colour} key={i} />)
+                :
+                allCategories.map((ele: any, i: number) => <CategoryTag width={width} id={ele.ID} clickFunction={disable} clickable={true} disabled={ele.disabled} name={ele.Name} colour={ele.Colour} key={i} />)
+            }
+        </Content>
+    );
 }
 
 export default PageCategories;

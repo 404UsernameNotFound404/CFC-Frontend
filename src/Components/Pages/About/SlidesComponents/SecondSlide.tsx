@@ -48,7 +48,7 @@ function SecondSlide() {
             <FirstSentence>They had a lot of support from their teachers, and from groups like the </FirstSentence>
             <FNFCSContainer>
                 <FNFCSLogo src={FNFCS} />
-                <FNFCSTitle>First Nation Family Caring Soceity(F.N.F.C.S)</FNFCSTitle>
+                <FNFCSTitle>The First Nation Family Caring Society(F.N.F.C.S).</FNFCSTitle>
             </FNFCSContainer>
             <FirstSentence>By 2017 both Henry and Daxton were noticing that many people wanted to learn more, and get more involved, but did not have the same support they had received, or did not know how to take action. </FirstSentence>
         </Component>

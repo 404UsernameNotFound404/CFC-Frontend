@@ -7,6 +7,8 @@ import ProfileTopPart from './ProfileTopPart';
 import ParagraphInput from '../ParaInput'
 import { AppContext } from '../../../../Context/AppContext';
 import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
+import ContactModal from '../ContactModal';
+import BasicButton from '../../../ComponentLibrayer/BasicButton';
 
 const axios = require("axios");
 
@@ -25,6 +27,10 @@ const TextContent = styled.div`
 const Content = styled.div`
     margin: auto 0;
     width: 100%;
+`;
+
+const ModalTitle = styled.h1`
+
 `;
 
 type Props = {
@@ -49,6 +55,8 @@ function UserPage(props: Props) {
     const [categories, setCategories] = useState([]);
     const [allCategories, setAllCategories] = useState([]);
     const [image, setImage] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
+    const [message, setMessage] = useState("");
     const c = useContext(AppContext);
 
     useEffect(() => {
@@ -171,6 +179,31 @@ function UserPage(props: Props) {
         }
     }
 
+    const messageUser = async () => {
+        try {
+            if (message.length >= 3000 || message.length <= 0) throw "Message must be between 1 and 3000 characters"
+            let PageID = new URLSearchParams(document.location.search.substring(1)).get("id");
+            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/email/` + PageID, {
+                method: "POST",
+                body: JSON.stringify({ Body: message }),
+                headers: {
+                    "Authorization": c.userToken
+                }
+            });
+            const res = await resRaw.json();
+            if (res.Error) throw res.Error;
+            setModalOpen(false);
+            c.setMessageToUser({ message: "Message Sent", colour: "green" })
+        } catch (err) {
+            console.log(err)
+            if (typeof err == "string") {
+                c.setMessageToUser({ message: err, colour: "red" })
+                return
+            }
+            c.setMessageToUser({ message: "Error Sending Message", colour: "red" })
+        }
+    }
+
     if (!loading) {
         return (
             <Page>
@@ -178,12 +211,17 @@ function UserPage(props: Props) {
                 <UpdateEditButton canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <ProfileTopPart update={fetchAPI} image={image} allCategories={allCategories} setAllCategories={setAllCategories} name={name} email={email} canEditMode={canEditMode} editMode={editMode} categories={categories} />
+                    <ProfileTopPart setModalOpen = {setModalOpen} update={fetchAPI} image={image} allCategories={allCategories} setAllCategories={setAllCategories} name={name} canEditMode={canEditMode} editMode={editMode} categories={categories} />
                     <TextContent>
                         <ParagraphInput width={"80%"} margin={"auto"} title={"Who Am I?"} paragraphValue={paraInputOne} setParagraphValue={setParaInputOne} editMode={editMode} />
                         <ParagraphInput width={"80%"} margin={"auto"} title={"What I Stand For"} paragraphValue={paraInputTwo} setParagraphValue={setParaInputTwo} editMode={editMode} />
                     </TextContent>
                 </Content>
+                <ContactModal close={modalOpen} setClose={setModalOpen}>
+                    <div style={{ height: "2em" }} />
+                    <ParagraphInput paragraphValue={message} setParagraphValue={setMessage} editMode={true} title={"Please Enter Your Message Here"} margin={"auto"} width={"95%"} />
+                    <BasicButton margin={"0.5em"} width={"10em"} activateButton={messageUser} text={"Submit"} active={true} id={-1} />
+                </ContactModal>
             </Page>
         );
     } else {

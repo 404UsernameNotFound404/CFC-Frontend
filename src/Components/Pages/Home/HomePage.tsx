@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import ActivistsOfWeek from './ActvistOfWeek'
-import Events from './Events'
-import HomePagePhoto from '../../../img/protest.jpg'
+import ActivistsOfWeek from './BlogRants';
+import Events from './Events';
 
 const PageContainer = styled.div`
     width: 75em;

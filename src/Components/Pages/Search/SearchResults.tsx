@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import Page from './SearchResultCards/Page';
 import DefaultImage from '../../../img/default.jpg';
@@ -8,6 +8,8 @@ import PickWhatToSearchFor from './PickWhatToSearchForButton';
 import Event from './SearchResultCards/Event';
 
 import DefaultImg from '../../../img/climateMarch.jpg'
+import { AppContext } from '../../../Context/AppContext';
+import { Link } from 'react-router-dom';
 const axios = require("axios");
 
 
@@ -37,6 +39,15 @@ const SearchPickComponent = styled.div`
     flex-wrap: wrap;
 `;
 
+const NeedToLogin = styled.h3`
+    font-size: 1.8em;
+`;
+
+const NeedToLoginLink = styled(Link)`
+    /* font-size: 1.8em; */
+    margin-left: 0.2em;
+`;
+
 type Props = {
     categoriesToNotAllow: any,
     choice: string
@@ -52,6 +63,8 @@ function SearchBar(props: Props) {
         { text: "Organizations", link: "/search?search=Organizations" },
         // { text: "Events", link: "/search?search=Events" }
     ];
+    const c = useContext(AppContext);
+
     useEffect(() => {
         console.log("this should change")
         setLoading(true);
@@ -65,18 +78,29 @@ function SearchBar(props: Props) {
     const fetchAPI = async () => {
         setError("")
         let networkError = true;
+        if (c.userToken.length <= 4 && props.choice == "Activists") {
+            setChoice(props.choice);
+            setLoading(false);
+            return
+        }
         try {
             if (!(props.choice == "Organizations" || props.choice == "Events" || props.choice == "Activists")) {
                 setLoading(false);
                 return;
             }
-            const res = await axios.get(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`);
+            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`, {
+                method: "GET",
+                headers: {
+                    "Authorization": (c.userToken && c.userToken.length >= 4 ? c.userToken : '123')
+                }
+            });
+            const res = await resRaw.json();
             networkError = false;
-            if (res.data.Error != undefined) {
-                setError(res.data.Error)
+            if (res.Error != undefined) {
+                setError(res.Error)
                 return
             }
-            setPages(res.data);
+            setPages(res);
             setLoading(false);
             setChoice(props.choice);
         } catch (err) {
@@ -124,18 +148,28 @@ function SearchBar(props: Props) {
                 break;
             case "Activists":
                 if (props.choice == choice) {
+                    //if not logged in can not view activists
                     return (
-                        <>
-                            {
-                                pages.map((ele, i) => {
-                                    if (checkIfInCategories(ele.Categories)) {
-                                        return <Page width={"29%"} image={(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories={ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
-                                    }
-                                })
-                            }
-                        </>
-                    );
-
+                        (c.userToken.length >= 4 ?
+                            <>
+                                {
+                                    pages.map((ele, i) => {
+                                        if (checkIfInCategories(ele.Categories)) {
+                                            return <Page width={"29%"} image={(ele.Image.length > 2) ? ele.Image : DefaultImage} Categories={ele.Categories} ID={ele.PageID} name={ele.Name} para={ele.Para1} key={i} />
+                                        }
+                                    })
+                                }
+                            </> :
+                            <>
+                                <NeedToLogin>
+                                    Sorry You Need To Be Logged In To View Activists.
+                                    This is to help keep activists safe.
+                                    Please Login or Create an account here:
+                                    <NeedToLoginLink to="/login">Login</NeedToLoginLink>
+                                </NeedToLogin>
+                            </>
+                        )
+                    )
                 } else {
                     return (<div></div>)
                 }

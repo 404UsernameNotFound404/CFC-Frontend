@@ -52,7 +52,9 @@ const ParaTitle = styled.h1`
 
 const CharacterCount = styled.p`
     font-size: 0.9em;
-    margin: auto 0;
+    margin: 0;
+    margin-top: auto;
+    margin-bottom: 0.5em;
     margin-left: auto;
     color: black;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   

@@ -52,21 +52,36 @@ const TopBarText = styled.h1`
     }
 `;
 
+const ContactButton = styled.div`
+    background-color: #3c78d8;
+    text-align: center;
+    padding: 0.2em 0;
+    font-size: 1.5em;
+    color: white;
+    width: 8em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    &:hover {
+        color: white;
+        background-color: #1e4b97;
+    }
+`;
+
 type Props = {
     name: string,
-    email: string,
     canEditMode: boolean,
     editMode: boolean,
     categories: any,
     allCategories: any,
     setAllCategories: any,
     update: any,
-    image: string
+    image: string,
+    setModalOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function UserPage(props: Props) {
     const [imageHash, setImageHash] = useState(0)
-    const { image, name, email, canEditMode, editMode, categories, allCategories, setAllCategories } = props;
+    const { image, name, canEditMode, editMode, categories, allCategories, setAllCategories } = props;
     const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
 
     const update = () => {
@@ -80,7 +95,7 @@ function UserPage(props: Props) {
                 <PhotoAndUploader size={"12.5em"} img={`${image}?${imageHash}`} update={update} canEdit={canEditMode} />
                 <TopBarTextContainer>
                     <TopBarText>{name}</TopBarText>
-                    <TopBarText>{email}</TopBarText>
+                    {!canEditMode ? <ContactButton onClick = {() => props.setModalOpen(true)}>Message</ContactButton> : ''}
                 </TopBarTextContainer>
             </TopBarTopSection>
             <PageCategories justify_content = {"space"} margin = {!isPhone ? "auto" : "0"} width={"10em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={categories} editMode={editMode} />

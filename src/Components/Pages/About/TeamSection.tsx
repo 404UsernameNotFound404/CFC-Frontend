@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ActivistPage from '../Search/SearchResultCards/Page';
 import styled from 'styled-components';
 import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 import DefaultPhoto from '../../../img/default.jpg'
+import { AppContext } from '../../../Context/AppContext';
 
 const Component = styled.div`
     width: 100%;
@@ -20,6 +21,7 @@ function TeamSection() {
         { role: "Co-Founder", id: "1WxtVNFM64F102yBb1BBFeltKWo" },
     ]);
     const [loading, setLoading] = useState(true);
+    const c = useContext(AppContext);
 
     useEffect(() => {
         fetchAPI();
@@ -32,7 +34,10 @@ function TeamSection() {
             }))
             setTeamMemberData(allRes);
             setLoading(false);
-        } catch (err) { }
+        } catch (err) {
+            setLoading(true);
+            c.setMessageToUser({message: "Error Getting Team", colour: "red"})
+        }
         //consider error handling
     }
 
@@ -41,6 +46,7 @@ function TeamSection() {
             method: "GET"
         })
         let res = await resRaw.json();
+        if (res.Error) throw "Error Getting Team"
         res = { ...res, role: role, id: id }
         return res
     }

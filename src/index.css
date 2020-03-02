@@ -13,9 +13,12 @@ html {
   padding: 0;
 }
 
-h1,h2,h3,h4,a {
+h1, h2, a {
   font-family: 'Cormorant Garamond', serif;
-  /* font-family: 'Roboto', sans-serif; */
+}
+
+p, h3, h4 {
+  font-family: 'Scope One', serif;
 }
 
 code {

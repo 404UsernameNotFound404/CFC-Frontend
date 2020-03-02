@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import ActivstPhoto from '../../../img/greta.jpg'
+import BlogRantPhoto from '../../../img/greta.jpg'
 
 const Component = styled.div`
     width: 47%;
@@ -48,7 +48,7 @@ const TextContainer = styled.div`
     }
 `;
 
-const ImageOfActvist = styled.img`
+const ImageOfActivist = styled.img`
     width: 40%;
     height: auto;
     margin: auto 0;
@@ -68,11 +68,14 @@ function ActvistOfWeek() {
             <Title>Activist Of The Week</Title>
             <Content>
                 <TextContainer>
-                    <Name>Greta Thunberg</Name>
-                    <ShortDesc>Swedish Climate Change Activist</ShortDesc>
-                    <LongDescription>Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.</LongDescription>
+                    <Name>Blogs And Rants</Name>
+                    <ShortDesc>Introductory</ShortDesc>
+                    <LongDescription>
+                        This is where we will put a blog we would like to feature. We have not decided how we would like the blog to
+                        work, and would love your feedback on how you would like it to look. And what you would like to be possible.
+                    </LongDescription>
                 </TextContainer>
-                <ImageOfActvist src = {ActivstPhoto} />
+                <ImageOfActivist src = {BlogRantPhoto} />
             </Content>
         </Component>
     );

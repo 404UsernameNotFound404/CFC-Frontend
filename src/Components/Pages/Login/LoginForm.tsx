@@ -79,8 +79,6 @@ const LoadingSymbol = styled.img`
 type Props = {
     register: number
     setRegister: Function,
-    message: { message: string, error: boolean },
-    setMessage: Function,
     orgRegister: boolean
 }
 
@@ -96,8 +94,6 @@ function LoginForm(props: Props) {
     const [phoneNumber, setPhoneNumber] = useState<{ first: string, middle: string, end: string }>({ first: '', middle: '', end: '' })
     const [checkBox, setCheckBox] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
-    const { message } = props
-    const { setMessage } = props;
 
     const login = async (e: any) => {
         let networkError = true;
@@ -120,10 +116,10 @@ function LoginForm(props: Props) {
         catch (err) {
             props.setRegister(0);
             if (networkError) {
-                setMessage({ error: true, message: "Network Error Sorry For Inconveince" });
+                c.setMessageToUser({ colour: "red", message: "Network Error Sorry For Inconveince" });
                 setRedirectToHome(false);
             } else {
-                setMessage({ error: true, message: err });
+                c.setMessageToUser({ colour: "red", message: err });
                 setRedirectToHome(false);
             }
         }
@@ -132,15 +128,17 @@ function LoginForm(props: Props) {
     const forgotPassword = async (e?: any) => {
         try { e.preventDefault(); } catch (err) { }
         try {
+            props.setRegister(99);
             if (!registerValues[0].match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) throw "Email is not properly formated";
             let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/forgotPassword/send`, { Email: registerValues[0] });
             if (res.data.Error != undefined) throw res.data.Error
-            setMessage({ error: false, message: "Email sent please check your inbox." })
+            c.setMessageToUser({ colour: "green", message: "Email sent please check your inbox." })
         } catch (err) {
+            props.setRegister(2);
             if (typeof err == "string") {
-                setMessage({ error: true, message: err })
+                c.setMessageToUser({ colour: "red", message: err })
             }
-            setMessage({ error: true, message: "Error Process Failed" })
+            c.setMessageToUser({ colour: "red", message: "Error Process Failed" })
         }
 
     }
@@ -153,35 +151,36 @@ function LoginForm(props: Props) {
 
     const register = async () => {
         try {
+            props.setRegister(99);
             if (!checkBox) throw "Must agree to privacy policy"
             //password minum requirement check(Must be at least eight characters and have 1 number and letter)
             if (!registerValues[1].match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
-                setMessage({ error: true, message: "Password must be 8 characters with atleast one number and letter" })
+                c.setMessageToUser({ colour: "red", message: "Password must be 8 characters with atleast one number and letter" })
                 funcSetRegisterValues("", 1);
                 funcSetRegisterValues("", 2);
                 return;
             }
             //checking if the password and re-entred passwords match
             if (registerValues[1] != registerValues[2]) {
-                setMessage({ error: true, message: "Passwords do not match" })
+                c.setMessageToUser({ colour: "red", message: "Passwords do not match" })
                 funcSetRegisterValues("", 1);
                 funcSetRegisterValues("", 2);
                 return;
             }
             //email check
             if (!registerValues[0].match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
-                setMessage({ error: true, message: "Email is not properly formated" })
+                c.setMessageToUser({ colour: "red", message: "Email is not properly formated" })
                 funcSetRegisterValues("", 0);
                 return;
             }
             //name check
             if (registerValues[4].length < 3) {
-                setMessage({ error: true, message: "Name must be more then three characters" })
+                c.setMessageToUser({ colour: "red", message: "Name must be more then three characters" })
                 funcSetRegisterValues("", 4);
                 return;
             }
             if ((phoneNumber.first.length != 3 || phoneNumber.middle.length != 3 || phoneNumber.end.length != 4) && (phoneNumber.first.length != 0 || phoneNumber.middle.length != 0 || phoneNumber.end.length != 0)) {
-                setMessage({ error: true, message: "Phone Number not properly formatted(not mandatory)" })
+                c.setMessageToUser({ colour: "red", message: "Phone Number not properly formatted(not mandatory)" })
                 setPhoneNumber({ first: '', middle: '', end: '' })
                 return;
             }
@@ -192,24 +191,24 @@ function LoginForm(props: Props) {
             if (!props.orgRegister) {
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
-                    setMessage({ error: false, message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
+                    c.setMessageToUser({ colour: "green", message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
                     props.setRegister(0);
                     return
                 }
-                setMessage({ error: true, message: res.data.Error })
+                c.setMessageToUser({ colour: "red", message: res.data.Error })
             } else {
                 if (registerValues[5].length < 3) {
-                    setMessage({ error: true, message: "Location must be more then three characters" })
+                    c.setMessageToUser({ colour: "red", message: "Location must be more then three characters" })
                     funcSetRegisterValues("", 5);
                     return;
                 }
                 if (registerValues[6].length < 3) {
-                    setMessage({ error: true, message: "Link must be more then three characters" })
+                    c.setMessageToUser({ colour: "red", message: "Link must be more then three characters" })
                     funcSetRegisterValues("", 6);
                     return;
                 }
                 if (description.length < 10) {
-                    setMessage({ error: true, message: "Description must be more then 10 characters must be more then three characters" })
+                    c.setMessageToUser({ colour: "red", message: "Description must be more then 10 characters must be more then three characters" })
                     setDescription("");
                     return;
                 }
@@ -218,43 +217,42 @@ function LoginForm(props: Props) {
                     if (!ele.disabled) {
                         try {
                             activeTags.push(parseInt(ele.ID))
-                        } catch (err) {}
+                        } catch (err) { }
                     }
                 })
 
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 });
                 if (res.data.Valid != undefined) {
-                    setMessage({ error: false, message: "Registered Successfully" })
+                    c.setMessageToUser({ colour: "green", message: "Registered Successfully" })
                     props.setRegister(0);
                     return
                 }
-                setMessage({ error: true, message: res.data.Error })
+                c.setMessageToUser({ colour: "red", message: res.data.Error })
             }
+            props.setRegister(0);
         }
         catch (err) {
+            props.setRegister(1);
             if (typeof err == "string") {
-                setMessage({ error: true, message: err })
+                c.setMessageToUser({ colour: "red", message: err })
                 return
             }
-            setMessage({ error: true, message: "Error creating account" })
+            c.setMessageToUser({ colour: "red", message: "Error creating account" })
         }
     }
 
     const funcSetRegisterValues = (value: any, ind: number) => {
-        setRegisterValues(registerValues.map((ele, i) => {
-            if (ind === i) {
-                return value
-            } else {
-                return ele
-            }
-        }))
+        setRegisterValues(registerValues.map((ele, i) => (ind == i ? value : ele)))
     }
 
+    //0 = login
+    //1 = register
+    //2 = forgot password
+    //99 = loading
     switch (props.register) {
         case 0:
             return (
                 <Content onSubmit={login}>
-                    <Message error={message.error}>{message.message}</Message>
                     <LoginInput onChange={(e) => { setEmailInput(e.target.value) }} value={emailInput} placeholder="Email Address" />
                     <BreakLine />
                     <LoginInput onChange={(e) => { setPasswordInput(e.target.value) }} value={passwordInput} placeholder="Password" type='password' />
@@ -268,7 +266,6 @@ function LoginForm(props: Props) {
         case 1:
             return (
                 <Content>
-                    <Message error={message.error}>{message.message}</Message>
                     <LoginInput value={registerValues[0]} onChange={(e) => { funcSetRegisterValues(e.target.value, 0) }} placeholder="*Please Enter Email" />
                     <BreakLine />
                     <LoginInput value={registerValues[1]} onChange={(e) => { funcSetRegisterValues(e.target.value, 1) }} placeholder="*Enter Password" type='password' />
@@ -297,7 +294,6 @@ function LoginForm(props: Props) {
         case 2:
             return (
                 <Content onSubmit={forgotPassword}>
-                    <Message error={message.error}>{message.message}</Message>
                     <TextForForgotPassword>Enter your email and we will send a link to change your password.</TextForForgotPassword>
                     <LoginInput value={registerValues[0]} onChange={(e) => { funcSetRegisterValues(e.target.value, 0) }} placeholder="Enter Email Associated With Account" />
                     <BasicButton activateButton={forgotPassword} width={"45%"} text={"Submit"} active={false} id={20} />
@@ -307,15 +303,15 @@ function LoginForm(props: Props) {
         case 99:
             return (
                 <>
-                    <LoadingSymbol src = {LoadingGif} />
+                    <LoadingSymbol src={LoadingGif} />
                 </>
             )
             break;
-        default: 
-        return (
-            <>
-            </>
-        )
+        default:
+            return (
+                <>
+                </>
+            )
     }
 }
 

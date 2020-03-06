@@ -45,7 +45,7 @@ function ThirdSlide() {
     const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10)  })
     return (
         <Component>
-            <Title>This is when the idea of Connecting for Change was born. </Title>
+            <Title>This is when the idea of Connecting For Change was born. </Title>
             <Photo src={PhotoOfFounders} />
             <UnderTitle>This website’s purpose is to help like-minded people connect and join forces to fight injustice.</UnderTitle>
         </Component>

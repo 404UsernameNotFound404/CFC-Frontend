@@ -21,12 +21,11 @@ const Page = styled.div`
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 95%;
     }
-    
-    height: 97.75vh;
+    min-height: 97.75vh;
+    height: fit-content;
     margin: auto;
     display: flex;
     justify-content: center;
-    height: 100vh;
 `;
 
 const SubTitle = styled.h1`
@@ -66,11 +65,12 @@ const BackgroundImageOverlay = styled.div`
 
 const BackgroundImageContainer = styled.div`
     width: 33vw;
-    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
     overflow: hidden;
+    background-color: red;
 `;
 
 const RegisterAndForgotUsername = styled.div`
@@ -121,8 +121,6 @@ function LoginPage() {
     const [orgRegister, setOrgRegister] = useState(false);
     const [reToHome, setReToHome] = useState(false);
     const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
-    const [message, setMessage] = useState({ error: false, message: "" })
-
 
     const registerClick = (whatToSwitch: number, orgRegisterIn: boolean) => {
         setOrgRegister(orgRegisterIn)
@@ -138,7 +136,7 @@ function LoginPage() {
         if (registerValue == 'user') {
             setRegister(2)
         }
-    })
+    }, [])
 
     return (
         <Page>
@@ -151,13 +149,13 @@ function LoginPage() {
             }
             <Content>
                 <SubTitle>Ready to make a change?</SubTitle>
-                <LoginForm orgRegister = {orgRegister} setMessage={setMessage} message={message} setRegister={setRegister} register={register} />
+                <LoginForm orgRegister = {orgRegister} setRegister={setRegister} register={register} />
                 <RegisterAndForgotUsername>
                     {(register != 0) ?
-                        <ForgotRegisterText onClick={() => { registerClick(0, false); setMessage({ error: false, message: "" }) }}>Go To Login</ForgotRegisterText>
+                        <ForgotRegisterText onClick={() => { registerClick(0, false); }}>Go To Login</ForgotRegisterText>
                         :
                         <div>
-                            <PickWhatToCreate setMessage={setMessage} registerOrg={() => { registerClick(1, true) }} registerUser={() => { registerClick(1, false) }} />
+                            <PickWhatToCreate registerOrg={() => { registerClick(1, true) }} registerUser={() => { registerClick(1, false) }} />
                             <ForgotPassword onClick={() => { registerClick(2, false) }}>Forgot Password?</ForgotPassword>
                         </div>
                     }

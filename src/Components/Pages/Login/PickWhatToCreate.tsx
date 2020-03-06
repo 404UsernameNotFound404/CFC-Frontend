@@ -43,15 +43,14 @@ const LinkToCreatingSomething = styled.span`
 
 type Props = {
     registerUser: Function,
-    registerOrg: Function,
-    setMessage: Function
+    registerOrg: Function
 }
 
 function PickWhatToCreate(props: Props) {
 
     return (
         <Component>
-            <Text>Create an <LinkToCreatingSomething onClick = {() => {props.registerUser(); props.setMessage({error: false, message: ""})}}>user</LinkToCreatingSomething>/<LinkToCreatingSomething onClick = {() => {props.registerOrg(); props.setMessage({error: false, message: ""})}}>organization</LinkToCreatingSomething> account</Text>
+            <Text>Create an <LinkToCreatingSomething onClick = {() => {props.registerUser(); }}>user</LinkToCreatingSomething>/<LinkToCreatingSomething onClick = {() => {props.registerOrg(); }}>organization</LinkToCreatingSomething> account</Text>
         </Component>
     );
 }

@@ -5,6 +5,7 @@ import Question from './Question'
 const Page = styled.div`
     padding-top: 5em;
     margin: auto;
+    margin-bottom: 3em;
     width: 65em;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 90%;
@@ -13,7 +14,7 @@ const Page = styled.div`
 `;
 
 const PageTitle = styled.h1`
-    font-size: 6em;
+    font-size: 4em;
     margin: 0;
 `;
 
@@ -30,7 +31,7 @@ function FAQPage() {
     ]
     return (
         <Page>
-            <PageTitle>F.A.Q.</PageTitle>
+            <PageTitle>Frequently Asked Questions</PageTitle>
             {
                 faqs.map((ele, i) => <Question question={ele.question} answer={ele.answer} key={i} />)
             }

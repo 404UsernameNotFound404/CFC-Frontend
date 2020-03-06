@@ -46,7 +46,7 @@ function PageCategories(props: Props) {
 
     useEffect(() => {
         if (editMode && allCategories.length > 0) updateAllCategories(allCategories);
-    }, [editMode, categories]);
+    }, [editMode]);
 
     const fetchCategories = async () => {
         try {

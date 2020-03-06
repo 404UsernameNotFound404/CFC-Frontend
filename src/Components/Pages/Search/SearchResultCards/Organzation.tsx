@@ -194,7 +194,7 @@ function Organzation(props: Props) {
                 <CopyMessage color = {copyMessage.color} id = {specificID}>{copyMessage.message}</CopyMessage>
             </CopyButtonContainer>
             <Desc showAll = {seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : props.desc}</Desc>
-            {props.desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>See More</SeeMore> : <div style={{ height: '1.3em' }}></div>}
+            {props.desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={props.link}>{props.link.length >= 35 ? (props.link.substring(0, 35) + "...") : props.link}</LinkToWebite>
             <LogoOfOrg src={props.image} />
             <PageCategories allCategories = {[]} setAllCategories = {null} editMode={false} categories={props.interests} width={"100%"} />

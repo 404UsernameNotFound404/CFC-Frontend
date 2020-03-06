@@ -162,9 +162,9 @@ function SearchBar(props: Props) {
                             </> :
                             <>
                                 <NeedToLogin>
-                                    Sorry You Need To Be Logged In To View Activists.
+                                    Sorry you need to be logged in to view activists.
                                     This is to help keep activists safe.
-                                    Please Login or Create an account here:
+                                    Please login or create an account here:
                                     <NeedToLoginLink to="/login">Login</NeedToLoginLink>
                                 </NeedToLogin>
                             </>

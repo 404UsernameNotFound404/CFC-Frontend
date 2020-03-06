@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
 import BasicButton from '../../ComponentLibrayer/BasicButton';
+import { AppContext } from '../../../Context/AppContext';
+import LoadingPage from '../../ComponentLibrayer/LoadingPage';
 const axios = require('axios')
 
 
@@ -44,10 +46,11 @@ const Text = styled.h4`
 `;
 
 function ForgotPage() {
-    const [message, setMessage] = useState({ color: "black", text: "" });
     const [password, setPassword] = useState({ password: "", re_enter_password: "" })
     const [auth, setAuth] = useState("");
     const [redirectToLogin, setRedirectToLogin] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const c = useContext(AppContext);
 
     useEffect(() => {
         verify();
@@ -67,32 +70,39 @@ function ForgotPage() {
     const resetPassword = async (e?: any) => {
         try { e.preventDefault(); } catch (err) { }
         try {
+            setLoading(true);
             if (password.re_enter_password != password.password) throw "Password and re-entered password must be the same."
             if (!!password.password[1].match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) throw "Password must be 8 characters with atleast one number and letter";
             let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/forgotPassword/verify`, { VerificationCode: auth, Password: password.password });
             if (res.data.Error != undefined) throw res.data.Error;
-            setMessage({ color: "green", text: "Password Is Reset" })
+            c.setMessageToUser({ colour: "green", message: "Password Is Reset" })
+            setRedirectToLogin(true);
         } catch(err) {
-            console.log(err);
             if (typeof err == "string") {
-                setMessage({ color: "red", text: err })
+                c.setMessageToUser({ colour: "red", message: err })
             }
-            setMessage({ color: "red", text: "Error completing process." })
+            c.setMessageToUser({ colour: "red", message: "Error completing process." })
         }
     }
 
-    return (
-        <Page onSubmit = {resetPassword}>
-            {redirectToLogin ? <Redirect to = "/login" /> : ''}
-            <Text>To Reset Your Password Please Enter And Confirm New Password</Text>
-            <Message color={message.color}>{message.text}</Message>
-            <Inputs>
-                <LoginInput onChange={(e) => { setPassword({ password: e.target.value, re_enter_password: password.re_enter_password }) }} value={password.password} placeholder="Reset Your Password" type='password' />
-                <LoginInput onChange={(e) => { setPassword({ password: password.password, re_enter_password: e.target.value }) }} value={password.re_enter_password} placeholder="Re-enter Your Password" type='password' />
-            </Inputs>
-            <BasicButton activateButton={resetPassword} width={"18%"} text={"Submit"} active={false} id={20} />
-        </Page>
-    )
+    if (!loading) {
+        return (
+            <Page onSubmit = {resetPassword}>
+                {redirectToLogin ? <Redirect to = "/login" /> : ''}
+                <Text>To Reset Your Password Please Enter And Confirm New Password</Text>
+                <Inputs>
+                    <LoginInput onChange={(e) => { setPassword({ password: e.target.value, re_enter_password: password.re_enter_password }) }} value={password.password} placeholder="Reset Your Password" type='password' />
+                    <LoginInput onChange={(e) => { setPassword({ password: password.password, re_enter_password: e.target.value }) }} value={password.re_enter_password} placeholder="Re-enter Your Password" type='password' />
+                </Inputs>
+                <BasicButton activateButton={resetPassword} width={"18%"} text={"Submit"} active={false} id={20} />
+            </Page>
+        )
+    } else {
+        return (
+            <LoadingPage />
+        )
+    }
+    
 }
 
 export default ForgotPage;

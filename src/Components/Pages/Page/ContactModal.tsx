@@ -5,6 +5,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { AppContext } from '../../../Context/AppContext';
 
 const Component = styled.div`
+    left: 0;
     top: 0;
     position: fixed;
     width: 100vw;
@@ -41,7 +42,7 @@ const CloseIcon = styled.h4`
 type Props = {
     close: boolean,
     setClose: React.Dispatch<React.SetStateAction<boolean>>,
-    children: ReactNode[]
+    children: ReactNode[] | ReactNode
 }
 
 function ContactModal(props: Props) {

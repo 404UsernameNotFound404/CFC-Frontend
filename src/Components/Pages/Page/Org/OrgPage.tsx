@@ -8,7 +8,7 @@ import SingleLineInput from "../../../ComponentLibrayer/InputForSingleLine";
 import PageCategories from '../PageCategories'
 import DefaultImage from '../../../../img/default.jpg'
 import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
-import ParagraphInput from '../ParaInput'
+import ParagraphInput from '../../../ComponentLibrayer/ParaInput'
 import { AppContext } from '../../../../Context/AppContext';
 import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
 import PhotoAndUploader from '../../../ComponentLibrayer/PhotoAndUploader';

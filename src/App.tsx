@@ -24,6 +24,7 @@ import ForgotPasswordPage from './Components/Pages/ForgotPasswordPage/ForgotPage
 import EventPage from './Components/Pages/Event/EventPage'
 import LoadingPage from './Components/ComponentLibrayer/LoadingPage';
 import MessageToUserComponent from './Components/MessageToUser/MessageToUserComponent';
+import PageCreationTest from './Components/Pages/PageCreationTest';
 
 const axios = require("axios");
 
@@ -68,7 +69,8 @@ function App() {
     } catch (err) {
       if (authToken != undefined && authToken.length > 0) setRedirectToLogin(true);
       setUserToken("")
-      setUserID("")
+      setUserID("");
+      Cookie.set("authToken", "")
       setLoading(false);
     }
   }
@@ -114,6 +116,7 @@ function App() {
               <Route path='/Privacy-Policy' component={PrivacyPolicy} />
               <Route path='/profile' component={() => <ProfilePage userID={userID} />} />
               <Route path='/forgotPassword' component={ForgotPasswordPage} />
+              <Route path='/pageCreationTesting' component = {PageCreationTest} />
               <Route component={Home} />
             </Switch>
             <NavBar showNavBar={showNavBar} />

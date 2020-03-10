@@ -165,10 +165,16 @@ function ProfilePage(props: Props) {
 
     const forgotPassword = async () => {
         try {
-            let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/forgotPassword/send`, { Email: "registerValues" });
+            c.setMessageToUser({message: `Loading...`, colour: "black"})
+            let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/forgotPassword/send`, { Email: email });
             if (res.data.Error != undefined) throw res.data.Error
+            c.setMessageToUser({message: `Password reset email sent to recovery email to user.`, colour: "green"})
         } catch (err) {
-
+            if (typeof err == "string") {
+                c.setMessageToUser({message: err, colour: "red"})
+                return;
+            }
+            c.setMessageToUser({message: "Error Resetting Password", colour: "red"})
         }
     }
 
@@ -182,7 +188,7 @@ function ProfilePage(props: Props) {
                         <Name>{name}</Name>
                         <Email>{email}</Email>
                         <DeleteButton onClick={deleteAccount}>Delete Account</DeleteButton>
-                        <ForgotPasswordButton>Forgot Password</ForgotPasswordButton>
+                        <ForgotPasswordButton onClick = {forgotPassword}>Forgot Password</ForgotPasswordButton>
                     </Content>
                 </PageContent>
             </Page>

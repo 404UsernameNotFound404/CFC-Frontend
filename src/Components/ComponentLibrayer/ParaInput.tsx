@@ -78,18 +78,19 @@ type Props = {
     editMode: boolean,
     title: string,
     margin: string,
-    width: string
+    width: string,
+    pageCreation?: boolean
 }
 
 
 function ParaInput(props: Props) {
-    const { paragraphValue, setParagraphValue, editMode, title, margin} = props;
+    const { paragraphValue, setParagraphValue, editMode, title, margin, pageCreation} = props;
     return (
         <Component width = {props.width} margin = {margin}>
-            <TitleCount>
+            {!pageCreation ? <TitleCount>
                 <ParaTitle>{title}</ParaTitle>
                 {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{ paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
-            </TitleCount>
+            </TitleCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
             {editMode ? <ParaInputStyle value={paragraphValue} onChange={(e) => { setParagraphValue(e.target.value) }} /> : <Para>{paragraphValue}</Para>}
         </Component>

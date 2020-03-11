@@ -1,44 +1,62 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useState, useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import autoSize from 'autosize';
+import ParaInputMenu from './ParaInputMenu';
 
 type ComponentProps = {
     margin: string
-    width: string
+    width: string,
+    fontSize: string
 }
 
 const Component = styled.div<ComponentProps>`
     position:  relative;
     width: ${p => p.width};
     height: 100%;
-    margin: 1em ${p => p.margin};
+    margin: ${p => p.margin};
+    font-size: ${p => p.fontSize};
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         width: 95%;
     }
 `;
 
-const ParaInputStyle = styled.textarea`
+type ParaInputStyleProps = {
+    textAlign: string
+}
+
+const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
     width: 100%;
-    height: 10em;
+    min-height: 2em;
+    height: auto;
     resize: none;
+    font-size: inherit;
     overflow: none;
     border: lightgrey solid thin;
-    font-size: 1.5rem;
     font-family: 'Cormorant Garamond', serif;
     font-style: normal;
-    text-align: center;
+    text-align: ${p => p.textAlign};
+    overflow: auto;
+    padding: 0.25em;
     margin: 0;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         padding: 0.25em;
     }
 `;
 
-const Para = styled.p`
+type ParaProps = {
+    textAlign: string
+}
+
+
+const Para = styled.p<ParaProps>`
     width: 100%;
-    font-size: 1.5rem;
+    font-size: inherit;
     font-weight: lighter;
     font-style: normal;
+    text-align: ${p => p.textAlign};
     font-family: 'Cormorant Garamond', serif;
     margin: 0;
+    padding: 0.25em;
 `;
 
 const ParaTitle = styled.h1`
@@ -79,22 +97,80 @@ type Props = {
     title: string,
     margin: string,
     width: string,
-    pageCreation?: boolean
+    pageCreation?: boolean,
+    id?: any,
+    textAlign?: string,
+    fontSize?: string,
 }
 
 
 function ParaInput(props: Props) {
-    const { paragraphValue, setParagraphValue, editMode, title, margin, pageCreation} = props;
+    const ref = useRef(null);
+    const menuRef = useRef(null);
+    const { paragraphValue, setParagraphValue, editMode, title, margin, pageCreation } = props;
+    const [fontSize, setFontSize] = useState((props.fontSize) ? props.fontSize : "1.5rem");
+    const [focus, setFocus] = useState(false);
+    const forceUpdate = useForceUpdate();
+    const [clickedMenu, setClickedMenu] = useState(false);
+    const textAlign = (props.textAlign) ? props.textAlign : 'left';
+    useEffect(() => {
+        document.addEventListener('click', testFunc);
+    }, [])
+
+    useEffect(() => {
+        console.log("change**********************************************")
+    }, [clickedMenu])
+
+    const testFunc = (e: any) => {
+        console.log("()(()*()&&()*&*(^$#$%@^@#%^@#*@#(*@#&(@*#&(*@&#(*@&#(*@#&")
+        let found = false;
+        let parent = e.target;
+        do {
+            parent = parent.parentElement;
+            if (parent == ref.current || parent == menuRef.current) {
+                found = true;
+            }
+        } while(parent != null);
+        console.log(found)
+        if (e.target != ref.current && !found) {
+            if (!clickedMenu) {
+                setFocus(false);
+            }
+        }
+        console.log("setting clicked true")
+        setClickedMenu(true);
+    }
+
+    const updateText = (e: any) => {
+        //to allow for re-sizing of the textarea
+        ref.current.focus();
+        autoSize(ref.current);
+        setParagraphValue(props.id, e.target.value);
+
+    }
+
+    const switchOrientation = (value: string) => {
+        console.log("switch")
+        setFocus(true);
+        setParagraphValue(props.id, value, true);
+        setClickedMenu(true);
+    }
     return (
-        <Component width = {props.width} margin = {margin}>
+        <Component onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
+            {focus && pageCreation ? <ParaInputMenu menuRef = {menuRef} switchOrientation={switchOrientation} setFocus={setFocus} /> : ""}
             {!pageCreation ? <TitleCount>
                 <ParaTitle>{title}</ParaTitle>
-                {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{ paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
+                {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             </TitleCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-            {editMode ? <ParaInputStyle value={paragraphValue} onChange={(e) => { setParagraphValue(e.target.value) }} /> : <Para>{paragraphValue}</Para>}
+            {editMode ? <ParaInputStyle rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} /> : <Para textAlign={textAlign}>{paragraphValue}</Para>}
         </Component>
     )
+}
+
+function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => ++value); // update the state to force render
 }
 
 export default ParaInput;

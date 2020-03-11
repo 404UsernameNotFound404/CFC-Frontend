@@ -40,12 +40,12 @@ function MultiSection(props: Props) {
     const [choices, setChoices] = useState([]);
     useEffect(() => {
         setChoices([...Array(props.numberOfSection)].map((e, i) => {
-            return {textSelected: true, id: i}
+            return {textSelected: true, id: i, type: 0}
         }));
     }, []);
 
     const setTextSelected = (id: number) => {
-        setChoices(choices.map(ele => ((ele.id == id) ? {...ele, textSelected: !ele.textSelected} : ele)))
+        setChoices(choices.map(ele => ((ele.id == id) ? {...ele, textSelected: !ele.textSelected, type: (ele.textSelected ? 1 : 0)} : ele)))
     }
 
     const { numberOfSection } = props;

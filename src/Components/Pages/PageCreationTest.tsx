@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PageCreation from '../ComponentLibrayer/PageCreation/PageCreation';
 
 const Page = styled.div`
-    padding-top: 5em;
+    padding-top: 10em;
     width: 75em;
     margin: auto;
 `;

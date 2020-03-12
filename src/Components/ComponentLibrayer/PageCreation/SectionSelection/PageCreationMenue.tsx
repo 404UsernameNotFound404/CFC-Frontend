@@ -29,7 +29,8 @@ const AddModule = styled.div`
 `;
 
 type Props = {
-    createSection: any
+    createSection: any,
+    createMultiSection: any
 }
 
 function PageCreationMenu(props: Props) {
@@ -40,7 +41,7 @@ function PageCreationMenu(props: Props) {
     return (
         <Component>
             <AddModule onClick = {() => {setShowOptions(!showOptions)}}>{!showOptions ? plusIcon : minusIcon}</AddModule>
-            <PageCreationMenuOptions createSection = {props.createSection} open = {showOptions} />
+            <PageCreationMenuOptions setOpen = {setShowOptions} createMultiSection = {props.createMultiSection} createSection = {props.createSection} open = {showOptions} />
         </Component>
     );
 }

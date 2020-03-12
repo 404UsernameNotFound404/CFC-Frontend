@@ -54,6 +54,8 @@ function ParaInputMenu(props: Props) {
     const fontSizeChange = (value: number, id: number) => {
         props.increaseDecreaseFont(value);
     }
+
+
     if (show) {
         return (
             <Component ref={props.menuRef} onFocus={() => { setFocus(true); console.log("happening") }} onBlur={() => { setFocus(false) }} >

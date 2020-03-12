@@ -21,7 +21,8 @@ const Component = styled.div<ComponentProps>`
 `;
 
 type ParaInputStyleProps = {
-    textAlign: string
+    textAlign: string,
+    showBorderBottom: boolean
 }
 
 const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
@@ -30,6 +31,7 @@ const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
     font-size: inherit;
     overflow: none;
     border: none;
+    border-bottom: ${p => p.showBorderBottom ? "grey thin solid" : ''};
     font-family: 'Cormorant Garamond', serif;
     font-style: normal;
     text-align: ${p => p.textAlign};
@@ -144,7 +146,7 @@ function ParaInput(props: Props) {
                 {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             </TitleCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-            <ParaInputStyle rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly = {!editMode} />
+            <ParaInputStyle showBorderBottom = {paragraphValue.length == 0} rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly = {!editMode} />
         </Component>
     )
 }

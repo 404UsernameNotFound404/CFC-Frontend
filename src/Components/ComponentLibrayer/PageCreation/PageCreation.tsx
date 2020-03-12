@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../Pages/Page/ContactModal';
-import ModulePicker from './/PickModule';
+import ModulePicker from './ModalComps/PickModule';
 import ParaInput from '../ParaInput/ParaInput';
 import { PageCreationContext } from '../../../Context/PageCreationContext';
 import MultiSectionDisplay from './MultiSectionDisplay';
 import PageCreationMenu from './SectionSelection/PageCreationMenue';
+
+import Image1 from '../../../img/BothOfUsPhoto.jpg';
+import Image2 from '../../../img/climateMarch.jpg';
+import Image3 from '../../../img/default.jpg';
+import PickImage from './ModalComps/PickImage';
+
+
 
 const Component = styled.div`
     width: 100%;
@@ -49,15 +56,23 @@ function PageCreation() {
     const [data, setData] = useState([]);
     const [show, setShow] = useState(false);
     const [editMode, setEditMode] = useState(true);
+    const [pickImage, setPickImage] = useState({id: -1, show: false});
 
+    const ImageData = [
+        {imageSrc: Image1, src: "1"},
+        {imageSrc: Image2, src: "2"},
+        {imageSrc: Image3, src: "3"}
+    ]
+ 
     const createWhat = (type: number, sectionData?: any) => {
         setShow(false);
         if (type == 0) {
-            setData(data => [...data, { width: "100%", type: type, sections: { text: "Start Writing Here...", id: Math.floor(Math.random() * 500), textAlign: 'left', fontSize: 1.5 } }]);
+            setData(data => [...data, { type: type, sections: { width: "100%", text: "Start Writing Here...", id: Math.floor(Math.random() * 500), textAlign: 'left', fontSize: 1.5 } }]);
             return;
         }
         if (type == 1) {
-            setData(data => [...data, { sections: sectionData, type: type, width: "100%", height: "15em" }]);
+            console.log("creating")
+            setData(data => [...data, { type: type, sections: {id: Math.floor(Math.random() * 500), imgSrc: "", width: "100%", height: "15em"} }]);
             return;
         }
         if (type == 2) {
@@ -67,9 +82,9 @@ function PageCreation() {
                 if (ele.type == 0) {
                     sections.push({ width: width, type: ele.type, fontSize: 1.5, text: "Write here...", id: Math.floor(Math.random() * 500), textAlign: 'left' })
                 } else {
-                    sections.push({ width: width, height: "10em", type: ele.type, img: "" })
+                    sections.push({ width: width, height: "10em", type: ele.type, imgSrc: "", id: Math.floor(Math.random() * 500) })
                 }
-            })
+            });
             setData(data => [...data, { sections: sections, type: type }]);
             return;
         }
@@ -123,12 +138,13 @@ function PageCreation() {
         switch (type) {
             case 0:
                 return (
-                    <ParaInput fontSize = {sectionData.fontSize} textAlign = {sectionData.textAlign} key={key} id={sectionData.id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"auto"} width={sectionData.width} />
+                    <ParaInput fontSize = {sectionData.fontSize} textAlign = {sectionData.textAlign} key={key} id={sectionData.id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"0"} width={sectionData.width} />
                 )
                 break;
             case 1:
+                console.log(sectionData)
                 return (
-                    <ImageMod key={key} width={sectionData.width} height={sectionData.height} src={sectionData.img} />
+                    <ImageMod onClick = {() => {openPickImage(sectionData.id)}} key={key} width={sectionData.width} height={sectionData.height} src={sectionData.img} />
                 )
                 break;
             case 2:
@@ -139,17 +155,47 @@ function PageCreation() {
         }
     }
 
+    const openPickImage = (id: number) => {
+        setShow(true);
+        setPickImage({id: id, show: true})
+    }
+
+    
+    const setImage = (id: number, imgSrc: string) => {
+        console.log(id)
+        console.log(imgSrc)
+        setData(data.map(ele => {
+            if (ele.type == 1 && ele.sections.id == id) {
+                return {...ele, sections: {...ele.sections, imgSrc: imgSrc}}
+            }
+            else if (ele.type == 2) {
+                return {...ele, sections: ele.sections.map((eleS: any) => {
+                    if (eleS.type == 1 && eleS.id == id) {
+                        console.log("found")
+                        return {...eleS, imgSrc: imgSrc}
+                    }
+                    return eleS;
+                })}
+            }
+            return ele;
+        }))
+    }
+
     return (
         <PageCreationContext.Provider value={{ choice: createWhat }}>
             <Component>
                 {
                     data.map((ele, i) => whichTypeOfSectionToRender(ele.type, ele.sections, i))
                 }
-                <PageCreationMenu createSection = {createWhat} />
+                <PageCreationMenu createMultiSection = {() => {setShow(true); setPickImage({id: pickImage.id, show: false})}} createSection = {createWhat} />
                 {
                     show ?
                         <Modal close={show} setClose={setShow}>
-                            <ModulePicker choice={createWhat} />
+                            {
+                                !pickImage.show ?
+                                <ModulePicker choice={createWhat} /> :
+                                <PickImage setImage = {setImage} id = {pickImage.id} imageData = {ImageData} />
+                            }
                         </Modal>
                         : ''
                 }

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 type IconContainerProps = {
     align: boolean,
-    selected: boolean
+    selected: boolean,
+    textIconSelect: boolean
 }
 
 const IconContainer = styled.div<IconContainerProps>`
@@ -29,6 +30,13 @@ const IconContainer = styled.div<IconContainerProps>`
     }
     `
     : ''}
+    ${p => p.textIconSelect ? `
+    color: black;
+    background-color: transparent;
+    &:hover {
+        color: grey
+    }
+    ` : ''}
 `;
 
 type IconProps = {
@@ -51,14 +59,15 @@ type Props = {
     value: number | string,
     icon: any,
     align: boolean,
-    fontSize: string
+    fontSize: string,
+    textIcon: boolean
     
 }
 
 function ParaInputMenuItem(props: Props) {
-    const {selected, value, icon, id, onClickFunct, align, fontSize} = props;
+    const {selected, value, icon, id, onClickFunct, align, fontSize, textIcon} = props;
     return (
-        <IconContainer align={align} onClick={() => onClickFunct(value, id)} selected={selected}><Icon fontSize = {fontSize}>{icon}</Icon></IconContainer>
+        <IconContainer align={align} onClick={() => onClickFunct(value, id)} textIconSelect = {textIcon && selected} selected={selected}><Icon fontSize = {fontSize}>{icon}</Icon></IconContainer>
     )
 }
 

@@ -1,29 +1,45 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PhotoUploader from '../../PhotoUploader';
 
 const Component = styled.div`
-    padding: 1em;
+    padding-bottom: 2em;
 `;
 
 const Image = styled.img`
-    width: 10em;
-    height: 7em;
-    border: thin black solid;
-    border-radius: 0.5em;
+    width: 15em;
+    height: 10em;
+    border: 1px black solid;
+    margin-right: 1em;
+    border-radius: 0.25em;
+    object-fit: cover;
 `;
 
 const ImageContainer = styled.div`
+    margin-left: 1em;
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
 `;
 
 const Title = styled.h1`
-    font-size: 1.25em;
+    margin: 0;
+    height: 4rem;
+    padding-left: 1rem;
+    line-height: 4rem;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    background-color: #eee;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+    border-bottom: thin grey solid;
+`;
+
+const PhotoUploaderContainer = styled.div`
+    margin-left: 1em;
 `;
 
 type Props = {
-    imageData: {imageSrc: string, src: string}[],
+    imageData: {imageSrc: string}[],
     setImage: any,
     id: number
 }
@@ -32,10 +48,14 @@ function PickImage(props: Props) {
     const {imageData, setImage, id} = props;
     return (
         <Component>
-            <Title>Images</Title>
+            <Title>Pick An Image</Title>
             <ImageContainer>
-                {imageData.map((ele, i) => <Image onClick = {() => {setImage(id, ele.src)}} src = {ele.imageSrc} key = {i} />)}
+                {/* TO DO HAVE DELETE BUTTON ON IMAGE */}
+                {imageData.map((ele, i) => <Image onClick = {() => {setImage(id, ele.imageSrc)}} src = {ele.imageSrc} key = {i} />)}
             </ImageContainer>
+            <PhotoUploaderContainer>
+            <PhotoUploader update = {() => {console.log("update")}} />
+            </PhotoUploaderContainer>
         </Component>
     )
 }

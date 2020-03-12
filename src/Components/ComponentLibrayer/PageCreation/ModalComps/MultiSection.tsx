@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import WhichModulePicker from '../WhichModulePicker';
+import WhichModulePicker from './WhichModulePicker';
 import { PageCreationContext } from '../../../../Context/PageCreationContext';
 
 const Content = styled.div`

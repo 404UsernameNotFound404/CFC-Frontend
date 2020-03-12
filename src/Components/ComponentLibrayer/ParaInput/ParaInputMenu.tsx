@@ -30,6 +30,7 @@ type Props = {
 function ParaInputMenu(props: Props) {
     const { setFocus, show } = props;
     const [iconSelected, setIconSelected] = useState(0);
+    const [textIconSelected, setTextIconSelected] = useState(1);
 
     const alignRight = <FontAwesomeIcon icon={faAlignRight} />
     const alignLeft = <FontAwesomeIcon icon={faAlignLeft} />
@@ -42,8 +43,8 @@ function ParaInputMenu(props: Props) {
     ];
 
     const iconsPlusMinus = [
-        { icon: "T", value: 0, fontSize: '1.25rem' },
-        { icon: "T", value: 1, fontSize: '0.75rem' }
+        { icon: "T", value: 0, fontSize: '1.25rem'},
+        { icon: "T", value: 1, fontSize: '0.75rem'}
     ]
 
     const switchOrientation = (value: string, id: number) => {
@@ -52,6 +53,7 @@ function ParaInputMenu(props: Props) {
     }
 
     const fontSizeChange = (value: number, id: number) => {
+        setTextIconSelected(value);
         props.increaseDecreaseFont(value);
     }
 
@@ -60,11 +62,11 @@ function ParaInputMenu(props: Props) {
         return (
             <Component ref={props.menuRef} onFocus={() => { setFocus(true); console.log("happening") }} onBlur={() => { setFocus(false) }} >
                 {
-                    iconsAlign.map((ele, i) => <ParaInputMenuItem fontSize = {"1.5rem"} key = {i} icon = {ele.icon} value = {ele.value} align = {true} id = {ele.id} onClickFunct = {switchOrientation} selected = {iconSelected == ele.id} />)
+                    iconsAlign.map((ele, i) => <ParaInputMenuItem textIcon = {false} fontSize = {"1.5rem"} key = {i} icon = {ele.icon} value = {ele.value} align = {true} id = {ele.id} onClickFunct = {switchOrientation} selected = {iconSelected == ele.id} />)
                 }
                 <Spacer />
                 {
-                    iconsPlusMinus.map((ele, i) => <ParaInputMenuItem fontSize = {ele.fontSize} key = {i} icon = {ele.icon} value = {ele.value} align = {false} id = {null} onClickFunct = {fontSizeChange} selected = {false} />)
+                    iconsPlusMinus.map((ele, i) => <ParaInputMenuItem textIcon = {true} fontSize = {ele.fontSize} key = {i} icon = {ele.icon} value = {ele.value} align = {false} id = {null} onClickFunct = {fontSizeChange} selected = {textIconSelected == ele.value} />)
                 }
             </Component>
         );

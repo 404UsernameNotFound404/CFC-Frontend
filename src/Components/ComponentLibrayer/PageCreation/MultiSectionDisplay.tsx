@@ -19,7 +19,7 @@ function MultiSectionDisplay(props: Props) {
     return (
         <MultiSection>
             {
-                sectionData.map((ele: any, i: number) => whichTypeOfSectionToRender(ele.type, ele, i))
+                sectionData.map((ele: any, i: number) => whichTypeOfSectionToRender(ele.type, ele, i, false))
             }
         </MultiSection>
     )

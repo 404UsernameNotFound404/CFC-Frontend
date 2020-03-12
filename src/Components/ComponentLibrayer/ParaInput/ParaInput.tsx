@@ -26,38 +26,23 @@ type ParaInputStyleProps = {
 
 const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
     width: 100%;
-    min-height: 2em;
-    height: auto;
     resize: none;
     font-size: inherit;
     overflow: none;
-    border: lightgrey solid thin;
+    border: none;
     font-family: 'Cormorant Garamond', serif;
     font-style: normal;
     text-align: ${p => p.textAlign};
     overflow: auto;
-    padding: 0.25em;
     margin: 0;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
-        padding: 0.25em;
+        padding: 0.25rem;
     }
 `;
 
 type ParaProps = {
     textAlign: string
 }
-
-
-const Para = styled.p<ParaProps>`
-    width: 100%;
-    font-size: inherit;
-    font-weight: lighter;
-    font-style: normal;
-    text-align: ${p => p.textAlign};
-    font-family: 'Cormorant Garamond', serif;
-    margin: 0;
-    padding: 0.25em;
-`;
 
 const ParaTitle = styled.h1`
     margin: auto 0;
@@ -110,11 +95,11 @@ function ParaInput(props: Props) {
     const { paragraphValue, setParagraphValue, editMode, title, margin, pageCreation } = props;
     const [fontSize, setFontSize] = useState((props.fontSize) ? props.fontSize  : 1.5);
     const [focus, setFocus] = useState(false);
-    const forceUpdate = useForceUpdate();
-    const [clickedMenu, setClickedMenu] = useState(false);
     const textAlign = (props.textAlign) ? props.textAlign : 'left';
     useEffect(() => {
         document.addEventListener('click', checkFocus);
+        ref.current.focus();
+        autoSize(ref.current);
     }, [])
 
     useEffect(() => {
@@ -133,7 +118,6 @@ function ParaInput(props: Props) {
         if (e.target != ref.current && !found) {
             setFocus(false);
         }
-        setClickedMenu(true);
     }
 
     const updateText = (e: any) => {
@@ -148,24 +132,21 @@ function ParaInput(props: Props) {
 
     const increaseDecreaseFont = (value: number) => {
         setParagraphValue(props.id, value, 2);
+        ref.current.focus();
+        autoSize(ref.current);
     }
 
     return (
         <Component onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
-            {focus && pageCreation ? <ParaInputMenu increaseDecreaseFont = {increaseDecreaseFont} menuRef = {menuRef} switchOrientation={switchOrientation} setFocus={setFocus} /> : ""}
+            <ParaInputMenu show = {(focus && pageCreation && editMode)} increaseDecreaseFont = {increaseDecreaseFont} menuRef = {menuRef} switchOrientation={switchOrientation} setFocus={setFocus} />
             {!pageCreation ? <TitleCount>
                 <ParaTitle>{title}</ParaTitle>
                 {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             </TitleCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-            {editMode ? <ParaInputStyle rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} /> : <Para textAlign={textAlign}>{paragraphValue}</Para>}
+            <ParaInputStyle rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly = {!editMode} />
         </Component>
     )
-}
-
-function useForceUpdate(){
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => ++value); // update the state to force render
 }
 
 export default ParaInput;

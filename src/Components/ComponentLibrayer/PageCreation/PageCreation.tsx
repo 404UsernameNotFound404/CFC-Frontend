@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../Pages/Page/ContactModal';
 import ModulePicker from './/PickModule';
-import ParaInput from '../ParaInput';
+import ParaInput from '../ParaInput/ParaInput';
 import { PageCreationContext } from '../../../Context/PageCreationContext';
 import MultiSectionDisplay from './MultiSectionDisplay';
+import PageCreationMenu from './SectionSelection/PageCreationMenue';
 
 const Component = styled.div`
     width: 100%;
@@ -15,18 +16,20 @@ const ButtonContainer = styled.div`
 `;
 
 const AddModule = styled.div`
-    background-color: #46f646;
+    width: 2.25rem;
+    height: 2.25rem;
+    /* background-color: #46f646; */
+    border: thin solid #46f646;
     font-size: 2em;
     text-align: center;
     font-size: 1.5em;
-    color: white;
-    padding: 0.25em 2em;
-    border-radius: 0.25em;
+    color: #46f646;
+    border-radius: 50%;
+    line-height: 2.25rem;
     cursor: pointer;
-    margin-top: 1em;
-    margin-left: 2em;
+    margin-top: 0.5em;
     &:hover {
-        background-color: #0bd50b;
+        color: #0bd50b;
     }
 `;
 
@@ -42,42 +45,15 @@ const ImageMod = styled.img<ImageModProps>`
     background-color: red;
 `;
 
-const MultiSection = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-`;
-
 function PageCreation() {
-    /*
-    data:
-    is going to be an array of objects
-    each object will have type
-    then depending on type will have other data for instance
-    type 0 = text
-        -Properties: 
-            text, text-align, width, id
-    type 1 = image
-        -Properties:
-            width, height, img
-    type 2 = few
-        -Properties:
-            sections:
-                //type references ones above
-                //width will depend on number of sections e.x 2 = 50%
-                //need to figure out id being different from each other
-                {id: "", type: 0, width: "", height: "", text: ""}
-                {type: 1, width: "", height: "", img: ""}
-
-    */
     const [data, setData] = useState([]);
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const [editMode, setEditMode] = useState(true);
 
-    const createWhat = (type: number, sectionData: any) => {
+    const createWhat = (type: number, sectionData?: any) => {
         setShow(false);
         if (type == 0) {
-            setData(data => [...data, { width: "100%", type: type, sections: { ...sectionData, id: Math.floor(Math.random() * 500), textAlign: 'left', fontSize: 1.5 } }]);
+            setData(data => [...data, { width: "100%", type: type, sections: { text: "Start Writing Here...", id: Math.floor(Math.random() * 500), textAlign: 'left', fontSize: 1.5 } }]);
             return;
         }
         if (type == 1) {
@@ -100,7 +76,6 @@ function PageCreation() {
     }
 
     const updateText = (id: number, value: string | number, whatToUpdate: number) => {
-        const amountToIncreaseText = 0.1;
         setData(data.map(ele => {
             switch(ele.type) {
                 case 0:
@@ -113,7 +88,7 @@ function PageCreation() {
                                 return { ...ele, sections: { ...ele.sections, textAlign: value } }
                                 break;
                             case 2:
-                                return { ...ele, sections: { ...ele.sections, fontSize: (Math.round((value == 0 ? ele.sections.fontSize + amountToIncreaseText : ele.sections.fontSize - amountToIncreaseText) * 100) / 100) } }
+                                return { ...ele, sections: { ...ele.sections, fontSize: (value == 0) ? 2 : 1.5 } }
                                 break;
                         }
                     }
@@ -130,7 +105,7 @@ function PageCreation() {
                                     break;
                                 case 2:
                                     //(value == 0) ? 1.5 : 2
-                                    return {...sEle, fontSize: (Math.round((value == 0 ? sEle.fontSize + amountToIncreaseText : sEle.fontSize - amountToIncreaseText) * 100) / 100)}
+                                    return {...sEle, fontSize: (value == 0) ? 2 : 1.5}
                                     break;
                             }
                         } else {
@@ -170,10 +145,7 @@ function PageCreation() {
                 {
                     data.map((ele, i) => whichTypeOfSectionToRender(ele.type, ele.sections, i))
                 }
-                <ButtonContainer>
-                    <AddModule onClick={() => { setShow(true) }}>Add</AddModule>
-                    <AddModule onClick={() => { setEditMode(!editMode) }}>Change Edit Mode</AddModule>
-                </ButtonContainer>
+                <PageCreationMenu createSection = {createWhat} />
                 {
                     show ?
                         <Modal close={show} setClose={setShow}>
@@ -188,3 +160,25 @@ function PageCreation() {
 }
 
 export default PageCreation;
+
+ /*
+    data:
+    is going to be an array of objects
+    each object will have type
+    then depending on type will have other data for instance
+    type 0 = text
+        -Properties: 
+            text, text-align, width, id
+    type 1 = image
+        -Properties:
+            width, height, img
+    type 2 = few
+        -Properties:
+            sections:
+                //type references ones above
+                //width will depend on number of sections e.x 2 = 50%
+                //need to figure out id being different from each other
+                {id: "", type: 0, width: "", height: "", text: ""}
+                {type: 1, width: "", height: "", img: ""}
+
+    */

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAlignRight, faAlignCenter, faAlignLeft, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faAlignRight, faAlignCenter, faAlignLeft } from '@fortawesome/free-solid-svg-icons'
 import ParaInputMenuItem from './ParaInputMenuItem';
 
 const Component = styled.div`
@@ -11,7 +11,7 @@ const Component = styled.div`
     height: 1.7rem;
     width: fit-content;
     display: flex;
-    /* background-color: lightgray; */
+    background-color: white;
 `;
 
 const Spacer = styled.div`
@@ -23,18 +23,17 @@ type Props = {
     setFocus: any,
     switchOrientation: any,
     menuRef: any,
-    increaseDecreaseFont: any
+    increaseDecreaseFont: any,
+    show: boolean
 }
 
 function ParaInputMenu(props: Props) {
-    const { setFocus, increaseDecreaseFont } = props;
+    const { setFocus, show } = props;
     const [iconSelected, setIconSelected] = useState(0);
 
     const alignRight = <FontAwesomeIcon icon={faAlignRight} />
     const alignLeft = <FontAwesomeIcon icon={faAlignLeft} />
     const alignCenter = <FontAwesomeIcon icon={faAlignCenter} />
-    const plus = <FontAwesomeIcon icon={faPlus} />
-    const minus = <FontAwesomeIcon icon={faMinus} />
 
     const iconsAlign = [
         { icon: alignLeft, id: 0, value: "left" },
@@ -43,8 +42,8 @@ function ParaInputMenu(props: Props) {
     ];
 
     const iconsPlusMinus = [
-        { icon: plus, value: 0 },
-        { icon: minus, value: 1 }
+        { icon: "T", value: 0, fontSize: '1.25rem' },
+        { icon: "T", value: 1, fontSize: '0.75rem' }
     ]
 
     const switchOrientation = (value: string, id: number) => {
@@ -55,18 +54,24 @@ function ParaInputMenu(props: Props) {
     const fontSizeChange = (value: number, id: number) => {
         props.increaseDecreaseFont(value);
     }
-
-    return (
-        <Component ref={props.menuRef} onFocus={() => { setFocus(true); console.log("happening") }} onBlur={() => { setFocus(false) }} >
-            {
-                iconsAlign.map((ele, i) => <ParaInputMenuItem key = {i} icon = {ele.icon} value = {ele.value} align = {true} id = {ele.id} onClickFunct = {switchOrientation} selected = {iconSelected == ele.id} />)
-            }
-            <Spacer />
-            {
-                iconsPlusMinus.map((ele, i) => <ParaInputMenuItem key = {i} icon = {ele.icon} value = {ele.value} align = {false} id = {null} onClickFunct = {fontSizeChange} selected = {false} />)
-            }
-        </Component>
-    );
+    if (show) {
+        return (
+            <Component ref={props.menuRef} onFocus={() => { setFocus(true); console.log("happening") }} onBlur={() => { setFocus(false) }} >
+                {
+                    iconsAlign.map((ele, i) => <ParaInputMenuItem fontSize = {"1.5rem"} key = {i} icon = {ele.icon} value = {ele.value} align = {true} id = {ele.id} onClickFunct = {switchOrientation} selected = {iconSelected == ele.id} />)
+                }
+                <Spacer />
+                {
+                    iconsPlusMinus.map((ele, i) => <ParaInputMenuItem fontSize = {ele.fontSize} key = {i} icon = {ele.icon} value = {ele.value} align = {false} id = {null} onClickFunct = {fontSizeChange} selected = {false} />)
+                }
+            </Component>
+        );
+    } else {
+        return (
+            <></>
+        )
+    }
+    
 }
 
 export default ParaInputMenu;

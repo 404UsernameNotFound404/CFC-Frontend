@@ -7,9 +7,10 @@ type IconContainerProps = {
 }
 
 const IconContainer = styled.div<IconContainerProps>`
-    height: 100%;
+    height: 1.7rem;
     margin: auto;
     padding: 0 0.2rem;
+    padding-top: 0.1rem;
     cursor: pointer;
     color: darkgrey;
     &:hover {
@@ -30,10 +31,17 @@ const IconContainer = styled.div<IconContainerProps>`
     : ''}
 `;
 
-const Icon = styled.h4`
-    font-size: 1.5rem;
+type IconProps = {
+    fontSize: string
+}
+
+const Icon = styled.h4<IconProps>`
+    font-size: ${p => p.fontSize};
     color: inherit;
-    margin: auto;
+    margin-top: auto;
+    margin-bottom: 0;
+    height: fit-content;
+    line-height: 1.7rem;
 `;
 
 type Props = {
@@ -42,14 +50,15 @@ type Props = {
     id: number,
     value: number | string,
     icon: any,
-    align: boolean
+    align: boolean,
+    fontSize: string
     
 }
 
 function ParaInputMenuItem(props: Props) {
-    const {selected, value, icon, id, onClickFunct, align} = props;
+    const {selected, value, icon, id, onClickFunct, align, fontSize} = props;
     return (
-        <IconContainer align={align} onClick={() => onClickFunct(value, id)} selected={selected}><Icon>{icon}</Icon></IconContainer>
+        <IconContainer align={align} onClick={() => onClickFunct(value, id)} selected={selected}><Icon fontSize = {fontSize}>{icon}</Icon></IconContainer>
     )
 }
 

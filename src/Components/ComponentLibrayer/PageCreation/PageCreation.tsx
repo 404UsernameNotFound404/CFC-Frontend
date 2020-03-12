@@ -77,7 +77,7 @@ function PageCreation() {
     const createWhat = (type: number, sectionData: any) => {
         setShow(false);
         if (type == 0) {
-            setData(data => [...data, { width: "100%", type: type, sections: { ...sectionData, id: Math.floor(Math.random() * 500), textAlign: 'left' } }]);
+            setData(data => [...data, { width: "100%", type: type, sections: { ...sectionData, id: Math.floor(Math.random() * 500), textAlign: 'left', fontSize: 1.5 } }]);
             return;
         }
         if (type == 1) {
@@ -89,7 +89,7 @@ function PageCreation() {
             let width = (sectionData.length == 2) ? "48%" : "32%";
             sectionData.map((ele: any) => {
                 if (ele.type == 0) {
-                    sections.push({ width: width, type: ele.type, text: "Write here...", id: Math.floor(Math.random() * 500), textAlign: 'left' })
+                    sections.push({ width: width, type: ele.type, fontSize: 1.5, text: "Write here...", id: Math.floor(Math.random() * 500), textAlign: 'left' })
                 } else {
                     sections.push({ width: width, height: "10em", type: ele.type, img: "" })
                 }
@@ -99,54 +99,56 @@ function PageCreation() {
         }
     }
 
-    const updateText = (id: number, value: string, updateTextAlign: boolean) => {
+    const updateText = (id: number, value: string | number, whatToUpdate: number) => {
+        const amountToIncreaseText = 0.1;
         setData(data.map(ele => {
-            if (ele.type == 0) {
-                if (ele.sections.id == id) {
-                    return (updateTextAlign ? { ...ele, sections: { ...ele.sections, textAlign: value } } : { ...ele, sections: { ...ele.sections, text: value } })
-                }
-            }
-            if (ele.type == 2) {
-                let newSections = ele.sections.map((sEle: any) => {
-                    if (sEle.type == 0 && sEle.id == id) {
-                        return updateTextAlign ? { ...sEle, textAlign: value } :  { ...sEle, text: value }
-                    } else {
-                        return sEle;
+            switch(ele.type) {
+                case 0:
+                    if (ele.sections.id == id) {
+                        switch(whatToUpdate) {
+                            case 0:
+                                return { ...ele, sections: { ...ele.sections, text: value } }
+                                break;
+                            case 1:
+                                return { ...ele, sections: { ...ele.sections, textAlign: value } }
+                                break;
+                            case 2:
+                                return { ...ele, sections: { ...ele.sections, fontSize: (Math.round((value == 0 ? ele.sections.fontSize + amountToIncreaseText : ele.sections.fontSize - amountToIncreaseText) * 100) / 100) } }
+                                break;
+                        }
                     }
-                });
-                return { ...ele, sections: newSections };
+                    break;
+                case 2:
+                    let newSections = ele.sections.map((sEle: any) => {
+                        if (sEle.type == 0 && sEle.id == id) {
+                            switch(whatToUpdate) {
+                                case 0:
+                                    return { ...sEle, text: value };
+                                    break;
+                                case 1:
+                                    return { ...sEle, textAlign: value };
+                                    break;
+                                case 2:
+                                    //(value == 0) ? 1.5 : 2
+                                    return {...sEle, fontSize: (Math.round((value == 0 ? sEle.fontSize + amountToIncreaseText : sEle.fontSize - amountToIncreaseText) * 100) / 100)}
+                                    break;
+                            }
+                        } else {
+                            return sEle;
+                        }
+                    });
+                    return { ...ele, sections: newSections };
+                    break;
             }
             return ele;
         }))
     }
 
-    // const switchOrientation = (id: number, value: string) => {
-    //     setData(data.map(ele => {
-    //         if (ele.type == 0) {
-    //             console.log(`${ele.sections.id} == ${id}`)
-    //             if (ele.sections.id == id) {
-    //                 return { ...ele, sections: { ...ele.sections, textAlign: value } }
-    //             }
-    //         }
-    //         if (ele.type == 2) {
-    //             let newSections = ele.sections.map((sEle: any) => {
-    //                 if (sEle.type == 0 && sEle.id == id) {
-    //                     return { ...sEle, textAlign: value }
-    //                 } else {
-    //                     return sEle;
-    //                 }
-    //             });
-    //             return { ...ele, sections: newSections };
-    //         }
-    //         return ele;
-    //     }))
-    // }
-
     const whichTypeOfSectionToRender = (type: number, sectionData: any, key: number) => {
         switch (type) {
             case 0:
                 return (
-                    <ParaInput textAlign = {sectionData.textAlign} key={key} id={sectionData.id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"auto"} width={sectionData.width} />
+                    <ParaInput fontSize = {sectionData.fontSize} textAlign = {sectionData.textAlign} key={key} id={sectionData.id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"auto"} width={sectionData.width} />
                 )
                 break;
             case 1:

@@ -6,7 +6,7 @@ import ParaInputMenu from './ParaInputMenu';
 type ComponentProps = {
     margin: string
     width: string,
-    fontSize: string
+    fontSize: number
 }
 
 const Component = styled.div<ComponentProps>`
@@ -14,7 +14,7 @@ const Component = styled.div<ComponentProps>`
     width: ${p => p.width};
     height: 100%;
     margin: ${p => p.margin};
-    font-size: ${p => p.fontSize};
+    font-size: ${p => p.fontSize}rem;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         width: 95%;
     }
@@ -100,7 +100,7 @@ type Props = {
     pageCreation?: boolean,
     id?: any,
     textAlign?: string,
-    fontSize?: string,
+    fontSize?: number,
 }
 
 
@@ -108,21 +108,20 @@ function ParaInput(props: Props) {
     const ref = useRef(null);
     const menuRef = useRef(null);
     const { paragraphValue, setParagraphValue, editMode, title, margin, pageCreation } = props;
-    const [fontSize, setFontSize] = useState((props.fontSize) ? props.fontSize : "1.5rem");
+    const [fontSize, setFontSize] = useState((props.fontSize) ? props.fontSize  : 1.5);
     const [focus, setFocus] = useState(false);
     const forceUpdate = useForceUpdate();
     const [clickedMenu, setClickedMenu] = useState(false);
     const textAlign = (props.textAlign) ? props.textAlign : 'left';
     useEffect(() => {
-        document.addEventListener('click', testFunc);
+        document.addEventListener('click', checkFocus);
     }, [])
 
     useEffect(() => {
-        console.log("change**********************************************")
-    }, [clickedMenu])
+        setFontSize(props.fontSize)
+    }, [props.fontSize])
 
-    const testFunc = (e: any) => {
-        console.log("()(()*()&&()*&*(^$#$%@^@#%^@#*@#(*@#&(@*#&(*@&#(*@&#(*@#&")
+    const checkFocus = (e: any) => {
         let found = false;
         let parent = e.target;
         do {
@@ -131,33 +130,29 @@ function ParaInput(props: Props) {
                 found = true;
             }
         } while(parent != null);
-        console.log(found)
         if (e.target != ref.current && !found) {
-            if (!clickedMenu) {
-                setFocus(false);
-            }
+            setFocus(false);
         }
-        console.log("setting clicked true")
         setClickedMenu(true);
     }
 
     const updateText = (e: any) => {
-        //to allow for re-sizing of the textarea
         ref.current.focus();
         autoSize(ref.current);
-        setParagraphValue(props.id, e.target.value);
-
+        setParagraphValue(props.id, e.target.value, 0);
     }
 
     const switchOrientation = (value: string) => {
-        console.log("switch")
-        setFocus(true);
-        setParagraphValue(props.id, value, true);
-        setClickedMenu(true);
+        setParagraphValue(props.id, value, 1);
     }
+
+    const increaseDecreaseFont = (value: number) => {
+        setParagraphValue(props.id, value, 2);
+    }
+
     return (
         <Component onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
-            {focus && pageCreation ? <ParaInputMenu menuRef = {menuRef} switchOrientation={switchOrientation} setFocus={setFocus} /> : ""}
+            {focus && pageCreation ? <ParaInputMenu increaseDecreaseFont = {increaseDecreaseFont} menuRef = {menuRef} switchOrientation={switchOrientation} setFocus={setFocus} /> : ""}
             {!pageCreation ? <TitleCount>
                 <ParaTitle>{title}</ParaTitle>
                 {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}

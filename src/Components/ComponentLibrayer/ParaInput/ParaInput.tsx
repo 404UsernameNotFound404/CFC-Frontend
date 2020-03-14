@@ -6,10 +6,12 @@ import ParaInputMenu from './ParaInputMenu';
 type ComponentProps = {
     margin: string
     width: string,
-    fontSize: number
+    fontSize: number,
+    minHeight: string
 }
 
 const Component = styled.div<ComponentProps>`
+    min-height: ${p => p.minHeight};
     position:  relative;
     width: ${p => p.width};
     height: 100%;
@@ -139,7 +141,7 @@ function ParaInput(props: Props) {
     }
 
     return (
-        <Component onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
+        <Component minHeight = {(pageCreation && editMode ? "9rem" : "0")} onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
             <ParaInputMenu show = {(focus && pageCreation && editMode)} increaseDecreaseFont = {increaseDecreaseFont} menuRef = {menuRef} switchOrientation={switchOrientation} setFocus={setFocus} />
             {!pageCreation ? <TitleCount>
                 <ParaTitle>{title}</ParaTitle>

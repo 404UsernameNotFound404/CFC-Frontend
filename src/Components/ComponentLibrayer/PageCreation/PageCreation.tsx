@@ -13,6 +13,7 @@ import Image3 from '../../../img/default.jpg';
 import PickImage from './ModalComps/PickImage';
 
 import SectionDisplay from './SectionDisplay'
+import VideoSection from './VideoSection';
 
 
 
@@ -65,40 +66,45 @@ function PageCreation() {
     const [pickImage, setPickImage] = useState({ id: -1, show: true });
 
     const ImageData = [
-        { imageSrc: Image1 },
+        { imageSrc: "https://connecting-for-change.ca/static/media/protesterYelling.5313dcad.webp" },
         { imageSrc: Image2 },
         { imageSrc: Image3 }
-    ]
+    ];
 
     const createWhat = (type: number, sectionData?: any) => {
         setShow(false);
         switch (type) {
             case 0:
-                setData(data => [...data, { type: type, sections: { width: "75%", text: "Start Writing Here...", id: Math.floor(Math.random() * 500), textAlign: 'left', fontSize: 1.5 } }]);
+                setData(data => [...data, { type: type, id: Math.floor(Math.random() * 3000), sections: { width: "75%", text: "Start Writing Here...", textAlign: 'left', fontSize: 1.5 } }]);
                 break;
             case 1:
-                setData(data => [...data, { type: type, sections: { id: Math.floor(Math.random() * 500), imgSrc: "", width: "100%", height: "15em" } }]);
+                setData(data => [...data, { type: type, id: Math.floor(Math.random() * 3000), sections: { imgSrc: "", width: "100%", height: "15em" } }]);
                 break;
             case 2:
                 let sections = [] as any;
                 let width = (sectionData.length == 2) ? "48%" : "32%";
                 sectionData.map((ele: any) => {
                     if (ele.type == 0) {
-                        sections.push({ width: width, type: ele.type, fontSize: 1.5, text: "Write here...", id: Math.floor(Math.random() * 500), textAlign: 'left' })
+                        sections.push({ width: width, type: ele.type, fontSize: 1.5, text: "Write here...", id: Math.floor(Math.random() * 3000), textAlign: 'left' })
                     } else {
-                        sections.push({ width: width, height: "10em", type: ele.type, imgSrc: "", id: Math.floor(Math.random() * 500) })
+                        sections.push({ width: width, height: "10em", type: ele.type, imgSrc: "", id: Math.floor(Math.random() * 3000) })
                     }
                 });
-                setData(data => [...data, { id: Math.floor(Math.random() * 500), sections: sections, type: type }]);
+                setData(data => [...data, { id: Math.floor(Math.random() * 3000), sections: sections, type: type }]);
                 break;
+            case 3:
+                setData(data => [...data, { type: 3, id: Math.floor(Math.random() * 3000), sections: { vidID: "" } }]);
+            break;
         }
     }
 
-    const updateText = (id: number, value: string | number, whatToUpdate: number) => {
+    const updateText = (id: number, value: string | number, whatToUpdate?: number) => {
         setData(data.map(ele => {
             switch (ele.type) {
                 case 0:
-                    if (ele.sections.id == id) {
+                    console.log("Hello")
+                    if (ele.id == id) {
+                        console.log("found id")
                         switch (whatToUpdate) {
                             case 0:
                                 return { ...ele, sections: { ...ele.sections, text: value } }
@@ -133,41 +139,48 @@ function PageCreation() {
                     });
                     return { ...ele, sections: newSections };
                     break;
+                case 3:
+                    return { ...ele, sections: { ...ele.sections, vidID: value } }
+                    break;
             }
             return ele;
         }))
     }
 
-    const whichTypeOfSectionToRender = (type: number, sectionData: any, key: number, isFullSection?: boolean) => {
+    const whichTypeOfSectionToRender = (type: number, sectionData: any, key: number, id: number, isFullSection?: boolean) => {
         const fullSection = (isFullSection != undefined ? isFullSection : true);
         switch (type) {
             case 0:
                 return (
                     fullSection ?
-                    <SectionDisplay deleteSection = {deleteSection} key={key} id = {sectionData.id}>
-                        <ParaInput fontSize={sectionData.fontSize} textAlign={sectionData.textAlign}  id={sectionData.id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"0 auto"} width={sectionData.width} />
+                    <SectionDisplay numberOfSections = {data.length} index = {key} moveSection = {switchOrder} deleteSection = {deleteSection} key={key} id = {id} width = {"100%"}>
+                        <ParaInput fontSize={sectionData.fontSize} textAlign={sectionData.textAlign}  id={id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"0 auto"} width={sectionData.width} />
                     </SectionDisplay> : 
-                    <ParaInput fontSize={sectionData.fontSize} textAlign={sectionData.textAlign} key={key} id={sectionData.id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"0 auto"} width={sectionData.width} />
+                    <ParaInput fontSize={sectionData.fontSize} textAlign={sectionData.textAlign} key={key} id={id} pageCreation={true} paragraphValue={sectionData.text} setParagraphValue={updateText} editMode={editMode} title={null} margin={"0 auto"} width={sectionData.width} />
 
                 )
                 break;
             case 1:
                 return (
                     fullSection ?
-                    <SectionDisplay deleteSection = {deleteSection} id = {sectionData.id} width = {"100%"}>
-                        <ImageMod onClick={() => { openPickImage(sectionData.id) }} key={key} width={sectionData.width} height={sectionData.height} src={sectionData.imgSrc} />
+                    <SectionDisplay numberOfSections = {data.length} index = {key} moveSection = {switchOrder} key={key} deleteSection = {deleteSection} id = {id} width = {"100%"}>
+                        <ImageMod onClick={() => { openPickImage(id) }}  width={sectionData.width} height={sectionData.height} src={sectionData.imgSrc} />
                     </SectionDisplay> :
-                    <ImageMod onClick={() => { openPickImage(sectionData.id) }} key={key} width={sectionData.width} height={sectionData.height} src={sectionData.imgSrc} />
+                    <ImageMod onClick={() => { openPickImage(id) }} key={key} width={sectionData.width} height={sectionData.height} src={sectionData.imgSrc} />
                 )
                 break;
             case 2:
                 return (
-                    fullSection ?
-                    <SectionDisplay deleteSection = {deleteSection} key={key} id = {sectionData.id}>
-                        <MultiSectionDisplay key={key} sectionData={sectionData} whichTypeOfSectionToRender={whichTypeOfSectionToRender} />
-                    </SectionDisplay> : 
-                    <MultiSectionDisplay key={key} sectionData={sectionData} whichTypeOfSectionToRender={whichTypeOfSectionToRender} />
-
+                    <SectionDisplay numberOfSections = {data.length} index = {key} moveSection = {switchOrder} key={key} deleteSection = {deleteSection} id = {id} width = {"100%"}>
+                        <MultiSectionDisplay  sectionData={sectionData} whichTypeOfSectionToRender={whichTypeOfSectionToRender} />
+                    </SectionDisplay>
+                );
+                break;
+            case 3:
+                return (
+                    <SectionDisplay numberOfSections = {data.length} index = {key} moveSection = {switchOrder} key={key} deleteSection = {deleteSection} id = {id} width = {"100%"}>
+                        <VideoSection vidID = {sectionData.vidID} id = {id} addVideo = {updateText} />
+                    </SectionDisplay>
                 );
                 break;
         }
@@ -176,6 +189,16 @@ function PageCreation() {
     const openPickImage = (id: number) => {
         setShow(true);
         setPickImage({ id: id, show: true })
+    }
+
+    const switchOrder = (id: number, up: boolean) => {
+        const indexToSwitch = data.findIndex((value) => value.id == id);
+        if (indexToSwitch == 0 && up || indexToSwitch == data.length - 1 && !up) return;
+        let dataCopy = [...data];
+        const temp = dataCopy[indexToSwitch];
+        dataCopy[indexToSwitch] = up ? dataCopy[indexToSwitch - 1] : dataCopy[indexToSwitch + 1];
+        dataCopy[(up ? indexToSwitch - 1 : indexToSwitch + 1)] =  temp;
+        setData(dataCopy);
     }
 
     const setImage = (id: number, imgSrc: string) => {
@@ -198,21 +221,14 @@ function PageCreation() {
     }
 
     const deleteSection = (id: number) => {
-        console.log(id)
-        setData(data.filter(ele => {
-            if (ele.type == 2) {
-                return !(ele.id == id)
-            } else {
-                return !(ele.sections.id == id);
-            }
-        }));
+        setData(data.filter(ele => !(ele.id == id) ));
     }
 
     return (
         <PageCreationContext.Provider value={{ choice: createWhat }}>
             <Component>
                 {
-                    data.map((ele, i) => whichTypeOfSectionToRender(ele.type, ele.sections, i))
+                    data.map((ele, i) => whichTypeOfSectionToRender(ele.type, ele.sections, i, ele.id))
                 }
                 <PageCreationMenu createMultiSection={() => { setShow(true); setPickImage({ id: pickImage.id, show: false }) }} createSection={createWhat} />
                 {

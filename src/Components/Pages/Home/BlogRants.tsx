@@ -49,14 +49,16 @@ const TextContainer = styled.div`
 `;
 
 const ImageOfActivist = styled.img`
-    width: 40%;
-    height: auto;
+    width: 38%;
+    height: 100%;
     margin: auto 0;
+    margin-left: 0.5em;
     object-fit: cover;
     object-position: top;
     max-height: 100%;
     border-radius: 0.5em;
     border: black 0.2em solid;
+    background-color: black;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         width: 90%;
     }
@@ -75,7 +77,7 @@ function ActvistOfWeek() {
                         work, and would love your feedback on how you would like it to look. And what you would like to be possible.
                     </LongDescription>
                 </TextContainer>
-                <ImageOfActivist src = {BlogRantPhoto} />
+                <ImageOfActivist />
             </Content>
         </Component>
     );

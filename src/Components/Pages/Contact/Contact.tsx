@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ProtesterImage from '../../../img/protesterYelling.webp'
 import { useMediaQuery } from 'react-responsive';
 import { AppContext } from '../../../Context/AppContext';
+import EmailCopy from '../../ComponentLibrayer/EmailCopy';
 
 const axios = require("axios");
 
@@ -93,9 +94,10 @@ function ContactPage() {
             <TextContainer>
                 <Title>Want to get in touch?</Title>
                 <form>
-                    <ContactInfo readOnly ref = {(ref) => {setTextToCopy(ref)}}>connecting4changeinfo@gmail.com</ContactInfo>
+                    <ContactInfo readOnly ref = {(ref) => {setTextToCopy(ref)}}>admin@connecting-for-change.ca</ContactInfo>
                 </form>
                 {document.queryCommandSupported('copy') ?  <CopyButton onClick = {copyEmail}>Copy Email</CopyButton> : ""}
+                <EmailCopy email = {"admin@connecting-for-change.ca"} />
             </TextContainer>
             {isPhone ? <Image src = {ProtesterImage} /> : ''}
         </Page>

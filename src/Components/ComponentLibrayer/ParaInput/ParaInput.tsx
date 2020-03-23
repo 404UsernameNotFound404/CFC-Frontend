@@ -7,14 +7,15 @@ type ComponentProps = {
     margin: string
     width: string,
     fontSize: number,
-    minHeight: string
+    minHeight: string,
+    height: string
 }
 
 const Component = styled.div<ComponentProps>`
     min-height: ${p => p.minHeight};
     position:  relative;
     width: ${p => p.width};
-    height: 100%;
+    height: ${p => p.height};
     margin: ${p => p.margin};
     font-size: ${p => p.fontSize}rem;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
@@ -24,7 +25,8 @@ const Component = styled.div<ComponentProps>`
 
 type ParaInputStyleProps = {
     textAlign: string,
-    showBorderBottom: boolean
+    showBorderBottom: boolean,
+    pageCreation: boolean
 }
 
 const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
@@ -34,11 +36,14 @@ const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
     overflow: none;
     border: none;
     border-bottom: ${p => p.showBorderBottom ? "grey thin solid" : ''};
+    border: ${p => !p.pageCreation ? "thin grey solid" : ''};
+    padding: ${p => !p.pageCreation ? "0.25rem" : ''};
     font-family: 'Cormorant Garamond', serif;
     font-style: normal;
     text-align: ${p => p.textAlign};
     overflow: auto;
     margin: 0;
+    height: ${p => !p.pageCreation ? "50%" : 'auto'};
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         padding: 0.25rem;
     }
@@ -90,6 +95,7 @@ type Props = {
     id?: any,
     textAlign?: string,
     fontSize?: number,
+    height?: string
 }
 
 
@@ -97,17 +103,22 @@ function ParaInput(props: Props) {
     const ref = useRef(null);
     const menuRef = useRef(null);
     const { paragraphValue, setParagraphValue, editMode, title, margin, pageCreation } = props;
-    const [fontSize, setFontSize] = useState((props.fontSize) ? props.fontSize  : 1.5);
+    const [fontSize, setFontSize] = useState((props.fontSize) ? props.fontSize : 1.25);
     const [focus, setFocus] = useState(false);
     const textAlign = (props.textAlign) ? props.textAlign : 'left';
+    const height = (props.height) ? props.height : '100%';
     useEffect(() => {
-        document.addEventListener('click', checkFocus);
-        ref.current.focus();
-        autoSize(ref.current);
+        if (pageCreation) {
+            document.addEventListener('click', checkFocus);
+            ref.current.focus();
+            autoSize(ref.current);
+        }
     }, [])
 
     useEffect(() => {
-        setFontSize(props.fontSize)
+        if (pageCreation) {
+            setFontSize(props.fontSize)
+        }
     }, [props.fontSize])
 
     const checkFocus = (e: any) => {
@@ -118,16 +129,19 @@ function ParaInput(props: Props) {
             if (parent == ref.current || parent == menuRef.current) {
                 found = true;
             }
-        } while(parent != null);
+        } while (parent != null);
         if (e.target != ref.current && !found) {
             setFocus(false);
         }
     }
 
     const updateText = (e: any) => {
-        ref.current.focus();
-        autoSize(ref.current);
-        setParagraphValue(props.id, e.target.value, 0);
+        if (pageCreation) {
+            ref.current.focus();
+            autoSize(ref.current);
+            setParagraphValue(props.id, e.target.value, 0);
+        }
+        else setParagraphValue(e.target.value)
     }
 
     const switchOrientation = (value: string) => {
@@ -140,15 +154,21 @@ function ParaInput(props: Props) {
         autoSize(ref.current);
     }
 
+    const calcMinHeight = (): string => {
+        if (pageCreation && editMode) return "9rem"
+        if (!pageCreation && editMode) return "2rem"
+        return "0"
+    }
+
     return (
-        <Component minHeight = {(pageCreation && editMode ? "9rem" : "0")} onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
-            <ParaInputMenu show = {(focus && pageCreation && editMode)} increaseDecreaseFont = {increaseDecreaseFont} menuRef = {menuRef} switchOrientation={switchOrientation} setFocus={setFocus} />
+        <Component height = {height} minHeight={(editMode ? calcMinHeight() : "0")} onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
+            <ParaInputMenu show={(focus && pageCreation && editMode)} increaseDecreaseFont={increaseDecreaseFont} menuRef={menuRef} switchOrientation={switchOrientation} setFocus={setFocus} />
             {!pageCreation ? <TitleCount>
                 <ParaTitle>{title}</ParaTitle>
                 {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             </TitleCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-            <ParaInputStyle showBorderBottom = {paragraphValue.length == 0} rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly = {!editMode} />
+            <ParaInputStyle pageCreation={pageCreation} showBorderBottom={paragraphValue.length == 0 && !pageCreation} rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly={!editMode} />
         </Component>
     )
 }

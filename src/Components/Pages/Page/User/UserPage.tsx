@@ -219,7 +219,7 @@ function UserPage(props: Props) {
                 </Content>
                 <ContactModal close={modalOpen} setClose={setModalOpen}>
                     <div style={{ height: "2em" }} />
-                    <ParagraphInput paragraphValue={message} setParagraphValue={setMessage} editMode={true} title={"Please Enter Your Message Here"} margin={"auto"} width={"95%"} />
+                    <ParagraphInput height = {"40em"} paragraphValue={message} setParagraphValue={setMessage} editMode={true} title={"Please Enter Your Message Here"} margin={"auto"} width={"95%"} />
                     <BasicButton margin={"0.5em"} width={"10em"} activateButton={messageUser} text={"Submit"} active={true} id={-1} />
                 </ContactModal>
             </Page>

@@ -227,6 +227,7 @@ function PageCreation() {
     return (
         <PageCreationContext.Provider value={{ choice: createWhat }}>
             <Component>
+                {console.log(JSON.stringify(data))}
                 {
                     data.map((ele, i) => whichTypeOfSectionToRender(ele.type, ele.sections, i, ele.id))
                 }

@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PageCategories from '../../Page/PageCategories';
+import CreatingOrg from '../creatingOrg';
+import ContactModal from '../../Page/ContactModal';
 
-const Container = styled.div`
+type ContainerProps = {
+    width: string
+}
+
+const Container = styled.div<ContainerProps>`
     position: relative;
     border: black 0.2rem solid;
     background-color: #f9f9f9;
-    width: 27%;
+    width: ${p => p.width};
     padding: 1%;
     margin: 0.5%;
     border-radius: 1em;
@@ -22,7 +28,7 @@ const Container = styled.div`
 const Name = styled.h1`
     font-size: 1.75em;
     margin: 0.1em 0;
-    width: 60%;
+    width: 100%;
     height: 3.8em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -148,6 +154,18 @@ const CopyMessage = styled.h4<CopyMessageProps>`
     opacity: 0;
 `;
 
+const RequestChange = styled.div`
+    width: fit-content;
+    padding: 0.5em 0.75em;
+    color: white;
+    border-radius: 0.2em;
+    background-color: #3c78d8;
+    cursor: pointer;
+    &:hover {
+        background-color: #183e7c;
+    }
+`;
+
 type Props = {
     name: string,
     desc: string,
@@ -155,15 +173,20 @@ type Props = {
     location: string,
     interests: { Name: string, Colour: string, ID: string }[],
     image: string,
-    email: string
+    email: string,
+    id: string,
+    width?: string
 }
 
 function Organzation(props: Props) {
     const [seeMore, setSeeMore] = useState(false);
     const [textToCopy, setTextToCopy] = useState();
     const [ghostText, setGhostText] = useState();
-    const [copyMessage, setCopyMessage] = useState({message: '', color: 'red'})
+    const [copyMessage, setCopyMessage] = useState({ message: '', color: 'red' })
+    const [editModal, setEditModal] = useState(false);
     const specificID = "super-long-never-going-to-be-the-same-as-someone-else-1234-asd-123-asdcvxvxgfdg-5940" + props.email;
+
+    const width = props.width ? props.width : "27%";
 
     const copyEmail = async (e: any) => {
         //selecting email ele
@@ -171,7 +194,7 @@ function Organzation(props: Props) {
         await document.execCommand('copy');
         //selecting a div way outside of view so the email is not visually every highlighted
         ghostText.select();
-        setCopyMessage({message: "Copied Email", color: "black"})
+        setCopyMessage({ message: "Copied Email", color: "black" })
         //animation for copied message
         let copyMessage = document.getElementById(specificID);
         copyMessage.style.opacity = '1';
@@ -182,7 +205,7 @@ function Organzation(props: Props) {
     }
 
     return (
-        <Container>
+        <Container width = {width}>
             <Name>{props.name}</Name>
             <Location>{props.location.length >= 30 ? (props.location.substring(0, 30) + "...") : props.location}</Location>
             <form>
@@ -191,13 +214,17 @@ function Organzation(props: Props) {
             </form>
             <CopyButtonContainer>
                 <CopyEmail onClick={copyEmail}>Copy Email</CopyEmail>
-                <CopyMessage color = {copyMessage.color} id = {specificID}>{copyMessage.message}</CopyMessage>
+                <CopyMessage color={copyMessage.color} id={specificID}>{copyMessage.message}</CopyMessage>
             </CopyButtonContainer>
-            <Desc showAll = {seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : props.desc}</Desc>
+            <Desc showAll={seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : props.desc}</Desc>
             {props.desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={props.link}>{props.link.length >= 35 ? (props.link.substring(0, 35) + "...") : props.link}</LinkToWebite>
-            <LogoOfOrg src={props.image} />
-            <PageCategories allCategories = {[]} setAllCategories = {null} editMode={false} categories={props.interests} width={"100%"} />
+            {/* <LogoOfOrg src={props.image} /> */}
+            <PageCategories allCategories={[]} setAllCategories={null} editMode={false} categories={props.interests} width={"100%"} />
+            <RequestChange onClick={() => { setEditModal(true) }}>Request Change</RequestChange>
+            <ContactModal close={editModal} setClose={setEditModal}>
+                <CreatingOrg id = {props.id} edit = {true} interests={props.interests} name={props.name} location={props.location} email={props.email} link={props.link} setClose={setEditModal} />
+            </ContactModal>
         </Container>
     );
 }

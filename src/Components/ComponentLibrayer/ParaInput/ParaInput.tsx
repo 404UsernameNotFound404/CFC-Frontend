@@ -107,6 +107,7 @@ function ParaInput(props: Props) {
     const [focus, setFocus] = useState(false);
     const textAlign = (props.textAlign) ? props.textAlign : 'left';
     const height = (props.height) ? props.height : '100%';
+    
     useEffect(() => {
         if (pageCreation) {
             document.addEventListener('click', checkFocus);

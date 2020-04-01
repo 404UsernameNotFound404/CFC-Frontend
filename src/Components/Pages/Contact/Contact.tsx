@@ -113,6 +113,9 @@ function ContactPage() {
             const res = await resRaw.json();
             if (res.Error) throw res.Error
             c.setMessageToUser({ message: "Feedback Sent!\nThanks", colour: "green" })
+            setBody("");
+            setEmail("");
+            setName("");
             setLoading(false);
         } catch (err) {
             if (typeof err == "string") {

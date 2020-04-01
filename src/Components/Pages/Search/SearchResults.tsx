@@ -10,6 +10,9 @@ import Event from './SearchResultCards/Event';
 import DefaultImg from '../../../img/climateMarch.jpg'
 import { AppContext } from '../../../Context/AppContext';
 import { Link } from 'react-router-dom';
+import ContactModal from '../Page/ContactModal';
+import CreatingOrg from './creatingOrg';
+
 const axios = require("axios");
 
 
@@ -48,6 +51,19 @@ const NeedToLoginLink = styled(Link)`
     margin-left: 0.2em;
 `;
 
+const CreateOrgButton = styled.div`
+    width: fit-content;
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    background-color: #3c78d8;
+    margin-bottom: 3em;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        background-color: #183e7c;
+    }
+`;
+
 type Props = {
     categoriesToNotAllow: any,
     choice: string
@@ -58,6 +74,7 @@ function SearchBar(props: Props) {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false);
     const [choice, setChoice] = useState("");
+    const [creatingOrg, setCreatingOrg] = useState(false);
     const searchOption = [
         { text: "Activists", link: "/search?search=Activists" },
         { text: "Organizations", link: "/search?search=Organizations" },
@@ -88,13 +105,25 @@ function SearchBar(props: Props) {
                 setLoading(false);
                 return;
             }
-            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`, {
-                method: "GET",
-                headers: {
-                    "Authorization": (c.userToken && c.userToken.length >= 4 ? c.userToken : '123')
-                }
-            });
-            const res = await resRaw.json();
+            let resRaw;
+            let res;
+            if (props.choice == "Organizations") {
+                resRaw = await fetch(`${process.env.REACT_APP_BASEURLNODE}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": (c.userToken && c.userToken.length >= 4 ? c.userToken : '123')
+                    }
+                });
+            } else {
+                resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": (c.userToken && c.userToken.length >= 4 ? c.userToken : '123')
+                    }
+                });
+            }
+            res = await resRaw.json();
+            console.log(res)
             networkError = false;
             if (res.Error != undefined) {
                 setError(res.Error)
@@ -104,11 +133,12 @@ function SearchBar(props: Props) {
             setLoading(false);
             setChoice(props.choice);
         } catch (err) {
+            console.log(err);
             if (networkError) {
-                setError("Network error sorry for the inconvenience.")
+                c.setMessageToUser({ message: "Network error sorry for the inconvenience.", colour: "red" })
                 return
             }
-            setError("Error getting activists. Sorry about that the service will return soon.")
+            c.setMessageToUser({ message: "Error getting activists. Sorry about that the service will return soon.", colour: "red" })
         }
     }
 
@@ -126,13 +156,11 @@ function SearchBar(props: Props) {
         switch (props.choice) {
             case "Organizations":
                 if (props.choice == choice) {
-                    return (<>{
+                    return (
                         pages.map((ele, i) => {
-                            if (checkIfInCategories(ele.Instrests)) {
-                                return <Organization image={(ele.Image.length > 2) ? ele.Image : DefaultImage} name={ele.Name} link={ele.Link} desc={ele.Desc} location={ele.Location} email={ele.Email} interests={ele.Instrests} key={i} />
-                            }
+                            if (checkIfInCategories(ele.Instrests)) return <Organization id = {ele._id} image={DefaultImage} name={ele.data.name} link={ele.data.link} desc={ele.data.desc} location={ele.data.location} email={ele.data.email} interests={ele.data.interests} key={i} />;
                         })
-                    }</>)
+                    );
                 } else {
                     return (<div></div>)
                 }
@@ -189,9 +217,15 @@ function SearchBar(props: Props) {
     }
     if (!loading || error.length > 0) {
         return (
-            <Container>
-                {ComponentToRender()}
-            </Container>
+            <>
+                <Container>
+                    {ComponentToRender()}
+                </Container>
+                {(props.choice == "Organizations") ? <CreateOrgButton onClick={() => { setCreatingOrg(true) }}>Create a new Organization</CreateOrgButton> : ""}
+                <ContactModal close={creatingOrg} setClose={setCreatingOrg}>
+                    <CreatingOrg edit = {false} setClose={setCreatingOrg} />
+                </ContactModal>
+            </>
         );
     } else {
         return (

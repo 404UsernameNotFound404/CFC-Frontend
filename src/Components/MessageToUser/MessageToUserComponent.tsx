@@ -99,7 +99,7 @@ const MessageToUser = styled.h4<MessageToUserProps>`
     margin-top: 3.5em;
     height: fit-content;
     max-height: 80%;
-    font-size: 1.5em;
+    font-size: 1.4em;
     text-align: center;
 `;
 

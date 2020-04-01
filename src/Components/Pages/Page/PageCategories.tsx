@@ -6,12 +6,14 @@ const axios = require("axios");
 
 type ContentProp = {
     margin: string,
-    justify_content: string
+    justify_content: string,
+    width: string
 }
 
 const Content = styled.div<ContentProp>`
     /* min-width: 60em; */
     max-width: 100%;
+    width: ${p => p.width};
     height: fit-content;
     margin: 1em ${p => p.margin};
     display: flex;
@@ -26,18 +28,21 @@ type Props = {
     setAllCategories: any,
     width: string,
     margin?: string,
-    justify_content?: string
+    justify_content?: string,
+    widthOfCot?: string
 }
 
 const defaultProps = {
     margin: 'auto',
-    justify_content: 'space-between'
+    justify_content: 'space-between',
+    width: ''
 }
 
 function PageCategories(props: Props) {
     const [loading, setLoading] = useState(true);
     const { allCategories, setAllCategories, editMode, categories, width } = props;
     const margin = props.margin == undefined ? defaultProps.margin : props.margin;
+    const widthOfCot = props.widthOfCot == undefined ? defaultProps.width : props.widthOfCot;
     const justify_content = props.justify_content == undefined ? defaultProps.justify_content : props.justify_content;
     useEffect(() => {
         console.log(props.margin)
@@ -65,7 +70,8 @@ function PageCategories(props: Props) {
     const updateAllCategories = async (upToDateAllCats: any) => {
         setAllCategories(upToDateAllCats.map((ele: any) => {
             let dis = !categories.find((catEle: any) => {
-                return catEle.ID === ele.ID
+                if (typeof catEle.ID == "number") return catEle.ID + "" === ele.ID
+                else return catEle.ID === ele.ID
             })
             return { ...ele, disabled: dis }
         }));
@@ -82,7 +88,7 @@ function PageCategories(props: Props) {
     }
 
     return (
-        <Content justify_content={justify_content} margin={margin}>
+        <Content width = {widthOfCot} justify_content={justify_content} margin={margin}>
             {!editMode ?
                 categories.map((ele, i: number) => <CategoryTag width={width} id={""} clickFunction={() => { }} clickable={false} disabled={false} name={ele.Name} colour={ele.Colour} key={i} />)
                 :

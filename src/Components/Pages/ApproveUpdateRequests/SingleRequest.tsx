@@ -52,6 +52,7 @@ type Props = {
     desc: string,
     link: string,
     id: string,
+    delReq: boolean,
     interests: { Name: string, ID: string, Colour: number }[],
 }
 
@@ -81,13 +82,11 @@ function Request(props: Props) {
 
     const makeDecision = async (approve: boolean) => {
         try {
-            console.log(`${process.env.REACT_APP_BASEURLNODE}/organization/${props.id}`)
-            let resRaw = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/${props.id}`, { approve: approve },{
+            let res = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/${props.id}`, { approve: approve },{
                 headers: {
                     "Authorization": c.userToken
                 }
             })
-            const res = await resRaw.json();
             console.log(res)
             if (!!res.error) throw res.error;
             fetchAPI();
@@ -113,7 +112,7 @@ function Request(props: Props) {
                 </OrgContainer>
                 <OrgContainer>
                     <OrgTitle>Old</OrgTitle>
-                    <Org width={"100%"} id={"penis"} image={""} name={oldData.data.name} location={oldData.data.location} email={oldData.data.email} desc={oldData.data.desc} link={oldData.data.link} interests={oldData.data.interests as any} />
+                    {!props.delReq ? <Org width={"100%"} id={"penis"} image={""} name={oldData.data.name} location={oldData.data.location} email={oldData.data.email} desc={oldData.data.desc} link={oldData.data.link} interests={oldData.data.interests as any} /> : "DELETE"}
                 </OrgContainer>
                 <DecisionContainer>
                     <DecisionButton onClick={() => { makeDecision(true) }} colour={"green"}>Approve</DecisionButton>

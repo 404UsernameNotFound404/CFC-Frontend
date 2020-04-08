@@ -36,8 +36,9 @@ function Approve() {
         <Page>
             {console.log(requests)}
             {
-                requests.map(ele => <Request id = {ele._id} orgID = {ele.data.orgID} name = {ele.data.name} email = {ele.data.email} location = {ele.data.location} link = {ele.data.location} desc = {ele.data.desc} interests = {ele.data.interests} />)
+                requests.map(ele => <Request id = {ele._id} delReq = {ele.data.deleteReq} orgID = {ele.data.orgID} name = {ele.data.name} email = {ele.data.email} location = {ele.data.location} link = {ele.data.location} desc = {ele.data.desc} interests = {ele.data.interests} />)
             }
+            {requests.length == 0 ? "NONE" : ""}
         </Page>
     )
 }

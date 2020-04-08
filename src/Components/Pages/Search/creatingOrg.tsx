@@ -18,7 +18,7 @@ const SingleLineInput = styled.input`
     border-bottom: black thin solid;
     font-size: 1.25em;
     padding-bottom: 0.25em;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 `;
 
 const Title = styled.h4`
@@ -32,12 +32,27 @@ const CreateButton = styled.div`
     border-radius: 0.5em;
     padding: 0.5em 2em;
     background-color: #3c78d8;
-    margin-bottom: 3em;
+    margin-bottom: 1em;
     color: white;
     cursor: pointer;
     &:hover {
         background-color: #183e7c;
     }
+`;
+
+const DeleteCheckBox = styled.input`
+    width: 1.25em;
+    height: 1.25em;
+    margin: auto 0;
+`;
+
+const DeleteCheckBoxContainer = styled.div`
+    display: flex;
+`;
+
+const DeleteCheckBoxText = styled.p`
+    margin-left: 0.5em;
+    font-size: 1em;
 `;
 
 type Props = {
@@ -48,21 +63,22 @@ type Props = {
     location?: string,
     email?: string,
     link?: string,
-    interests?: {Name: string, Colour: string, ID: string}[]
+    interests?: { Name: string, Colour: string, ID: string }[]
 }
 
 function CreatingOrg(props: Props) {
     const [inputs, setInputs] = useState([
-        {value: (props.name ? props.name : ""), placeholder: "Name", id: 0},
-        {value: (props.location ? props.location : ""), placeholder: "Location", id: 1},
-        {value: (props.email ? props.email : ""), placeholder: "Email", id: 2},
-        {value: (props.link ? props.link : ""), placeholder: "Link", id: 3}
+        { value: (props.name ? props.name : ""), placeholder: "Name", id: 0 },
+        { value: (props.location ? props.location : ""), placeholder: "Location", id: 1 },
+        { value: (props.email ? props.email : ""), placeholder: "Email", id: 2 },
+        { value: (props.link ? props.link : ""), placeholder: "Link", id: 3 }
     ]);
     const [desc, setDesc] = useState("this is a short desc");
     const c = useContext(AppContext);
     const [allCategories, setAllCategories] = useState(null);
     const [updatedCats, setUpdatedCats] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [deleteReq, setDeleteReq] = useState(false);
 
     useEffect(() => {
         fetchAPI();
@@ -71,20 +87,20 @@ function CreatingOrg(props: Props) {
     const fetchAPI = async () => {
         try {
             setLoading(true);
-            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/getCategories`, {method: "GET"});
+            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/getCategories`, { method: "GET" });
             let res = await resRaw.json();
             res = res.map((ele: any) => {
-                if (props.interests != undefined) return {...ele, disabled: !props.interests.find(eleIn => (eleIn.ID == (ele.ID + "")))}
-                return {ele, disabled: true};
+                if (props.interests != undefined) return { ...ele, disabled: !props.interests.find(eleIn => (eleIn.ID == (ele.ID + ""))) }
+                return { ele, disabled: true };
             })
             console.log(res)
             setAllCategories(res);
             setLoading(false);
-        } catch(err) {
+        } catch (err) {
             if (typeof err == "string") {
-                c.setMessageToUser({message: err, colour: "red"})
+                c.setMessageToUser({ message: err, colour: "red" })
             }
-            c.setMessageToUser({message: "Error Getting Categories", colour: "red"})
+            c.setMessageToUser({ message: "Error Getting Categories", colour: "red" })
             setLoading(false);
         }
     }
@@ -100,16 +116,16 @@ function CreatingOrg(props: Props) {
                 }
             });
             let res;
-            if (props.edit) res = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/request/${props.id}`, { deleteReq: false, name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests})
-            else res = await axios.post(`${process.env.REACT_APP_BASEURLNODE}/organization/`, {name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests})
+            if (props.edit) res = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/request/${props.id}`, { deleteReq: deleteReq, name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests })
+            else res = await axios.post(`${process.env.REACT_APP_BASEURLNODE}/organization/`, { name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests })
             if (res.data.error != undefined) throw res.error;
-            c.setMessageToUser({message: !props.edit ? "Created Organization" : "Requested Edit", colour: "green"})
+            c.setMessageToUser({ message: !props.edit ? "Created Organization" : "Requested Edit", colour: "green" })
             props.setClose(false);
-        } catch(err) {
+        } catch (err) {
             if (typeof err == "string") {
-                c.setMessageToUser({message: err, colour: "red"})
+                c.setMessageToUser({ message: err, colour: "red" })
             }
-            c.setMessageToUser({message: "Error Creating Organization", colour: "red"})
+            c.setMessageToUser({ message: "Error Creating Organization", colour: "red" })
             setLoading(false);
         }
     }
@@ -126,11 +142,17 @@ function CreatingOrg(props: Props) {
             <Component>
                 <Title>Create an organization</Title>
                 {
-                    inputs.map((ele, i) => <div key = {i}><SingleLineInput onChange = {(e) => {updateValue(ele.id, e.target.value)}} value = {ele.value} placeholder = {ele.placeholder} key = {i}/></div>)
+                    inputs.map((ele, i) => <div key={i}><SingleLineInput onChange={(e) => { updateValue(ele.id, e.target.value) }} value={ele.value} placeholder={ele.placeholder} key={i} /></div>)
                 }
-                <ParaInput paragraphValue = {desc} setParagraphValue = {setDesc} editMode = {true} title = {"Description"} margin= {"0"} width = {"90%"} />
-                <PageCategories widthOfCot = {"90%"} width = {"60%"} margin = {"0"} allCategories={allCategories} setAllCategories={setAllCategories} categories={props.interests} editMode={true} />
-                <CreateButton onClick = {createOrg}>{props.edit ? "Request Edit" : "Create"}</CreateButton>
+                <ParaInput paragraphValue={desc} setParagraphValue={setDesc} editMode={true} title={"Description"} margin={"0"} width={"90%"} />
+                <PageCategories widthOfCot={"90%"} width={"60%"} margin={"0"} allCategories={allCategories} setAllCategories={setAllCategories} categories={props.interests} editMode={true} />
+                {props.edit ?
+                    <DeleteCheckBoxContainer>
+                        <DeleteCheckBox type="checkbox" checked={deleteReq} onChange={() => { setDeleteReq(!deleteReq) }} />
+                        <DeleteCheckBoxText>Does this organization no longer exists?<br/>Check the box if it should be deleted.</DeleteCheckBoxText>
+                    </DeleteCheckBoxContainer>
+                    : ""}
+                <CreateButton onClick={createOrg}>{props.edit ? "Request Edit" : "Create"}</CreateButton>
             </Component>
         )
     } else {
@@ -138,7 +160,7 @@ function CreatingOrg(props: Props) {
             <LoadingPage />
         )
     }
-    
+
 }
 
 export default CreatingOrg;

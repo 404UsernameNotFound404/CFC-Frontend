@@ -66,7 +66,7 @@ function PageCreation() {
     const [pickImage, setPickImage] = useState({ id: -1, show: true });
 
     const ImageData = [
-        { imageSrc: "https://connecting-for-change.ca/static/media/protesterYelling.5313dcad.webp" },
+        { imageSrc: "connecting-for-change.ca/static/media/protesterYelling.5313dcad.webp" },
         { imageSrc: Image2 },
         { imageSrc: Image3 }
     ];

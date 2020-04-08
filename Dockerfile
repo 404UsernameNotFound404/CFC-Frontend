@@ -11,6 +11,7 @@ ENV PATH /node_modules/.bin:$PATH
 COPY package.json /package.json
 RUN npm install
 RUN npm install react-scripts@3.0.1 -g
+RUN npm run build
 
 # start app
 CMD ["npm", "start"]

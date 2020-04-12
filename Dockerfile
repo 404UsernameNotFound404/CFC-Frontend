@@ -17,3 +17,5 @@ RUN npm install react-scripts@3.0.1 -g
 
 # start app
 CMD ["npm", "start"]
+
+EXPOSE 3000

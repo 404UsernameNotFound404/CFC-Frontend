@@ -13,7 +13,7 @@ COPY ./public/ ./public/
 COPY ./tsconfig.json ./tsconfig.json
 COPY ./src/ ./src/
 RUN npm install
-
+RUN npm install react-scripts@3.4.1 -g
 
 # start app
 CMD ["npm", "start"]

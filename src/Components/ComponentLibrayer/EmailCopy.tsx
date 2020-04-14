@@ -60,15 +60,15 @@ type Props = {
 
 function EmailCopy(props: Props) {
     const [seeMore, setSeeMore] = useState(false);
-    const [textToCopy, setTextToCopy] = useState();
-    const [ghostText, setGhostText] = useState();
-    const [copyMessageRef, setCopyMessageRed] = useState();
+    const [textToCopy, setTextToCopy] = useState(null);
+    const [ghostText, setGhostText] = useState(null);
+    const [copyMessageRef, setCopyMessageRed] = useState(null);
     const [copyMessage, setCopyMessage] = useState({message: '', color: 'red'})
     const specificID = "super-long-never-going-to-be-the-same-as-someone-else-1234-asd-123-asdcvxvxgfdg-5940" + props.email;
 
     const copyEmail = async (e: any) => {
         //selecting email ele
-        textToCopy.select();
+        if (textToCopy != null && textToCopy.select != null) textToCopy.select();
         await document.execCommand('copy');
         //selecting a div way outside of view so the email is not visually every highlighted
         ghostText.select();

@@ -180,8 +180,8 @@ type Props = {
 
 function Organzation(props: Props) {
     const [seeMore, setSeeMore] = useState(false);
-    const [textToCopy, setTextToCopy] = useState();
-    const [ghostText, setGhostText] = useState();
+    const [textToCopy, setTextToCopy] = useState(null);
+    const [ghostText, setGhostText] = useState(null);
     const [copyMessage, setCopyMessage] = useState({ message: '', color: 'red' })
     const [editModal, setEditModal] = useState(false);
     const specificID = "super-long-never-going-to-be-the-same-as-someone-else-1234-asd-123-asdcvxvxgfdg-5940" + props.email;

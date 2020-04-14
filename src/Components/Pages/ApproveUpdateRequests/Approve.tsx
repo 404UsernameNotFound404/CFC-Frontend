@@ -19,16 +19,19 @@ function Approve() {
 
     const fetchAPI = async () => {
         try {
+            console.log(process.env.REACT_APP_BASEURLNODE)
+            console.log(c.userToken)
             let resRaw = await fetch(`${process.env.REACT_APP_BASEURLNODE}/organization/request`, {
                 method: "GET",
                 headers: {
-                    "Authorization": c.userToken
+                    "authorization": c.userToken
                 }
             })
             const res = await resRaw.json();
+            console.log(res);
             setRequests(res)
         } catch(err) {
-
+            console.log(err);
         }
     }
 

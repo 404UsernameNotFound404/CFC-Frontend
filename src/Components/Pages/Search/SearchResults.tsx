@@ -107,6 +107,9 @@ function SearchBar(props: Props) {
             }
             let resRaw;
             let res;
+            console.log(props.choice)
+            console.log(process.env.REACT_APP_BASEURLNODE)
+            console.log(process.env.REACT_APP_BASEURL)
             if (props.choice == "Organizations") {
                 resRaw = await fetch(`${process.env.REACT_APP_BASEURLNODE}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`, {
                     method: "GET",

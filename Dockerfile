@@ -12,6 +12,7 @@ COPY package.json /package.json
 COPY ./public/ ./public/
 COPY ./tsconfig.json ./tsconfig.json
 COPY ./src/ ./src/
+COPY .env /.env
 RUN npm install
 RUN npm install react-scripts@3.0.1 -g
 

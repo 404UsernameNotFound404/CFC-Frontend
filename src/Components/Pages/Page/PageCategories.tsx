@@ -69,11 +69,15 @@ function PageCategories(props: Props) {
     //takes array because when allCategories is state and when function is called state will not be updated
     const updateAllCategories = async (upToDateAllCats: any) => {
         setAllCategories(upToDateAllCats.map((ele: any) => {
-            let dis = !categories.find((catEle: any) => {
-                if (typeof catEle.ID == "number") return catEle.ID + "" === ele.ID
-                else return catEle.ID === ele.ID
-            })
-            return { ...ele, disabled: dis }
+            if (categories != undefined) {
+                let dis = !categories.find((catEle: any) => {
+                    if (typeof catEle.ID == "number") return catEle.ID + "" === ele.ID
+                    else return catEle.ID === ele.ID
+                })
+                return { ...ele, disabled: dis }
+            } else {
+                return { ...ele, disabled: true }
+            }
         }));
     }
 

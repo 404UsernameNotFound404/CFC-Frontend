@@ -27,12 +27,12 @@ const Title = styled.h4`
 `;
 
 const CreateButton = styled.div`
-    margin-top: 2em;
+    margin-top: 0.5em;
     width: fit-content;
     border-radius: 0.5em;
     padding: 0.5em 2em;
     background-color: #3c78d8;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
     color: white;
     cursor: pointer;
     &:hover {
@@ -58,12 +58,14 @@ const DeleteCheckBoxText = styled.p`
 type Props = {
     setClose: any
     edit: boolean,
+    desc?: string,
     id?: string,
     name?: string,
     location?: string,
     email?: string,
     link?: string,
-    interests?: { Name: string, Colour: string, ID: string }[]
+    interests?: { Name: string, Colour: string, ID: string }[],
+    update?: Function
 }
 
 function CreatingOrg(props: Props) {
@@ -73,7 +75,7 @@ function CreatingOrg(props: Props) {
         { value: (props.email ? props.email : ""), placeholder: "Email", id: 2 },
         { value: (props.link ? props.link : ""), placeholder: "Link", id: 3 }
     ]);
-    const [desc, setDesc] = useState("this is a short desc");
+    const [desc, setDesc] = useState(props.desc == undefined ? "this is a short desc" : props.desc);
     const c = useContext(AppContext);
     const [allCategories, setAllCategories] = useState(null);
     const [updatedCats, setUpdatedCats] = useState([]);
@@ -121,6 +123,7 @@ function CreatingOrg(props: Props) {
             console.log(res);
             if (res.data.error != undefined) throw res.error;
             c.setMessageToUser({ message: !props.edit ? "Created Organization" : "Requested Edit", colour: "green" })
+            if (props.update) props.update();
             props.setClose(false);
         } catch (err) {
             if (typeof err == "string") {
@@ -146,7 +149,7 @@ function CreatingOrg(props: Props) {
                     inputs.map((ele, i) => <div key={i}><SingleLineInput onChange={(e) => { updateValue(ele.id, e.target.value) }} value={ele.value} placeholder={ele.placeholder} key={i} /></div>)
                 }
                 <ParaInput paragraphValue={desc} setParagraphValue={setDesc} editMode={true} title={"Description"} margin={"0"} width={"90%"} />
-                <PageCategories widthOfCot={"90%"} width={"60%"} margin={"0"} allCategories={allCategories} setAllCategories={setAllCategories} categories={props.interests} editMode={true} />
+                <PageCategories widthOfCot={"90%"} width={"60%"} margin={"-0.5em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={props.interests} editMode={true} />
                 {props.edit ?
                     <DeleteCheckBoxContainer>
                         <DeleteCheckBox type="checkbox" checked={deleteReq} onChange={() => { setDeleteReq(!deleteReq) }} />

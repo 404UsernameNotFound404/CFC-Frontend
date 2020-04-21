@@ -157,12 +157,16 @@ const CopyMessage = styled.h4<CopyMessageProps>`
 const RequestChange = styled.div`
     width: fit-content;
     padding: 0.5em 0.75em;
-    color: white;
-    border-radius: 0.2em;
-    background-color: #3c78d8;
+    color: #3c78d8;
+    border-radius: 0.3em;
+    /* background-color: #3c78d8; */
+    border: thin solid #3c78d8;
     cursor: pointer;
+    font-size: 1em;
     &:hover {
-        background-color: #183e7c;
+        color: #183e7c;
+        background-color: #3c78d81f;
+        border-color: #183e7c;
     }
 `;
 
@@ -220,10 +224,10 @@ function Organzation(props: Props) {
             {props.desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={props.link}>{props.link.length >= 35 ? (props.link.substring(0, 35) + "...") : props.link}</LinkToWebite>
             {/* <LogoOfOrg src={props.image} /> */}
-            <PageCategories allCategories={[]} setAllCategories={null} editMode={false} categories={props.interests} width={"100%"} />
+            <PageCategories justify_content = {"flex-start"} margin = {"0.5em 0"} allCategories={[]} setAllCategories={null} editMode={false} categories={props.interests} width={"100%"} />
             <RequestChange onClick={() => { setEditModal(true) }}>Request Change</RequestChange>
             <ContactModal close={editModal} setClose={setEditModal}>
-                <CreatingOrg id = {props.id} edit = {true} interests={props.interests} name={props.name} location={props.location} email={props.email} link={props.link} setClose={setEditModal} />
+                <CreatingOrg desc = {props.desc} id = {props.id} edit = {true} interests={props.interests} name={props.name} location={props.location} email={props.email} link={props.link} setClose={setEditModal} />
             </ContactModal>
         </Container>
     );

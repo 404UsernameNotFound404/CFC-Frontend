@@ -107,9 +107,7 @@ function SearchBar(props: Props) {
             }
             let resRaw;
             let res;
-            console.log(props.choice)
-            console.log(process.env.REACT_APP_BASEURLNODE)
-            console.log(process.env.REACT_APP_BASEURL)
+
             if (props.choice == "Organizations") {
                 resRaw = await fetch(`${process.env.REACT_APP_BASEURLNODE}/${props.choice.toLowerCase().substring(0, props.choice.length - 1)}/`, {
                     method: "GET",
@@ -126,13 +124,12 @@ function SearchBar(props: Props) {
                 });
             }
             res = await resRaw.json();
-            console.log(res)
             networkError = false;
             if (res.Error != undefined) {
                 setError(res.Error)
                 return
             }
-            setPages(res);
+            sortArrayAlphabet(props.choice == "Organizations", res);
             setLoading(false);
             setChoice(props.choice);
         } catch (err) {
@@ -143,6 +140,29 @@ function SearchBar(props: Props) {
             }
             c.setMessageToUser({ message: "Error getting activists. Sorry about that the service will return soon.", colour: "red" })
         }
+    }
+
+    const sortArrayAlphabet = (isOrg: boolean, data: Array<{ _id: object, data: { name: string } }> | Array<{ Name: string }>) => {
+        console.log("")
+        console.log("")
+        console.log("")
+        data = data.sort(function (a: any, b: any) {
+            if (isOrg) {
+                // console.log(`Which is bigger:`)
+                // console.log(`${a.data.name} < ${b.data.name} = ${a.data.name.localeCompare(b.data.name)}`)
+                // return a.data.name.localeCompare(b.data.name, 'en', {sensitivity: 'base', numeric: false});
+                var textA = a.data.name.toUpperCase().trim();
+                var textB = b.data.name.toUpperCase().trim();
+                return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+            } else {
+                if (a.Name > b.Name) return -1;
+                if (a.Name < b.Name) return 1;
+                return 0;
+            }
+        });
+        console.log("Sorted")
+        console.log(data)
+        setPages(data);
     }
 
     const checkIfInCategories = (arrayToCheck: any) => {
@@ -159,9 +179,10 @@ function SearchBar(props: Props) {
         switch (props.choice) {
             case "Organizations":
                 if (props.choice == choice) {
+                    console.log(pages);
                     return (
                         pages.map((ele, i) => {
-                            if (checkIfInCategories(ele.Instrests)) return <Organization id = {ele._id} image={DefaultImage} name={ele.data.name} link={ele.data.link} desc={ele.data.desc} location={ele.data.location} email={ele.data.email} interests={ele.data.interests} key={i} />;
+                            if (checkIfInCategories(ele.data.interests)) return <Organization id={ele._id} image={DefaultImage} name={ele.data.name} link={ele.data.link} desc={ele.data.desc} location={ele.data.location} email={ele.data.email} interests={ele.data.interests} key={i} />;
                         })
                     );
                 } else {
@@ -226,7 +247,7 @@ function SearchBar(props: Props) {
                 </Container>
                 {(props.choice == "Organizations") ? <CreateOrgButton onClick={() => { setCreatingOrg(true) }}>Create a new Organization</CreateOrgButton> : ""}
                 <ContactModal close={creatingOrg} setClose={setCreatingOrg}>
-                    <CreatingOrg edit = {false} setClose={setCreatingOrg} />
+                    <CreatingOrg update = {fetchAPI} edit={false} setClose={setCreatingOrg} />
                 </ContactModal>
             </>
         );

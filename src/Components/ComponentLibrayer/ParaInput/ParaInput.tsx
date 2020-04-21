@@ -15,6 +15,7 @@ const Component = styled.div<ComponentProps>`
     min-height: ${p => p.minHeight};
     position:  relative;
     width: ${p => p.width};
+    min-height: 10em;
     height: ${p => p.height};
     margin: ${p => p.margin};
     font-size: ${p => p.fontSize}rem;
@@ -43,6 +44,7 @@ const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
     text-align: ${p => p.textAlign};
     overflow: auto;
     margin: 0;
+    min-height: 5em;
     height: ${p => !p.pageCreation ? "50%" : 'auto'};
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
         padding: 0.25rem;
@@ -56,7 +58,7 @@ type ParaProps = {
 const ParaTitle = styled.h1`
     margin: auto 0;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
-        font-size: 1.5em;
+        font-size: 1em;
         margin: auto;
         text-align: center;
     }

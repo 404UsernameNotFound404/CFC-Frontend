@@ -15,7 +15,7 @@ const Content = styled.div<ContentProp>`
     max-width: 100%;
     width: ${p => p.width};
     height: fit-content;
-    margin: 1em ${p => p.margin};
+    margin: ${p => p.margin};
     display: flex;
     flex-wrap: wrap;
     justify-content: ${p => p.justify_content};

@@ -291,7 +291,7 @@ function LoginForm(props: Props) {
                             :
                             ""
                     }
-                    <CheckBox text={{ __html: `You agree with our privacy policy. <span><a href = "/Privacy-Policy">Privacy Policy</a></span>` }} checked={checkBox} setChecked={setCheckBox} />
+                    <CheckBox text={{ __html: `You agree with our privacy policy. <span><a target="_blank" href = "/Privacy-Policy">Privacy Policy</a></span>` }} checked={checkBox} setChecked={setCheckBox} />
                     <BasicButton activateButton={register} width={"45%"} text={"Register"} active={false} id={20} />
                 </Content>
             );

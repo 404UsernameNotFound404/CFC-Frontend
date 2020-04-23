@@ -31,7 +31,7 @@ const PageTitle = styled.h1`
     font-weight: bolder;
     width: 65rem;
     margin: auto;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.2em;
 `;
 
 const TitleSection = styled.div`
@@ -81,32 +81,14 @@ const BioTitle = styled.h1`
     margin-bottom: 2em;
 `;
 
-const BioContainer = styled.div`
-    width: 100%;
+const PageSubTitle = styled.h1`
+    font-size: 2.5em;
+    width: 65rem;
     margin: auto;
-    display: flex;
-    justify-content: space-around;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        display: block;
-    }
-`;
-
-const TeamMember = styled.div`
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        height: fit-content;
-        margin-bottom: 2.5em;
-    }
-`;
-
-const TeamMemberTitle = styled.h1`
-    top: -2em;
-    width: 100%;
-    position: absolute;
-    text-align: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    font-weight: lighter;
+    /* font-style: italic; */
 `;
 
 function AboutPage() {
@@ -115,6 +97,7 @@ function AboutPage() {
     return (
         <Page>
             <TitleSection>
+                <PageSubTitle>Connecting For Change is created and run by Daxton Rhead and Henry Morris, two friends with a passion for activism.</PageSubTitle>
                 <PageTitle>Our Story</PageTitle>
                 {isPhone ?
                     <SlideContainer width="65em">

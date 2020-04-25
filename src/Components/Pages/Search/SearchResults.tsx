@@ -148,11 +148,8 @@ function SearchBar(props: Props) {
         console.log("")
         data = data.sort(function (a: any, b: any) {
             if (isOrg) {
-                // console.log(`Which is bigger:`)
-                // console.log(`${a.data.name} < ${b.data.name} = ${a.data.name.localeCompare(b.data.name)}`)
-                // return a.data.name.localeCompare(b.data.name, 'en', {sensitivity: 'base', numeric: false});
-                var textA = a.data.name.toUpperCase().trim();
-                var textB = b.data.name.toUpperCase().trim();
+                var textA = a.name.toUpperCase().trim();
+                var textB = b.name.toUpperCase().trim();
                 return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
             } else {
                 if (a.Name > b.Name) return -1;
@@ -182,7 +179,7 @@ function SearchBar(props: Props) {
                     console.log(pages);
                     return (
                         pages.map((ele, i) => {
-                            if (checkIfInCategories(ele.data.interests)) return <Organization id={ele._id} image={DefaultImage} name={ele.data.name} link={ele.data.link} desc={ele.data.desc} location={ele.data.location} email={ele.data.email} interests={ele.data.interests} key={i} />;
+                            if (checkIfInCategories(ele.interests)) return <Organization id={ele._id} image={DefaultImage} name={ele.name} link={ele.link} desc={ele.desc} location={ele.location} email={ele.email} interests={ele.interests} key={i} />;
                         })
                     );
                 } else {

@@ -112,7 +112,7 @@ function Request(props: Props) {
                 </OrgContainer>
                 <OrgContainer>
                     <OrgTitle>Old</OrgTitle>
-                    {!props.delReq ? <Org width={"100%"} id={"penis"} image={""} name={oldData.data.name} location={oldData.data.location} email={oldData.data.email} desc={oldData.data.desc} link={oldData.data.link} interests={oldData.data.interests as any} /> : "DELETE"}
+                    {!props.delReq ? <Org width={"100%"} id={"penis"} image={""} name={oldData.name} location={oldData.location} email={oldData.email} desc={oldData.desc} link={oldData.link} interests={oldData.interests as any} /> : "DELETE"}
                 </OrgContainer>
                 <DecisionContainer>
                     <DecisionButton onClick={() => { makeDecision(true) }} colour={"green"}>Approve</DecisionButton>

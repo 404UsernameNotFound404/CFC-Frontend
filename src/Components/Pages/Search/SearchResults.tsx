@@ -143,9 +143,6 @@ function SearchBar(props: Props) {
     }
 
     const sortArrayAlphabet = (isOrg: boolean, data: Array<{ _id: object, data: { name: string } }> | Array<{ Name: string }>) => {
-        console.log("")
-        console.log("")
-        console.log("")
         data = data.sort(function (a: any, b: any) {
             if (isOrg) {
                 var textA = a.name.toUpperCase().trim();
@@ -157,8 +154,6 @@ function SearchBar(props: Props) {
                 return 0;
             }
         });
-        console.log("Sorted")
-        console.log(data)
         setPages(data);
     }
 

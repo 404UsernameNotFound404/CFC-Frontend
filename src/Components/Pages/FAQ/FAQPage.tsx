@@ -14,6 +14,7 @@ const Page = styled.div`
 `;
 
 const PageTitle = styled.h1`
+    font-family: 'Scope One', serif;
     font-size: 4em;
     margin: 0;
 `;

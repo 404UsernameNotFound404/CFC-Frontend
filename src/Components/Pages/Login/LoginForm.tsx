@@ -196,7 +196,7 @@ function LoginForm(props: Props) {
                 props.setRegister(99);
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
-                    c.setMessageToUser({ colour: "green", message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
+                    c.setMessageToUser({ colour: "green", message: "Registered Successfully. Please now check your email to verify it is you." })
                     props.setRegister(0);
                     return
                 }

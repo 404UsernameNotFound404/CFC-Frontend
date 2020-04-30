@@ -64,12 +64,12 @@ function Events() {
 
     return (
         <Content>
-            <Title>Event</Title>
-            <NameOfEvent>The March For Climate</NameOfEvent>
+            <Title>Coming Soon...</Title>
+            <NameOfEvent>Events</NameOfEvent>
             {!phone ? <Photo src = {climateMarch} /> : ""}
             <TimeAndLocation>Time: <TimeAndLocationContent>Wednesday 32nd of December</TimeAndLocationContent></TimeAndLocation>
             <TimeAndLocation>Location: <TimeAndLocationContent>Parliament Hill</TimeAndLocationContent></TimeAndLocation>
-            <Description>Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text. Filler text.?</Description>
+            <Description>We would like to eventually have events here. But would like some feedback on what people would want. So if you have any ideas please send us some feedback.</Description>
             {phone ? <Photo src = {climateMarch} /> : ""}
         </Content>
     );

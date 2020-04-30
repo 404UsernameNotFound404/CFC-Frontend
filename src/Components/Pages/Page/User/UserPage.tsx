@@ -43,8 +43,8 @@ function UserPage(props: Props) {
     const [redierctToHome, setRedirectToHome] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [canEditMode, setCanEditMode] = useState(false);
-    const [paraInputOne, setParaInputOne] = useState("");
-    const [paraInputTwo, setParaInputTwo] = useState("");
+    const [paraInputOne, setParaInputOne] = useState("Hit edit and change me.");
+    const [paraInputTwo, setParaInputTwo] = useState("Hit edit and change me.");
     const [colour, setColour] = useState("");
     const [name, setName] = useState("");
     const [orginalPara1, setOrginalPara1] = useState("");
@@ -88,7 +88,7 @@ function UserPage(props: Props) {
             c.setMessageToUser({ message: "Updating...", colour: "black" })
             const res = await axios.put(`${process.env.REACT_APP_BASEURL}/activist/`, JSON.stringify({ Para1: paraInputOne, Para2: paraInputTwo, Colour: colour, Name: name, Categories: activeTags }), { headers: { "Authorization": c.userToken } });
             if (res.data.Error.length >= 0) {
-                c.setMessageToUser(res.data.Error)
+                c.setMessageToUser({message: res.data.Error, colour: "red"})
                 return
             }
             resetParagraphsOrginalsAndSendMessage(true, "Successfully updated page.")
@@ -124,6 +124,7 @@ function UserPage(props: Props) {
                 }
             })
             const res = await resRaw.json();
+            console.log(res);
             if (res.Error != undefined) throw "Error getting data"
             if (res.IsOwner) {
                 setCanEditMode(true)
@@ -133,13 +134,16 @@ function UserPage(props: Props) {
             } else {
                 setImage(DaxtonImage)
             }
-            setOrginalPara1(res.Para1)
-            setOrginalPara2(res.Para2)
-            setParaInputOne(res.Para1)
-            setParaInputTwo(res.Para2)
             setColour(res.Colour)
             setName(res.Name)
             setEmail(res.Email)
+
+            if (res.FirstTime == undefined) {
+                setOrginalPara1(res.Para1)
+                setOrginalPara2(res.Para2)
+                setParaInputOne(res.Para1)
+                setParaInputTwo(res.Para2)
+            }
             setLoading(false);
             if (res.Categories != null) {
                 setCategories(res.Categories)
@@ -183,6 +187,7 @@ function UserPage(props: Props) {
         try {
             if (message.length >= 3000 || message.length <= 0) throw "Message must be between 1 and 3000 characters"
             let PageID = new URLSearchParams(document.location.search.substring(1)).get("id");
+
             const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/email/` + PageID, {
                 method: "POST",
                 body: JSON.stringify({ Body: message }),
@@ -190,6 +195,7 @@ function UserPage(props: Props) {
                     "Authorization": c.userToken
                 }
             });
+
             const res = await resRaw.json();
             if (res.Error) throw res.Error;
             setModalOpen(false);
@@ -211,7 +217,7 @@ function UserPage(props: Props) {
                 <UpdateEditButton canEdit={canEditMode} update={editMode} switchFCN={switchEditMode} />
                 {redierctToHome ? <Redirect to='/home' /> : ''}
                 <Content>
-                    <ProfileTopPart setModalOpen = {setModalOpen} update={fetchAPI} image={image} allCategories={allCategories} setAllCategories={setAllCategories} name={name} canEditMode={canEditMode} editMode={editMode} categories={categories} />
+                    <ProfileTopPart setModalOpen={setModalOpen} update={fetchAPI} image={image} allCategories={allCategories} setAllCategories={setAllCategories} name={name} canEditMode={canEditMode} editMode={editMode} categories={categories} />
                     <TextContent>
                         <ParagraphInput width={"80%"} margin={"auto"} title={"Who Am I?"} paragraphValue={paraInputOne} setParagraphValue={setParaInputOne} editMode={editMode} />
                         <ParagraphInput width={"80%"} margin={"auto"} title={"What I Stand For"} paragraphValue={paraInputTwo} setParagraphValue={setParaInputTwo} editMode={editMode} />
@@ -219,7 +225,7 @@ function UserPage(props: Props) {
                 </Content>
                 <ContactModal close={modalOpen} setClose={setModalOpen}>
                     <div style={{ height: "2em" }} />
-                    <ParagraphInput height = {"40em"} paragraphValue={message} setParagraphValue={setMessage} editMode={true} title={"Please Enter Your Message Here"} margin={"auto"} width={"95%"} />
+                    <ParagraphInput height={"40em"} paragraphValue={message} setParagraphValue={setMessage} editMode={true} title={"Please Enter Your Message Here"} margin={"auto"} width={"95%"} />
                     <BasicButton margin={"0.5em"} width={"10em"} activateButton={messageUser} text={"Submit"} active={true} id={-1} />
                 </ContactModal>
             </Page>

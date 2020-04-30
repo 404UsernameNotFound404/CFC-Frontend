@@ -27,7 +27,8 @@ const Component = styled.div<ComponentProps>`
 type ParaInputStyleProps = {
     textAlign: string,
     showBorderBottom: boolean,
-    pageCreation: boolean
+    pageCreation: boolean,
+    editMode: boolean
 }
 
 const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
@@ -37,7 +38,7 @@ const ParaInputStyle = styled.textarea<ParaInputStyleProps>`
     overflow: none;
     border: none;
     border-bottom: ${p => p.showBorderBottom ? "grey thin solid" : ''};
-    border: ${p => !p.pageCreation ? "thin grey solid" : ''};
+    border: ${p => !(p.pageCreation || !p.editMode) ? "thin grey solid" : 'none'};
     padding: ${p => !p.pageCreation ? "0.25rem" : ''};
     font-family: 'Cormorant Garamond', serif;
     font-style: normal;
@@ -139,6 +140,7 @@ function ParaInput(props: Props) {
     }
 
     const updateText = (e: any) => {
+        console.log("hello")
         if (pageCreation) {
             ref.current.focus();
             autoSize(ref.current);
@@ -171,7 +173,7 @@ function ParaInput(props: Props) {
                 {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
             </TitleCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
-            <ParaInputStyle pageCreation={pageCreation} showBorderBottom={paragraphValue.length == 0 && !pageCreation} rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly={!editMode} />
+            <ParaInputStyle editMode = {editMode} pageCreation={pageCreation} showBorderBottom={paragraphValue != undefined && paragraphValue.length == 0 && !pageCreation} rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly={!editMode} />
         </Component>
     )
 }

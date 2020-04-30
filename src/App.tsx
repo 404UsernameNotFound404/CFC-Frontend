@@ -37,7 +37,7 @@ function App() {
   const [userID, setUserID] = useState("");
   const [userType, setUserType] = useState(-1);
   const [loading, setLoading] = useState(true);
-  const [messageToUser, setMessageToUser] = useState({message: "", colour: "black"})
+  const [messageToUser, setMessageToUser] = useState({message: "", colour: "black" })
 
   useEffect(() => {
     checkToken();

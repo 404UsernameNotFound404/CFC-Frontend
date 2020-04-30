@@ -35,6 +35,10 @@ const SearchBoxSubTitle = styled.h4`
     text-align: center;
 `;
 
+const Para = styled.p`
+    font-size: 1.5rem;
+    text-align: center;
+`;
 
 function LinksContainer() {
     const [allCategories, setAllCategories] = useState([]);
@@ -80,6 +84,7 @@ function LinksContainer() {
                         </>
                 }
             </TopPartPage>
+            <Para>We do not yet have contacts with all the organizations on our list. We have compiled this list to help activists find organizations. If you do not see an organization on our list, please add it. </Para>
             <SearchActivists choice={whatYourSearching} categoriesToNotAllow={categoriesToNotAllow} />
         </PageContainer>
     );

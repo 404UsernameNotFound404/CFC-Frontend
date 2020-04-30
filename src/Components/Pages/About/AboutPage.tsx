@@ -116,11 +116,9 @@ function AboutPage() {
             <PhotoOfBothFounders src={PhotoOfFounders} />
             <FutureOfOrgParaTitle>What the future holds</FutureOfOrgParaTitle>
             <FutureOfOrgPara>
-                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
-                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
-                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
-                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
-                In 2011, Henry and Daxton first got involved in activism. They learned about past and present injustices facing Indigenous communities, and wanted to take action. They had a lot of support from their teachers, and from groups like the First Nations Child and Family Caring Society. By 2017 both Henry and Daxton were noticing that many
+                We want to see Connecting For Change grow and help get people involved in campaigns and actions. Our list of organizations includes groups that do have protests or campaigns, but it also includes organizations with lots of educational resources for activists, and organizations that provide more direct help to people in need.
+                <br /> <br/>
+                Connecting For Change believes that people can get involved in activism at any age. Whether you are a child, teenager, adult or senior citizen, we want to help you fight for the cause you care about. 
             </FutureOfOrgPara>
             <BioTitle>Our Team</BioTitle>
             <TeamSection />

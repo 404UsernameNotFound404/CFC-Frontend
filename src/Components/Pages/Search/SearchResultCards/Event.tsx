@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import BasicButton from '../../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../../packages/BasicButton';
 import PageCategories from '../../Page/PageCategories';
 import { Redirect } from 'react-router-dom';
 

@@ -22,7 +22,7 @@ import ProfilePage from './Components/Pages/ProfilePage/ProfilePage';
 import PrivacyPolicy from './Components/Pages/PrivacyPolicy/PrivacyPolicy';
 import ForgotPasswordPage from './Components/Pages/ForgotPasswordPage/ForgotPage';
 import EventPage from './Components/Pages/Event/EventPage'
-import LoadingPage from './Components/ComponentLibrayer/LoadingPage';
+import LoadingPage from './Components/packages/LoadingPage';
 import MessageToUserComponent from './Components/MessageToUser/MessageToUserComponent';
 import PageCreationTest from './Components/Pages/PageCreationTest';
 import Approve from './Components/Pages/ApproveUpdateRequests/Approve';

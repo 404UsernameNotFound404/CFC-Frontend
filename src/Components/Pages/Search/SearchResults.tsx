@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import Page from './SearchResultCards/Page';
 import DefaultImage from '../../../img/default.jpg';
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import LoadingPage from '../../packages/LoadingPage';
 import Organization from './SearchResultCards/Organzation';
 import PickWhatToSearchFor from './PickWhatToSearchForButton';
 import Event from './SearchResultCards/Event';
@@ -171,7 +171,6 @@ function SearchBar(props: Props) {
         switch (props.choice) {
             case "Organizations":
                 if (props.choice == choice) {
-                    console.log(pages);
                     return (
                         pages.map((ele, i) => {
                             if (checkIfInCategories(ele.interests)) return <Organization id={ele._id} image={DefaultImage} name={ele.name} link={ele.link} desc={ele.desc} location={ele.location} email={ele.email} interests={ele.interests} key={i} />;

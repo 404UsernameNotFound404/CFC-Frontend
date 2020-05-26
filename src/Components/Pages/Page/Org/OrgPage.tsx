@@ -4,14 +4,14 @@ import {
     BrowserRouter as Router,
     Redirect
 } from "react-router-dom";
-import SingleLineInput from "../../../ComponentLibrayer/InputForSingleLine";
+import SingleLineInput from "../../../packages/InputForSingleLine";
 import PageCategories from '../PageCategories'
 import DefaultImage from '../../../../img/default.jpg'
-import LoadingPage from '../../../ComponentLibrayer/LoadingPage';
-import ParagraphInput from '../../../ComponentLibrayer/ParaInput/ParaInput'
+import LoadingPage from '../../../packages/LoadingPage';
+import ParagraphInput from '../../../packages/ParaInput/ParaInput'
 import { AppContext } from '../../../../Context/AppContext';
-import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
-import PhotoAndUploader from '../../../ComponentLibrayer/PhotoAndUploader';
+import UpdateEditButton from '../../../packages/UpdateEditButton';
+import PhotoAndUploader from '../../../packages/PhotoAndUploader';
 
 const Page = styled.div`
     width: 75em;

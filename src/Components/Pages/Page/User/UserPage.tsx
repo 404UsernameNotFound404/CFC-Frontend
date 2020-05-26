@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import DaxtonImage from '../../../../img/default.jpg'
 import { Redirect } from 'react-router';
-import LoadingComp from '../../../ComponentLibrayer/LoadingPage'
+import LoadingComp from '../../../packages/LoadingPage'
 import ProfileTopPart from './ProfileTopPart';
-import ParagraphInput from '../../../ComponentLibrayer/ParaInput/ParaInput'
+import ParagraphInput from '../../../packages/ParaInput/ParaInput'
 import { AppContext } from '../../../../Context/AppContext';
-import UpdateEditButton from '../../../ComponentLibrayer/UpdateEditButton';
+import UpdateEditButton from '../../../packages/UpdateEditButton';
 import ContactModal from '../ContactModal';
-import BasicButton from '../../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../../packages/BasicButton';
 
 const axios = require("axios");
 

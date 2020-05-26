@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ActivistPage from '../Search/SearchResultCards/Page';
 import styled from 'styled-components';
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import LoadingPage from '../../packages/LoadingPage';
 import DefaultPhoto from '../../../img/default.jpg'
 import { AppContext } from '../../../Context/AppContext';
 

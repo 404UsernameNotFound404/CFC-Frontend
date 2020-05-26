@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import SelectCauses from './SelectCauses';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../packages/BasicButton';
 import {
     BrowserRouter as Router,
     Redirect
@@ -9,7 +9,7 @@ import {
 import { AppContext } from '../../../Context/AppContext';
 import OrgRegisterInfoInput from './OrgRegisterInfoInput';
 import PhonNumberInput from './PhoneNumberInput';
-import CheckBox from '../../ComponentLibrayer/CheckBox';
+import CheckBox from '../../packages/CheckBox';
 import LoadingGif from '../../../img/loading.gif'
 
 

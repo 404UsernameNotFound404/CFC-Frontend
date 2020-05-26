@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import ParaInput from '../../ComponentLibrayer/ParaInput/ParaInput';
+import ParaInput from '../../packages/ParaInput/ParaInput';
 import PageCategories from '../Page/PageCategories';
 import { AppContext } from '../../../Context/AppContext';
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import LoadingPage from '../../packages/LoadingPage';
 
 const axios = require("axios");
 

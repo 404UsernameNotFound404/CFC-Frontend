@@ -37,7 +37,7 @@ const PageTitle = styled.h1`
 const TitleSection = styled.div`
     position: absolute;
     width: 100%;
-    height: 40em;
+    height: 60em;
     margin-top: 2em;
     overflow-x: hidden;
     left: 0;
@@ -50,14 +50,14 @@ const TitleSection = styled.div`
 const PhotoOfBothFounders = styled.img`
     width: 90%;
     margin: auto;
-    margin-top: 2em;
+    margin-top: 10em;
     height: 25em;
     object-fit: cover;
     object-position: top;
     border-radius: 0.3em;
     display: block;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
-        margin-top: 4em;
+        margin-top: 12em;
         height: 15em;
     }
 `;
@@ -89,6 +89,13 @@ const PageSubTitle = styled.h1`
     margin-bottom: 0.5em;
     font-weight: lighter;
     /* font-style: italic; */
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
+        margin-top: 2.5rem;
+        width: 95%;
+        margin: auto;
+        font-size: 1.5rem;
+        text-align: center;
+    }
 `;
 
 function AboutPage() {

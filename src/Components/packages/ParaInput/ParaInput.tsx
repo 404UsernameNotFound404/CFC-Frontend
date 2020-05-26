@@ -20,7 +20,7 @@ const Component = styled.div<ComponentProps>`
     margin: ${p => p.margin};
     font-size: ${p => p.fontSize}rem;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {   
-        width: 95%;
+        width: 90%;
     }
 `;
 

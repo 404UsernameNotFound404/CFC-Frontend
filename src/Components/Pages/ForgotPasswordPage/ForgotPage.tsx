@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router-dom';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../packages/BasicButton';
 import { AppContext } from '../../../Context/AppContext';
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import LoadingPage from '../../packages/LoadingPage';
 const axios = require('axios')
 
 

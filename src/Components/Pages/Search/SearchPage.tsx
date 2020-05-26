@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchActivists from './SearchResults';
-import CategorySearch from '../../ComponentLibrayer/CategorySearch/CategorySearch';
+import CategorySearch from '../../packages/CategorySearch/CategorySearch';
 const axios = require("axios");
 
 const PageContainer = styled.div`
@@ -41,11 +41,9 @@ const Para = styled.p`
 `;
 
 function LinksContainer() {
-    const [allCategories, setAllCategories] = useState([]);
     const [categoryButtons, setCategoryButtons] = useState([]);
     const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
     const [whatYourSearching, setWhatYourSearching] = useState(null);
-    const [pickedCategory, setPickedCategory] = useState(false);
     const thingsToSearch = ["Activists", "Events", "Organizations", null]
 
     useEffect(() => {
@@ -55,7 +53,6 @@ function LinksContainer() {
     });
 
     const findWhatToSearchFor = () => {
-        console.log("find what to search")
         let search = checkIfSearchParamsChanges()
         setWhatYourSearching(null)
         thingsToSearch.map((ele, i) => {

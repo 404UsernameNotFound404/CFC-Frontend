@@ -2,10 +2,10 @@ import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { AppContext } from '../../../Context/AppContext';
 import Cookie from 'js-cookie'
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import LoadingPage from '../../packages/LoadingPage';
 import { Redirect } from 'react-router';
 import DefaultPhoto from '../../../img/default.jpg';
-import PhotoAndUploader from '../../ComponentLibrayer/PhotoAndUploader'
+import PhotoAndUploader from '../../packages/PhotoAndUploader'
 
 
 const axios = require("axios")

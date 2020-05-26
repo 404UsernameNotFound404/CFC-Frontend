@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import SearchActivists from './SearchResults';
-import CategorySearch from '../../packages/CategorySearch/CategorySearch';
-const axios = require("axios");
+import Categories from '../../packages/categories-react/Categories';
+import Activists from './Activists';
+import Organizations from './Organizations'
 
 const PageContainer = styled.div`
     padding-top: 2.5em;
@@ -13,36 +13,12 @@ const PageContainer = styled.div`
     }
 `;
 
-const TopPartPage = styled.div`
-    padding-top: 15vh;
-    padding-bottom: 7.5vh;
-    width: 100%;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        padding-top: 3em;
-        padding-bottom: 0em;
-    }
-`;
-
-const SearchBoxTitle = styled.h1`
-    font-size: 4em;
-    margin: 0;
-    text-align: center;
-`;
-
-const SearchBoxSubTitle = styled.h4`
-    font-size: 2em;
-    margin: 0;
-    text-align: center;
-`;
-
-const Para = styled.p`
-    font-size: 1.5rem;
-    text-align: center;
+const CategoriesContainer = styled.div`
+    margin: auto;
 `;
 
 function LinksContainer() {
-    const [categoryButtons, setCategoryButtons] = useState([]);
-    const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
+    const [activeCategories, setActiveCategories] = useState([]);
     const [whatYourSearching, setWhatYourSearching] = useState(null);
     const thingsToSearch = ["Activists", "Events", "Organizations", null]
 
@@ -68,8 +44,38 @@ function LinksContainer() {
         return params.get("search");
     }
 
+    const dataToRender = () => {
+        switch(whatYourSearching) {
+            case "Activists":
+                return <Activists categoriesToShow = {[]} />
+            break;
+            case "Organizations":
+                return <Organizations categoriesToShow = {[]} />
+            break;
+            case "Events": 
+                return <>Coming Soon...</>
+            break;
+        }
+    }
+
+    const updateActiveCategories = (newActiveCategories: number[]) => {setActiveCategories(newActiveCategories)}
+
     return (
         <PageContainer>
+            <CategoriesContainer>
+                <Categories changeCategory = {updateActiveCategories} />
+            </CategoriesContainer>
+            {
+                dataToRender()
+            }
+        </PageContainer>
+    );
+}
+
+export default LinksContainer;
+
+
+{/* <PageContainer>
             <TopPartPage>
                 {
                     !(whatYourSearching == "Organizations" || whatYourSearching == "Activists" || whatYourSearching == "Events") ?
@@ -83,8 +89,4 @@ function LinksContainer() {
             </TopPartPage>
             <Para>We do not yet have contacts with all the organizations on our list. We have compiled this list to help activists find organizations. If you do not see an organization on our list, please add it. </Para>
             <SearchActivists choice={whatYourSearching} categoriesToNotAllow={categoriesToNotAllow} />
-        </PageContainer>
-    );
-}
-
-export default LinksContainer;
+        </PageContainer> */}

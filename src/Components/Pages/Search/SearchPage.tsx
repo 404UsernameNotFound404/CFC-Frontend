@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Categories from '../../packages/categories-react/Categories';
+import Categories, {CategoryButtonProps, CategoryButtonStyleProps} from '../../packages/categories-react/Categories';
 import Activists from './Activists';
 import Organizations from './Organizations'
 
@@ -14,8 +14,48 @@ const PageContainer = styled.div`
 `;
 
 const CategoriesContainer = styled.div`
+    width: 90%;
     margin: auto;
 `;
+
+const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
+    cursor: pointer;
+    background-color: ${p => p.colour};
+    border-radius: 0.5em;
+    width: 21%;
+    padding: 1.5em 1%;
+    margin: 1em auto;
+    text-align: center;
+    color: black !important;
+    min-height: 3em;
+    opacity: ${p => p.active ? '1' : '0.5'};
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        padding: 1em 1%;
+        width: 8em;
+    }
+    display: flex;
+    justify-content: center;
+    &:hover {
+        border-color: transparent;
+        color: white;
+    }
+`;
+
+const CategoryButtonText = styled.h1`
+    font-size: 1.5em;
+    text-align: center;
+    margin: auto;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        font-size: 1.25em;
+    }
+`;
+
+const CategoryButton = (props: CategoryButtonProps) => {
+    const { Name, Active, Colour, ID, activateButton } = props;
+    return (
+        <CategoryButtonStyle active={Active} colour={Colour} onClick={() => { activateButton(ID) }}><CategoryButtonText>{Name}</CategoryButtonText></CategoryButtonStyle>
+    );
+}
 
 function LinksContainer() {
     const [activeCategories, setActiveCategories] = useState([]);
@@ -45,29 +85,27 @@ function LinksContainer() {
     }
 
     const dataToRender = () => {
-        switch(whatYourSearching) {
+        switch (whatYourSearching) {
             case "Activists":
-                return <Activists categoriesToShow = {[]} />
-            break;
+                return <Activists categoriesToShow={activeCategories} />
+                break;
             case "Organizations":
-                return <Organizations categoriesToShow = {[]} />
-            break;
-            case "Events": 
+                return <Organizations categoriesToShow={activeCategories} />
+                break;
+            case "Events":
                 return <>Coming Soon...</>
-            break;
+                break;
         }
     }
 
-    const updateActiveCategories = (newActiveCategories: number[]) => {setActiveCategories(newActiveCategories)}
+    const updateActiveCategories = (newActiveCategories: number[]) => { setActiveCategories(newActiveCategories) }
 
     return (
         <PageContainer>
             <CategoriesContainer>
-                <Categories changeCategory = {updateActiveCategories} />
+                <Categories justifyContent = {"space-around"} CategoryButton={CategoryButton} activeCategories={[]} changeCategory={updateActiveCategories} />
             </CategoriesContainer>
-            {
-                dataToRender()
-            }
+            {dataToRender()}
         </PageContainer>
     );
 }

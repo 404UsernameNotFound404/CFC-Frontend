@@ -78,7 +78,7 @@ function Organizations(props: Props) {
                 {
                     modalData &&
                     <Modal close = {true} setClose={closeModal}>
-                        <CreatingEditingOrg {...modalData} />
+                        <CreatingEditingOrg edit={!modalData.edit} {...modalData} />
                     </Modal>
                 }
                 

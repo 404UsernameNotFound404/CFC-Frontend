@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { AppContext } from '../../../Context/AppContext';
 import ParaInput from '../../packages/para-input-react/ParaInput';
 import Categories, { CategoryButtonProps, CategoryButtonStyleProps } from '../categories-react/Categories';
+import { updateOrCreateOrg } from '../organization-card';
+import { stringify } from 'querystring';
 
 const axios = require("axios");
 
 const Component = styled.div`
-    padding: 1em 4%;
-    width: 100%;
+    padding: 1em 0%;
+    width: 95%;
+    margin: auto;
+    height: fit-content;
 `;
 
 const SingleLineInput = styled.input`
@@ -56,6 +60,7 @@ const DeleteCheckBoxText = styled.p`
 
 const CategoryContainer = styled.div`
     width: 92%;
+    margin: 0.25rem 0;
 `;
 
 const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
@@ -102,6 +107,7 @@ type Props = {
 }
 
 export default function CreatingEditingOrg(props: Props) {
+    const { name, location, id, email, link, interests } = props;
     const [inputs, setInputs] = useState([
         { value: (props.name ? props.name : ""), placeholder: "Name", id: 0 },
         { value: (props.location ? props.location : ""), placeholder: "Location", id: 1 },
@@ -119,29 +125,12 @@ export default function CreatingEditingOrg(props: Props) {
     }, [])
 
     const createOrg = async () => {
-        // try {
-        //     setLoading(true);
-        //     let activeInterests = allCategories.filter((ele: any) => {
-        //         if (!ele.disabled) {
-        //             delete ele["disabled"];
-        //             ele.ID = parseInt(ele.ID);
-        //             return ele;
-        //         }
-        //     });
-        //     let res;
-        //     if (props.edit) res = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/request/${props.id}`, { deleteReq: deleteReq, name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests })
-        //     else res = await axios.post(`${process.env.REACT_APP_BASEURLNODE}/organization/`, { name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests })
+        console.log(props.edit)
+        // let res = await updateOrCreateOrg({ desc: desc, name: name, location: location, id: id, email: email, link: link, interests: interests}, props.edit, deleteReq);
+        // if (!res) {
+        //     console.log("FAILURE")
+        // } else {
         //     console.log(res);
-        //     if (res.data.error != undefined) throw res.error;
-        //     c.setMessageToUser({ message: !props.edit ? "Created Organization" : "Requested Edit", colour: "green" })
-        //     if (props.update) props.update();
-        //     props.setClose(false);
-        // } catch (err) {
-        //     if (typeof err == "string") {
-        //         c.setMessageToUser({ message: err, colour: "red" })
-        //     }
-        //     c.setMessageToUser({ message: "Error Creating Organization", colour: "red" })
-        //     setLoading(false);
         // }
     }
 
@@ -156,7 +145,7 @@ export default function CreatingEditingOrg(props: Props) {
 
     return (
         <Component>
-            <Title>Create an organization</Title>
+            <Title>{props.edit ? "Request Edit" : "Create an organization"}</Title>
             {
                 inputs.map((ele, i) => <div key={i}><SingleLineInput onChange={(e) => { updateValue(ele.id, e.target.value) }} value={ele.value} placeholder={ele.placeholder} key={i} /></div>)
             }

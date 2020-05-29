@@ -22,9 +22,9 @@ type ContentProps = {
 const Content = styled.div<ContentProps>`
     width: ${p => p.width};
     background-color: white;
-    height: fit-content;
+    max-height: 80vh;
+    overflow-y: scroll;
     margin: auto;
-    border-radius: 1.5rem;
     border: 0.15em solid rgb(125,125,125);
     position: relative;
 `;

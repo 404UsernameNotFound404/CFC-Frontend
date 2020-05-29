@@ -11,10 +11,8 @@ const Component = styled.div<ComponentProps>`
     width: 100%;
     height: fit-content;
     margin: auto;
-    padding-bottom: 2em;
     display: flex;
     flex-flow: wrap;
-    margin-top: 2em;
     justify-content: ${p => p.justifyContent};
     ${p => p.justifyContent == "space-between" ? `
     &::after {

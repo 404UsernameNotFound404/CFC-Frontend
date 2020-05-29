@@ -1,8 +1,7 @@
-import React, { ReactNode, useContext } from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { AppContext } from '../../../Context/AppContext';
 
 const Component = styled.div`
     left: 0;
@@ -46,11 +45,11 @@ const CloseIcon = styled.h4`
 type Props = {
     close: boolean,
     setClose: React.Dispatch<React.SetStateAction<boolean>>,
-    children: ReactNode[] | ReactNode,
+    children: React.ReactNode[] | React.ReactNode,
     width?: string
 }
 
-function ContactModal(props: Props) {
+export default function Modal(props: Props) {
     const closeIcon = <FontAwesomeIcon icon={faTimes} />
     const width = props.width ? props.width : "40em";
     if (props.close) {
@@ -67,4 +66,3 @@ function ContactModal(props: Props) {
     }
 }
 
-export default ContactModal;

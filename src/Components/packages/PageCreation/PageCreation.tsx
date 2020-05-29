@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Modal from '../../Pages/Page/ContactModal';
 import ModulePicker from './ModalComps/PickModule';
-import ParaInput from '../ParaInput/ParaInput';
+import ParaInput from '../para-input-react/ParaInput';
 import { PageCreationContext } from '../../../Context/PageCreationContext';
 import MultiSectionDisplay from './MultiSectionDisplay';
 import PageCreationMenu from './SectionSelection/PageCreationMenue';

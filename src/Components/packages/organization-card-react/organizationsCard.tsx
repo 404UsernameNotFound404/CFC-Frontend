@@ -136,17 +136,12 @@ function OrganizationCard(props: Props) {
 
     return (
         <Container width = {width}>
-            {console.log(props)}
             <Header {...props} />
             <Desc showAll={seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : desc}</Desc>
             {desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={link}>{link.length >= 35 ? (link.substring(0, 35) + "...") : link}</LinkToWebite>
-            <Categories justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {[]} changeCategory = {() => {}} />
+            <Categories onlyShowActive justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {props.interests.map(ele => parseInt(ele.ID))} changeCategory = {() => {}} />
             <ActionButton id = {_id} ActionButtonOnClick = {ActionButtonOnClick} />
-            {/* <RequestChange onClick={() => { setEditModal(true) }}>Request Change</RequestChange>
-            <ContactModal close={editModal} setClose={setEditModal}>
-                <CreatingOrg desc = {props.desc} ID = {props.id} edit = {true} interests={props.interests} name={props.name} location={props.location} email={props.email} link={props.link} setClose={setEditModal} />
-            </ContactModal> */}
         </Container>
     );
 }

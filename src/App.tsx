@@ -26,6 +26,7 @@ import LoadingPage from './Components/packages/LoadingPage';
 import MessageToUserComponent from './Components/MessageToUser/MessageToUserComponent';
 import PageCreationTest from './Components/Pages/PageCreationTest';
 import Approve from './Components/Pages/ApproveUpdateRequests/Approve';
+import { getCategories } from './Components/packages/search-page-functions/getCategories';
 
 const axios = require("axios");
 
@@ -37,15 +38,22 @@ function App() {
   const [userID, setUserID] = useState("");
   const [userType, setUserType] = useState(-1);
   const [loading, setLoading] = useState(true);
-  const [messageToUser, setMessageToUser] = useState({message: "", colour: "black" })
+  const [messageToUser, setMessageToUser] = useState({message: "", colour: "black" });
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     checkToken();
+    fetchCategories();
   }, [])
 
 
   const RedirectToLogin = () => {
     if (redirectToLogin) return <Redirect to='/login' />;
+  }
+
+  const fetchCategories = async () => {
+    let categories = await getCategories();
+    setCategories(categories);
   }
 
   const showNavBarFunct = () => {
@@ -89,8 +97,7 @@ function App() {
   if (!loading) {
     return (
       <div>
-        <AppContext.Provider value={{ setMessageToUser: setMessageToUser, login: login, userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType }}>
-          {console.log("rendering")}
+        <AppContext.Provider value={{ categories: categories, setCategories: setCategories, setMessageToUser: setMessageToUser, login: login, userID, userToken: userToken, loggedIn: loggedIn, setUserToken: setUserToken, setLoggedIn: setLoggedIn, userType: userType, setUserType: setUserType }}>
           <Router>
             {RedirectToLogin()}
             <Route component={showNavBarFunct} />

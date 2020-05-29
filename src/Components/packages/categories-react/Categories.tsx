@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { getCategories } from '../search-page-functions/getCategories';
+import { AppContext } from '../../../Context/AppContext';
 
 type ComponentProps = {
     justifyContent: string
@@ -38,6 +39,7 @@ export type CategoryButtonProps = {
 type Props = {
     changeCategory: any;
     activeCategories?: any;
+    onlyShowActive?: boolean;
     CategoryButton: (props: CategoryButtonProps) => JSX.Element;
     justifyContent?: string;
 }
@@ -45,8 +47,9 @@ type Props = {
 function Categories(props: Props) {
     const [activeCategories, setActiveCategories] = useState([]);
     const [categories, setCategories] = useState([]);
-    const { CategoryButton} = props;
+    const { CategoryButton, onlyShowActive = false } = props;
     const justifyContent = props.justifyContent ? props.justifyContent : "space-evenly";
+    const c = useContext(AppContext);
 
     useEffect(() => {
         if (props.activeCategories) {
@@ -55,25 +58,31 @@ function Categories(props: Props) {
     }, [])
 
     useEffect(() => {
-        const getCategoriesUseEffect = async () => {
-            let categoriesData = await getCategories();
-            updateCategoriesWithActiveCategories(props.activeCategories, categoriesData);
-        }
-        getCategoriesUseEffect();
-    }, []);
+        updateCategoriesWithActiveCategories(props.activeCategories, c.categories);
+    }, [c.categories, props.activeCategories]);
 
     const updateCategoriesWithActiveCategories = (newActiveCategories: number[], categoriesToUse: any) => {
-        setCategories(categoriesToUse.map((ele: any) => {
-            if (newActiveCategories) {
-                if (newActiveCategories.length == 0) return { ...ele, Active: true };
-                let found = false;
-                for (let x = 0; x < newActiveCategories.length; x++) {
-                    if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
+        if (!onlyShowActive) {
+            setCategories(categoriesToUse.map((ele: any) => {
+                if (newActiveCategories) {
+                    if (newActiveCategories.length == 0) return { ...ele, Active: true };
+                    let found = false;
+                    for (let x = 0; x < newActiveCategories.length; x++) {
+                        if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
+                    }
+                    if (!found) return { ...ele, Active: false };
                 }
-                if (!found) return { ...ele, Active: false };
-            }
-            return { ...ele, Active: true };
-        }));
+                return { ...ele, Active: true };
+            }));
+        } else {
+            setCategories(categoriesToUse.filter((ele: any) => {
+                let found = false;
+                    for (let x = 0; x < newActiveCategories.length; x++) {
+                        if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
+                    }
+                return found;
+            }))
+        }
     }
 
     const updateActiveCategories = (id: string) => {

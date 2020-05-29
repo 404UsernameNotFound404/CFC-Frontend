@@ -4,11 +4,11 @@ import {
     BrowserRouter as Router,
     Redirect
 } from "react-router-dom";
-import SingleLineInput from "../../../packages/InputForSingleLine";
+import SingleLineInput from "../../../packages/single-line-input/InputForSingleLine";
 import PageCategories from '../PageCategories'
 import DefaultImage from '../../../../img/default.jpg'
 import LoadingPage from '../../../packages/LoadingPage';
-import ParagraphInput from '../../../packages/ParaInput/ParaInput'
+import ParagraphInput from '../../../packages/para-input-react/ParaInput'
 import { AppContext } from '../../../../Context/AppContext';
 import UpdateEditButton from '../../../packages/UpdateEditButton';
 import PhotoAndUploader from '../../../packages/PhotoAndUploader';

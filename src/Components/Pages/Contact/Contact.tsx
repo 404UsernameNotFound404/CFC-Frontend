@@ -4,7 +4,7 @@ import ProtesterImage from '../../../img/protesterYelling.webp'
 import { useMediaQuery } from 'react-responsive';
 import { AppContext } from '../../../Context/AppContext';
 import EmailCopy from '../../packages/EmailCopy';
-import ParagraphInput from '../../packages/ParaInput/ParaInput';
+import ParagraphInput from '../../packages/para-input-react/ParaInput';
 import LoadingPage from '../../packages/LoadingPage';
 
 const axios = require("axios");

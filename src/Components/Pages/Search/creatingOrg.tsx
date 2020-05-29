@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
-import ParaInput from '../../packages/ParaInput/ParaInput';
+import ParaInput from '../../packages/para-input-react/ParaInput';
 import PageCategories from '../Page/PageCategories';
 import { AppContext } from '../../../Context/AppContext';
 import LoadingPage from '../../packages/LoadingPage';
@@ -120,7 +120,6 @@ function CreatingOrg(props: Props) {
             let res;
             if (props.edit) res = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/request/${props.id}`, { deleteReq: deleteReq, name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests })
             else res = await axios.post(`${process.env.REACT_APP_BASEURLNODE}/organization/`, { name: inputs[0].value, location: inputs[1].value, email: inputs[2].value, link: inputs[3].value, desc: desc, interests: activeInterests })
-            console.log(res);
             if (res.data.error != undefined) throw res.error;
             c.setMessageToUser({ message: !props.edit ? "Created Organization" : "Requested Edit", colour: "green" })
             if (props.update) props.update();

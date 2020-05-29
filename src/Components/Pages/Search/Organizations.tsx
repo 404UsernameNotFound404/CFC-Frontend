@@ -4,6 +4,8 @@ import { getSearchData } from '../../packages/search-page-functions/getSearchDat
 import { AppContext } from '../../../Context/AppContext';
 import OrganizationCard, { ActionButtonProps } from '../../packages/organization-card-react/organizationsCard';
 import { checkIfInCategories } from '../../packages/search-page-functions/checkIfHasCategories';
+import Modal from '../../packages/modal-react';
+import CreatingEditingOrg from '../../packages/organization-card-react/creatingEditingOrgs';
 
 const Component = styled.div`
     width: 90% !important;
@@ -24,7 +26,19 @@ type Props = {
 }
 
 const RequestModalButtonStyle = styled.div`
-
+    width: fit-content;
+    padding: 0.5em 0.75em;
+    color: #3c78d8;
+    border-radius: 0.3em;
+    /* background-color: #3c78d8; */
+    border: thin solid #3c78d8;
+    cursor: pointer;
+    font-size: 1em;
+    &:hover {
+        color: #183e7c;
+        background-color: #3c78d81f;
+        border-color: #183e7c;
+    }
 `;
 
 const RequestModalButton = (props: ActionButtonProps) => {
@@ -35,10 +49,12 @@ const RequestModalButton = (props: ActionButtonProps) => {
 
 function Organizations(props: Props) {
     const [organizations, setOrganizations] = useState([]);
+    const [modalData, setModalData] = useState(null);
 
     useEffect(() => {
         const getOrgs = async () => {
             const orgsData = await getSearchData("Organizations");
+            console.log(orgsData)
             if (orgsData.error != undefined) console.log("error");//TODO
             else setOrganizations(orgsData);
         }
@@ -47,13 +63,23 @@ function Organizations(props: Props) {
 
     const openModal = (orgId: string) => {
         console.log("open " + orgId);
+        let orgToEdit = organizations.find(ele => ele._id == orgId)
+        setModalData(orgToEdit);
     }
+
+    const closeModal = () => setModalData(null);
 
     if (organizations.length != 0) {
         return (
             <Component>
                 {
                     organizations.map(ele => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
+                }
+                {
+                    modalData &&
+                    <Modal close = {true} setClose={closeModal}>
+                        <CreatingEditingOrg {...modalData} />
+                    </Modal>
                 }
                 
             </Component>

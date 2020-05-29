@@ -4,7 +4,7 @@ import DaxtonImage from '../../../../img/default.jpg'
 import { Redirect } from 'react-router';
 import LoadingComp from '../../../packages/LoadingPage'
 import ProfileTopPart from './ProfileTopPart';
-import ParagraphInput from '../../../packages/ParaInput/ParaInput'
+import ParagraphInput from '../../../packages/para-input-react/ParaInput'
 import { AppContext } from '../../../../Context/AppContext';
 import UpdateEditButton from '../../../packages/UpdateEditButton';
 import ContactModal from '../ContactModal';

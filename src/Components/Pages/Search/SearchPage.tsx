@@ -103,7 +103,7 @@ function LinksContainer() {
     return (
         <PageContainer>
             <CategoriesContainer>
-                <Categories justifyContent = {"space-around"} CategoryButton={CategoryButton} activeCategories={[]} changeCategory={updateActiveCategories} />
+                <Categories justifyContent = {"space-around"} CategoryButton={CategoryButton} activeCategories={activeCategories} changeCategory={updateActiveCategories} />
             </CategoriesContainer>
             {dataToRender()}
         </PageContainer>

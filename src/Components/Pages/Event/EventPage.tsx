@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ParaInput from '../../packages/ParaInput/ParaInput';
+import ParaInput from '../../packages/para-input-react/ParaInput';
 import DefaultImage from '../../../img/protest.jpg';
 import UpdateEditButton from '../../packages/UpdateEditButton';
 

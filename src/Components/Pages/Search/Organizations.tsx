@@ -21,6 +21,11 @@ const Component = styled.div`
     margin-bottom: 5em;
 `;
 
+const Para = styled.p`
+    font-size: 1.5rem;
+    text-align: center;
+`;
+
 type Props = {
     categoriesToShow: number[];
 }
@@ -54,7 +59,6 @@ function Organizations(props: Props) {
     useEffect(() => {
         const getOrgs = async () => {
             const orgsData = await getSearchData("Organizations");
-            console.log(orgsData)
             if (orgsData.error != undefined) console.log("error");//TODO
             else setOrganizations(orgsData);
         }
@@ -62,7 +66,6 @@ function Organizations(props: Props) {
     }, []);
 
     const openModal = (orgId: string) => {
-        console.log("open " + orgId);
         let orgToEdit = organizations.find(ele => ele._id == orgId)
         setModalData(orgToEdit);
     }
@@ -72,13 +75,14 @@ function Organizations(props: Props) {
     if (organizations.length != 0) {
         return (
             <Component>
+                <Para>We do not yet have contacts with all the organizations on our list. We have compiled this list to help activists find organizations. If you do not see an organization on our list, please add it. </Para>
                 {
                     organizations.map(ele => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
                 }
                 {
                     modalData &&
                     <Modal close = {true} setClose={closeModal}>
-                        <CreatingEditingOrg edit={!modalData.edit} {...modalData} />
+                        <CreatingEditingOrg edit={!modalData.edit} _id = {modalData._id} {...modalData} />
                     </Modal>
                 }
                 

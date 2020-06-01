@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -50,17 +50,24 @@ type Props = {
 }
 
 export default function Modal(props: Props) {
+    const compRef = useRef();
     const closeIcon = <FontAwesomeIcon icon={faTimes} />
     const width = props.width ? props.width : "40em";
+
+    const focusOnComponent = () => {
+        //@ts-ignore
+        // compRef.current.focus() ;
+    }
+
     if (props.close) {
-    return (
-        <Component>
-            <Content width = {width}>
-                <CloseIcon onClick = {() => {console.log("here"); props.setClose(false)}}>{closeIcon}</CloseIcon>
-                {props.children}
-            </Content>
-        </Component>
-    )
+        return (
+            <Component onMouseOver={() => { focusOnComponent() }} ref={compRef}>
+                <Content width={width}>
+                    <CloseIcon onClick={() => { console.log("here"); props.setClose(false) }}>{closeIcon}</CloseIcon>
+                    {props.children}
+                </Content>
+            </Component>
+        )
     } else {
         return (<></>)
     }

@@ -5,12 +5,18 @@ import Activists from './Activists';
 import Organizations from './Organizations'
 
 const PageContainer = styled.div`
-    padding-top: 2.5em;
+    padding-top: 7em;
     width: 75em;
     margin: auto;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
     }
+`;
+
+const SearchBoxTitle = styled.h1`
+    font-size: 4em;
+    margin: 0;
+    text-align: center;
 `;
 
 const CategoriesContainer = styled.div`
@@ -102,6 +108,7 @@ function LinksContainer() {
 
     return (
         <PageContainer>
+            <SearchBoxTitle>What are you looking for?</SearchBoxTitle> 
             <CategoriesContainer>
                 <Categories justifyContent = {"space-around"} CategoryButton={CategoryButton} activeCategories={activeCategories} changeCategory={updateActiveCategories} />
             </CategoriesContainer>

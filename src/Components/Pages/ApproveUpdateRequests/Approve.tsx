@@ -19,8 +19,8 @@ function Approve() {
 
     const fetchAPI = async () => {
         try {
-            console.log(process.env.REACT_APP_BASEURLNODE)
-            console.log(c.userToken)
+            console.log(process.env.REACT_APP_BASEURLNODE);
+            console.log(c.userToken);
             let resRaw = await fetch(`${process.env.REACT_APP_BASEURLNODE}/organization/request`, {
                 method: "GET",
                 headers: {
@@ -37,7 +37,6 @@ function Approve() {
 
     return (
         <Page>
-            {console.log(requests)}
             {
                 requests.map(ele => <Request id = {ele._id} delReq = {ele.deleteReq} orgID = {ele.orgID} name = {ele.name} email = {ele.email} location = {ele.location} link = {ele.location} desc = {ele.desc} interests = {ele.interests} />)
             }

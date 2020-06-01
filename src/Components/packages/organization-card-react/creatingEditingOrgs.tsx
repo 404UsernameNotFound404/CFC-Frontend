@@ -13,6 +13,7 @@ const Component = styled.div`
     width: 95%;
     margin: auto;
     height: fit-content;
+    z-index: 100;
 `;
 
 const SingleLineInput = styled.input`
@@ -97,7 +98,7 @@ type Props = {
     setClose: any
     edit: boolean,
     desc?: string,
-    id?: string,
+    _id?: string,
     name?: string,
     location?: string,
     email?: string,
@@ -107,7 +108,7 @@ type Props = {
 }
 
 export default function CreatingEditingOrg(props: Props) {
-    const { name, location, id, email, link, interests } = props;
+    const { name, location, _id, email, link, interests } = props;
     const [inputs, setInputs] = useState([
         { value: (props.name ? props.name : ""), placeholder: "Name", id: 0 },
         { value: (props.location ? props.location : ""), placeholder: "Location", id: 1 },
@@ -126,12 +127,12 @@ export default function CreatingEditingOrg(props: Props) {
 
     const createOrg = async () => {
         console.log(props.edit)
-        // let res = await updateOrCreateOrg({ desc: desc, name: name, location: location, id: id, email: email, link: link, interests: interests}, props.edit, deleteReq);
-        // if (!res) {
-        //     console.log("FAILURE")
-        // } else {
-        //     console.log(res);
-        // }
+        let res = await updateOrCreateOrg({ desc: desc, name: name, location: location, _id: _id, email: email, link: link, interests: interests}, props.edit, deleteReq);
+        if (!res) {
+            console.log("FAILURE")
+        } else {
+            console.log(res);
+        }
     }
 
     const updateValue = (id: number, value: string) => {
@@ -153,7 +154,6 @@ export default function CreatingEditingOrg(props: Props) {
             <CategoryContainer>
                 <Categories justifyContent={"space-between"} changeCategory={updateActiveCategories} CategoryButton={CategoryButton} activeCategories={activeCategories} />
             </CategoryContainer>
-            {/* <PageCategories widthOfCot={"90%"} width={"60%"} margin={"-0.5em"} allCategories={allCategories} setAllCategories={setAllCategories} categories={props.interests} editMode={true} /> */}
             {props.edit ?
                 <DeleteCheckBoxContainer>
                     <DeleteCheckBox type="checkbox" checked={deleteReq} onChange={() => { setDeleteReq(!deleteReq) }} />

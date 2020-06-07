@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import BasicButton from '../../../packages/BasicButton';
 import { Link } from 'react-router-dom';
 import PageCategories from '../../Page/PageCategories';
+import Categories, {CategoryButtonProps, CategoryButtonStyleProps} from '../../../packages/categories-react/Categories';
 
 type ContainerProps = {
     width: string
@@ -64,10 +65,38 @@ const ElevatorPitch = styled.h1`
     overflow: hidden; */
 `;
 
-const PageCategorieContainer = styled.div`
-    width: 90%;
-    margin: auto;
+const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
+    cursor: pointer;
+    background-color: ${p => p.colour};
+    border-radius: 0.25em;
+    width: 30%;
+    padding: 0.5rem 0;
+    margin: 0 1.2%;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    justify-content: center;
+    color: black;
+    font-size: 0.73em;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        padding: 1em 1%;
+        width: 8em;
+    }
+    display: flex;
+    justify-content: center;
 `;
+
+const CategoryContainer = styled.div`
+    margin: 1rem 0;
+`;
+
+const CategoryButton = (props: CategoryButtonProps) => {
+    const {Name, Colour, Active} = props;
+    return (
+        <CategoryButtonStyle active = {Active} colour = {Colour}>
+            {Name}
+        </CategoryButtonStyle>
+    )
+}
 
 type Props = {
     name: string,
@@ -88,18 +117,18 @@ function Page(props: Props) {
 
     return (
         <Container width={props.width}>
-            {console.log(props.width)}
             <PortraitOfActivist src={props.image} />
             <Name>{props.name}</Name>
             <ElevatorPitch>
-                {props.para.substring(0, 80)}...
+                {props.para}
             </ElevatorPitch>
-            <Link to={`/page?id=${props.ID}`}><BasicButton width={"40%"} activateButton={buttonClicked} text={"See More"} active={buttonState} id={20} /></Link>
-            <PageCategorieContainer>
-                <PageCategories margin={"auto"} allCategories={[]} setAllCategories={null} editMode={false} categories={props.Categories} width={"100%"} />
-            </PageCategorieContainer>
+            <CategoryContainer> <Categories onlyShowActive justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {props.Categories.map(ele => parseInt(ele.ID))} changeCategory = {() => {}} /> </CategoryContainer>
         </Container>
     );
 }
 
 export default Page;
+
+{/* <PageCategorieContainer>
+<PageCategories margin={"auto"} allCategories={[]} setAllCategories={null} editMode={false} categories={props.Categories} width={"100%"} />
+</PageCategorieContainer> */}

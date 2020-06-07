@@ -81,7 +81,6 @@ const RequestChange = styled.div`
 
 const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
     cursor: pointer;
-    border: black thin solid;
     background-color: ${p => p.colour};
     border-radius: 0.25em;
     width: 30%;
@@ -98,6 +97,10 @@ const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
     }
     display: flex;
     justify-content: center;
+`;
+
+const CategoryContainer = styled.div`
+    margin: 1rem 0;
 `;
 
 const CategoryButton = (props: CategoryButtonProps) => {
@@ -140,7 +143,7 @@ function OrganizationCard(props: Props) {
             <Desc showAll={seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : desc}</Desc>
             {desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={link}>{link.length >= 35 ? (link.substring(0, 35) + "...") : link}</LinkToWebite>
-            <Categories onlyShowActive justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {props.interests.map(ele => parseInt(ele.ID))} changeCategory = {() => {}} />
+            <CategoryContainer> <Categories onlyShowActive justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {props.interests.map(ele => parseInt(ele.ID))} changeCategory = {() => {}} /> </CategoryContainer>
             <ActionButton id = {_id} ActionButtonOnClick = {ActionButtonOnClick} />
         </Container>
     );

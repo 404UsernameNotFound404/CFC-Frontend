@@ -8,6 +8,7 @@ const PageContainer = styled.div`
     padding-top: 7em;
     width: 75em;
     margin: auto;
+    margin-bottom: 2rem;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
     }
@@ -92,15 +93,15 @@ function LinksContainer() {
 
     const dataToRender = () => {
         switch (whatYourSearching) {
-            case "Activists":
-                return <Activists categoriesToShow={activeCategories} />
-                break;
             case "Organizations":
                 return <Organizations categoriesToShow={activeCategories} />
                 break;
             case "Events":
                 return <>Coming Soon...</>
                 break;
+            default: 
+                return <Organizations categoriesToShow={activeCategories} />
+            break;
         }
     }
 

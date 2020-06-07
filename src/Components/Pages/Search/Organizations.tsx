@@ -8,9 +8,28 @@ import Modal from '../../packages/modal-react';
 import CreatingEditingOrg from '../../packages/organization-card-react/creatingEditingOrgs';
 
 const Component = styled.div`
-    width: 90% !important;
+    width: 100%;
+`;
+
+const Para = styled.p`
+    font-size: 1.5rem;
+    text-align: center;
+`;
+
+const CreateOrgButton = styled.div`
     width: fit-content;
-    margin: auto;
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    background-color: #3c78d8;
+    margin-bottom: 1em;
+    color: white;
+    cursor: pointer;
+    &:hover {
+        background-color: #183e7c;
+    }
+`;
+
+const OrganizationContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -19,11 +38,6 @@ const Component = styled.div`
         display: inline-block;
     }
     margin-bottom: 5em;
-`;
-
-const Para = styled.p`
-    font-size: 1.5rem;
-    text-align: center;
 `;
 
 type Props = {
@@ -59,16 +73,16 @@ function Organizations(props: Props) {
     useEffect(() => {
         const getOrgs = async () => {
             const orgsData = await getSearchData("Organizations");
+            console.log(orgsData)
             if (orgsData.error != undefined) console.log("error");//TODO
             else setOrganizations(orgsData);
         }
         getOrgs();
     }, []);
 
-    const openModal = (orgId: string) => {
-        let orgToEdit = organizations.find(ele => ele._id == orgId)
-        setModalData(orgToEdit);
-    }
+    const openModal = (orgId: string) => setModalData(organizations.find(ele => ele._id == orgId));
+
+    const createModal = () => setModalData({ edit: true });
 
     const closeModal = () => setModalData(null);
 
@@ -76,16 +90,20 @@ function Organizations(props: Props) {
         return (
             <Component>
                 <Para>We do not yet have contacts with all the organizations on our list. We have compiled this list to help activists find organizations. If you do not see an organization on our list, please add it. </Para>
-                {
-                    organizations.map(ele => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
-                }
+                <CreateOrgButton onClick={createModal}>Enter An Organization</CreateOrgButton>
+                <OrganizationContainer>
+                    {
+                        organizations.map(ele => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
+                    }
+                </OrganizationContainer>
+                <CreateOrgButton onClick={createModal}>Enter An Organization</CreateOrgButton>
                 {
                     modalData &&
-                    <Modal close = {true} setClose={closeModal}>
-                        <CreatingEditingOrg edit={!modalData.edit} _id = {modalData._id} {...modalData} />
+                    <Modal close={true} setClose={closeModal}>
+                        <CreatingEditingOrg edit={!modalData.edit} _id={modalData._id} {...modalData} />
                     </Modal>
                 }
-                
+
             </Component>
         );
     } else {

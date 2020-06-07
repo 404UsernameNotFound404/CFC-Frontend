@@ -7,13 +7,15 @@ import Events from './Events';
 const PageContainer = styled.div`
     width: 75em;
     margin: auto;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         width: 95%;    
     }
 `;
 
 const TopPart = styled.div`
-    padding-top: 8em;
     background-size: 100%;
     background-repeat: no-repeat;
     height: fit-content;
@@ -113,20 +115,11 @@ function HomePage() {
             <TopPart>
                 <PageTitle>This is about<BlueHighlight> connections.</BlueHighlight></PageTitle>
                 <PageSubTitle>This is about working for a just world, together.</PageSubTitle>
-                <SearchFor>Search For</SearchFor>
-                <LookForActivistButtonContainer>
-                    <LookForActivistButton to={'/search?search=' + "Activists"}><LookForActivistButtonText>Activists</LookForActivistButtonText></LookForActivistButton>
-                    <LookForActivistButton to={'/search?search=' + "Organizations"}><LookForActivistButtonText>Organizations</LookForActivistButtonText></LookForActivistButton>
-                    {/* <LookForActivistButton to={'/search?search=' + "Events"}><LookForActivistButtonText>Events</LookForActivistButtonText></LookForActivistButton> */}
-                </LookForActivistButtonContainer>
+                
                 <PagePara>
                     This is about creating a website to help connect activists together. We hope to do this by allowing activists to create accounts and learn about groups interested in the same causes. Whether you are just getting involved, or have been an activist for decades, we want to help you change the world.
                 </PagePara>
             </TopPart>
-            <ActivistsAndEventsContainer>
-                <ActivistsOfWeek />
-                <Events />
-            </ActivistsAndEventsContainer>
         </PageContainer>
     );
 }

@@ -28,7 +28,11 @@ const LogoTitle = styled(Link)`
     }
 `;
 
-const LinkTitle = styled(Link)`
+type LinkTitleProps = {
+    color?: string
+}
+
+const LinkTitle = styled(Link)<LinkTitleProps>`
     font-size: 1.25em;
     margin: auto 0.5em;
     text-decoration: none;
@@ -36,7 +40,7 @@ const LinkTitle = styled(Link)`
         text-decoration: underline;
     }
     cursor: pointer;
-    color: black;
+    color: ${p => p.color ? p.color : "black"};
     font-weight: bold;
 `;
 
@@ -75,11 +79,7 @@ function NavBarDesktop(props: NavBarDekstopProps) {
                     <LinkTitle to='/about'>About Page</LinkTitle>
                     <LinkTitle to='/FAQ'>F.A.Q.</LinkTitle>
                     <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-                    <DropDown options={thingsToSearch} title={"Search"} />
-                    {c.loggedIn ?
-                        <ProfileDropDown loggedIn={c.loggedIn} logoutLogin={props.logoutLogin} /> :
-                        <LinkTitle to='/login'><span onClick={props.logoutLogin}>Login</span></LinkTitle>
-                    }
+                    <LinkTitle color={"#3c78d8"} to='/search'>Find An Organization</LinkTitle>
                 </RightPart>
             </Content>
         </LightOverlay>

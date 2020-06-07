@@ -121,18 +121,14 @@ export default function CreatingEditingOrg(props: Props) {
     const [deleteReq, setDeleteReq] = useState(false);
 
     useEffect(() => {
-        console.log(props.interests.map(ele => ele.ID.toString()))
-        setActiveCategories(props.interests.map(ele => ele.ID.toString()));
+        if (props.interests) setActiveCategories(props.interests.map(ele => ele.ID.toString()));
+        else setActiveCategories([])
     }, [])
 
     const createOrg = async () => {
         console.log(props.edit)
         let res = await updateOrCreateOrg({ desc: desc, name: name, location: location, _id: _id, email: email, link: link, interests: interests}, props.edit, deleteReq);
-        if (!res) {
-            console.log("FAILURE")
-        } else {
-            console.log(res);
-        }
+        if (!res) c.setMessageToUser({message: "Failed To Create Organization. Please try again if problem persists contact us.", colour: "red"})
     }
 
     const updateValue = (id: number, value: string) => {

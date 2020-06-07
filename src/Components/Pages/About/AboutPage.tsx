@@ -15,6 +15,7 @@ import PhotoOfFounders from '../../../img/BothOfUsPhoto.jpg'
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css'
 import TeamSection from './TeamSection';
+import Carousel from '../../packages/carousel-react';
 
 const Page = styled.div`
     padding-top: 45em;
@@ -37,7 +38,6 @@ const PageTitle = styled.h1`
 const TitleSection = styled.div`
     position: absolute;
     width: 100%;
-    height: 60em;
     margin-top: 2em;
     overflow-x: hidden;
     left: 0;
@@ -98,6 +98,11 @@ const PageSubTitle = styled.h1`
     }
 `;
 
+const CarouselContainer = styled.div`
+    width: fit-content;
+    margin: auto;
+`;
+
 function AboutPage() {
     const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
     const responsive = { 0: { items: 1 } };
@@ -106,26 +111,20 @@ function AboutPage() {
             <TitleSection>
                 <PageSubTitle>Connecting For Change is created and run by Daxton Rhead and Henry Morris, two friends with a passion for activism.</PageSubTitle>
                 <PageTitle>Our Story</PageTitle>
-                {isPhone ?
-                    <SlideContainer width="65em">
+                <CarouselContainer>
+                    <Carousel width={"65rem"} height={"30rem"}>
                         <FirstSlide />
                         <SecondSlide />
                         <ThirdSlide />
-                    </SlideContainer>
-                    :
-                    <AliceCarousel infinite = {false} responsive = {responsive} onInitialized = {() => {console.log('asd')}} mouseTrackingEnabled buttonsDisabled={true} dotsDisabled={false} touchTrackingEnabled>
-                        <FirstSlide />
-                        <SecondSlide />
-                        <ThirdSlide />
-                    </AliceCarousel>
-                }
+                    </Carousel>
+                </CarouselContainer>
             </TitleSection>
             <PhotoOfBothFounders src={PhotoOfFounders} />
             <FutureOfOrgParaTitle>What the future holds</FutureOfOrgParaTitle>
             <FutureOfOrgPara>
                 We want to see Connecting For Change grow and help get people involved in campaigns and actions. Our list of organizations includes groups that do have protests or campaigns, but it also includes organizations with lots of educational resources for activists, and organizations that provide more direct help to people in need.
-                <br /> <br/>
-                Connecting For Change believes that people can get involved in activism at any age. Whether you are a child, teenager, adult or senior citizen, we want to help you fight for the cause you care about. 
+                <br /> <br />
+                Connecting For Change believes that people can get involved in activism at any age. Whether you are a child, teenager, adult or senior citizen, we want to help you fight for the cause you care about.
             </FutureOfOrgPara>
             <BioTitle>Our Team</BioTitle>
             <TeamSection />

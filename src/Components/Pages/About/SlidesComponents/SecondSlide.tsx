@@ -9,6 +9,7 @@ const Component = styled.div`
     margin-top: 5%;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
+        margin: auto;
     }
 `;
 

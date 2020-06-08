@@ -6,6 +6,8 @@ const Component = styled.div<any>`
     height: ${p => p.height};
     flex-shrink: 0;
     pointer-events: none;
+    display: flex;
+    justify-content: center;
 `;
 
 function Slide(props:any) {

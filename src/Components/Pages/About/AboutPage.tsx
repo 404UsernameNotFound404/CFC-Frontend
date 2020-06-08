@@ -18,7 +18,7 @@ import TeamSection from './TeamSection';
 import Carousel from '../../packages/carousel-react';
 
 const Page = styled.div`
-    padding-top: 45em;
+    padding-top: 3em;
     width: 65rem;
     margin: auto;
     margin-bottom: 4em;
@@ -30,34 +30,26 @@ const Page = styled.div`
 const PageTitle = styled.h1`
     font-size: 4em;
     font-weight: bolder;
-    width: 65rem;
+    width: 100%;
     margin: auto;
     margin-bottom: 0.2em;
 `;
 
 const TitleSection = styled.div`
-    position: absolute;
     width: 100%;
     margin-top: 2em;
-    overflow-x: hidden;
-    left: 0;
-    top: 2.25em;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
-        height: 55em;
-    }
 `;
 
 const PhotoOfBothFounders = styled.img`
     width: 90%;
     margin: auto;
-    margin-top: 10em;
+    margin-top: 2em;
     height: 25em;
     object-fit: cover;
     object-position: top;
     border-radius: 0.3em;
     display: block;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {  
-        margin-top: 12em;
         height: 15em;
     }
 `;

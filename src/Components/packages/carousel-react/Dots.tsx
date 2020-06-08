@@ -5,6 +5,7 @@ import testIds from './test/testIds';
 const Component = styled.div`
     margin-top: 1rem;
     display: flex;
+    height: 4rem;
     justify-content: center;
     width: 100%;
 `;

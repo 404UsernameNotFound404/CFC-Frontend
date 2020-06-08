@@ -24,25 +24,13 @@ const TopPart = styled.div`
     text-align: center;
 `;
 
-const LookForActivistButtonContainer = styled.div`
-    height: fit-content;
-    width: 75%;
-    margin: auto;
-    display: flex;
-    margin-top: 0em;
-    margin-bottom: 4em;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        display: block;
-    }
-`;
-
 const PageTitle = styled.h1`
     width: 100%;
     margin: 0 0;
     font-size: 6em;
     /* text-decoration: underline; */
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
-        font-size: 2.75em;
+        font-size: 2.2em;
         margin-bottom: 0em;
     }
 `;
@@ -51,48 +39,14 @@ const PageSubTitle = styled.h4`
     margin: 0;
     font-size: 3em;
     font-weight: lighter;
-`;
-
-const LookForActivistButton = styled(Link)`
-    cursor: pointer;
-    border: black thin solid;
-    color: black;
-    font-size: 1.9em;
-    width: 6.5em;
-    height: 6.5em;
-    border-radius: 1em;
-    margin: 0em auto;
-    margin-top: 1em;
-    transition: 0.3s background-color linear, 0.3s color linear;
-    text-decoration: none;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    &:hover {
-        background-color: #3c78d8;
-        color: white;
-        border-color: transparent;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
+        font-size: 1.5em;
+        margin-bottom: 0em;
     }
-     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        padding: 0;
-        margin: auto;
-        margin-top: 1em;
-        border: black 0.1em solid;
-    }
-`;
-
-const LookForActivistButtonText = styled.h1`
-    font-size: 1em;
-    margin: auto;
 `;
 
 const BlueHighlight = styled.span`
     color: #3c78d8;
-`;
-
-const ActivistsAndEventsContainer = styled.div`
-    display: flex;
-    margin-bottom: 2em;
 `;
 
 const PagePara = styled.p`
@@ -100,13 +54,10 @@ const PagePara = styled.p`
     width: 85%;
     margin: auto;
     margin-top: 0.5em;
-`;
-
-const SearchFor = styled.h1`
-    text-align: center;
-    font-size: 4em;
-    margin: 0;
-    margin-top: 1em;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
+        font-size: 1.25em;
+        margin-bottom: 0em;
+    }
 `;
 
 function HomePage() {

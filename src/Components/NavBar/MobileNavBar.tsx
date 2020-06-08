@@ -95,12 +95,7 @@ function NavBarMobile(props: NavBarPropsMobile) {
             <LinkTitle marginRight = {"0"} color = {"black"} to='/about'>About</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"black"} to='/FAQ'>F.A.Q.</LinkTitle>
             <LinkTitle marginRight = {"0"} color = {"black"} to='/learn'>Learn About The Issues</LinkTitle>
-            <LinkTitle marginRight = {"0"} color = {"#3c78d8"} to='/search'>Search</LinkTitle>
-            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Activists'>Activist</LinkTitle>
-            <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Organizations'>Organization</LinkTitle>
-            {/* <LinkTitle marginRight = {"1.5em"} color = {"black"} to='/search?search=Events'>Events</LinkTitle> */}
-            <LinkTitle marginRight = {"0"} color = {"black"} to='/login'><span onClick={props.logoutLogin}>{c.loggedIn ? "Logout" : "Login"}</span></LinkTitle>
-            {c.loggedIn ? <LinkTitle marginRight = {"0"} color = {"black"} to='/profile'>Profile</LinkTitle> : ''}
+            <LinkTitle marginRight = {"0"} color = {"#3c78d8"} to='/search'>Find An Organization</LinkTitle>
         </Menu>
     );
 }

@@ -8,12 +8,12 @@ import Dots from './Dots';
 
 const Component = styled.div`
     width: fit-content;
-    position: relative;
+    height: fit-content;
 `;
 
 const Slides = styled.div<any>`
     width: ${p => p.width}px;
-    overflow: hidden;
+    overflow-x: hidden;
     flex: wrap;
 `;
 

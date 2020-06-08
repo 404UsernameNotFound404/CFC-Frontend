@@ -48,6 +48,16 @@ const findSlideToGo = (width: any, posX: any, numberOfSlides: any) => {
     return numberOfWidths;
 }
 
+const getPixelWidth = (widthString: string) => {
+    if (widthString[widthString.length -1] == "%") {
+        console.log(window.innerWidth)
+        console.log(parseFloat(widthString.substring(0, widthString.length - 1)))
+        //@ts-ignore
+        return parseFloat(window.innerWidth * (parseFloat(widthString.substring(0, widthString.length - 1)) / 100))
+    }
+    return parseFloat(removeLetters(widthString)) * 16;
+}
+
 function MainTitleCard(props: any) {
     const [transformValue, setTransformValue] = useState(0);
     const [width, setWidth] = useState(props.width);
@@ -56,7 +66,8 @@ function MainTitleCard(props: any) {
     const [currentSlide, setCurrentSlide] = useState(0);
 
     useEffect(() => {
-        setWidth(parseFloat(removeLetters(width)) * 16)
+        console.log(getPixelWidth(width))
+        setWidth(getPixelWidth(width));
     }, [])
 
     const moveSlideBool = (moveRight: any) => {
@@ -105,7 +116,7 @@ function MainTitleCard(props: any) {
                     }
                 </SlidesContent>
             </Slides>
-            <Arrows moveSlide={moveSlideBool} />
+            {props.showArrows && <Arrows moveSlide={moveSlideBool} />}
             <Dots numberOfSlides={props.children.length} currentSlide={currentSlide} moveSlide={moveSlideIndex} />
         </Component>
     );

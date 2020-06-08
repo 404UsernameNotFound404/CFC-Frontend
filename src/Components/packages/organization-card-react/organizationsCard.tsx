@@ -80,7 +80,7 @@ const RequestChange = styled.div`
 `;
 
 const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
-    cursor: pointer;
+    cursor: default;
     background-color: ${p => p.colour};
     border-radius: 0.25em;
     width: 30%;

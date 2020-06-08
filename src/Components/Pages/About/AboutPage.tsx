@@ -104,15 +104,14 @@ const CarouselContainer = styled.div`
 `;
 
 function AboutPage() {
-    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) })
-    const responsive = { 0: { items: 1 } };
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK, 10) }) 
     return (
         <Page>
             <TitleSection>
                 <PageSubTitle>Connecting For Change is created and run by Daxton Rhead and Henry Morris, two friends with a passion for activism.</PageSubTitle>
                 <PageTitle>Our Story</PageTitle>
                 <CarouselContainer>
-                    <Carousel width={"65rem"} height={"30rem"}>
+                    <Carousel width={isPhone ? "65rem" : "90%"} showArrows = {isPhone}>
                         <FirstSlide />
                         <SecondSlide />
                         <ThirdSlide />

@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import BasicButton from '../../../packages/BasicButton';
-import { Link } from 'react-router-dom';
-import PageCategories from '../../Page/PageCategories';
 import Categories, {CategoryButtonProps, CategoryButtonStyleProps} from '../../../packages/categories-react/Categories';
 
 type ContainerProps = {
@@ -39,34 +36,15 @@ const PortraitOfActivist = styled.img`
     object-fit: cover;
 `;
 
-const Cause = styled.h1`
-    font-size: 1.25em;
-    text-align: center;
-    width: 90%;
-    margin: 0 auto;
-    font-weight: 400;
-`;
-
-const WhereTheyAreBased = styled.h1`
-    font-size: 1.25em;
-    text-align: center;
-    width: 90%;
-    margin: 0 auto;
-    font-weight: 400;
-`;
-
 const ElevatorPitch = styled.h1`
     font-size: 1em;
     text-align: center;
     width: 90%;
     margin: 1em auto;
-    /* text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden; */
 `;
 
 const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
-    cursor: pointer;
+    cursor: default;
     background-color: ${p => p.colour};
     border-radius: 0.25em;
     width: 30%;
@@ -110,11 +88,6 @@ type Props = {
 function Page(props: Props) {
     const [buttonState, setButtonState] = useState(false);
 
-    const buttonClicked = () => {
-        if (buttonState) setButtonState(false)
-        else setButtonState(true)
-    }
-
     return (
         <Container width={props.width}>
             <PortraitOfActivist src={props.image} />
@@ -128,7 +101,3 @@ function Page(props: Props) {
 }
 
 export default Page;
-
-{/* <PageCategorieContainer>
-<PageCategories margin={"auto"} allCategories={[]} setAllCategories={null} editMode={false} categories={props.Categories} width={"100%"} />
-</PageCategorieContainer> */}

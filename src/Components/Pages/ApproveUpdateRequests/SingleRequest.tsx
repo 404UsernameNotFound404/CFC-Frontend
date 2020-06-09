@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
-import Org from '../Search/SearchResultCards/Organzation';
+import Org from '../../packages/organization-card-react/organizationsCard';
 import { AppContext } from '../../../Context/AppContext';
 
 const axios = require("axios");
@@ -108,11 +108,11 @@ function Request(props: Props) {
             <Component>
                 <OrgContainer>
                     <OrgTitle>New</OrgTitle>
-                    <Org width={"100%"} id={"penis"} image={""} name={name} location={location} email={email} desc={desc} link={link} interests={interests as any} />
+                    <Org ActionButtonOnClick = {() => {}} width={"100%"} _id={"penis"} image={""} name={name} location={location} email={email} desc={desc} link={link} interests={interests as any} />
                 </OrgContainer>
                 <OrgContainer>
                     <OrgTitle>Old</OrgTitle>
-                    {!props.delReq ? <Org width={"100%"} id={"penis"} image={""} name={oldData.name} location={oldData.location} email={oldData.email} desc={oldData.desc} link={oldData.link} interests={oldData.interests as any} /> : "DELETE"}
+                    {!props.delReq ? <Org ActionButtonOnClick = {() => {}} width={"100%"} _id={"penis"} image={""} name={oldData.name} location={oldData.location} email={oldData.email} desc={oldData.desc} link={oldData.link} interests={oldData.interests as any} /> : "DELETE"}
                 </OrgContainer>
                 <DecisionContainer>
                     <DecisionButton onClick={() => { makeDecision(true) }} colour={"green"}>Approve</DecisionButton>

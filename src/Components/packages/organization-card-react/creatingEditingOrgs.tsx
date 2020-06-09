@@ -103,17 +103,17 @@ type Props = {
     location?: string,
     email?: string,
     link?: string,
-    interests?: { Name: string, Colour: string, ID: string }[],
+    interests?: { Name: string, Colour: string, ID: number }[],
     update?: Function
 }
 
 export default function CreatingEditingOrg(props: Props) {
-    const { name, location, _id, email, link, interests } = props;
+    const { name = "", location = "", _id = "", email = "", link = "", interests = [], edit } = props;
     const [inputs, setInputs] = useState([
-        { value: (props.name ? props.name : ""), placeholder: "Name", id: 0 },
-        { value: (props.location ? props.location : ""), placeholder: "Location", id: 1 },
-        { value: (props.email ? props.email : ""), placeholder: "Email", id: 2 },
-        { value: (props.link ? props.link : ""), placeholder: "Link", id: 3 }
+        { value: (name), placeholder: "Name", id: 0 },
+        { value: (location), placeholder: "Location", id: 1 },
+        { value: (email), placeholder: "Email", id: 2 },
+        { value: (link), placeholder: "Link", id: 3 }
     ]);
     const [desc, setDesc] = useState(props.desc == undefined ? "this is a short desc" : props.desc);
     const c = useContext(AppContext);
@@ -121,13 +121,14 @@ export default function CreatingEditingOrg(props: Props) {
     const [deleteReq, setDeleteReq] = useState(false);
 
     useEffect(() => {
-        if (props.interests) setActiveCategories(props.interests.map(ele => ele.ID.toString()));
+        console.log("HERE IS HERE")
+        if (interests) setActiveCategories(interests.map(ele => ele.ID.toString()));
         else setActiveCategories([])
     }, [])
 
     const createOrg = async () => {
-        console.log(props.edit)
-        let res = await updateOrCreateOrg({ desc: desc, name: name, location: location, _id: _id, email: email, link: link, interests: interests}, props.edit, deleteReq);
+        console.log(activeCategories)
+        let res = await updateOrCreateOrg({ desc: desc, name: inputs[0].value, location: inputs[1].value, _id: _id, email: inputs[2].value, link: inputs[3].value, interests: activeCategories.map((ele:any) => parseFloat(ele))}, edit, deleteReq);
         if (!res) c.setMessageToUser({message: "Failed To Create Organization. Please try again if problem persists contact us.", colour: "red"})
     }
 
@@ -142,21 +143,21 @@ export default function CreatingEditingOrg(props: Props) {
 
     return (
         <Component>
-            <Title>{props.edit ? "Request Edit" : "Create an organization"}</Title>
+            <Title>{edit ? "Request Edit" : "Create an organization"}</Title>
             {
                 inputs.map((ele, i) => <div key={i}><SingleLineInput onChange={(e) => { updateValue(ele.id, e.target.value) }} value={ele.value} placeholder={ele.placeholder} key={i} /></div>)
             }
             <ParaInput paragraphValue={desc} setParagraphValue={setDesc} editMode={true} title={"Description"} margin={"0"} width={"90%"} />
             <CategoryContainer>
-                <Categories justifyContent={"space-between"} changeCategory={updateActiveCategories} CategoryButton={CategoryButton} activeCategories={activeCategories} />
+                <Categories canHaveAllInactive = {false} justifyContent={"space-between"} changeCategory={updateActiveCategories} CategoryButton={CategoryButton} activeCategories={activeCategories} />
             </CategoryContainer>
-            {props.edit ?
+            {edit ?
                 <DeleteCheckBoxContainer>
                     <DeleteCheckBox type="checkbox" checked={deleteReq} onChange={() => { setDeleteReq(!deleteReq) }} />
                     <DeleteCheckBoxText>Does this organization no longer exists?<br />Check the box if it should be deleted.</DeleteCheckBoxText>
                 </DeleteCheckBoxContainer>
                 : ""}
-            <CreateButton onClick={createOrg}>{props.edit ? "Request Edit" : "Create"}</CreateButton>
+            <CreateButton onClick={createOrg}>{edit ? "Request Edit" : "Create"}</CreateButton>
         </Component>
-    )
+    );
 }

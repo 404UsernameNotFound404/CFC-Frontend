@@ -73,7 +73,6 @@ function Organizations(props: Props) {
     useEffect(() => {
         const getOrgs = async () => {
             const orgsData = await getSearchData("Organizations");
-            console.log(orgsData)
             if (orgsData.error != undefined) console.log("error");//TODO
             else setOrganizations(orgsData);
         }
@@ -82,7 +81,7 @@ function Organizations(props: Props) {
 
     const openModal = (orgId: string) => setModalData(organizations.find(ele => ele._id == orgId));
 
-    const createModal = () => setModalData({ edit: true });
+    const createModal = () => setModalData({create: true});
 
     const closeModal = () => setModalData(null);
 
@@ -100,7 +99,7 @@ function Organizations(props: Props) {
                 {
                     modalData &&
                     <Modal close={true} setClose={closeModal}>
-                        <CreatingEditingOrg edit={!modalData.edit} _id={modalData._id} {...modalData} />
+                        <CreatingEditingOrg edit={modalData.create == undefined} _id={modalData != null ? modalData._id : ""} {...modalData} />
                     </Modal>
                 }
 

@@ -40,9 +40,11 @@ type Props = {
     onlyShowActive?: boolean;
     CategoryButton: (props: CategoryButtonProps) => JSX.Element;
     justifyContent?: string;
+    canHaveAllInactive?: boolean;
 }
 
 function Categories(props: Props) {
+    const { canHaveAllInactive = true } = props;
     const [activeCategories, setActiveCategories] = useState([]);
     const [categories, setCategories] = useState([]);
     const { CategoryButton, onlyShowActive = false } = props;
@@ -63,7 +65,7 @@ function Categories(props: Props) {
         if (!onlyShowActive) {
             setCategories(categoriesToUse.map((ele: any) => {
                 if (newActiveCategories) {
-                    if (newActiveCategories.length == 0) return { ...ele, Active: true };
+                    if (newActiveCategories.length == 0) return { ...ele, Active: canHaveAllInactive };
                     let found = false;
                     for (let x = 0; x < newActiveCategories.length; x++) {
                         if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
@@ -75,9 +77,9 @@ function Categories(props: Props) {
         } else {
             setCategories(categoriesToUse.filter((ele: any) => {
                 let found = false;
-                    for (let x = 0; x < newActiveCategories.length; x++) {
-                        if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
-                    }
+                for (let x = 0; x < newActiveCategories.length; x++) {
+                    if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
+                }
                 return found;
             }))
         }

@@ -20,7 +20,7 @@ const Slides = styled.div<any>`
 const SlidesContent = styled.div<any>`
     display: flex;
     transform: translateX(${p => p.transformValue + "px"});
-    ${p => p.dragging ? "" : "transition: transform 1s;"}
+    ${p => p.dragging ? "" : "transition: transform 1s;"};
     width: 100%;
 `;
 

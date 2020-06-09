@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Categories, {CategoryButtonProps, CategoryButtonStyleProps} from '../../packages/categories-react/Categories';
-import Activists from './Activists';
 import Organizations from './Organizations'
 
 const PageContainer = styled.div`

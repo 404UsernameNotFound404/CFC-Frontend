@@ -13,9 +13,6 @@ type OrgData = {
 export const updateOrCreateOrg = async (orgData: OrgData, isEdit: boolean, deleteReq: boolean): Promise<string | null> => {
     try {
         let res;
-        console.log(orgData.interests);
-        console.log(isEdit);
-        console.log(deleteReq);
         if (isEdit) res = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/request/${orgData._id}`, {
                 deleteReq: deleteReq,
                 ...orgData
@@ -25,7 +22,6 @@ export const updateOrCreateOrg = async (orgData: OrgData, isEdit: boolean, delet
         return null;
     } catch (err) {
         if (typeof err == "string") return err;
-        console.log(err);
         return "Failed to update or create org";
     }
 }

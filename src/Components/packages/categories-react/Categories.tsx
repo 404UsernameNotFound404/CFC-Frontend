@@ -104,7 +104,7 @@ function Categories(props: Props) {
     if (categories.length != 0) {
         return (
             <Component justifyContent={justifyContent}>
-                {categories.map(ele => <CategoryButton activateButton={updateActiveCategories} {...ele} />)}
+                {categories.map((ele, i) => <CategoryButton key={i} activateButton={updateActiveCategories} {...ele} />)}
             </Component>
         );
     } else {

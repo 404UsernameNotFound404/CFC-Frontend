@@ -5,6 +5,7 @@ import ParaInput from '../../packages/para-input-react/ParaInput';
 import Categories, { CategoryButtonProps, CategoryButtonStyleProps } from '../categories-react/Categories';
 import { updateOrCreateOrg } from '../organization-card';
 import { stringify } from 'querystring';
+import ReactLoading from 'react-loading';
 
 const axios = require("axios");
 
@@ -95,7 +96,7 @@ const CategoryButton = (props: CategoryButtonProps) => {
 }
 
 type Props = {
-    setClose: any
+    closeModal: any
     edit: boolean,
     desc?: string,
     _id?: string,
@@ -103,12 +104,13 @@ type Props = {
     location?: string,
     email?: string,
     link?: string,
-    interests?: { Name: string, Colour: string, ID: number }[],
-    update?: Function
+    interests?: number[],
+    update?: Function,
+    setLoading?: Function
 }
 
 export default function CreatingEditingOrg(props: Props) {
-    const { name = "", location = "", _id = "", email = "", link = "", interests = [], edit } = props;
+    const { name = "", location = "", _id = "", email = "", link = "", interests = [], edit, setLoading = () => { } } = props;
     const [inputs, setInputs] = useState([
         { value: (name), placeholder: "Name", id: 0 },
         { value: (location), placeholder: "Location", id: 1 },
@@ -121,15 +123,21 @@ export default function CreatingEditingOrg(props: Props) {
     const [deleteReq, setDeleteReq] = useState(false);
 
     useEffect(() => {
-        console.log("HERE IS HERE")
-        if (interests) setActiveCategories(interests.map(ele => ele.ID.toString()));
+        if (interests) setActiveCategories(interests);
         else setActiveCategories([])
     }, [])
 
     const createOrg = async () => {
-        console.log(activeCategories)
-        let res = await updateOrCreateOrg({ desc: desc, name: inputs[0].value, location: inputs[1].value, _id: _id, email: inputs[2].value, link: inputs[3].value, interests: activeCategories.map((ele:any) => parseFloat(ele))}, edit, deleteReq);
-        if (!res) c.setMessageToUser({message: "Failed To Create Organization. Please try again if problem persists contact us.", colour: "red"})
+        setLoading(true);
+        console.log(edit);
+        let res = await updateOrCreateOrg({ desc: desc, name: inputs[0].value, location: inputs[1].value, _id: _id, email: inputs[2].value, link: inputs[3].value, interests: activeCategories.map((ele: any) => parseFloat(ele)) }, edit, deleteReq);
+        console.log(res);
+        if (res) c.setMessageToUser({ message: edit ? "Failed to request change." : "Failed To Create Organization.", colour: "red" })
+        else {
+            c.setMessageToUser({ message: edit ? "Requested change." : "Created Organization.", colour: "green" })
+            props.closeModal();
+        }
+        setLoading(false);
     }
 
     const updateValue = (id: number, value: string) => {
@@ -149,7 +157,7 @@ export default function CreatingEditingOrg(props: Props) {
             }
             <ParaInput paragraphValue={desc} setParagraphValue={setDesc} editMode={true} title={"Description"} margin={"0"} width={"90%"} />
             <CategoryContainer>
-                <Categories canHaveAllInactive = {false} justifyContent={"space-between"} changeCategory={updateActiveCategories} CategoryButton={CategoryButton} activeCategories={activeCategories} />
+                <Categories canHaveAllInactive={false} justifyContent={"space-between"} changeCategory={updateActiveCategories} CategoryButton={CategoryButton} activeCategories={activeCategories} />
             </CategoryContainer>
             {edit ?
                 <DeleteCheckBoxContainer>
@@ -160,4 +168,5 @@ export default function CreatingEditingOrg(props: Props) {
             <CreateButton onClick={createOrg}>{edit ? "Request Edit" : "Create"}</CreateButton>
         </Component>
     );
+
 }

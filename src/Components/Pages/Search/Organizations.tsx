@@ -69,15 +69,19 @@ const RequestModalButton = (props: ActionButtonProps) => {
 function Organizations(props: Props) {
     const [organizations, setOrganizations] = useState([]);
     const [modalData, setModalData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const getOrgs = async () => {
-            const orgsData = await getSearchData("Organizations");
-            if (orgsData.error != undefined) console.log("error");//TODO
-            else setOrganizations(orgsData);
-        }
         getOrgs();
     }, []);
+
+    const getOrgs = async () => {
+        setLoading(true);
+        const orgsData = await getSearchData("Organizations");
+        if (orgsData.error != undefined) console.log("error");//TODO
+        else setOrganizations(orgsData);
+        setLoading(false);
+    }
 
     const openModal = (orgId: string) => setModalData(organizations.find(ele => ele._id == orgId));
 
@@ -85,21 +89,27 @@ function Organizations(props: Props) {
 
     const closeModal = () => setModalData(null);
 
-    if (organizations.length != 0) {
+    const closeModalAndRefresh = () => {
+        console.log("hello this should be working")
+        closeModal();
+        getOrgs();
+    }
+
+    if (organizations.length != 0 && !loading) {
         return (
             <Component>
                 <Para>We do not yet have contacts with all the organizations on our list. We have compiled this list to help activists find organizations. If you do not see an organization on our list, please add it. </Para>
                 <CreateOrgButton onClick={createModal}>Enter An Organization</CreateOrgButton>
                 <OrganizationContainer>
                     {
-                        organizations.map(ele => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
+                        organizations.map((ele, i) => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard key={i} ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
                     }
                 </OrganizationContainer>
                 <CreateOrgButton onClick={createModal}>Enter An Organization</CreateOrgButton>
                 {
                     modalData &&
                     <Modal close={true} setClose={closeModal}>
-                        <CreatingEditingOrg edit={modalData.create == undefined} _id={modalData != null ? modalData._id : ""} {...modalData} />
+                        <CreatingEditingOrg setLoading = {setLoading} closeModal = {closeModalAndRefresh} edit={modalData.create == undefined} _id={modalData != null ? modalData._id : ""} {...modalData} />
                     </Modal>
                 }
 

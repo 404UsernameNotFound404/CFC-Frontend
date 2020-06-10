@@ -26,6 +26,7 @@
     "react-alice-carousel": "^1.17.2",
     "react-burger-menu": "^2.6.11",
     "react-dom": "^16.9.0",
+    "react-loading": "^2.0.3",
     "react-responsive": "^8.0.1",
     "react-router-dom": "^5.1.0",
     "react-scripts": "3.0.1",

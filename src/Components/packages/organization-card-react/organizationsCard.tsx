@@ -122,7 +122,7 @@ type Props = {
     desc: string,
     link: string,
     location: string,
-    interests: { Name: string, Colour: string, ID: string }[],
+    interests: number[],
     image: string,
     email: string,
     _id: string,
@@ -143,7 +143,7 @@ function OrganizationCard(props: Props) {
             <Desc showAll={seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : desc}</Desc>
             {desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={link}>{link.length >= 35 ? (link.substring(0, 35) + "...") : link}</LinkToWebite>
-            <CategoryContainer> <Categories onlyShowActive justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {props.interests.map(ele => parseInt(ele.ID))} changeCategory = {() => {}} /> </CategoryContainer>
+            <CategoryContainer> <Categories onlyShowActive justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {props.interests} changeCategory = {() => {}} /> </CategoryContainer>
             <ActionButton id = {_id} ActionButtonOnClick = {ActionButtonOnClick} />
         </Container>
     );

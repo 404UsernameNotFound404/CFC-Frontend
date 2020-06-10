@@ -112,8 +112,8 @@ export default function Header(props: Props) {
             <Name>{name}</Name>
             <Location>{location.length >= 30 ? (location.substring(0, 30) + "...") : location}</Location>
             <form>
-                <GhostToFocus readOnly ref={(ref) => { setGhostText(ref) }} id="org-card-ghost">Shhhhhh</GhostToFocus>
-                <Email readOnly ref={(ref) => { setTextToCopy(ref) }} >{email}</Email>
+                <GhostToFocus readOnly ref={(ref) => { setGhostText(ref) }} id="org-card-ghost" />
+                <Email value={email} readOnly ref={(ref) => { setTextToCopy(ref) }}/>
             </form>
             <CopyButtonContainer>
                 <CopyEmail onClick={copyEmail}>Copy Email</CopyEmail>

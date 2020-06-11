@@ -5,9 +5,9 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import DropDown from './DropDownMenu';
-import { AppContext } from '../../Context/AppContext';
-import ProfileDropDown from './ProfileDropDown';
+import DropDown from '../../NavBar/DropDownMenu';
+import { AppContext } from '../../../Context/AppContext';
+import {NavBarItems} from './NavBar';
 
 const RightPart = styled.div`
     margin-left: auto;
@@ -53,16 +53,20 @@ const Content = styled.div`
 `;
 
 const LightOverlay = styled.div`
+    top: 0;
+    position: fixed;
+    display: flex;
+    z-index: 100;
     width: 100%;
     height: fit-content;
     background-color: rgba(255,255,255,0.8);
 `;
 
-type NavBarDekstopProps = {
-    logoutLogin: any
+type Props = {
+    navBarItems: NavBarItems
 }
 
-function NavBarDesktop(props: NavBarDekstopProps) {
+function NavBarDesktop(props: Props) {
     const c = useContext(AppContext)
     const thingsToSearch = [
         // { name: "Events", link: "/search?search=Events" },
@@ -71,15 +75,13 @@ function NavBarDesktop(props: NavBarDekstopProps) {
     ]
     return (
         <LightOverlay>
+            {console.log("THIS RENDERING")}
             <Content>
                 <LogoTitle to='/home'>Connecting For Change</LogoTitle>
                 <RightPart>
-                    {c.loggedIn ? <LinkTitle to='/edit'>{(c.userType == 0) ? "Edit Your Page" : "Edit Organization Information"}</LinkTitle> : ""}
-                    <LinkTitle to='/contact'>Contact Us</LinkTitle>
-                    <LinkTitle to='/about'>About Page</LinkTitle>
-                    <LinkTitle to='/FAQ'>F.A.Q.</LinkTitle>
-                    <LinkTitle to='/learn'>Learn About The Issues</LinkTitle>
-                    <LinkTitle color={"#3c78d8"} to='/search'>Find An Organization</LinkTitle>
+                    {
+                        props.navBarItems.map((ele, i) => <LinkTitle key={i} color={ele.color} to = {ele.link}>{ele.name}</LinkTitle>)
+                    }
                 </RightPart>
             </Content>
         </LightOverlay>

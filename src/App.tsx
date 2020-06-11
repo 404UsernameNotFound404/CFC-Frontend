@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Home from './Components/Pages/Home/HomePage';
 import Search from './Components/Pages/Search/SearchPage';
-import NavBar from './Components/NavBar/NavBarPage';
+import NavBar from './Components/packages/navbar-react/NavBar';
 import Login from './Components/Pages/Login/LoginPage';
 import AboutPage from './Components/Pages/About/AboutPage'
 import UserPage from './Components/Pages/Page/User/UserPage';
@@ -122,10 +122,7 @@ function App() {
               <Route component={Home} />
             </Switch>
             <MessageToUserComponent message = {messageToUser.message} colour = {messageToUser.colour} />
-            <Switch>
-              <Route path = "/login" component = {() => <div />} />
-              <NavBar showNavBar={showNavBar} />
-            </Switch>
+            <NavBar />
           </Router>
         </AppContext.Provider>
       </div>

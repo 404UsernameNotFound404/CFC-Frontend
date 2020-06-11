@@ -9,6 +9,7 @@ import Dots from './Dots';
 const Component = styled.div`
     width: fit-content;
     height: fit-content;
+    position: relative;
 `;
 
 const Slides = styled.div<any>`

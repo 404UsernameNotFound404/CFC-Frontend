@@ -6,6 +6,7 @@ import OrganizationCard, { ActionButtonProps } from '../../packages/organization
 import { checkIfInCategories } from '../../packages/search-page-functions/checkIfHasCategories';
 import Modal from '../../packages/modal-react';
 import CreatingEditingOrg from '../../packages/organization-card-react/creatingEditingOrgs';
+import ReactLoading from 'react-loading';
 
 const Component = styled.div`
     width: 100%;
@@ -116,7 +117,7 @@ function Organizations(props: Props) {
             </Component>
         );
     } else {
-        return <>Loading...</>
+        return <ReactLoading type={"bubbles"} color={"blue"} height={"50%"} width={'100%'} />
     }
 }
 

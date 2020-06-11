@@ -129,9 +129,7 @@ export default function CreatingEditingOrg(props: Props) {
 
     const createOrg = async () => {
         setLoading(true);
-        console.log(edit);
         let res = await updateOrCreateOrg({ desc: desc, name: inputs[0].value, location: inputs[1].value, _id: _id, email: inputs[2].value, link: inputs[3].value, interests: activeCategories.map((ele: any) => parseFloat(ele)) }, edit, deleteReq);
-        console.log(res);
         if (res) c.setMessageToUser({ message: edit ? "Failed to request change." : "Failed To Create Organization.", colour: "red" })
         else {
             c.setMessageToUser({ message: edit ? "Requested change." : "Created Organization.", colour: "green" })

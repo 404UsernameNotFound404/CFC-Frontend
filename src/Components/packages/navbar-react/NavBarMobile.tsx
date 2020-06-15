@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 
-type Props = {
-    navBarItems: NavBarItems
-}
+
 
 const Component = styled.div`
     position: fixed;
@@ -59,7 +57,7 @@ const LinksContent = styled.div<LinksContentProps>`
     margin: 0;
     margin-top: 0.5rem;
     height: ${p => p.closed ? "0" : "7.75rem"};
-    transition: all 1s ease;
+    transition: all 0.5s ease;
     overflow: hidden;
 `;
 
@@ -79,6 +77,10 @@ const LinkStyle = styled(Link)`
 
 const hamburgerIcon = <FontAwesomeIcon  icon = {faBars} />
 
+type Props = {
+    navBarItems: NavBarItems
+}
+
 function NavBarMobile(props: Props) {
     const [open, setOpen] = useState(false);
     return (
@@ -90,7 +92,7 @@ function NavBarMobile(props: Props) {
                 </TitleContent>
                 <LinksContent closed = {!open}>
                 {
-                    props.navBarItems.map(ele => <LinkStyle color={ele.color} to = {ele.link} >{ele.name}</LinkStyle>)
+                    props.navBarItems.map(ele => <LinkStyle onClick = {() => {setOpen(false)}} color={ele.color} to = {ele.link} >{ele.name}</LinkStyle>)
                 }
                 </LinksContent>
             </Content>

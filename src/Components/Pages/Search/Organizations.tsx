@@ -61,6 +61,12 @@ const RequestModalButtonStyle = styled.div`
     }
 `;
 
+const LoadingContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
 const RequestModalButton = (props: ActionButtonProps) => {
     return (
         <RequestModalButtonStyle onClick={() => { props.ActionButtonOnClick(props.id) }}>Request Change</RequestModalButtonStyle>
@@ -117,7 +123,7 @@ function Organizations(props: Props) {
             </Component>
         );
     } else {
-        return <ReactLoading type={"bubbles"} color={"blue"} height={"50%"} width={'100%'} />
+        return <LoadingContainer><ReactLoading type={"bubbles"} color={"blue"} height={"10%"} width={'25%'} /></LoadingContainer>;
     }
 }
 

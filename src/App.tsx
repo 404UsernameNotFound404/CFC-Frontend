@@ -52,7 +52,6 @@ function App() {
   }
 
   const fetchCategories = async () => {
-    console.log("fetch123123")
     let categories = await getCategories();
     setCategories(categories);
   }

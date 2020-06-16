@@ -48,6 +48,7 @@ function Categories(props: Props) {
     const { canHaveAllInactive = true } = props;
     const [activeCategories, setActiveCategories] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
     const { CategoryButton, onlyShowActive = false } = props;
     const justifyContent = props.justifyContent ? props.justifyContent : "space-evenly";
     const c = useContext(AppContext);
@@ -59,7 +60,6 @@ function Categories(props: Props) {
     }, [])
 
     useEffect(() => {
-        console.log(c.categories)
         updateCategoriesWithActiveCategories(props.activeCategories, c.categories);
     }, [c.categories, props.activeCategories]);
 
@@ -103,16 +103,12 @@ function Categories(props: Props) {
         updateCategoriesWithActiveCategories(newActiveCategories, categories);
         props.changeCategory(newActiveCategories);
     }
-    // console.log(categories)
-    if (categories.length != 0) {
-        return (
-            <Component data-testid={testIds.container} justifyContent={justifyContent}>
-                {categories.map((ele, i) => <CategoryButton categoryButton = {testIds.categoryButton(ele.ID)} key={i} activateButton={updateActiveCategories} {...ele} />)}
-            </Component>
-        );
-    } else {
-        return <>Loading...</>
-    }
+    
+    return (
+        <Component data-testid={testIds.container} justifyContent={justifyContent}>
+            {categories.map((ele, i) => <CategoryButton categoryButton={testIds.categoryButton(ele.ID)} key={i} activateButton={updateActiveCategories} {...ele} />)}
+        </Component>
+    );
 }
 
 export default Categories;

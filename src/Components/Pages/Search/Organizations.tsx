@@ -73,6 +73,15 @@ const RequestModalButton = (props: ActionButtonProps) => {
     );
 }
 
+const sortArrayAlphabet = (data: Array<{ _id: object, data: { name: string } }> | Array<{ Name: string }>) => {
+    data = data.sort(function (a: any, b: any) {
+        const textA = a.name.toUpperCase().trim();
+        const textB = b.name.toUpperCase().trim();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
+    return data;
+}
+
 function Organizations(props: Props) {
     const [organizations, setOrganizations] = useState([]);
     const [modalData, setModalData] = useState(null);
@@ -86,13 +95,15 @@ function Organizations(props: Props) {
         setLoading(true);
         const orgsData = await getSearchData("Organizations");
         if (orgsData.error != undefined) console.log("error");//TODO
-        else setOrganizations(orgsData);
+        else {
+            setOrganizations(sortArrayAlphabet(orgsData));
+        }
         setLoading(false);
     }
 
     const openModal = (orgId: string) => setModalData(organizations.find(ele => ele._id == orgId));
 
-    const createModal = () => setModalData({create: true});
+    const createModal = () => setModalData({ create: true });
 
     const closeModal = () => setModalData(null);
 
@@ -116,7 +127,7 @@ function Organizations(props: Props) {
                 {
                     modalData &&
                     <Modal close={true} setClose={closeModal}>
-                        <CreatingEditingOrg setLoading = {setLoading} closeModal = {closeModalAndRefresh} edit={modalData.create == undefined} _id={modalData != null ? modalData._id : ""} {...modalData} />
+                        <CreatingEditingOrg setLoading={setLoading} closeModal={closeModalAndRefresh} edit={modalData.create == undefined} _id={modalData != null ? modalData._id : ""} {...modalData} />
                     </Modal>
                 }
 

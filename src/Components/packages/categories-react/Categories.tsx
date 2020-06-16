@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { getCategories } from '../search-page-functions/getCategories';
 import { AppContext } from '../../../Context/AppContext';
+import testIds from './test/testIds';
 
 type ComponentProps = {
     justifyContent: string
@@ -58,6 +59,7 @@ function Categories(props: Props) {
     }, [])
 
     useEffect(() => {
+        console.log(c.categories)
         updateCategoriesWithActiveCategories(props.activeCategories, c.categories);
     }, [c.categories, props.activeCategories]);
 
@@ -78,6 +80,7 @@ function Categories(props: Props) {
             setCategories(categoriesToUse.filter((ele: any) => {
                 let found = false;
                 for (let x = 0; x < newActiveCategories.length; x++) {
+                    console.log(`${newActiveCategories[x]} == ${parseInt(ele.ID)}`)
                     if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
                 }
                 return found;
@@ -100,11 +103,11 @@ function Categories(props: Props) {
         updateCategoriesWithActiveCategories(newActiveCategories, categories);
         props.changeCategory(newActiveCategories);
     }
-
+    // console.log(categories)
     if (categories.length != 0) {
         return (
-            <Component justifyContent={justifyContent}>
-                {categories.map((ele, i) => <CategoryButton key={i} activateButton={updateActiveCategories} {...ele} />)}
+            <Component data-testid={testIds.container} justifyContent={justifyContent}>
+                {categories.map((ele, i) => <CategoryButton categoryButton = {testIds.categoryButton(ele.ID)} key={i} activateButton={updateActiveCategories} {...ele} />)}
             </Component>
         );
     } else {

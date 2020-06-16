@@ -109,7 +109,7 @@ function Organizations(props: Props) {
                 <CreateOrgButton onClick={createModal}>Enter An Organization</CreateOrgButton>
                 <OrganizationContainer>
                     {
-                        organizations.map((ele, i) => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard key={i} ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
+                        Array.isArray(organizations) && organizations.map((ele, i) => checkIfInCategories(ele.interests, props.categoriesToShow) && <OrganizationCard key={i} ActionButton={RequestModalButton} ActionButtonOnClick={openModal} {...ele} />)
                     }
                 </OrganizationContainer>
                 <CreateOrgButton onClick={createModal}>Enter An Organization</CreateOrgButton>

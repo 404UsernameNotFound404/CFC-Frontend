@@ -22,6 +22,14 @@ const Component = styled.div<ComponentProps>`
     }` : ''}
 `;
 
+type CategoryButtonContainer = {
+    flexBasis: string;
+}
+
+const CategoryButtonContainer = styled.div<CategoryButtonContainer>`
+    flex-basis: ${p => p.flexBasis};
+`;
+
 export type CategoryButtonStyleProps = {
     colour: string,
     active: boolean
@@ -42,13 +50,13 @@ type Props = {
     CategoryButton: (props: CategoryButtonProps) => JSX.Element;
     justifyContent?: string;
     canHaveAllInactive?: boolean;
+    flexBasis?: string;
 }
 
 function Categories(props: Props) {
-    const { canHaveAllInactive = true } = props;
+    const { canHaveAllInactive = true, flexBasis = "30%" } = props;
     const [activeCategories, setActiveCategories] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
     const { CategoryButton, onlyShowActive = false } = props;
     const justifyContent = props.justifyContent ? props.justifyContent : "space-evenly";
     const c = useContext(AppContext);
@@ -60,6 +68,7 @@ function Categories(props: Props) {
     }, [])
 
     useEffect(() => {
+        console.log(c.categories)
         updateCategoriesWithActiveCategories(props.activeCategories, c.categories);
     }, [c.categories, props.activeCategories]);
 
@@ -80,7 +89,6 @@ function Categories(props: Props) {
             setCategories(categoriesToUse.filter((ele: any) => {
                 let found = false;
                 for (let x = 0; x < newActiveCategories.length; x++) {
-                    console.log(`${newActiveCategories[x]} == ${parseInt(ele.ID)}`)
                     if (newActiveCategories[x] == parseInt(ele.ID)) found = true;
                 }
                 return found;
@@ -104,11 +112,15 @@ function Categories(props: Props) {
         props.changeCategory(newActiveCategories);
     }
     
-    return (
-        <Component data-testid={testIds.container} justifyContent={justifyContent}>
-            {categories.map((ele, i) => <CategoryButton categoryButton={testIds.categoryButton(ele.ID)} key={i} activateButton={updateActiveCategories} {...ele} />)}
-        </Component>
-    );
+    if (categories.length != 0) {
+        return (
+            <Component data-testid={testIds.container} justifyContent={justifyContent}>
+                {categories.map((ele, i) => <CategoryButtonContainer flexBasis = {flexBasis} data-testid = {testIds.categoryButton(ele.ID, ele.Active)}> <CategoryButton key={i} activateButton={updateActiveCategories} {...ele} /> </CategoryButtonContainer>)}
+            </Component>
+        );
+    } else {
+        return <>Loading...</>
+    }
 }
 
 export default Categories;

@@ -125,9 +125,8 @@ function Organizations(props: Props) {
                 </OrganizationContainer>
                 <CreateOrgButton onClick={createModal}>Enter An Organization</CreateOrgButton>
                 {
-                    modalData &&
-                    <Modal close={true} setClose={closeModal}>
-                        <CreatingEditingOrg setLoading={setLoading} closeModal={closeModalAndRefresh} edit={modalData.create == undefined} _id={modalData != null ? modalData._id : ""} {...modalData} />
+                    <Modal close={!modalData} setClose={closeModal}>
+                        {modalData && <CreatingEditingOrg setLoading={setLoading} closeModal={closeModalAndRefresh} edit={modalData.create == undefined} _id={modalData != null ? modalData._id : ""} {...modalData} />}
                     </Modal>
                 }
 

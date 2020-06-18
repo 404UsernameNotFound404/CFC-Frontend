@@ -28,9 +28,9 @@ const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
     cursor: pointer;
     background-color: ${p => p.colour};
     border-radius: 0.5em;
-    width: 21%;
+    width: 90%;
     padding: 1.5em 1%;
-    margin: 1em auto;
+    margin: 1rem auto;
     text-align: center;
     color: black !important;
     min-height: 3em;
@@ -110,7 +110,7 @@ function LinksContainer() {
         <PageContainer>
             <SearchBoxTitle>What are you looking for?</SearchBoxTitle> 
             <CategoriesContainer>
-                <Categories justifyContent = {"space-around"} CategoryButton={CategoryButton} activeCategories={activeCategories} changeCategory={updateActiveCategories} />
+                <Categories flexBasis={"25%"} justifyContent = {"space-around"} CategoryButton={CategoryButton} activeCategories={activeCategories} changeCategory={updateActiveCategories} />
             </CategoriesContainer>
             {dataToRender()}
         </PageContainer>

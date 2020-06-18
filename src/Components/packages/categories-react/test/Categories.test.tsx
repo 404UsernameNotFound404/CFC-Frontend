@@ -1,6 +1,6 @@
-import React, { createContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { render, fireEvent, waitForDomChange } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import testIds from './testIds';
 
 import Categories, { CategoryButtonStyleProps, CategoryButtonProps } from '../Categories';
@@ -33,9 +33,9 @@ const CategoryContainer = styled.div`
 `;
 
 const CategoryButton = (props: CategoryButtonProps) => {
-    const { Name, Colour, Active } = props;
+    const { Name, Colour, Active, ID, activateButton } = props;
     return (
-        <CategoryButtonStyle active={Active} colour={Colour}>
+        <CategoryButtonStyle onClick={() => { activateButton(ID) }} data-testid={"category-button-"+Name} active={Active} colour={Colour}>
             {Name}
         </CategoryButtonStyle>
     )
@@ -67,11 +67,11 @@ const fakeCategories = [
         ID: "4",
         Name: "Other"
     }
-]
+];
 
 describe("Categories", () => {
 
-    test("Make sure it renders", async () => {
+    test("Make sure it renders", () => {
         const { queryByTestId } = render(
             <AppContext.Provider value={{ categories: fakeCategories, setCategories: null as React.Dispatch<React.SetStateAction<any[]>>,  setMessageToUser: null, login: 0 as any, loggedIn: false as boolean, setLoggedIn: null as React.Dispatch<React.SetStateAction<boolean>> ,userID: "" as string, userToken: "" as string, setUserToken: null as React.Dispatch<React.SetStateAction<string>>, userType: -1, setUserType: null as React.Dispatch<React.SetStateAction<number>>}}>
                 <Categories CategoryButton={CategoryButton} activeCategories={[0]} changeCategory={() => { }} />
@@ -87,23 +87,50 @@ describe("Categories", () => {
                 <Categories onlyShowActive CategoryButton={CategoryButton} activeCategories={[0, 1]} changeCategory={() => { }} />
             </AppContext.Provider>
         );
+
         let categoryButton;
         fakeCategories.map(ele => {
-            categoryButton = queryByTestId(testIds.categoryButton(ele.ID));
-            if (ele.ID == "0") expect(categoryButton).not.toBeNull();
+            console.log(ele);
+            categoryButton = queryByTestId(testIds.categoryButton(ele.ID, "undefined"));
+            // console.log(categoryButton)
+            if (ele.ID == '0' || ele.ID == '1') expect(categoryButton).not.toBeNull();
             else expect(categoryButton).toBeNull();
         })
     })
 
     test("if makes active categories active", () => {
+        const { queryByTestId } = render(
+            <AppContext.Provider value={{ categories: fakeCategories, setCategories: null as React.Dispatch<React.SetStateAction<any[]>>,  setMessageToUser: null, login: 0 as any, loggedIn: false as boolean, setLoggedIn: null as React.Dispatch<React.SetStateAction<boolean>> ,userID: "" as string, userToken: "" as string, setUserToken: null as React.Dispatch<React.SetStateAction<string>>, userType: -1, setUserType: null as React.Dispatch<React.SetStateAction<number>>}}>
+                <Categories CategoryButton={CategoryButton} activeCategories={[0, 1]} changeCategory={() => { }} />
+            </AppContext.Provider>
+        );
 
+        let categoryButton;
+        fakeCategories.map((ele: any) => {
+            console.log(ele);
+            categoryButton = queryByTestId(testIds.categoryButton(ele.ID, ((ele.ID == '0' || ele.ID == '1') ? "true" : "false")));
+            expect(categoryButton).not.toBeNull();
+        })
     })
 
-    test("if when button clicked it becomes active", () => {
+    test("if when button clicked it becomes active", async () => {
+        const { queryByTestId } = render(
+            <AppContext.Provider value={{ categories: fakeCategories, setCategories: null as React.Dispatch<React.SetStateAction<any[]>>,  setMessageToUser: null, login: 0 as any, loggedIn: false as boolean, setLoggedIn: null as React.Dispatch<React.SetStateAction<boolean>> ,userID: "" as string, userToken: "" as string, setUserToken: null as React.Dispatch<React.SetStateAction<string>>, userType: -1, setUserType: null as React.Dispatch<React.SetStateAction<number>>}}>
+                <Categories CategoryButton={CategoryButton} activeCategories={[0, 1]} changeCategory={() => { }} />
+            </AppContext.Provider>
+        );
 
-    })
+        let categoryButtonActive = queryByTestId("category-button-Climate Action");
+        expect(categoryButtonActive).not.toBeNull();
+        let categoryButtonInActive = queryByTestId("category-button-Racial Justice");
+        expect(categoryButtonInActive).not.toBeNull();
 
-    test("if can have all inactive", () => {
+        fireEvent.click(categoryButtonActive)
+        fireEvent.click(categoryButtonInActive)
 
+        let testNew = queryByTestId(testIds.categoryButton("0", "false"));
+        expect(testNew).not.toBeNull();
+        let testnew2 = queryByTestId(testIds.categoryButton("2", "true"));
+        expect(testnew2).not.toBeNull();
     })
 });

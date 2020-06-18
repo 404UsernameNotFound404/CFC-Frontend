@@ -4,6 +4,7 @@ import {NavBarItems} from './NavBar';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import testIds from './test/testIds';
 
 
 
@@ -83,14 +84,19 @@ type Props = {
 
 function NavBarMobile(props: Props) {
     const [open, setOpen] = useState(false);
+
+    const openMenu = () => {
+        setOpen(!open)
+    }
+
     return (
         <Component>
-            <Content>
+            <Content data-testid={testIds.mobile.container}>
                 <TitleContent>
                     <LogoTitle to='/home'>Connecting For Change</LogoTitle>
-                    <HamburgerIcon onClick = {() => {setOpen(!open)}}>{hamburgerIcon}</HamburgerIcon>
+                    <HamburgerIcon data-testid={testIds.mobile.openButton} onClick = {openMenu}>{hamburgerIcon}</HamburgerIcon>
                 </TitleContent>
-                <LinksContent closed = {!open}>
+                <LinksContent data-testid={testIds.mobile.links}  closed = {!open}>
                 {
                     props.navBarItems.map(ele => <LinkStyle onClick = {() => {setOpen(false)}} color={ele.color} to = {ele.link} >{ele.name}</LinkStyle>)
                 }

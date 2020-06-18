@@ -1,5 +1,6 @@
-const makeTestID = (id) => "activist-card-" + id;
+const makeTestID = (id) => "modal-" + id;
 
 export default {
-    container: makeTestID("container")
+    container: makeTestID("container"),
+    closeButton: makeTestID("close-button")
 }

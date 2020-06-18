@@ -234,7 +234,7 @@ function PageCreation() {
                 <PageCreationMenu createMultiSection={() => { setShow(true); setPickImage({ id: pickImage.id, show: false }) }} createSection={createWhat} />
                 {
                     show ?
-                        <Modal width={"90%"} close={show} setClose={setShow}>
+                        <Modal width={"90%"} close={!show} setClose={setShow}>
                             {
                                 !pickImage.show ?
                                     <ModulePicker choice={createWhat} /> :

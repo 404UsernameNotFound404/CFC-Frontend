@@ -5,9 +5,8 @@ import {
     Link,
     Redirect
 } from "react-router-dom";
-import DropDown from '../../NavBar/DropDownMenu';
-import { AppContext } from '../../../Context/AppContext';
 import {NavBarItems} from './NavBar';
+import testIds from './test/testIds';
 
 const RightPart = styled.div`
     margin-left: auto;
@@ -67,16 +66,9 @@ type Props = {
 }
 
 function NavBarDesktop(props: Props) {
-    const c = useContext(AppContext)
-    const thingsToSearch = [
-        // { name: "Events", link: "/search?search=Events" },
-        { name: "Activists", link: "/search?search=Activists" },
-        { name: "Organizations", link: "/search?search=Organizations" }
-    ]
     return (
         <LightOverlay>
-            {console.log("THIS RENDERING")}
-            <Content>
+            <Content data-testid={testIds.desktop.container}>
                 <LogoTitle to='/home'>Connecting For Change</LogoTitle>
                 <RightPart>
                     {

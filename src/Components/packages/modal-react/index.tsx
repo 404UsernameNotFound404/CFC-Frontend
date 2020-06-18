@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useMediaQuery } from 'react-responsive';
+import testIds from './test/testIds';
 
 const Component = styled.div`
     left: 0;
@@ -50,20 +52,15 @@ type Props = {
 }
 
 export default function Modal(props: Props) {
-    const compRef = useRef();
     const closeIcon = <FontAwesomeIcon icon={faTimes} />
-    const width = props.width ? props.width : "40em";
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK) });
+    const {width = (!isPhone ? "95%" : "40em")} = props;
 
-    const focusOnComponent = () => {
-        //@ts-ignore
-        // compRef.current.focus() ;
-    }
-
-    if (props.close) {
+    if (!props.close) {
         return (
-            <Component onMouseOver={() => { focusOnComponent() }} ref={compRef}>
+            <Component data-testid={testIds.container}>
                 <Content width={width}>
-                    <CloseIcon onClick={() => { console.log("here"); props.setClose(false) }}>{closeIcon}</CloseIcon>
+                    <CloseIcon data-testid={testIds.closeButton} onClick={() => { console.log("here"); props.setClose(false) }}>{closeIcon}</CloseIcon>
                     {props.children}
                 </Content>
             </Component>

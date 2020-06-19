@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Header from './header';
 import Categories, {CategoryButtonProps, CategoryButtonStyleProps} from '../categories-react/Categories';
+import testIds from './test/testIds';
 // import PageCategories from '../../Page/PageCategories';
 // import CreatingOrg from '../creatingOrg';
 // import ContactModal from '../../Page/ContactModal';
@@ -123,28 +124,25 @@ type Props = {
     link: string,
     location: string,
     interests: number[],
-    image: string,
     email: string,
     _id: string,
     width?: string,
     ActionButton?: (props: ActionButtonProps) => JSX.Element;
-    ActionButtonOnClick: (orgId: string) => void;
+    ActionButtonOnClick?: (orgId: string) => void;
 }
 
 function OrganizationCard(props: Props) {
     const [seeMore, setSeeMore] = useState(false);
-    const {desc, link, _id, ActionButtonOnClick} = props;
-    const width = props.width ? props.width : "27%";
-    const ActionButton = props.ActionButton ? props.ActionButton : () => <></>;
+    const {desc, link, _id, ActionButtonOnClick, ActionButton, width = "27%"} = props;
 
     return (
-        <Container width = {width}>
+        <Container data-testid={testIds.orgCard.container} width = {width}>
             <Header {...props} />
-            <Desc showAll={seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : desc}</Desc>
-            {desc.length >= 100 ? <SeeMore onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
+            <Desc data-testid={testIds.orgCard.desc} showAll={seeMore}>{props.desc.length >= 100 && !seeMore ? (props.desc.substring(0, 100) + "...") : desc}</Desc>
+            {desc.length >= 100 ? <SeeMore data-testid={testIds.orgCard.seeMore} onClick={() => { setSeeMore(!seeMore) }}>{!seeMore ? 'See More' : 'See Less'}</SeeMore> : <div style={{ height: '1.3em' }}></div>}
             <LinkToWebite href={link}>{link.length >= 35 ? (link.substring(0, 35) + "...") : link}</LinkToWebite>
             <CategoryContainer> <Categories flexBasis={"33%"} onlyShowActive justifyContent = {"space-between"} CategoryButton = {CategoryButton} activeCategories = {props.interests} changeCategory = {() => {}} /> </CategoryContainer>
-            <ActionButton id = {_id} ActionButtonOnClick = {ActionButtonOnClick} />
+            {ActionButton && <ActionButton id = {_id} ActionButtonOnClick = {ActionButtonOnClick} />}
         </Container>
     );
 }

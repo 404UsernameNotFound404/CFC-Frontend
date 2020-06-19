@@ -10,7 +10,7 @@ type OrgData = {
     interests: number[]
 }
 
-export const updateOrCreateOrg = async (orgData: OrgData, isEdit: boolean, deleteReq: boolean): Promise<string | null> => {
+export const updateOrCreateOrg = async (orgData: OrgData, isEdit: boolean, deleteReq?: boolean): Promise<string | null> => {
     try {
         let res;
         if (isEdit) res = await axios.put(`${process.env.REACT_APP_BASEURLNODE}/organization/request/${orgData._id}`, {

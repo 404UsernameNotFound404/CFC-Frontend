@@ -71,7 +71,7 @@ const fakeCategories = [
 
 describe("Categories", () => {
 
-    test("Make sure it renders", () => {
+    test("if it renders", () => {
         const { queryByTestId } = render(
             <AppContext.Provider value={{ categories: fakeCategories, setCategories: null as React.Dispatch<React.SetStateAction<any[]>>,  setMessageToUser: null, login: 0 as any, loggedIn: false as boolean, setLoggedIn: null as React.Dispatch<React.SetStateAction<boolean>> ,userID: "" as string, userToken: "" as string, setUserToken: null as React.Dispatch<React.SetStateAction<string>>, userType: -1, setUserType: null as React.Dispatch<React.SetStateAction<number>>}}>
                 <Categories CategoryButton={CategoryButton} activeCategories={[0]} changeCategory={() => { }} />
@@ -90,9 +90,7 @@ describe("Categories", () => {
 
         let categoryButton;
         fakeCategories.map(ele => {
-            console.log(ele);
             categoryButton = queryByTestId(testIds.categoryButton(ele.ID, "undefined"));
-            // console.log(categoryButton)
             if (ele.ID == '0' || ele.ID == '1') expect(categoryButton).not.toBeNull();
             else expect(categoryButton).toBeNull();
         })
@@ -107,7 +105,6 @@ describe("Categories", () => {
 
         let categoryButton;
         fakeCategories.map((ele: any) => {
-            console.log(ele);
             categoryButton = queryByTestId(testIds.categoryButton(ele.ID, ((ele.ID == '0' || ele.ID == '1') ? "true" : "false")));
             expect(categoryButton).not.toBeNull();
         })

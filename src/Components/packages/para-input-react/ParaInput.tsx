@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import autoSize from 'autosize';
 import ParaInputMenu from './ParaInputMenu';
+import testIds from './test/testIds';
 
 type ComponentProps = {
     margin: string
@@ -166,11 +167,11 @@ function ParaInput(props: Props) {
     }
 
     return (
-        <Component height = {height} minHeight={(editMode ? calcMinHeight() : "0")} onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
+        <Component data-testid={testIds.container} height = {height} minHeight={(editMode ? calcMinHeight() : "0")} onClick={() => setFocus(true)} fontSize={fontSize} width={props.width} margin={margin}>
             <ParaInputMenu show={(focus && pageCreation && editMode)} increaseDecreaseFont={increaseDecreaseFont} menuRef={menuRef} switchOrientation={switchOrientation} setFocus={setFocus} />
             {!pageCreation ? <TitleCount>
                 <ParaTitle>{title}</ParaTitle>
-                {editMode ? <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount> : ''}
+                {editMode && <CharacterCount>Number of characters: <NumberOfCharacter>{paragraphValue != undefined ? paragraphValue.length : '0'}</NumberOfCharacter></CharacterCount>}
             </TitleCount> : ''}
             {paragraphValue == undefined && !editMode ? "Click the edit button to fill me in!" : ""}
             <ParaInputStyle editMode = {editMode} pageCreation={pageCreation} showBorderBottom={paragraphValue != undefined && paragraphValue.length == 0 && !pageCreation} rows={1} ref={ref} textAlign={textAlign} value={paragraphValue} onChange={updateText} readOnly={!editMode} />

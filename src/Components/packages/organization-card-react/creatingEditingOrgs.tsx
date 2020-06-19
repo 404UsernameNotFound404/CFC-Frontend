@@ -3,11 +3,8 @@ import styled from 'styled-components';
 import { AppContext } from '../../../Context/AppContext';
 import ParaInput from '../../packages/para-input-react/ParaInput';
 import Categories, { CategoryButtonProps, CategoryButtonStyleProps } from '../categories-react/Categories';
-import { updateOrCreateOrg } from '../organization-card';
-import { stringify } from 'querystring';
-import ReactLoading from 'react-loading';
-
-const axios = require("axios");
+import { updateOrCreateOrg } from '../organization-card/organizationCard';
+import testIds from './test/testIds';
 
 const Component = styled.div`
     padding: 1em 0%;
@@ -105,19 +102,20 @@ type Props = {
     email?: string,
     link?: string,
     interests?: number[],
-    update?: Function,
     setLoading?: Function
 }
 
+const defaultDesc = "this is a short desc";
+
 export default function CreatingEditingOrg(props: Props) {
-    const { name = "", location = "", _id = "", email = "", link = "", interests = [], edit, setLoading = () => { } } = props;
+    const { desc: descProps = defaultDesc, name = "", location = "", _id = "", email = "", link = "", interests = [], edit, setLoading = () => { } } = props;
     const [inputs, setInputs] = useState([
         { value: (name), placeholder: "Name", id: 0 },
         { value: (location), placeholder: "Location", id: 1 },
         { value: (email), placeholder: "Email", id: 2 },
         { value: (link), placeholder: "Link", id: 3 }
     ]);
-    const [desc, setDesc] = useState(props.desc == undefined ? "this is a short desc" : props.desc);
+    const [desc, setDesc] = useState(descProps);
     const c = useContext(AppContext);
     const [activeCategories, setActiveCategories] = useState(null);
     const [deleteReq, setDeleteReq] = useState(false);
@@ -128,14 +126,14 @@ export default function CreatingEditingOrg(props: Props) {
     }, [])
 
     const createOrg = async () => {
-        setLoading(true);
+        setLoading && setLoading(true);
         let res = await updateOrCreateOrg({ desc: desc, name: inputs[0].value, location: inputs[1].value, _id: _id, email: inputs[2].value, link: inputs[3].value, interests: activeCategories.map((ele: any) => parseFloat(ele)) }, edit, deleteReq);
         if (res) c.setMessageToUser({ message: edit ? "Failed to request change." : "Failed To Create Organization.", colour: "red" })
         else {
             c.setMessageToUser({ message: edit ? "Requested change." : "Created Organization.", colour: "green" })
             props.closeModal();
         }
-        setLoading(false);
+        setLoading && setLoading(false);
     }
 
     const updateValue = (id: number, value: string) => {
@@ -148,8 +146,8 @@ export default function CreatingEditingOrg(props: Props) {
     const updateActiveCategories = (newActiveCategories: number[]) => { setActiveCategories(newActiveCategories) }
 
     return (
-        <Component>
-            <Title>{edit ? "Request Edit" : "Create an organization"}</Title>
+        <Component data-testid={testIds.createEditOrg.container}>
+            <Title data-testid={testIds.createEditOrg.title}>{edit ? "Request Edit" : "Create An Organization"}</Title>
             {
                 inputs.map((ele, i) => <div key={i}><SingleLineInput onChange={(e) => { updateValue(ele.id, e.target.value) }} value={ele.value} placeholder={ele.placeholder} key={i} /></div>)
             }
@@ -157,13 +155,13 @@ export default function CreatingEditingOrg(props: Props) {
             <CategoryContainer>
                 <Categories canHaveAllInactive={false} justifyContent={"space-between"} changeCategory={updateActiveCategories} CategoryButton={CategoryButton} activeCategories={activeCategories} />
             </CategoryContainer>
-            {edit ?
-                <DeleteCheckBoxContainer>
+            {edit &&
+                <DeleteCheckBoxContainer data-testid={testIds.createEditOrg.deleteCheckbox}>
                     <DeleteCheckBox type="checkbox" checked={deleteReq} onChange={() => { setDeleteReq(!deleteReq) }} />
                     <DeleteCheckBoxText>Does this organization no longer exists?<br />Check the box if it should be deleted.</DeleteCheckBoxText>
                 </DeleteCheckBoxContainer>
-                : ""}
-            <CreateButton onClick={createOrg}>{edit ? "Request Edit" : "Create"}</CreateButton>
+            }
+            <CreateButton data-testid={testIds.createEditOrg.createButton} onClick={createOrg}>{edit ? "Request Edit" : "Create"}</CreateButton>
         </Component>
     );
 

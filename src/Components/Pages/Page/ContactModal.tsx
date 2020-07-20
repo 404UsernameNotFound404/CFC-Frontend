@@ -1,10 +1,11 @@
 import React, { ReactNode, useContext } from 'react'
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { AppContext } from '../../../Context/AppContext';
 
 const Component = styled.div`
+    left: 0;
     top: 0;
     position: fixed;
     width: 100vw;
@@ -15,12 +16,16 @@ const Component = styled.div`
     justify-content: center;
 `;
 
-const Content = styled.div`
-    width: 40em;
+type ContentProps = {
+    width: string
+}
+
+const Content = styled.div<ContentProps>`
+    width: ${p => p.width};
     background-color: white;
     height: fit-content;
     margin: auto;
-    border-radius: 0.5em;
+    border-radius: 1.5rem;
     border: 0.15em solid rgb(125,125,125);
     position: relative;
 `;
@@ -41,15 +46,17 @@ const CloseIcon = styled.h4`
 type Props = {
     close: boolean,
     setClose: React.Dispatch<React.SetStateAction<boolean>>,
-    children: ReactNode[]
+    children: ReactNode[] | ReactNode,
+    width?: string
 }
 
 function ContactModal(props: Props) {
     const closeIcon = <FontAwesomeIcon icon={faTimes} />
+    const width = props.width ? props.width : "40em";
     if (props.close) {
     return (
         <Component>
-            <Content>
+            <Content width = {width}>
                 <CloseIcon onClick = {() => {console.log("here"); props.setClose(false)}}>{closeIcon}</CloseIcon>
                 {props.children}
             </Content>

@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive'
 import MobileNavBar from './MobileNavBar'
-import DesktopNavBar from './NavBarDesktop'
+import DesktopNavBar from '../packages/navbar-react/NavBarDesktop'
 import { AppContext } from '../../Context/AppContext';
 import Cookie from 'js-cookie'
 
@@ -47,12 +47,12 @@ function NavBar(props: NavBarProps) {
     if (props.showNavBar) {
         return (
             <Container>
-                {redirectToLogin ? <Redirect to='/login' /> : ''}
+                {/* {redirectToLogin ? <Redirect to='/login' /> : ''}
                 {isPhone ? 
                 <DesktopNavBar logoutLogin = {logoutLogin} />
                 : 
                 <MobileNavBar logoutLogin = {logoutLogin} />
-                }
+                } */}
             </Container>
         );
     } else {

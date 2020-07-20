@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import BasicButton from '../../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../../packages/BasicButton';
 import PageCategories from '../PageCategories';
 // import UploadPhoto from '../../../ComponentLibrayer/PhotoUploader';
-import PhotoAndUploader from '../../../ComponentLibrayer/PhotoAndUploader'
+import PhotoAndUploader from '../../../packages/PhotoAndUploader'
 import { useMediaQuery } from 'react-responsive';
 
 const ProfileImage = styled.img`
@@ -16,6 +16,7 @@ const ProfileImage = styled.img`
     object-fit: cover;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         margin: auto;
+        width: fit-content;
     }
 `;
 

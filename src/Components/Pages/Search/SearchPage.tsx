@@ -1,25 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import SearchActivists from './SearchResults';
-import CategorySearch from '../../ComponentLibrayer/CategorySearch/CategorySearch';
-const axios = require("axios");
+import Categories, {CategoryButtonProps, CategoryButtonStyleProps} from '../../packages/categories-react/Categories';
+import Organizations from './Organizations'
 
 const PageContainer = styled.div`
-    padding-top: 2.5em;
+    padding-top: 7em;
     width: 75em;
     margin: auto;
+    margin-bottom: 2rem;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
-    }
-`;
-
-const TopPartPage = styled.div`
-    padding-top: 15vh;
-    padding-bottom: 7.5vh;
-    width: 100%;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        padding-top: 3em;
-        padding-bottom: 0em;
     }
 `;
 
@@ -29,19 +19,53 @@ const SearchBoxTitle = styled.h1`
     text-align: center;
 `;
 
-const SearchBoxSubTitle = styled.h4`
-    font-size: 2em;
-    margin: 0;
-    text-align: center;
+const CategoriesContainer = styled.div`
+    width: 90%;
+    margin: auto;
 `;
 
+const CategoryButtonStyle = styled.div<CategoryButtonStyleProps>`
+    cursor: pointer;
+    background-color: ${p => p.colour};
+    border-radius: 0.5em;
+    width: 90%;
+    padding: 1.5em 1%;
+    margin: 1rem auto;
+    text-align: center;
+    color: black !important;
+    min-height: 3em;
+    opacity: ${p => p.active ? '1' : '0.5'};
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        padding: 1em 1%;
+        width: 8em;
+    }
+    display: flex;
+    justify-content: center;
+    &:hover {
+        border-color: transparent;
+        color: white;
+    }
+`;
+
+const CategoryButtonText = styled.h1`
+    font-size: 1.5em;
+    text-align: center;
+    margin: auto;
+    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
+        font-size: 1.25em;
+    }
+`;
+
+const CategoryButton = (props: CategoryButtonProps) => {
+    const { Name, Active, Colour, ID, activateButton } = props;
+    return (
+        <CategoryButtonStyle active={Active} colour={Colour} onClick={() => { activateButton(ID) }}><CategoryButtonText>{Name}</CategoryButtonText></CategoryButtonStyle>
+    );
+}
 
 function LinksContainer() {
-    const [allCategories, setAllCategories] = useState([]);
-    const [categoryButtons, setCategoryButtons] = useState([]);
-    const [categoriesToNotAllow, setCategoriesToNotAllow] = useState([]);
+    const [activeCategories, setActiveCategories] = useState([]);
     const [whatYourSearching, setWhatYourSearching] = useState(null);
-    const [pickedCategory, setPickedCategory] = useState(false);
     const thingsToSearch = ["Activists", "Events", "Organizations", null]
 
     useEffect(() => {
@@ -51,7 +75,6 @@ function LinksContainer() {
     });
 
     const findWhatToSearchFor = () => {
-        console.log("find what to search")
         let search = checkIfSearchParamsChanges()
         setWhatYourSearching(null)
         thingsToSearch.map((ele, i) => {
@@ -67,8 +90,37 @@ function LinksContainer() {
         return params.get("search");
     }
 
+    const dataToRender = () => {
+        switch (whatYourSearching) {
+            case "Organizations":
+                return <Organizations categoriesToShow={activeCategories} />
+                break;
+            case "Events":
+                return <>Coming Soon...</>
+                break;
+            default: 
+                return <Organizations categoriesToShow={activeCategories} />
+            break;
+        }
+    }
+
+    const updateActiveCategories = (newActiveCategories: number[]) => { setActiveCategories(newActiveCategories) }
+
     return (
         <PageContainer>
+            <SearchBoxTitle>What are you looking for?</SearchBoxTitle> 
+            <CategoriesContainer>
+                <Categories flexBasis={"25%"} justifyContent = {"space-around"} CategoryButton={CategoryButton} activeCategories={activeCategories} changeCategory={updateActiveCategories} />
+            </CategoriesContainer>
+            {dataToRender()}
+        </PageContainer>
+    );
+}
+
+export default LinksContainer;
+
+
+{/* <PageContainer>
             <TopPartPage>
                 {
                     !(whatYourSearching == "Organizations" || whatYourSearching == "Activists" || whatYourSearching == "Events") ?
@@ -80,9 +132,6 @@ function LinksContainer() {
                         </>
                 }
             </TopPartPage>
+            <Para>We do not yet have contacts with all the organizations on our list. We have compiled this list to help activists find organizations. If you do not see an organization on our list, please add it. </Para>
             <SearchActivists choice={whatYourSearching} categoriesToNotAllow={categoriesToNotAllow} />
-        </PageContainer>
-    );
-}
-
-export default LinksContainer;
+        </PageContainer> */}

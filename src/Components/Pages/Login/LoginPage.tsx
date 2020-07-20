@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import LoginForm from './LoginForm';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../packages/BasicButton';
 import ProtestPhoto from '../../../img/protestCrowd.jpg';
 import {
     BrowserRouter as Router,

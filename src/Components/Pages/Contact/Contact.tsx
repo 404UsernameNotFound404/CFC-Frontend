@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import ProtesterImage from '../../../img/protesterYelling.webp'
 import { useMediaQuery } from 'react-responsive';
 import { AppContext } from '../../../Context/AppContext';
+import EmailCopy from '../../packages/EmailCopy';
+import ParagraphInput from '../../packages/para-input-react/ParaInput';
+import LoadingPage from '../../packages/LoadingPage';
 
 const axios = require("axios");
 
@@ -18,6 +21,7 @@ const Page = styled.div`
 
 const Title = styled.h1`
     margin: 0;
+    margin-bottom: 0.5em;
     font-size: 4em;
     text-align: left;
     background: linear-gradient(135deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 50%, rgba(0,212,255,1) 100%);
@@ -28,23 +32,9 @@ const Title = styled.h1`
     }
 `;
 
-const ContactInfo = styled.textarea`
-    font-size: 2.5em;
-    text-align: left;
-    background-color: none !important; 
-    border: none;
-    font-family: 'Cormorant Garamond', serif;
-    width: 100%;
-    margin-top: 1em;
-    resize: none;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        font-size: 1.5em;
-        text-align: center;
-    }
-`;
-
 const TextContainer = styled.div`
     width: 50%;
+    padding-bottom: 1em;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
         margin: auto;
@@ -53,51 +43,110 @@ const TextContainer = styled.div`
 
 const Image = styled.img`
     width: 50%;
-    height: 60vh;
+    height: 41em;
     object-fit: cover;
     border: thick black solid;
     border-radius: 0.5em;
 `;
 
-const CopyButton = styled.div`
-    width: 40%;
-    padding: 2% 0;
+const InputTitle = styled.h3`
     font-size: 1.5em;
-    border-radius: 1em;
-    margin: auto;
-    text-align: center;
-    color: white;
-    background-color: rgb(28, 106, 176);
-    &:hover {
-        background-color: rgb(10, 80, 155)
+    margin: 0;
+    margin-bottom: 0em;
+`;
+
+const Input = styled.input`
+    width: 40%;
+    margin: 0;
+    margin-bottom: 1em;
+    padding: 0.5em 0em;
+    font-size: 1em;
+    border: none;
+    background-color: transparent;
+    border-bottom: thin solid grey;
+    &:focus {
+        outline: none;
     }
+`;
+
+const SendFeedBack = styled.div`
+    border-radius: 5em;
+    background-color: lightgreen;
+    width: fit-content;
+    padding: 0.5em 1em;
+    font-size: 1.25em;
+    margin-bottom: 1em;
     cursor: pointer;
-    @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
-        padding: 4% 1%;
+    &:hover {
+        background-color: #84d884;
     }
+`;
+
+const OR = styled.h4`
+    font-size: 1.5em;
+    margin: 0;
+    margin-left: 3em;
+    margin-bottom: 0.5em;
 `;
 
 function ContactPage() {
     const [textToCopy, setTextToCopy] = useState()
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [body, setBody] = useState("");
+    const [loading, setLoading] = useState(false);
     const c = useContext(AppContext);
-    const isPhone = useMediaQuery({minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK)})
+    const isPhone = useMediaQuery({ minDeviceWidth: parseInt(process.env.REACT_APP_PHONE_BREAK) });
 
-    const copyEmail = async (e: any) => {
-        textToCopy.select();
-        await document.execCommand('copy');
-        c.setMessageToUser({message: "Copied Email", colour: "green"});
+    const sendFeedBack = async () => {
+        try {
+            if (name.length <= 1 || email.length <= 1 || body.length <= 1) throw "Must have at least one character in each input"
+            setLoading(true);
+            const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/feedBack`, {
+                method: "POST",
+                body: JSON.stringify({
+                    Email: email,
+                    Name: name,
+                    Body: body
+                })
+            })
+            const res = await resRaw.json();
+            if (res.Error) throw res.Error
+            c.setMessageToUser({ message: "Feedback Sent!\nThanks", colour: "green" })
+            setBody("");
+            setEmail("");
+            setName("");
+            setLoading(false);
+        } catch (err) {
+            if (typeof err == "string") {
+                c.setMessageToUser({ message: err, colour: "red" })
+            }
+            c.setMessageToUser({ message: "Error sending feedback", colour: "red" })
+            setLoading(false);
+        }
     }
 
     return (
         <Page>
             <TextContainer>
-                <Title>Want to get in touch?</Title>
-                <form>
-                    <ContactInfo readOnly ref = {(ref) => {setTextToCopy(ref)}}>connecting4changeinfo@gmail.com</ContactInfo>
-                </form>
-                {document.queryCommandSupported('copy') ?  <CopyButton onClick = {copyEmail}>Copy Email</CopyButton> : ""}
+                {!loading ? 
+                <>
+                    <Title>Want to get in touch?</Title>
+                    <InputTitle>Name</InputTitle>
+                    <Input value={name} onChange={(e) => { setName(e.target.value) }} placeholder="Please Enter Name" />
+                    <InputTitle>Email</InputTitle>
+                    <Input value={email} onChange={(e) => { setEmail(e.target.value) }} placeholder="Please Enter Email" />
+                    <InputTitle>Body</InputTitle>
+                    <div style={{ marginTop: '-2em' }} />
+                    <ParagraphInput height={"10em"} width={"80%"} margin={"0"} title={""} paragraphValue={body} setParagraphValue={setBody} editMode={true} />
+                    <SendFeedBack onClick={sendFeedBack} >Send Feedback</SendFeedBack>
+                    <OR>OR</OR>
+                    <EmailCopy email={"admin@connecting-for-change.ca"} />
+                </>
+                    : <LoadingPage />
+                }
             </TextContainer>
-            {isPhone ? <Image src = {ProtesterImage} /> : ''}
+            {isPhone ? <Image src={ProtesterImage} /> : ''}
         </Page>
     )
 }

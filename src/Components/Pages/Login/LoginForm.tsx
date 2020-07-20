@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import SelectCauses from './SelectCauses';
-import BasicButton from '../../ComponentLibrayer/BasicButton';
+import BasicButton from '../../packages/BasicButton';
 import {
     BrowserRouter as Router,
     Redirect
@@ -9,7 +9,7 @@ import {
 import { AppContext } from '../../../Context/AppContext';
 import OrgRegisterInfoInput from './OrgRegisterInfoInput';
 import PhonNumberInput from './PhoneNumberInput';
-import CheckBox from '../../ComponentLibrayer/CheckBox';
+import CheckBox from '../../packages/CheckBox';
 import LoadingGif from '../../../img/loading.gif'
 
 
@@ -151,15 +151,7 @@ function LoginForm(props: Props) {
 
     const register = async () => {
         try {
-            props.setRegister(99);
             if (!checkBox) throw "Must agree to privacy policy"
-            //password minum requirement check(Must be at least eight characters and have 1 number and letter)
-            if (!registerValues[1].match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)) {
-                c.setMessageToUser({ colour: "red", message: "Password must be 8 characters with atleast one number and letter" })
-                funcSetRegisterValues("", 1);
-                funcSetRegisterValues("", 2);
-                return;
-            }
             //checking if the password and re-entred passwords match
             if (registerValues[1] != registerValues[2]) {
                 c.setMessageToUser({ colour: "red", message: "Passwords do not match" })
@@ -167,6 +159,18 @@ function LoginForm(props: Props) {
                 funcSetRegisterValues("", 2);
                 return;
             }
+            
+            //password minum requirement check(Must be at least eight characters and have 1 number and letter)
+            if (!registerValues[1].match(/^(?=.*[A-z])(?=.*[0-9])\S{8,}$/)) {
+                console.log("this is error")
+                c.setMessageToUser({ colour: "red", message: "Password must be 8 characters with atleast one number and letter" })
+                funcSetRegisterValues("", 1);
+                funcSetRegisterValues("", 2);
+                return;
+            } else {
+                console.log("Password is okay dokey")
+            }
+
             //email check
             if (!registerValues[0].match(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
                 c.setMessageToUser({ colour: "red", message: "Email is not properly formated" })
@@ -189,9 +193,10 @@ function LoginForm(props: Props) {
                 phoneNumberString = phoneNumber.first + '-' + phoneNumber.middle + '-' + phoneNumber.end;
             }
             if (!props.orgRegister) {
+                props.setRegister(99);
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Type: 0 });
                 if (res.data.Valid != undefined) {
-                    c.setMessageToUser({ colour: "green", message: "Registered Successfully. Please now check your email to verify it is you. May be in spam" })
+                    c.setMessageToUser({ colour: "green", message: "Registered Successfully. Please now check your email to verify it is you." })
                     props.setRegister(0);
                     return
                 }
@@ -221,6 +226,7 @@ function LoginForm(props: Props) {
                     }
                 })
 
+                props.setRegister(99);
                 let res = await axios.post(`${process.env.REACT_APP_BASEURL}/user/register`, { Email: registerValues[0], Password: registerValues[1], PhoneNumber: phoneNumberString, Name: registerValues[4], Location: registerValues[5], Desc: description, Link: registerValues[6], Instrests: activeTags, Type: 1 });
                 if (res.data.Valid != undefined) {
                     c.setMessageToUser({ colour: "green", message: "Registered Successfully" })
@@ -229,7 +235,6 @@ function LoginForm(props: Props) {
                 }
                 c.setMessageToUser({ colour: "red", message: res.data.Error })
             }
-            props.setRegister(0);
         }
         catch (err) {
             props.setRegister(1);
@@ -286,7 +291,7 @@ function LoginForm(props: Props) {
                             :
                             ""
                     }
-                    <CheckBox text={{ __html: `You agree with our privacy policy. <span><a href = "/Privacy-Policy">Privacy Policy</a></span>` }} checked={checkBox} setChecked={setCheckBox} />
+                    <CheckBox text={{ __html: `You agree with our privacy policy. <span><a target="_blank" href = "/Privacy-Policy">Privacy Policy</a></span>` }} checked={checkBox} setChecked={setCheckBox} />
                     <BasicButton activateButton={register} width={"45%"} text={"Register"} active={false} id={20} />
                 </Content>
             );

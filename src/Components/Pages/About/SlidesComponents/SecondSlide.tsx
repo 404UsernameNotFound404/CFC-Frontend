@@ -9,6 +9,7 @@ const Component = styled.div`
     margin-top: 5%;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) { 
         width: 90%;
+        margin: auto;
     }
 `;
 
@@ -48,7 +49,7 @@ function SecondSlide() {
             <FirstSentence>They had a lot of support from their teachers, and from groups like the </FirstSentence>
             <FNFCSContainer>
                 <FNFCSLogo src={FNFCS} />
-                <FNFCSTitle>The First Nation Family Caring Society.</FNFCSTitle>
+                <FNFCSTitle>The First Nations Child and Family Caring Society.</FNFCSTitle>
             </FNFCSContainer>
             <FirstSentence>By 2017 both Henry and Daxton were noticing that many people wanted to learn more, and get more involved, but did not have the same support they had received, or did not know how to take action. </FirstSentence>
         </Component>

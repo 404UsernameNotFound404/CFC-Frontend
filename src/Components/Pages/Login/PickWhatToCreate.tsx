@@ -5,37 +5,13 @@ const Component = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-`;
-
-type LinkToProps = {
-    marginLeft: boolean
-}
-
-const LinkTo = styled.div<LinkToProps>`
-    margin-left: ${p => p.marginLeft ? 'auto' : '0.5em'};
-    margin-right: ${p => !p.marginLeft ? 'auto' : '0.5em'};
-    font-size: 1em;
-    color: grey;
-    cursor: pointer;
-    :hover {
-        text-decoration: underline;
-    }
-`;
-
-const LinkContainer = styled.div`
-    width: 15em;
-    display: flex;
-    justify-content: center;
-`;
-
-const Text = styled.p`
-    font-size: 1em;
-    text-align: center;
+    margin: 1em 0;
 `;
 
 const LinkToCreatingSomething = styled.span`
     color: #3d3dff;
     cursor: pointer;
+    font-weight: lighter;
     :hover {
         text-decoration: underline;
     }
@@ -50,7 +26,7 @@ function PickWhatToCreate(props: Props) {
 
     return (
         <Component>
-            <Text>Create an <LinkToCreatingSomething onClick = {() => {props.registerUser(); }}>user</LinkToCreatingSomething>/<LinkToCreatingSomething onClick = {() => {props.registerOrg(); }}>organization</LinkToCreatingSomething> account</Text>
+            <LinkToCreatingSomething onClick = {() => {props.registerUser(); }}>Create an account</LinkToCreatingSomething>
         </Component>
     );
 }

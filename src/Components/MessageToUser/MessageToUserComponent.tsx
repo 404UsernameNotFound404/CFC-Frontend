@@ -99,7 +99,7 @@ const MessageToUser = styled.h4<MessageToUserProps>`
     margin-top: 3.5em;
     height: fit-content;
     max-height: 80%;
-    font-size: 1.5em;
+    font-size: 1.4em;
     text-align: center;
 `;
 
@@ -114,7 +114,7 @@ function MessageToUserComponent(props: Props) {
     const closeIcon = <FontAwesomeIcon icon={faWindowClose} />
     const { message, colour } = props;
     useEffect(() => {
-        if (message.length > 0) {
+        if (message != undefined && message.length > 0) {
             setShow(true);
             setFadeTimer(setTimeout(() => {
                 setShow(false);
@@ -133,7 +133,7 @@ function MessageToUserComponent(props: Props) {
             </LogoDiv>
             <Content>
                 {/* <Xoff onMouseOver={() => { console.log("over") }} onClick={() => { console.log("testing") }}>{closeIcon}</Xoff> */}
-                <MessageToUser colour={colour}>{message}</MessageToUser>
+                <MessageToUser colour={colour}>{message != undefined ? message : "error"}</MessageToUser>
             </Content>
         </BigComponent>
     );

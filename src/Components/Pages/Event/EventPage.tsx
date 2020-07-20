@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ParaInput from '../Page/ParaInput';
+import ParaInput from '../../packages/para-input-react/ParaInput';
 import DefaultImage from '../../../img/protest.jpg';
-import UpdateEditButton from '../../ComponentLibrayer/UpdateEditButton';
+import UpdateEditButton from '../../packages/UpdateEditButton';
 
 const Page = styled.div`
     padding-top: 5em;

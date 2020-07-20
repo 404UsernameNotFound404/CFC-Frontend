@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
-import ActivistPage from '../Search/SearchResultCards/Page';
+import ActivistPage from './TeamMember';
 import styled from 'styled-components';
-import LoadingPage from '../../ComponentLibrayer/LoadingPage';
+import LoadingPage from '../../packages/LoadingPage';
 import DefaultPhoto from '../../../img/default.jpg'
 import { AppContext } from '../../../Context/AppContext';
 
@@ -44,7 +44,7 @@ function TeamSection() {
     const getATeamMember = async (id: string, role: string) => {
         const resRaw = await fetch(`${process.env.REACT_APP_BASEURL}/activist/${id}`, {
             method: "GET"
-        })
+        });
         let res = await resRaw.json();
         if (res.Error) throw "Error Getting Team"
         res = { ...res, role: role, id: id }

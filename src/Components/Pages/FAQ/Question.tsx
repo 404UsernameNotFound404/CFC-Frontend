@@ -6,7 +6,8 @@ const Component = styled.div``;
 
 const QuestionStyle = styled.h1`
     color: #848484;
-    font-size: 1.8em;
+    font-size: 1.7em;
+    font-family: 'Scope One', serif;
     @media (max-width: ${process.env.REACT_APP_PHONE_BREAK}px) {
         font-size: 1.5em;
         margin: 0;

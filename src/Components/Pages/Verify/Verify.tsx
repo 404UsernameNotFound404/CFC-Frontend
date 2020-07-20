@@ -5,8 +5,8 @@ import {
     BrowserRouter as Router,
     Link
 } from "react-router-dom";
-import BasicButton from '../../ComponentLibrayer/BasicButton';
-import LoadingComp from '../../ComponentLibrayer/LoadingPage'
+import BasicButton from '../../packages/BasicButton';
+import LoadingComp from '../../packages/LoadingPage'
 import { AppContext } from '../../../Context/AppContext';
 
 const axios = require("axios");
